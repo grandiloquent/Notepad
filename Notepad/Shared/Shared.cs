@@ -34,6 +34,47 @@ namespace Shared
 
             return true;
         }
+        public static string SubstringAfterLast(this string value, char delimiter)
+		{
+			var index = value.LastIndexOf(delimiter);
+			if (index == -1)
+				return value;
+			else
+				return value.Substring(index + 1);
+		}
+		public static string SubstringBefore(this string value, char delimiter)
+		{
+			var index = value.IndexOf(delimiter);
+			if (index == -1)
+				return value;
+			else
+				return value.Substring(0, index);
+		}
+		public static string SubstringBefore(this string value, string delimiter)
+		{
+			var index = value.IndexOf(delimiter);
+			if (index == -1)
+				return value;
+			else
+				return value.Substring(0, index);
+		}
+	public static string SubstringBeforeLast(this string value, string delimiter)
+		{
+			var index = value.LastIndexOf(delimiter);
+			if (index == -1)
+				return value;
+			else
+				return value.Substring(0, index);
+		}
+        public static string Capitalize(this string value)
+		{
+			//  && char.IsLower(value[0])
+			if (!string.IsNullOrEmpty(value)) {
+				return value.Substring(0, 1).ToUpper() + value.Substring(1).ToLower();
+			}
+			return value;
+		}
+        
         public static IEnumerable<string> Matches(this string value, string pattern)
         {
             var match = Regex.Match(value, pattern);

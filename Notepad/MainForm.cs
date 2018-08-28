@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using Shared;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.IO;
 
 namespace Notepad
 {
@@ -30,7 +32,7 @@ namespace Notepad
 		void 逃逸路径ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			try {
-				Clipboard.SetText(Clipboard.GetText().Trim().Replace('\\', '/'));
+				Clipboard.SetText(Clipboard.GetText().Trim().Replace("\\", "\\\\"));
 			} catch {
 				
 			}
@@ -303,11 +305,110 @@ namespace Notepad
 		}
 		void CodeButtonClick(object sender, EventArgs e)
 		{
-			textBox.SelectedText=HelperMarkdownFormat.FormatCode(textBox.SelectedText);
+			textBox.SelectedText = HelperMarkdownFormat.FormatCode(textBox.SelectedText);
 		}
 		void 排序ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			textBox.SelectedText=string.Join(Environment.NewLine,textBox.SelectedText.Split(Environment.NewLine.ToArray(),StringSplitOptions.RemoveEmptyEntries).Select(i=>i.Trim()).Distinct().OrderBy(i=>i));
+			textBox.SelectedText = string.Join(Environment.NewLine, textBox.SelectedText.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).Distinct().OrderBy(i => i));
+		}
+		void 格式化C代码ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			var ls = Helpers.FormatMethodList(Clipboard.GetText());
+			var d = ls.Select(i => i.SubstringBeforeLast(")") + ");");
+			var bodys = ls.OrderBy(i => i.Split("(".ToArray(), 2).First().Split(' ').Last());
+		
+			Clipboard.SetText(string.Join("\n", d) + "\n\n\n" + string.Join("\n", bodys));
+		}
+		void 保留正则表达式ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			var ls = Regex.Matches(textBox.Text, findBox.Text).Cast<Match>().Select(i => i.Value).Distinct();
+			var j = replaceBox.Text.Trim();
+			if (j.IsVacuum())
+				j = ",";
+			textBox.Text = string.Join(j, ls);
+		}
+		void DToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			var ls = textBox.Text.Split(',').Select(i => i.Trim());
+	
+		
+			textBox.Text = "printf(\"" + string.Join(",\\n ", ls.Select(i => i + ":%d")) + "\"," + string.Join(",", ls) + ");";
+		}
+		void PathButtonButtonClick(object sender, EventArgs e)
+		{
+			try {
+				Clipboard.SetText(Clipboard.GetText().Trim().Replace('\\', '/'));
+			} catch {
+				
+			}
+		}
+		void GccToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			OnClipboardDirectory((path) => {
+				var cf = Directory.GetFiles(path, "*.c").Select(i => i.GetFileName());
+				var sb = new StringBuilder();
+				sb.AppendFormat("gcc -c {0} && ", string.Join(" ", cf.Select(i => "\"" + i + "\"")));
+				var of = cf.Select(i => i.ChangeExtension(".o"));
+				sb.AppendFormat("gcc -o \"{1}\" {0} && \"{1}\"", string.Join(" ", of.Select(i => "\"" + i + "\"")), path.GetFileName());
+				Clipboard.SetText(sb.ToString());
+			});
+		}
+		
+		public static void OnClipboardDirectory(Action<String> action)
+		{
+			try {
+				var dir = Clipboard.GetText().Trim();
+				var found = false;
+				if (Directory.Exists(dir)) {
+					found = true;
+				} else {
+					var ls = Clipboard.GetFileDropList();
+					if (ls.Count > 0) {
+						if (Directory.Exists(ls[0])) {
+							dir = ls[0];
+						}
+					}
+				}
+				if (found) {
+					action(dir);
+				}
+			} catch {
+				
+			}
+		}
+	}
+	
+	public static class Helpers
+	{
+		public static IEnumerable<string> FormatMethodList(string value)
+		{
+			var count = 0;
+			var sb = new StringBuilder();
+			var ls = new List<string>();
+			for (int i = 0; i < value.Length; i++) {
+				sb.Append(value[i]);
+
+				if (value[i] == '{') {
+					count++;
+				} else if (value[i] == '}') {
+					count--;
+					if (count == 0) {
+						ls.Add(sb.ToString());
+						sb.Clear();
+					}
+				}
+
+			}
+			//if (ls.Any())
+			//{
+			//    var firstLine = ls[0];
+			//    ls.RemoveAt(0);
+			//    ls.Add(firstLine.)
+
+			//}
+			return ls;
+			//return ls.Select(i => i.Split(new char[] { '{' }, 2).First().Trim() + ";").OrderBy(i => i.Trim());
+
 		}
 	}
 }
