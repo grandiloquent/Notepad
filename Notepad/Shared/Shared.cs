@@ -42,6 +42,23 @@ namespace Shared
 			else
 				return value.Substring(index + 1);
 		}
+        
+         public static string SubstringAfter(this string value, string delimiter)
+		{
+			var index = value.IndexOf(delimiter);
+			if (index == -1)
+				return value;
+			else
+				return value.Substring(index + delimiter.Length);
+		}
+         public static string SubstringAfterLast(this string value, string delimiter)
+		{
+			var index = value.LastIndexOf(delimiter);
+			if (index == -1)
+				return value;
+			else
+				return value.Substring(index + 1);
+		}
 		public static string SubstringBefore(this string value, char delimiter)
 		{
 			var index = value.IndexOf(delimiter);

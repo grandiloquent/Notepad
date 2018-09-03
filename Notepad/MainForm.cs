@@ -354,6 +354,19 @@ namespace Notepad
 			});
 		}
 		
+		public static void OnClipboardString(Func<String,String> func)
+		{
+			try {
+				var str = Clipboard.GetText().Trim();
+				if (str.IsVacuum())
+					return;
+				str = func(str);
+				if (str.IsReadable())
+					Clipboard.SetText(str);
+			} catch {
+				
+			}
+		}
 		public static void OnClipboardDirectory(Action<String> action)
 		{
 			try {
@@ -375,6 +388,100 @@ namespace Notepad
 			} catch {
 				
 			}
+		}
+		void 导入ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			OnClipboardDirectory((p) => {
+				var files = Directory.GetFiles(p, "*", SearchOption.AllDirectories).Where(i => Regex.IsMatch(i, "\\.(?:c|h|cpp|java|txt)$") || i.GetExtension().IsVacuum());
+				var j = "\u0060";
+				var sb = new StringBuilder();
+				sb.AppendLine("# " + p.GetFileName()).AppendLine();
+				foreach (var element in files) {
+					var str = element.ReadAllText().Trim();
+					while (str.StartsWith("/*")) {
+						str = str.SubstringAfter("*/").Trim();
+					}
+					sb.AppendLine("## " + element.GetFileName())
+						.AppendLine()
+						.AppendLine()
+						.AppendLine("```")
+						.AppendLine()
+						.AppendLine(Regex.Replace(str.Replace("`", j), "[\r\n]+", "\r\n"))
+						.AppendLine("```")
+						.AppendLine();
+				}
+				textBox.Text = sb.ToString();
+			});
+		}
+		void LinkButtonButtonClick(object sender, EventArgs e)
+		{
+			textBox.SelectedText = string.Format("[{0}]{1}", textBox.SelectedText.Trim(), Clipboard.GetText().Trim());
+		}
+		void UlButtonButtonClick(object sender, EventArgs e)
+		{
+			textBox.SelectedText = string.Join(Environment.NewLine, textBox.SelectedText.Trim().Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => "- " + i));
+		}
+		void 粘贴代码ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			textBox.SelectedText = string.Format("```\r\n\r\n{0}\r\n\r\n```\r\n\r\n", Clipboard.GetText().Trim().Replace("`", "\u0060"));
+		}
+		void 导入目录ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			OnClipboardDirectory((p) => {
+				var files = Directory.GetFiles(p, "*", SearchOption.AllDirectories).Where(i => Regex.IsMatch(i, "\\.(?:c|h|cpp|java|txt)$") || i.GetExtension().IsVacuum());
+				var j = "\u0060";
+				
+				foreach (var element in files) {
+					var title = p.GetFileName() + ": " + element.GetFileName();
+					var sb = new StringBuilder();
+					sb.AppendLine("# " + title).AppendLine();
+					var str = element.ReadAllText().Trim();
+					while (str.StartsWith("/*")) {
+						str = str.SubstringAfter("*/").Trim();
+					}
+					sb 
+						.AppendLine()
+						.AppendLine("```")
+						.AppendLine()
+						.AppendLine(Regex.Replace(str.Replace("`", j), "[\r\n]+", "\r\n"))
+						.AppendLine("```")
+						.AppendLine();
+					
+					var article = new Article {
+						Title = title,
+						Content = sb.ToString(),
+						CreateAt = DateTime.UtcNow,
+						UpdateAt = DateTime.UtcNow,
+					};
+					try {
+						HelperSqlite.GetInstance().Insert(article);
+					} catch {
+						
+					}
+				}
+				UpdateList();
+				
+			});
+		}
+		
+		void 字符串到数组GBKToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			var encoding = Encoding.GetEncoding("gbk");
+			var bytes =	encoding.GetBytes(Clipboard.GetText().Trim());
+			textBox.Text = string.Join(",", bytes);
+		}
+		void 字符串到数组UTF8ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+	
+			var encoding = new UTF8Encoding(false);
+			var bytes =	encoding.GetBytes(Clipboard.GetText().Trim());
+			textBox.Text = string.Join(",", bytes);
+		}
+		void 数组到字符串GBKToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			 
+			var bytes = Regex.Matches(Clipboard.GetText(), "[0-9]+").Cast<Match>().Select(i => byte.Parse(i.Value)).ToArray();
+			textBox.Text = Encoding.GetEncoding("gbk").GetString(bytes);
 		}
 	}
 	

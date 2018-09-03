@@ -54,7 +54,7 @@ namespace Shared
 		}
 		public static string FormatCode(this string value)
 		{
-			if (value.Contains('\n')) {
+			if (value.IsWhiteSpace()||value.Contains('\n')) {
 				return string.Format("\r\n```\r\n{0}\r\n```\r\n", HtmlAgilityPack.HtmlEntity.DeEntitize(value.Trim()));
 			}
 			return string.Format(" `{0}` ", HtmlAgilityPack.HtmlEntity.DeEntitize(value.Trim()));
