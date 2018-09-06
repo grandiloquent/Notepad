@@ -148,7 +148,7 @@ namespace Shared
         }
         public static string GetRandomString(this int length)
         {
-            Random s_nameRand = new Random((int)(new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds()));
+        	Random s_nameRand = new Random();//new Random((int)(new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds()));
 
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_";
             return new string(Enumerable.Repeat(chars, length)

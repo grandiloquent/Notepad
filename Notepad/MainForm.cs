@@ -131,7 +131,7 @@ namespace Notepad
 			var fileName = @"assets\htmls".GetCommandPath().Combine(textBox.Text.GetFirstReadable().TrimStart('#').TrimStart().GetValidFileName('-') + ".htm");
 			fileName.WriteAllText(sb.ToString());
 
-			System.Diagnostics.Process.Start(@"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", string.Format("\"{0}\"", fileName));
+			System.Diagnostics.Process.Start("chrome.exe", string.Format("\"{0}\"", fileName));
 		}
 		void IButtonClick(object sender, EventArgs e)
 		{
@@ -415,7 +415,7 @@ namespace Notepad
 		}
 		void LinkButtonButtonClick(object sender, EventArgs e)
 		{
-			textBox.SelectedText = string.Format("[{0}]{1}", textBox.SelectedText.Trim(), Clipboard.GetText().Trim());
+			textBox.SelectedText = string.Format("[{0}]({1})", textBox.SelectedText.Trim(), Clipboard.GetText().Trim());
 		}
 		void UlButtonButtonClick(object sender, EventArgs e)
 		{
@@ -482,6 +482,11 @@ namespace Notepad
 			 
 			var bytes = Regex.Matches(Clipboard.GetText(), "[0-9]+").Cast<Match>().Select(i => byte.Parse(i.Value)).ToArray();
 			textBox.Text = Encoding.GetEncoding("gbk").GetString(bytes);
+		}
+		void 替换成换行符ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			// Envoriment.NewLine
+			textBox.Text=Regex.Replace(textBox.Text,findBox.Text,Environment.NewLine);
 		}
 	}
 	
