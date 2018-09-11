@@ -39,6 +39,8 @@ namespace Notepad
 		}
 		void MainFormLoad(object sender, EventArgs e)
 		{
+			javaMethodParameterToolStripMenuItem.Click+= (s, o) => Helper.KotlinFormatJavaMethodParameters();
+			kotlinExtractParametersToolStripMenuItem.Click+= (s, o) => Helper.KotlinExtractParameters();
 			if ("settings.txt".GetCommandPath().FileExists()) {
 				var value = "settings.txt".GetCommandPath().ReadAllText();
 				if (value.IsReadable()) {
@@ -313,9 +315,9 @@ namespace Notepad
 		}
 		void 格式化C代码ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			var ls = Helpers.FormatMethodList(Clipboard.GetText());
-			var d = ls.Select(i => i.SubstringBeforeLast(")") + ");");
-			var bodys = ls.OrderBy(i => i.Split("(".ToArray(), 2).First().Split(' ').Last());
+			var ls = Helper.FormatMethodList(Clipboard.GetText());
+			var d = ls.Select(i => i.SubstringBefore(")") + ");");
+			var bodys = ls.OrderBy(i => Regex.Split(i.Split("(".ToArray(), 2).First(),"[: ]+").Last());
 		
 			Clipboard.SetText(string.Join("\n", d) + "\n\n\n" + string.Join("\n", bodys));
 		}
@@ -486,41 +488,224 @@ namespace Notepad
 		void 替换成换行符ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			// Envoriment.NewLine
-			textBox.Text=Regex.Replace(textBox.Text,findBox.Text,Environment.NewLine);
+			textBox.Text = Regex.Replace(textBox.Text, findBox.Text, Environment.NewLine);
 		}
+		void 字符列到字符常量ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			var str = Clipboard.GetText().Trim().Split(",".ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim());
+			var ls = new List<string>();
+			foreach (var element in str) {
+				ls.Add(string.Format("const val {0}=\"{1}\"", element.ToUpper(), element.ToLower()));
+			}
+			Clipboard.SetText(string.Join("\n", ls));
+			
+		}
+		void JavaStaticToConstToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			OnClipboardString(Helpers.FormatJavaStaticFinalFieldToKotlin);
+		}
+		void 排序funToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			OnClipboardString(Helpers.FormatFun);
+		}
+		void 替换ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			textBox.Text = textBox.Text.Replace(findBox.Text, replaceBox.Text);
+		}
+		void 行ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+	
+			var ls = new List<String>();
+			
+			var lines = textBox.Text.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+			lines = lines.Where(i => !string.IsNullOrWhiteSpace(i)).Select(i => i.Trim()).Distinct().ToArray();
+			var r = replaceBox.Text.Trim();
+			foreach (var element in lines) {
+				ls.Add(string.Format(r, element));
+			}
+			textBox.Text = string.Join(Environment.NewLine, ls);
+		}
+		void 替换文件中ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			OnClipboardDirectory((v) => {
+			                     	
+				var files = Directory.GetFiles(v, "*", SearchOption.AllDirectories)
+			                     		.Where(i => Regex.IsMatch(i, "\\.(?:java|kt|xml|css|cs|js|htm|c|h)"));
+				foreach (var element in files) {
+					var str = element.ReadAllText();
+					element.WriteAllText(str.Replace(findBox.Text, replaceBox.Text));
+				}
+			                     	
+			});
+		}
+		void 压缩AndroidToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			OnClipboardDirectory(Helpers.ZipAndroidProject);
+		}
+		void Wkhtml2pdfMenuItemClick(object sender, EventArgs e)
+		{
+			var dir = Clipboard.GetText().Trim();
+			if (!Directory.Exists(dir))
+				return;
+
+			foreach (var item in Directory.GetDirectories(dir)) {
+				InvokeWkhtmltopdf(item);
+			}
+		}
+		private void InvokeWkhtmltopdf(string f)
+		{
+
+			if (!File.Exists(Path.Combine(f, "目录.html")))
+				return;
+
+			var styleFile = @"C:\Users\Administrator\Desktop\Safari\style.css";
+			if (File.Exists(styleFile)) {
+				var targetStyleFile = Path.Combine(f, "style.css");
+				if (File.Exists(targetStyleFile))
+					File.Delete(targetStyleFile);
+				File.Copy(styleFile, targetStyleFile);
+			}
+			var hd = new HtmlAgilityPack.HtmlDocument();
+			hd.LoadHtml(Path.Combine(f, "目录.html").ReadAllText());
+			var nodes = hd.DocumentNode.SelectNodes("//a");
+			var ls = new List<string>();
+			foreach (var item in nodes) {
+				var href = item.GetAttributeValue("href", "").Split('#').First();
+
+				if (ls.Contains(href))
+					continue;
+				ls.Add(href);
+			}
+
+			var str = "\"C:\\wkhtmltox\\wkhtmltopdf.exe\"";
+			var arg = "--footer-center [page] -s Letter " + string.Join(" ", ls.Select(i => string.Format("\"{0}\"", i))) + string.Format("  \"{0}.pdf\"", f);
+
+			var p = System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo {
+				FileName = str,
+				Arguments = arg,
+				WorkingDirectory = f
+			});
+			p.WaitForExit();
+		}
+		void AaToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			textBox.SelectedText = string.Format(" <a href=\"{1}\">{0}</a> ", textBox.SelectedText.Trim(), Clipboard.GetText().Trim());
+	
+		}
+		void NoteButtonButtonClick(object sender, EventArgs e)
+		{
+			textBox.SelectedText = string.Format(" <p class=\"note\">{0}</p> ", textBox.SelectedText.Trim());
+	
+		}
+		void BoldButtonButtonClick(object sender, EventArgs e)
+		{
+			textBox.SelectedText = string.Format(" **{0}** ", textBox.SelectedText.Trim());
+	
+		}
+		void 下载ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+	
+			var lines = textBox.Text.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).Distinct().OrderBy(i => i);
+			var dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "downloads");
+			dir.CreateDirectoryIfNotExists();
+			foreach (var element in lines) {
+				var client = new System.Net.WebClient();
+				client.DownloadFile(element, Path.Combine(dir, element.Split('/').Last()));
+			}
+		}
+
 	}
 	
 	public static class Helpers
 	{
-		public static IEnumerable<string> FormatMethodList(string value)
+		public static void ZipAndroidProject(string dir)
 		{
-			var count = 0;
-			var sb = new StringBuilder();
-			var ls = new List<string>();
-			for (int i = 0; i < value.Length; i++) {
-				sb.Append(value[i]);
+			 
+			using (var zip = new Ionic.Zip.ZipFile(Encoding.GetEncoding("gbk"))) {
 
-				if (value[i] == '{') {
-					count++;
-				} else if (value[i] == '}') {
-					count--;
-					if (count == 0) {
-						ls.Add(sb.ToString());
-						sb.Clear();
-					}
+				zip.AddFiles(Directory.GetFiles(dir).Where(i => !i.EndsWith(".zip", StringComparison.InvariantCultureIgnoreCase)).ToArray(), "");
+				zip.AddFiles(Directory.GetFiles(Path.Combine(dir, "app")), "app");
+				zip.AddDirectory(Path.Combine(Path.Combine(dir, "app"), "src"), "app/src");
+				zip.AddDirectory(Path.Combine(dir, "gradle"), "gradle");
+				var targetFileName = Path.Combine(dir, Path.GetFileName(dir) + ".zip");
+				var count = 0;
+				while (File.Exists(targetFileName)) {
+					targetFileName = Path.Combine(dir, string.Format("{0} {1:000}.zip", Path.GetFileName(dir), ++count));
 				}
-
+				zip.Save(targetFileName);
 			}
-			//if (ls.Any())
-			//{
-			//    var firstLine = ls[0];
-			//    ls.RemoveAt(0);
-			//    ls.Add(firstLine.)
-
-			//}
-			return ls;
-			//return ls.Select(i => i.Split(new char[] { '{' }, 2).First().Trim() + ";").OrderBy(i => i.Trim());
-
 		}
+		public static String FormatProperties(string value)
+		{
+		
+			string[] lsr = null;
+			// var isFirst = false;
+// isFirst = true;
+			lsr = Regex.Split(value, "\\s+(?=va[rl]\\s+[a-zA-Z_0-9]+\\:)", RegexOptions.Multiline);
+//			if (Regex.IsMatch(value, "}\\s+(?:var|val)")) {
+//               
+//
+//			} else {
+//				// lsr = Regex.Split(value, "^\\s+(?=var\\s+|val\\s+)", RegexOptions.Multiline);
+//			}
+			if (lsr.Any()) {
+
+				var result = lsr.Where(i => !string.IsNullOrWhiteSpace(i))
+                    .OrderBy(i => i.Split(':').First().Split(' ').Last()).ToList();
+				//if (isFirst) {
+				//result = result.Select(i => i + "}").ToList();
+				//	}
+				//.OrderBy(i => i.Trim().Split(new[] { ' ' }, 2).First()).Select(i =>
+				// {
+				//     i = i.Trim();
+				//     if (!i.StartsWith("var ") && i.Contains("set("))
+				//         return "var " + i;
+				//     else if (!i.StartsWith("val ") && !i.Contains("set("))
+				//         return "val " + i;
+				//     else
+				//         return i;
+				// });
+
+				return string.Join("\n", result);
+			}
+
+			return null;
+		}
+		public static String FormatDelegate(string value)
+		{
+			  
+			var lines = value.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+			var singleItems = lines.Where(i => (i.StartsWith("val") || i.StartsWith("fun ") || i.StartsWith("private fun") || i.StartsWith("private val")) && i.Contains(") = ") && !i.EndsWith("{")).ToArray();
+			var sss = lines.Except(singleItems).ToArray();
+			var ls = Helper.FormatMethodList(string.Join("\n", lines.Where(i => !singleItems.Contains(i)))).Select(i => i.Trim()).OrderBy(i => i.SubstringBefore("by").Trim().Split(' ').Last()).ToArray();
+
+			return string.Join("\n", singleItems.OrderBy(i => i)) + "\n" + string.Join("\n", ls);
+		}
+		public static String FormatFun(string value)
+		{
+			  
+			var lines = value.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+			var singleItems = lines.Where(i => (i.StartsWith("val") || i.StartsWith("fun ") || i.StartsWith("private fun") || i.StartsWith("private val")) && i.Contains(") = ") && !i.EndsWith("{")).ToArray();
+			var sss = lines.Except(singleItems).ToArray();
+			var ls = Helper.FormatMethodList(string.Join("\n", lines.Where(i => !singleItems.Contains(i)))).Select(i => i.Trim()).OrderBy(i => Regex.Match(i, "fun ([^\\(]*?)(?:\\()").Groups[1].Value).ToArray();
+
+			return string.Join("\n", singleItems.OrderBy(i => i)) + "\n" + string.Join("\n", ls);
+		}
+		public static String FormatJavaStaticFinalFieldToKotlin(string value)
+		{
+			var ls = Regex.Matches(value, "(?<=private|public|protected)([^\\=\n\r]*?)\\=([^;]*?);").Cast<Match>().ToList();
+			var strings = new List<string>();
+
+			foreach (var item in ls) {
+				var name = item.Groups[1].Value.TrimEnd().Split(' ').Last();
+				var v = item.Groups[2].Value;
+				//var m="private";
+				strings.Add(string.Format("// const val {0}={1}", name, v));
+				 
+				strings.Add(string.Format("private const val {0}={1}", name, v));
+			}
+			return string.Join("\n", strings.OrderBy(i => i));
+		}
+		
 	}
 }
