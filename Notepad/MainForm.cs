@@ -39,8 +39,15 @@ namespace Notepad
 		}
 		void MainFormLoad(object sender, EventArgs e)
 		{
-			javaMethodParameterToolStripMenuItem.Click+= (s, o) => Helper.KotlinFormatJavaMethodParameters();
-			kotlinExtractParametersToolStripMenuItem.Click+= (s, o) => Helper.KotlinExtractParameters();
+			javaMethodParameterToolStripMenuItem.Click += (s, o) => Helper.KotlinFormatJavaMethodParameters();
+			打开ToolStripMenuItem.Click+=(s, o)=>Helper.OpenLink(textBox);
+			kotlinExtractParametersToolStripMenuItem.Click += (s, o) => Helper.KotlinExtractParameters();
+			cSplitButton.ButtonClick+=(s,o)=>Helper.GenerateGccCommand();
+			运行C文件ToolStripMenuItem.Click+=(s,o)=>Helper.GenerateGccCommand();
+			格式化C代码ToolStripMenuItem.Click+=(s,o)=>Helper.CFormat();
+			删除Aria2文件ToolStripMenuItem.Click+=(s,o)=>Helper.RemoveAria2File();
+			清理HTMLSToolStripMenuItem.Click+=(s,o)=>Helper.CleanHtmls();
+			cplusSplitButton.ButtonClick+=(s,o)=>Helper.GenerateGPlusPlusCommand();
 			if ("settings.txt".GetCommandPath().FileExists()) {
 				var value = "settings.txt".GetCommandPath().ReadAllText();
 				if (value.IsReadable()) {
@@ -315,11 +322,7 @@ namespace Notepad
 		}
 		void 格式化C代码ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			var ls = Helper.FormatMethodList(Clipboard.GetText());
-			var d = ls.Select(i => i.SubstringBefore(")") + ");");
-			var bodys = ls.OrderBy(i => Regex.Split(i.Split("(".ToArray(), 2).First(),"[: ]+").Last());
-		
-			Clipboard.SetText(string.Join("\n", d) + "\n\n\n" + string.Join("\n", bodys));
+			
 		}
 		void 保留正则表达式ToolStripMenuItemClick(object sender, EventArgs e)
 		{
@@ -612,6 +615,43 @@ namespace Notepad
 				var client = new System.Net.WebClient();
 				client.DownloadFile(element, Path.Combine(dir, element.Split('/').Last()));
 			}
+		}
+		void 导出全部ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			var directories = Directory.GetFiles(_dataPath, "*.dat");
+			var targetDirectory="assets".GetCommandPath().Combine("exports");
+			targetDirectory.CreateDirectoryIfNotExists();
+			foreach (var element in directories) {
+				var sql =	HelperSqlite.GetInstance(element);
+				var contentList=	sql.GetTitleContentList();
+				foreach (var c in contentList) {
+					var tf=targetDirectory.Combine(Path.GetFileNameWithoutExtension(element)+" - "+c.Title.GetValidFileName()+".html");
+						StringBuilder sb = new StringBuilder();
+			sb.AppendLine("\u003C!doctype html\u003E");
+			sb.AppendLine("\u003Chtml class=\u0022no-js\u0022 lang=\u0022zh-hans\u0022 dir=\u0022ltr\u0022\u003E");
+			sb.AppendLine("");
+			sb.AppendLine("\u003Chead\u003E");
+			sb.AppendLine("    \u003Cmeta charset=\u0022utf-8\u0022\u003E");
+			sb.AppendLine("    \u003Cmeta http-equiv=\u0022x-ua-compatible\u0022 content=\u0022ie=edge\u0022\u003E");
+			sb.AppendLine("    \u003Ctitle\u003E");
+			sb.AppendLine(HtmlAgilityPack.HtmlEntity.Entitize(c.Title));
+			sb.AppendLine("    \u003C/title\u003E");
+			sb.AppendLine("    \u003Cmeta name=\u0022viewport\u0022 content=\u0022width=device-width, initial-scale=1\u0022\u003E");
+			sb.AppendLine("    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022../stylesheets/markdown.css\u0022\u003E");
+			sb.AppendLine("\u003C/head\u003E");
+			sb.AppendLine("\u003Cbody\u003E");
+			sb.AppendLine(c.Content.FormatMarkdown());
+
+			sb.AppendLine("\u003C/body\u003E");
+			sb.AppendLine("\u003C/html\u003E");
+			tf.WriteAllText(sb.ToString());
+				}
+			}
+			
+		}
+		void 打开ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+	
 		}
 
 	}
