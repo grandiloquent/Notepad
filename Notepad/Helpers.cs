@@ -14,16 +14,33 @@ namespace Notepad
 	public static class Helper
 	{
 		
+		public static void ZipDirectories()
+		{
+			OnClipboardDirectory((dir) => {
+				var directories = Directory.GetDirectories(dir);
+				foreach (var element in directories) {
+					using (var zip =new Ionic.Zip.ZipFile(Encoding.GetEncoding("gbk"))) {
+						zip.AddDirectory(element);
+						zip.Save(element+".zip");
+					}
+					
+				}
+			});
+		}
+		
 		public static void CFormat()
 		{
 			OnClipboardString((str) => {
 				var ls = Helper.FormatMethodList(Clipboard.GetText());
-				var d = ls.Select(i => i.SubstringBefore(")") + ");").Where(i => i.IsReadable()).Select(i => i.Trim()).OrderBy(i => i);
+				var d = ls.Select(i => i.SubstringBefore(")") + ");").Where(i=>i.IsReadable()).Select(i => i.Trim()).OrderBy(i => i);
 				var bodys = ls.OrderBy(i => Regex.Split(i.Split("(".ToArray(), 2).First(), "[: ]+").Last());
 				return	string.Join("\n", d) + "\n\n\n" + string.Join("\n", bodys);
 			});
 		}
-			
+		public static void GenerateDigit(){
+			var ranges=Enumerable.Range(0,11);
+			Clipboard.SetText(string.Join(",",ranges));
+		}
 		public static void RemoveAria2File()
 		{
 			OnClipboardDirectory((dir) => {
@@ -64,6 +81,32 @@ namespace Notepad
 				var cmd = string.Format("gcc \"{0}\" -o \"{1}\\t.exe\" && \"{1}\\t.exe\" ", f, dir);
 				
 				Clipboard.SetText(cmd);
+			});
+		}
+			public static void RunGenerateGccCommand()
+		{
+			OnClipboardFile((f) => {
+				var dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "output");
+				if (!Directory.Exists(dir)) {
+					Directory.CreateDirectory(dir);
+				}
+				var cmd = string.Format("/K gcc \"{0}\" -o \"{1}\\t.exe\" && \"{1}\\t.exe\" ", f, dir);
+				Process.Start("cmd",cmd);
+				
+			});
+		}	public static void RunGenerateGPlusPlusCommand()
+		{
+			OnClipboardFile((f) => {
+				var dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "output");
+				if (!Directory.Exists(dir)) {
+					Directory.CreateDirectory(dir);
+				}
+				// 
+				var cmd = string.Format("/K g++ -std=c++17 \"{0}\" -o \"{1}\\t.exe\" && \"{1}\\t.exe\" ", f, dir);
+				
+				//var cmd = string.Format("/K g++ \"{0}\" -o \"{1}\\t.exe\" && \"{1}\\t.exe\" ", f, dir);
+				Process.Start("cmd",cmd);
+				
 			});
 		}
 		public static void GenerateGPlusPlusCommand()

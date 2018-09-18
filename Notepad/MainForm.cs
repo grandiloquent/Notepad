@@ -8,15 +8,25 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Notepad
 {
+	
 
 	public partial class MainForm : Form
 	{
+		[System.Runtime.InteropServices.DllImport("user32.dll")]
+		private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
+		[System.Runtime.InteropServices.DllImport("user32.dll")]
+		private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+        
 		private string _defaultDatabase;
 		private readonly string _dataPath;
 		private Article _article;
+		int _idF9 = -1;
+		int _idF10 = -1;
+		 
 		public MainForm()
 		{
 			InitializeComponent();
@@ -40,14 +50,15 @@ namespace Notepad
 		void MainFormLoad(object sender, EventArgs e)
 		{
 			javaMethodParameterToolStripMenuItem.Click += (s, o) => Helper.KotlinFormatJavaMethodParameters();
-			打开ToolStripMenuItem.Click+=(s, o)=>Helper.OpenLink(textBox);
+			打开ToolStripMenuItem.Click += (s, o) => Helper.OpenLink(textBox);
 			kotlinExtractParametersToolStripMenuItem.Click += (s, o) => Helper.KotlinExtractParameters();
-			cSplitButton.ButtonClick+=(s,o)=>Helper.GenerateGccCommand();
-			运行C文件ToolStripMenuItem.Click+=(s,o)=>Helper.GenerateGccCommand();
-			格式化C代码ToolStripMenuItem.Click+=(s,o)=>Helper.CFormat();
-			删除Aria2文件ToolStripMenuItem.Click+=(s,o)=>Helper.RemoveAria2File();
-			清理HTMLSToolStripMenuItem.Click+=(s,o)=>Helper.CleanHtmls();
-			cplusSplitButton.ButtonClick+=(s,o)=>Helper.GenerateGPlusPlusCommand();
+			cSplitButton.ButtonClick += (s, o) => Helper.GenerateGccCommand();
+			格式化C代码ToolStripMenuItem.Click += (s, o) => Helper.CFormat();
+			删除Aria2文件ToolStripMenuItem.Click += (s, o) => Helper.RemoveAria2File();
+			清理HTMLSToolStripMenuItem.Click += (s, o) => Helper.CleanHtmls();
+			cplusSplitButton.ButtonClick += (s, o) => Helper.GenerateGPlusPlusCommand();
+			数字序列数组ToolStripMenuItem.Click += (s, o) => Helper.GenerateDigit();
+			压缩子目录ToolStripMenuItem.Click += (s, o) => Helper.ZipDirectories();
 			if ("settings.txt".GetCommandPath().FileExists()) {
 				var value = "settings.txt".GetCommandPath().ReadAllText();
 				if (value.IsReadable()) {
@@ -282,6 +293,12 @@ namespace Notepad
 		}
 		void MainFormFormClosing(object sender, FormClosingEventArgs e)
 		{
+			if (_idF9 != -1) {
+				UnregisterHotKey(this.Handle, _idF9);
+			}
+			if (_idF10 != -1) {
+				UnregisterHotKey(this.Handle, _idF10);
+			}
 			"settings.txt".GetCommandPath().WriteAllText(comboBox.Text);
 		}
 		void 删除ToolStripMenuItemClick(object sender, EventArgs e)
@@ -619,32 +636,32 @@ namespace Notepad
 		void 导出全部ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			var directories = Directory.GetFiles(_dataPath, "*.dat");
-			var targetDirectory="assets".GetCommandPath().Combine("exports");
+			var targetDirectory = "assets".GetCommandPath().Combine("exports");
 			targetDirectory.CreateDirectoryIfNotExists();
 			foreach (var element in directories) {
 				var sql =	HelperSqlite.GetInstance(element);
-				var contentList=	sql.GetTitleContentList();
+				var contentList =	sql.GetTitleContentList();
 				foreach (var c in contentList) {
-					var tf=targetDirectory.Combine(Path.GetFileNameWithoutExtension(element)+" - "+c.Title.GetValidFileName()+".html");
-						StringBuilder sb = new StringBuilder();
-			sb.AppendLine("\u003C!doctype html\u003E");
-			sb.AppendLine("\u003Chtml class=\u0022no-js\u0022 lang=\u0022zh-hans\u0022 dir=\u0022ltr\u0022\u003E");
-			sb.AppendLine("");
-			sb.AppendLine("\u003Chead\u003E");
-			sb.AppendLine("    \u003Cmeta charset=\u0022utf-8\u0022\u003E");
-			sb.AppendLine("    \u003Cmeta http-equiv=\u0022x-ua-compatible\u0022 content=\u0022ie=edge\u0022\u003E");
-			sb.AppendLine("    \u003Ctitle\u003E");
-			sb.AppendLine(HtmlAgilityPack.HtmlEntity.Entitize(c.Title));
-			sb.AppendLine("    \u003C/title\u003E");
-			sb.AppendLine("    \u003Cmeta name=\u0022viewport\u0022 content=\u0022width=device-width, initial-scale=1\u0022\u003E");
-			sb.AppendLine("    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022../stylesheets/markdown.css\u0022\u003E");
-			sb.AppendLine("\u003C/head\u003E");
-			sb.AppendLine("\u003Cbody\u003E");
-			sb.AppendLine(c.Content.FormatMarkdown());
+					var tf = targetDirectory.Combine(Path.GetFileNameWithoutExtension(element) + " - " + c.Title.GetValidFileName() + ".html");
+					StringBuilder sb = new StringBuilder();
+					sb.AppendLine("\u003C!doctype html\u003E");
+					sb.AppendLine("\u003Chtml class=\u0022no-js\u0022 lang=\u0022zh-hans\u0022 dir=\u0022ltr\u0022\u003E");
+					sb.AppendLine("");
+					sb.AppendLine("\u003Chead\u003E");
+					sb.AppendLine("    \u003Cmeta charset=\u0022utf-8\u0022\u003E");
+					sb.AppendLine("    \u003Cmeta http-equiv=\u0022x-ua-compatible\u0022 content=\u0022ie=edge\u0022\u003E");
+					sb.AppendLine("    \u003Ctitle\u003E");
+					sb.AppendLine(HtmlAgilityPack.HtmlEntity.Entitize(c.Title));
+					sb.AppendLine("    \u003C/title\u003E");
+					sb.AppendLine("    \u003Cmeta name=\u0022viewport\u0022 content=\u0022width=device-width, initial-scale=1\u0022\u003E");
+					sb.AppendLine("    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022../stylesheets/markdown.css\u0022\u003E");
+					sb.AppendLine("\u003C/head\u003E");
+					sb.AppendLine("\u003Cbody\u003E");
+					sb.AppendLine(c.Content.FormatMarkdown());
 
-			sb.AppendLine("\u003C/body\u003E");
-			sb.AppendLine("\u003C/html\u003E");
-			tf.WriteAllText(sb.ToString());
+					sb.AppendLine("\u003C/body\u003E");
+					sb.AppendLine("\u003C/html\u003E");
+					tf.WriteAllText(sb.ToString());
 				}
 			}
 			
@@ -653,7 +670,40 @@ namespace Notepad
 		{
 	
 		}
+		void 运行C文件ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			if (_idF9 == -1)
+				_idF9 = 1 << 2;
+			RegisterHotKey(this.Handle, _idF9, 0, (int)Keys.F9);
+		}
+		protected override void WndProc(ref Message m)
+		{
+			base.WndProc(ref m);
 
+			if (m.Msg == 0x0312) {
+				/* Note that the three lines below are not needed if you only want to register one hotkey.
+                 * The below lines are useful in case you want to register multiple keys, which you can use a switch with the id as argument, or if you want to know which key/modifier was pressed for some particular reason. */
+
+				//Keys key = (Keys)(((int)m.LParam >> 16) & 0xFFFF);                  // The key of the hotkey that was pressed.
+				//KeyModifier modifier = (KeyModifier)((int)m.LParam & 0xFFFF);       // The modifier of the hotkey that was pressed.
+				//int id = m.WParam.ToInt32();                                        // The id of the hotkey that was pressed.
+
+				var k = ((int)m.LParam >> 16) & 0xFFFF;
+				
+				if (k == 120/*F9*/) {
+					Helper.RunGenerateGccCommand();
+				}else if(k==121){
+					Helper.RunGenerateGPlusPlusCommand();
+				}
+				// do something
+			}
+		}
+		void 运行C文件热键F9ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			if (_idF10 == -1)
+				_idF10= 1 << 3;
+			RegisterHotKey(this.Handle, _idF10, 0, (int)Keys.F10);
+		}
 	}
 	
 	public static class Helpers
