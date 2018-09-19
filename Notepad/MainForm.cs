@@ -24,6 +24,7 @@ namespace Notepad
 		private string _defaultDatabase;
 		private readonly string _dataPath;
 		private Article _article;
+		int _idF8 = -1;
 		int _idF9 = -1;
 		int _idF10 = -1;
 		 
@@ -59,6 +60,9 @@ namespace Notepad
 			cplusSplitButton.ButtonClick += (s, o) => Helper.GenerateGPlusPlusCommand();
 			数字序列数组ToolStripMenuItem.Click += (s, o) => Helper.GenerateDigit();
 			压缩子目录ToolStripMenuItem.Click += (s, o) => Helper.ZipDirectories();
+			//C代码段VSCToolStripMenuItem
+		 
+			排序代码段VSCToolStripMenuItem.Click += (s, o) => Helper.SortVSCSnippets();
 			if ("settings.txt".GetCommandPath().FileExists()) {
 				var value = "settings.txt".GetCommandPath().ReadAllText();
 				if (value.IsReadable()) {
@@ -293,6 +297,9 @@ namespace Notepad
 		}
 		void MainFormFormClosing(object sender, FormClosingEventArgs e)
 		{
+			if (_idF8 != -1) {
+				UnregisterHotKey(this.Handle, _idF8);
+			}
 			if (_idF9 != -1) {
 				UnregisterHotKey(this.Handle, _idF9);
 			}
@@ -689,10 +696,11 @@ namespace Notepad
 				//int id = m.WParam.ToInt32();                                        // The id of the hotkey that was pressed.
 
 				var k = ((int)m.LParam >> 16) & 0xFFFF;
-				
-				if (k == 120/*F9*/) {
+				if (k == 119) {
+					Helper.CPlusPlusSnippetsVSC();
+				} else if (k == 120/*F9*/) {
 					Helper.RunGenerateGccCommand();
-				}else if(k==121){
+				} else if (k == 121) {
 					Helper.RunGenerateGPlusPlusCommand();
 				}
 				// do something
@@ -701,8 +709,39 @@ namespace Notepad
 		void 运行C文件热键F9ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			if (_idF10 == -1)
-				_idF10= 1 << 3;
+				_idF10 = 1 << 3;
 			RegisterHotKey(this.Handle, _idF10, 0, (int)Keys.F10);
+		}
+		void C代码段VSCToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			if (_idF8 == -1)
+				_idF8 = 1 << 5;
+			RegisterHotKey(this.Handle, _idF8, 0, (int)Keys.F8);
+		}
+		void 其他ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+	
+			var hd = new HtmlAgilityPack.HtmlDocument();
+			hd.LoadHtml(Clipboard.GetText());
+			var links = hd.DocumentNode.SelectNodes("//a");
+			var list = new List<String>();
+			if (links.Any()) {
+				foreach (var element in links) {
+					list.Add(element.InnerText.Trim());
+				}	
+			}
+			list = list.Distinct().Where(i => Regex.IsMatch(i, "^[0-9]+\\."))
+				.Select(i => HtmlAgilityPack.HtmlEntity.DeEntitize(i))
+				.ToList();
+			var dir = "cpp".GetDesktopPath();
+			dir.CreateDirectoryIfNotExists();
+			foreach (var element in list) {
+				if (!char.IsDigit(element[1])) {
+					dir.Combine("0" + element.GetValidFileName()+".cpp").WriteAllText("");
+				} else {
+					dir.Combine(element.GetValidFileName()+".cpp").WriteAllText("");
+				}
+			}
 		}
 	}
 	

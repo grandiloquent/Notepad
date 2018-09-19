@@ -13,15 +13,23 @@ namespace Notepad
 
 	public static class Helper
 	{
-		
+		public static void SortVSCSnippets()
+		{
+			
+			OnClipboardString((str) => {
+				var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string,dynamic>>(str);
+				obj = obj.OrderBy(i => i.Value["prefix"]).ThenBy(i => i.Key).ToDictionary(k => k.Key, k => k.Value);
+				return Newtonsoft.Json.JsonConvert.SerializeObject(obj);
+			});
+		}
 		public static void ZipDirectories()
 		{
 			OnClipboardDirectory((dir) => {
 				var directories = Directory.GetDirectories(dir);
 				foreach (var element in directories) {
-					using (var zip =new Ionic.Zip.ZipFile(Encoding.GetEncoding("gbk"))) {
+					using (var zip = new Ionic.Zip.ZipFile(Encoding.GetEncoding("gbk"))) {
 						zip.AddDirectory(element);
-						zip.Save(element+".zip");
+						zip.Save(element + ".zip");
 					}
 					
 				}
@@ -32,14 +40,33 @@ namespace Notepad
 		{
 			OnClipboardString((str) => {
 				var ls = Helper.FormatMethodList(Clipboard.GetText());
-				var d = ls.Select(i => i.SubstringBefore(")") + ");").Where(i=>i.IsReadable()).Select(i => i.Trim()).OrderBy(i => i);
+				var d = ls.Select(i => i.SubstringBefore(")") + ");").Where(i => i.IsReadable()).Select(i => i.Trim()).OrderBy(i => i);
 				var bodys = ls.OrderBy(i => Regex.Split(i.Split("(".ToArray(), 2).First(), "[: ]+").Last());
 				return	string.Join("\n", d) + "\n\n\n" + string.Join("\n", bodys);
 			});
 		}
-		public static void GenerateDigit(){
-			var ranges=Enumerable.Range(0,11);
-			Clipboard.SetText(string.Join(",",ranges));
+		public static void CPlusPlusSnippetsVSC()
+		{
+			OnClipboardString((str) => {
+				var s = str.Trim();
+				var ls = s.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).ToArray();
+				var matches = Regex.Matches(ls.First(), "[a-zA-Z]+").Cast<Match>().Select(i => i.Value.First().ToString()).ToArray();
+				
+				var obj = new Dictionary<string,dynamic>();
+				obj.Add("prefix", string.Join("", matches).ToLower());
+				obj.Add("body", ls.Select(i => i.EscapeString()));
+				
+				var r = new Dictionary<string,dynamic>();
+				r.Add(ls.First(), obj);
+				var sr = Newtonsoft.Json.JsonConvert.SerializeObject(r).Replace("\\\\u", "\\u");
+				return	sr.Substring(1, sr.Length - 2) + ",";
+				
+			});
+		}
+		public static void GenerateDigit()
+		{
+			var ranges = Enumerable.Range(0, 11);
+			Clipboard.SetText(string.Join(",", ranges));
 		}
 		public static void RemoveAria2File()
 		{
@@ -83,7 +110,7 @@ namespace Notepad
 				Clipboard.SetText(cmd);
 			});
 		}
-			public static void RunGenerateGccCommand()
+		public static void RunGenerateGccCommand()
 		{
 			OnClipboardFile((f) => {
 				var dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "output");
@@ -91,21 +118,24 @@ namespace Notepad
 					Directory.CreateDirectory(dir);
 				}
 				var cmd = string.Format("/K gcc \"{0}\" -o \"{1}\\t.exe\" && \"{1}\\t.exe\" ", f, dir);
-				Process.Start("cmd",cmd);
+				Process.Start("cmd", cmd);
 				
 			});
-		}	public static void RunGenerateGPlusPlusCommand()
+		}
+		public static void RunGenerateGPlusPlusCommand()
 		{
 			OnClipboardFile((f) => {
 				var dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "output");
 				if (!Directory.Exists(dir)) {
 					Directory.CreateDirectory(dir);
 				}
-				// 
-				var cmd = string.Format("/K g++ -std=c++17 \"{0}\" -o \"{1}\\t.exe\" && \"{1}\\t.exe\" ", f, dir);
+				//  -DFILESYSTEM_EXPERIMENTAL -lstdc++fs 
+				//	 var cmd = string.Format("g++ -std=c++17 \"{0}\" -lstdc++fs -o \"{1}\\t.exe\" && \"{1}\\t.exe\" ", f, dir);
 				
+				var cmd = string.Format("g++ -std=c++17 \"{0}\" -o \"{1}\\t.exe\" && \"{1}\\t.exe\" ", f, dir);
+				Clipboard.SetText(cmd);
 				//var cmd = string.Format("/K g++ \"{0}\" -o \"{1}\\t.exe\" && \"{1}\\t.exe\" ", f, dir);
-				Process.Start("cmd",cmd);
+				Process.Start("cmd", "/K " + cmd);
 				
 			});
 		}

@@ -102,6 +102,9 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton2;
 		private System.Windows.Forms.ToolStripMenuItem 数字序列数组ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 运行C文件热键F9ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem c代码段VSCToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 排序代码段VSCToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 其他ToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -143,6 +146,8 @@ namespace Notepad
 			this.清理HTMLSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.cplusSplitButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.运行C文件热键F9ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.c代码段VSCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.排序代码段VSCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSplitButton2 = new System.Windows.Forms.ToolStripSplitButton();
 			this.数字序列数组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
@@ -214,6 +219,7 @@ namespace Notepad
 			this.粘贴代码ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.其他ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
 			this.toolStrip3.SuspendLayout();
@@ -228,10 +234,10 @@ namespace Notepad
 			// toolStrip1
 			// 
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.toolStripSplitButton1,
 			this.appButton,
 			this.newButton,
 			this.cSplitButton,
-			this.toolStripSplitButton1,
 			this.cplusSplitButton,
 			this.toolStripSplitButton2});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -333,15 +339,16 @@ namespace Notepad
 			// 
 			// toolStripSplitButton1
 			// 
-			this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.删除Aria2文件ToolStripMenuItem,
-			this.清理HTMLSToolStripMenuItem});
+			this.清理HTMLSToolStripMenuItem,
+			this.其他ToolStripMenuItem});
 			this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
 			this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripSplitButton1.Name = "toolStripSplitButton1";
-			this.toolStripSplitButton1.Size = new System.Drawing.Size(32, 22);
-			this.toolStripSplitButton1.Text = "toolStripSplitButton1";
+			this.toolStripSplitButton1.Size = new System.Drawing.Size(48, 22);
+			this.toolStripSplitButton1.Text = "书籍";
 			// 
 			// 删除Aria2文件ToolStripMenuItem
 			// 
@@ -359,7 +366,9 @@ namespace Notepad
 			// 
 			this.cplusSplitButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.cplusSplitButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.运行C文件热键F9ToolStripMenuItem});
+			this.运行C文件热键F9ToolStripMenuItem,
+			this.c代码段VSCToolStripMenuItem,
+			this.排序代码段VSCToolStripMenuItem});
 			this.cplusSplitButton.Image = ((System.Drawing.Image)(resources.GetObject("cplusSplitButton.Image")));
 			this.cplusSplitButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.cplusSplitButton.Name = "cplusSplitButton";
@@ -369,25 +378,38 @@ namespace Notepad
 			// 运行C文件热键F9ToolStripMenuItem
 			// 
 			this.运行C文件热键F9ToolStripMenuItem.Name = "运行C文件热键F9ToolStripMenuItem";
-			this.运行C文件热键F9ToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
+			this.运行C文件热键F9ToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
 			this.运行C文件热键F9ToolStripMenuItem.Text = "运行C++文件(热键F10)";
 			this.运行C文件热键F9ToolStripMenuItem.Click += new System.EventHandler(this.运行C文件热键F9ToolStripMenuItemClick);
 			// 
+			// c代码段VSCToolStripMenuItem
+			// 
+			this.c代码段VSCToolStripMenuItem.Name = "c代码段VSCToolStripMenuItem";
+			this.c代码段VSCToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+			this.c代码段VSCToolStripMenuItem.Text = "C++代码段(VSC)(热键F8)";
+			this.c代码段VSCToolStripMenuItem.Click += new System.EventHandler(this.C代码段VSCToolStripMenuItemClick);
+			// 
+			// 排序代码段VSCToolStripMenuItem
+			// 
+			this.排序代码段VSCToolStripMenuItem.Name = "排序代码段VSCToolStripMenuItem";
+			this.排序代码段VSCToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+			this.排序代码段VSCToolStripMenuItem.Text = "排序代码段(VSC)";
+			// 
 			// toolStripSplitButton2
 			// 
-			this.toolStripSplitButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripSplitButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.toolStripSplitButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.数字序列数组ToolStripMenuItem});
 			this.toolStripSplitButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton2.Image")));
 			this.toolStripSplitButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripSplitButton2.Name = "toolStripSplitButton2";
-			this.toolStripSplitButton2.Size = new System.Drawing.Size(32, 22);
-			this.toolStripSplitButton2.Text = "toolStripSplitButton2";
+			this.toolStripSplitButton2.Size = new System.Drawing.Size(48, 22);
+			this.toolStripSplitButton2.Text = "数组";
 			// 
 			// 数字序列数组ToolStripMenuItem
 			// 
 			this.数字序列数组ToolStripMenuItem.Name = "数字序列数组ToolStripMenuItem";
-			this.数字序列数组ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+			this.数字序列数组ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.数字序列数组ToolStripMenuItem.Text = "数字序列数组";
 			// 
 			// toolStrip2
@@ -1011,6 +1033,13 @@ namespace Notepad
 			this.打开ToolStripMenuItem.Name = "打开ToolStripMenuItem";
 			this.打开ToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
 			this.打开ToolStripMenuItem.Text = "打开";
+			// 
+			// 其他ToolStripMenuItem
+			// 
+			this.其他ToolStripMenuItem.Name = "其他ToolStripMenuItem";
+			this.其他ToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+			this.其他ToolStripMenuItem.Text = "其他";
+			this.其他ToolStripMenuItem.Click += new System.EventHandler(this.其他ToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 

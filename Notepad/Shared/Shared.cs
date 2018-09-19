@@ -23,6 +23,10 @@ namespace Shared
      
 	public static class StringExtensions
 	{
+		public static string GetDesktopPath(this string f){
+			return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop),f);
+		}
+	
 		public static bool IsWhiteSpace(this String value)
 		{
 			if (value == null)
@@ -34,6 +38,14 @@ namespace Shared
 			}
 
 			return true;
+		}
+		public static string EscapeString(this string s){
+			  char[] cs=new []{'\\','"','\'','<','>'};
+			  string[] ss=cs.Select(i=>"\\u" + ((int) i).ToString( "x4" )).ToArray();
+			for (int i = 0; i < cs.Length; i++) {
+				s=s.Replace(cs[i].ToString(),ss[i]);
+			}
+			return s;
 		}
 		public static string SubstringAfterLast(this string value, char delimiter)
 		{
