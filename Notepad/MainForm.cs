@@ -1,14 +1,12 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 using Shared;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
-using System.Runtime.InteropServices;
 
 namespace Notepad
 {
@@ -27,7 +25,8 @@ namespace Notepad
 		int _idF8 = -1;
 		int _idF9 = -1;
 		int _idF10 = -1;
-		 
+		// 1 -> go
+		int _runType = 1;
 		public MainForm()
 		{
 			InitializeComponent();
@@ -62,7 +61,7 @@ namespace Notepad
 			压缩子目录ToolStripMenuItem.Click += (s, o) => Helper.ZipDirectories();
 			//C代码段VSCToolStripMenuItem
 		 
-			排序代码段VSCToolStripMenuItem.Click += (s, o) => Helper.SortVSCSnippets();
+			排序代码段ToolStripMenuItem.Click += (s, o) => Helper.SortVSCSnippets();
 			if ("settings.txt".GetCommandPath().FileExists()) {
 				var value = "settings.txt".GetCommandPath().ReadAllText();
 				if (value.IsReadable()) {
@@ -585,7 +584,7 @@ namespace Notepad
 			if (!File.Exists(Path.Combine(f, "目录.html")))
 				return;
 
-			var styleFile = @"C:\Users\Administrator\Desktop\Safari\style.css";
+			var styleFile = "safari".GetDesktopPath().Combine("style.css");
 			if (File.Exists(styleFile)) {
 				var targetStyleFile = Path.Combine(f, "style.css");
 				if (File.Exists(targetStyleFile))
@@ -608,7 +607,7 @@ namespace Notepad
 			var arg = "--footer-center [page] -s Letter " + string.Join(" ", ls.Select(i => string.Format("\"{0}\"", i))) + string.Format("  \"{0}.pdf\"", f);
 
 			var p = System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo {
-				FileName = str,
+				FileName = "wkhtmltopdf.exe",
 				Arguments = arg,
 				WorkingDirectory = f
 			});
@@ -699,6 +698,9 @@ namespace Notepad
 				if (k == 119) {
 					Helper.CPlusPlusSnippetsVSC();
 				} else if (k == 120/*F9*/) {
+					if(_runType==1)
+						Helper.RunGoCommand();
+					else
 					Helper.RunGenerateGccCommand();
 				} else if (k == 121) {
 					Helper.RunGenerateGPlusPlusCommand();
@@ -737,11 +739,64 @@ namespace Notepad
 			dir.CreateDirectoryIfNotExists();
 			foreach (var element in list) {
 				if (!char.IsDigit(element[1])) {
-					dir.Combine("0" + element.GetValidFileName()+".cpp").WriteAllText("");
+					dir.Combine("0" + element.GetValidFileName() + ".cpp").WriteAllText("");
 				} else {
-					dir.Combine(element.GetValidFileName()+".cpp").WriteAllText("");
+					dir.Combine(element.GetValidFileName() + ".cpp").WriteAllText("");
 				}
 			}
+		}
+		void 删除Aria2文件ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+	
+		}
+		void 其他ToolStripMenuItem1Click(object sender, EventArgs e)
+		{
+	
+			var dir = Clipboard.GetText().Trim();
+			if (Directory.Exists(dir)) {
+				var files = Directory.GetFiles(dir, "*.mp3");
+				var count = 49;
+				for (int i = 0; i < files.Length; i++) {
+					++count;
+					File.Move(files[i], Path.Combine(files[i].GetDirectoryName(), count + files[i].GetFileName()));
+				}
+			}
+		}
+		void 移动未转换ZipToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			var dir = Clipboard.GetText().Trim();
+			if (!Directory.Exists(dir))
+				return;
+			var epubDir = @"C:\Users\Administrator\Desktop\Safari\epub";
+			var files = Directory.GetFiles(epubDir, "*.epub").Select(i => i.GetFileNameWithoutExtension());
+			var zipDir = Directory.GetFiles(dir, "*.zip").Where(i => !files.Contains(i.GetFileNameWithoutExtension()));
+			if (zipDir.Any()) {
+				var td = "zip".GetDesktopPath();
+				td.CreateDirectoryIfNotExists();
+				foreach (var element in zipDir) {
+					
+					File.Move(element, Path.Combine(td, element.GetFileName()));
+				}
+			}
+		}
+		void 解压目录中文件ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			var dir = Clipboard.GetText().Trim();
+			if (!Directory.Exists(dir))
+				return;
+			var zipFiles = Directory.GetFiles(dir, "*.zip");
+			foreach (var element in zipFiles) {
+				using (var zip = new Ionic.Zip.ZipFile(element, Encoding.GetEncoding("gbk"))) {
+					zip.ExtractAll(Path.Combine(element.GetDirectoryName(), element.GetFileNameWithoutExtension()));
+				}
+			}
+		}
+		void 运行Go文件全局热键F9ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			if (_idF9 == -1)
+				_idF9 = 1 << 2;
+			RegisterHotKey(this.Handle, _idF9, 0, (int)Keys.F9);
+			_runType=1;
 		}
 	}
 	

@@ -76,7 +76,7 @@ namespace Notepad
 					var files = Directory.GetFiles(element, "*", SearchOption.AllDirectories);
 					var filesAria2 = files.Where(i => i.EndsWith(".aria2")).Select(i => i.GetFileNameWithoutExtension()).OrderBy(i => i).Distinct().ToArray();
 					foreach (var f in files) {
-						if (filesAria2.Contains(f.GetFileNameWithoutExtension())) {
+						if (filesAria2.Contains(f.GetFileName()) || f.EndsWith(".aria2")) {
 							File.Delete(f);
 						}
 					}
@@ -122,9 +122,45 @@ namespace Notepad
 				
 			});
 		}
+		public static void RunGoCommand()
+		{
+			OnClipboardFile((f) => {
+				var arg = "";
+				var argLines = f.ReadLines();
+				foreach (var element in argLines) {
+					if (element.IsVacuum())
+						continue;
+					if (element.StartsWith("// ")) {
+						arg += element.Substring(3) + " ";
+					} else
+						break;
+				}
+				
+				var cmd = string.Format("/K go run \"{0}\" {1}",f,arg);
+				Process.Start("cmd", cmd);
+				
+			});
+		}
 		public static void RunGenerateGPlusPlusCommand()
 		{
 			OnClipboardFile((f) => {
+				var arg = "";
+				var argLines = f.ReadLines();
+				foreach (var element in argLines) {
+					if (element.IsVacuum())
+						continue;
+					if (element.StartsWith("// ")) {
+						arg += element.Substring(3) + " ";
+					} else
+						break;
+				}
+			                	
+				var dir = f.GetDirectoryName().Combine("bin");
+				dir.CreateDirectoryIfNotExists();
+				var cmd = string.Format("g++ -std=c++17 {2} \"{0}\" -o \"{1}\\t.exe\" && \"{1}\\t.exe\" ", f, dir, arg);
+				//Clipboard.SetText(cmd);
+				Process.Start("cmd", "/K " + cmd);
+				/*
 				var dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "output");
 				if (!Directory.Exists(dir)) {
 					Directory.CreateDirectory(dir);
@@ -135,8 +171,8 @@ namespace Notepad
 				var cmd = string.Format("g++ -std=c++17 \"{0}\" -o \"{1}\\t.exe\" && \"{1}\\t.exe\" ", f, dir);
 				Clipboard.SetText(cmd);
 				//var cmd = string.Format("/K g++ \"{0}\" -o \"{1}\\t.exe\" && \"{1}\\t.exe\" ", f, dir);
-				Process.Start("cmd", "/K " + cmd);
 				
+				*/
 			});
 		}
 		public static void GenerateGPlusPlusCommand()

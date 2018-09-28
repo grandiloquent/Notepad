@@ -427,6 +427,10 @@ namespace Shared
 		public static String ReadAllText(this String path)
 		{
 			return  File.ReadAllText(path, new UTF8Encoding(false));		}
+		public static IEnumerable<string> ReadLines(this String path)
+		{
+			return  File.ReadLines(path, new UTF8Encoding(false));
+		}
 		public static byte[] ReadAllBytes(this String path)
 		{
 			return  File.ReadAllBytes(path);		}
