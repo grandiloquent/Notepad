@@ -681,6 +681,7 @@ namespace Notepad
 			if (_idF9 == -1)
 				_idF9 = 1 << 2;
 			RegisterHotKey(this.Handle, _idF9, 0, (int)Keys.F9);
+			_runType=2;
 		}
 		protected override void WndProc(ref Message m)
 		{
@@ -700,19 +701,20 @@ namespace Notepad
 				} else if (k == 120/*F9*/) {
 					if(_runType==1)
 						Helper.RunGoCommand();
-					else
+					else if(_runType==2)
 					Helper.RunGenerateGccCommand();
-				} else if (k == 121) {
-					Helper.RunGenerateGPlusPlusCommand();
+					else if(_runType==3)
+						Helper.RunGenerateGPlusPlusCommand();
 				}
 				// do something
 			}
 		}
 		void 运行C文件热键F9ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			if (_idF10 == -1)
-				_idF10 = 1 << 3;
-			RegisterHotKey(this.Handle, _idF10, 0, (int)Keys.F10);
+			if (_idF9 == -1)
+				_idF9 = 1 << 2;
+			RegisterHotKey(this.Handle, _idF9, 0, (int)Keys.F9);
+			_runType=3;
 		}
 		void C代码段VSCToolStripMenuItemClick(object sender, EventArgs e)
 		{
@@ -798,6 +800,15 @@ namespace Notepad
 			RegisterHotKey(this.Handle, _idF9, 0, (int)Keys.F9);
 			_runType=1;
 		}
+		void 字符串到数组ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			Helper.OnClipboardString((v)=>{
+			                         
+			                         	var ls=new UTF8Encoding(false).GetBytes(v).Select(i=>i.ToString());
+			                         	return "int buf["+ls.Count()+"]="+"{"+string.Join(",",ls)+"};";
+			                         });
+		}
+		 
 	}
 	
 	public static class Helpers

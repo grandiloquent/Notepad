@@ -113,6 +113,7 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripSplitButton vscButton;
 		private System.Windows.Forms.ToolStripMenuItem 排序代码段ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 格式化代码段全局热键F8ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 字符串到数组ToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -164,6 +165,7 @@ namespace Notepad
 			this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
 			this.vscButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.排序代码段ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.格式化代码段全局热键F8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
 			this.findBox = new System.Windows.Forms.ToolStripComboBox();
 			this.replaceBox = new System.Windows.Forms.ToolStripComboBox();
@@ -235,7 +237,7 @@ namespace Notepad
 			this.粘贴代码ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.格式化代码段全局热键F8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.字符串到数组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
 			this.toolStrip3.SuspendLayout();
@@ -403,8 +405,8 @@ namespace Notepad
 			// 运行C文件热键F9ToolStripMenuItem
 			// 
 			this.运行C文件热键F9ToolStripMenuItem.Name = "运行C文件热键F9ToolStripMenuItem";
-			this.运行C文件热键F9ToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
-			this.运行C文件热键F9ToolStripMenuItem.Text = "运行C++文件(热键F10)";
+			this.运行C文件热键F9ToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+			this.运行C文件热键F9ToolStripMenuItem.Text = "运行C++文件(热键F9)";
 			this.运行C文件热键F9ToolStripMenuItem.Click += new System.EventHandler(this.运行C文件热键F9ToolStripMenuItemClick);
 			// 
 			// goButton
@@ -429,7 +431,8 @@ namespace Notepad
 			// 
 			this.toolStripSplitButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.toolStripSplitButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.数字序列数组ToolStripMenuItem});
+			this.数字序列数组ToolStripMenuItem,
+			this.字符串到数组ToolStripMenuItem});
 			this.toolStripSplitButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton2.Image")));
 			this.toolStripSplitButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripSplitButton2.Name = "toolStripSplitButton2";
@@ -439,7 +442,7 @@ namespace Notepad
 			// 数字序列数组ToolStripMenuItem
 			// 
 			this.数字序列数组ToolStripMenuItem.Name = "数字序列数组ToolStripMenuItem";
-			this.数字序列数组ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+			this.数字序列数组ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.数字序列数组ToolStripMenuItem.Text = "数字序列数组";
 			// 
 			// toolStripSplitButton3
@@ -482,6 +485,13 @@ namespace Notepad
 			this.排序代码段ToolStripMenuItem.Name = "排序代码段ToolStripMenuItem";
 			this.排序代码段ToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
 			this.排序代码段ToolStripMenuItem.Text = "排序代码段";
+			// 
+			// 格式化代码段全局热键F8ToolStripMenuItem
+			// 
+			this.格式化代码段全局热键F8ToolStripMenuItem.Name = "格式化代码段全局热键F8ToolStripMenuItem";
+			this.格式化代码段全局热键F8ToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
+			this.格式化代码段全局热键F8ToolStripMenuItem.Text = "格式化代码段(全局热键F8)";
+			this.格式化代码段全局热键F8ToolStripMenuItem.Click += new System.EventHandler(this.C代码段VSCToolStripMenuItemClick);
 			// 
 			// toolStrip2
 			// 
@@ -1121,12 +1131,12 @@ namespace Notepad
 			this.打开ToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
 			this.打开ToolStripMenuItem.Text = "打开";
 			// 
-			// 格式化代码段全局热键F8ToolStripMenuItem
+			// 字符串到数组ToolStripMenuItem
 			// 
-			this.格式化代码段全局热键F8ToolStripMenuItem.Name = "格式化代码段全局热键F8ToolStripMenuItem";
-			this.格式化代码段全局热键F8ToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
-			this.格式化代码段全局热键F8ToolStripMenuItem.Text = "格式化代码段(全局热键F8)";
-			this.格式化代码段全局热键F8ToolStripMenuItem.Click += new System.EventHandler(this.C代码段VSCToolStripMenuItemClick);
+			this.字符串到数组ToolStripMenuItem.Name = "字符串到数组ToolStripMenuItem";
+			this.字符串到数组ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.字符串到数组ToolStripMenuItem.Text = "字符串到数组";
+			this.字符串到数组ToolStripMenuItem.Click += new System.EventHandler(this.字符串到数组ToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 

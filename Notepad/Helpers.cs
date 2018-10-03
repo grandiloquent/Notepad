@@ -39,8 +39,8 @@ namespace Notepad
 		public static void CFormat()
 		{
 			OnClipboardString((str) => {
-				var ls = Helper.FormatMethodList(Clipboard.GetText());
-				var d = ls.Select(i => i.SubstringBefore(")") + ");").Where(i => i.IsReadable()).Select(i => i.Trim()).OrderBy(i => i);
+			                  	var ls = Helper.FormatMethodList(string.Join("\n",Clipboard.GetText().Split("\r\n".ToArray(),StringSplitOptions.RemoveEmptyEntries)));
+				var d = ls.Select(i => i.SubstringBefore(")") + ");").Where(i => i.IsReadable()).Select(i => i.Trim()).OrderBy(i => i.Split("(".ToArray(),2).First().Split(' ').Last());
 				var bodys = ls.OrderBy(i => Regex.Split(i.Split("(".ToArray(), 2).First(), "[: ]+").Last());
 				return	string.Join("\n", d) + "\n\n\n" + string.Join("\n", bodys);
 			});
@@ -87,10 +87,13 @@ namespace Notepad
 		public static void CleanHtmls()
 		{
 			OnClipboardDirectory((dir) => {
-				const string str = "<div><div><img src=\"./images/\"><div><div><div><button><svg><g><g><g><rect></rect><title>Playlists</title><path></path><circle></circle><circle></circle><rect></rect><rect></rect><rect></rect></g></g></g></svg><div>Add&nbsp;To</div></button></div></div></div></div></div>";
-				var files = Directory.GetFiles(dir, "目录.html", SearchOption.AllDirectories);
-				foreach (var element in files) {
-					element.WriteAllText(element.ReadAllText().Replace(str, ""));
+				var diretories = Directory.GetDirectories(dir);
+				foreach (var r in diretories) {
+					const string str = "<div><div><img src=\"./images/\"><div><div><div><button><svg><g><g><g><rect></rect><title>Playlists</title><path></path><circle></circle><circle></circle><rect></rect><rect></rect><rect></rect></g></g></g></svg><div>Add&nbsp;To</div></button></div></div></div></div></div>";
+					var files = Directory.GetFiles(r, "*.html", SearchOption.TopDirectoryOnly);
+					foreach (var element in files) {
+						element.WriteAllText(Regex.Replace(element.ReadAllText().Replace(str, ""), "style=\"[^\"]*?\"", ""));
+					}
 				}
 			});
 			
@@ -117,7 +120,20 @@ namespace Notepad
 				if (!Directory.Exists(dir)) {
 					Directory.CreateDirectory(dir);
 				}
-				var cmd = string.Format("/K gcc \"{0}\" -o \"{1}\\t.exe\" && \"{1}\\t.exe\" ", f, dir);
+				
+				var arg = "";
+				var argLines = f.ReadLines();
+				foreach (var element in argLines) {
+					if (element.IsVacuum())
+						continue;
+					if (element.StartsWith("// ")) {
+						arg += element.Substring(3) + " ";
+					} else
+						break;
+				}
+				
+				
+				var cmd = string.Format("/K gcc \"{0}\" -o \"{1}\\t.exe\" {2} && \"{1}\\t.exe\" ", f, dir,arg);
 				Process.Start("cmd", cmd);
 				
 			});
@@ -136,7 +152,7 @@ namespace Notepad
 						break;
 				}
 				
-				var cmd = string.Format("/K go run \"{0}\" {1}",f,arg);
+				var cmd = string.Format("/K go run \"{0}\" {1}", f, arg);
 				Process.Start("cmd", cmd);
 				
 			});
