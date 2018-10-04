@@ -229,5 +229,9 @@ namespace KeyStroke
 		void 格式化C代码ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			CFormat();		}
+		void 取色器ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			
+		}
 	}
 }

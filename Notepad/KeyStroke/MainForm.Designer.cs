@@ -21,6 +21,7 @@ namespace KeyStroke
 		private System.Windows.Forms.ToolStripMenuItem 编译CToolStripMenuItem;
 		private System.Windows.Forms.ToolStripButton clearButton;
 		private System.Windows.Forms.ToolStripMenuItem 格式化C代码ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 取色器ToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -49,8 +50,9 @@ namespace KeyStroke
 			this.获取当前坐标值热键FToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.cButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.编译CToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.clearButton = new System.Windows.Forms.ToolStripButton();
 			this.格式化C代码ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.clearButton = new System.Windows.Forms.ToolStripButton();
+			this.取色器ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -70,7 +72,8 @@ namespace KeyStroke
 			// 
 			this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.获取当前坐标值热键FToolStripMenuItem});
+			this.获取当前坐标值热键FToolStripMenuItem,
+			this.取色器ToolStripMenuItem});
 			this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
 			this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripSplitButton1.Name = "toolStripSplitButton1";
@@ -99,9 +102,16 @@ namespace KeyStroke
 			// 编译CToolStripMenuItem
 			// 
 			this.编译CToolStripMenuItem.Name = "编译CToolStripMenuItem";
-			this.编译CToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+			this.编译CToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
 			this.编译CToolStripMenuItem.Text = "编译C(热键F9)";
 			this.编译CToolStripMenuItem.Click += new System.EventHandler(this.编译CToolStripMenuItemClick);
+			// 
+			// 格式化C代码ToolStripMenuItem
+			// 
+			this.格式化C代码ToolStripMenuItem.Name = "格式化C代码ToolStripMenuItem";
+			this.格式化C代码ToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+			this.格式化C代码ToolStripMenuItem.Text = "格式化C代码";
+			this.格式化C代码ToolStripMenuItem.Click += new System.EventHandler(this.格式化C代码ToolStripMenuItemClick);
 			// 
 			// clearButton
 			// 
@@ -113,12 +123,12 @@ namespace KeyStroke
 			this.clearButton.Text = "toolStripButton1";
 			this.clearButton.Click += new System.EventHandler(this.ClearButtonClick);
 			// 
-			// 格式化C代码ToolStripMenuItem
+			// 取色器ToolStripMenuItem
 			// 
-			this.格式化C代码ToolStripMenuItem.Name = "格式化C代码ToolStripMenuItem";
-			this.格式化C代码ToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-			this.格式化C代码ToolStripMenuItem.Text = "格式化C代码";
-			this.格式化C代码ToolStripMenuItem.Click += new System.EventHandler(this.格式化C代码ToolStripMenuItemClick);
+			this.取色器ToolStripMenuItem.Name = "取色器ToolStripMenuItem";
+			this.取色器ToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+			this.取色器ToolStripMenuItem.Text = "取色器";
+			this.取色器ToolStripMenuItem.Click += new System.EventHandler(this.取色器ToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 
