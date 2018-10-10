@@ -231,7 +231,13 @@ namespace ColorPicker
             System.GC.Collect();
             var str=txtHexFull.Text;
             str="0x"+str.Substring(5,2)+str.Substring(3,2)+str.Substring(1,2);
-           Clipboard.SetText(string.Format("_Click({0},{1});\nSleep(1000);\nGetPixel(hdc,{0},{1})=={2}",_x,_y,str));
+//            var cst=Clipboard.GetText();
+//            if(string.IsNullOrEmpty(null)){
+//            	cst+="&&";
+//            }
+           Clipboard.SetText(string.Format("#define POS__X {0}\n #define POS__Y {1}\nGetPixel(hdc,{0},{1})=={2}",_x,_y,str));
+           //Clipboard.SetText(string.Format("{3}GetPixel(hdc,{0},{1})=={2}",_x,_y,str,cst));
+          // Clipboard.SetText(string.Format("{0},{1}",_x,_y));
             
             //Clipboard.SetText(string.Format("{{{0},{1},{2}}},",_x,_y,str));
         }

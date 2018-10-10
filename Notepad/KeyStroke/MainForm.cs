@@ -94,7 +94,12 @@ namespace KeyStroke
 			}
 				
 			try {
-				Process.GetProcesses().First(i => i.ProcessName == "t").Kill();
+				var ps =	Process.GetProcesses().Where(i => i.ProcessName == "t" || i.ProcessName == "cmd");
+				if (ps.Any()) {
+					foreach (var p in ps) {
+						p.Kill();
+					}
+				}
 			} catch {
 			}
 			var cmd = string.Format("/K gcc \"{0}\" -o \"{1}\\t.exe\" {2} && \"{1}\\t.exe\" ", f, dir, arg);
@@ -119,7 +124,7 @@ namespace KeyStroke
 		public static void CFormat()
 		{
 			OnClipboardString((str) => {
-				var ls =FormatMethodList( Clipboard.GetText());
+				var ls = FormatMethodList(Clipboard.GetText());
 				var d = ls.Select(i => i.SubstringBefore(")") + ");").Where(i => i.IsReadable()).Select(i => i.Trim()).OrderBy(i => i.Split("(".ToArray(), 2).First().Split(' ').Last());
 				var bodys = ls.OrderBy(i => Regex.Split(i.Split("(".ToArray(), 2).First(), "[: ]+").Last());
 				return	string.Join("\n", d) + "\n\n\n" + string.Join("\n", string.Join("\n", bodys).Split("\r\n".ToArray(), StringSplitOptions.RemoveEmptyEntries));
@@ -193,8 +198,12 @@ namespace KeyStroke
 				}
 			} else if (m.Msg == 0x100 || m.Msg == 0x101 || m.Msg == 0x104 || m.Msg == 0x105) {
 				MessageBox.Show("Msg 0x" + m.Msg.ToString("X") + " WParam 0x" + m.WParam.ToString("X") + " LParam 0x" + m.LParam.ToString("X") + "\n");
+				//Debug.WriteLine("Msg 0x" + m.Msg.ToString("X") + " WParam 0x" + m.WParam.ToString("X") + " LParam 0x" + m.LParam.ToString("X") + "\n");
+				//Debug.WriteLine("PostMessage(hWnd,0x" + m.Msg.ToString("X") + " ,0x" + m.WParam.ToString("X") + " ,0x" + m.LParam.ToString("X") + ");\nSleep(100);\n");
 				
 			}
+				//Debug.WriteLine("Msg 0x" + m.Msg.ToString("X") + " WParam 0x" + m.WParam.ToString("X") + " LParam 0x" + m.LParam.ToString("X") + "\n");
+			
 			base.WndProc(ref m);
 		}
 		void 获取当前坐标值热键FToolStripMenuItemClick(object sender, EventArgs e)
@@ -228,10 +237,25 @@ namespace KeyStroke
 		}
 		void 格式化C代码ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			CFormat();		}
+			CFormat();
+		}
 		void 取色器ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			
+		}
+		void Aria2ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			var dir="aria2c".GetDesktopPath();
+			dir.CreateDirectoryIfNotExists();
+			Process.Start(new ProcessStartInfo() {
+				FileName = "aria2c",
+				WorkingDirectory=dir,
+				Arguments=Clipboard.GetText()
+			});
+		}
+		void ToolStripMenuItem1Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("123");
 		}
 	}
 }

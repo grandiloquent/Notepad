@@ -39,8 +39,8 @@ namespace Notepad
 		public static void CFormat()
 		{
 			OnClipboardString((str) => {
-			                  	var ls = Helper.FormatMethodList(string.Join("\n",Clipboard.GetText().Split("\r\n".ToArray(),StringSplitOptions.RemoveEmptyEntries)));
-				var d = ls.Select(i => i.SubstringBefore(")") + ");").Where(i => i.IsReadable()).Select(i => i.Trim()).OrderBy(i => i.Split("(".ToArray(),2).First().Split(' ').Last());
+				var ls = Helper.FormatMethodList(string.Join("\n", Clipboard.GetText().Split("\r\n".ToArray(), StringSplitOptions.RemoveEmptyEntries)));
+				var d = ls.Select(i => i.SubstringBefore(")") + ");").Where(i => i.IsReadable()).Select(i => i.Trim()).OrderBy(i => i.Split("(".ToArray(), 2).First().Split(' ').Last());
 				var bodys = ls.OrderBy(i => Regex.Split(i.Split("(".ToArray(), 2).First(), "[: ]+").Last());
 				return	string.Join("\n", d) + "\n\n\n" + string.Join("\n", bodys);
 			});
@@ -92,7 +92,10 @@ namespace Notepad
 					const string str = "<div><div><img src=\"./images/\"><div><div><div><button><svg><g><g><g><rect></rect><title>Playlists</title><path></path><circle></circle><circle></circle><rect></rect><rect></rect><rect></rect></g></g></g></svg><div>Add&nbsp;To</div></button></div></div></div></div></div>";
 					var files = Directory.GetFiles(r, "*.html", SearchOption.TopDirectoryOnly);
 					foreach (var element in files) {
-						element.WriteAllText(Regex.Replace(element.ReadAllText().Replace(str, ""), "style=\"[^\"]*?\"", ""));
+						var sv = Regex.Replace(element.ReadAllText().Replace(str, ""), "(style|width|height)=\"[^\"]*?\"", "");
+					
+						
+						element.WriteAllText(sv);
 					}
 				}
 			});
@@ -133,7 +136,7 @@ namespace Notepad
 				}
 				
 				
-				var cmd = string.Format("/K gcc \"{0}\" -o \"{1}\\t.exe\" {2} && \"{1}\\t.exe\" ", f, dir,arg);
+				var cmd = string.Format("/K gcc \"{0}\" -o \"{1}\\t.exe\" {2} && \"{1}\\t.exe\" ", f, dir, arg);
 				Process.Start("cmd", cmd);
 				
 			});

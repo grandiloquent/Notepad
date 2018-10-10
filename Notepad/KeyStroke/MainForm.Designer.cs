@@ -22,6 +22,9 @@ namespace KeyStroke
 		private System.Windows.Forms.ToolStripButton clearButton;
 		private System.Windows.Forms.ToolStripMenuItem 格式化C代码ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 取色器ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSplitButton cmdButton;
+		private System.Windows.Forms.ToolStripMenuItem aria2ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -48,11 +51,14 @@ namespace KeyStroke
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
 			this.获取当前坐标值热键FToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.取色器ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.cButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.编译CToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.格式化C代码ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.clearButton = new System.Windows.Forms.ToolStripButton();
-			this.取色器ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.cmdButton = new System.Windows.Forms.ToolStripSplitButton();
+			this.aria2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -61,7 +67,8 @@ namespace KeyStroke
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.toolStripSplitButton1,
 			this.cButton,
-			this.clearButton});
+			this.clearButton,
+			this.cmdButton});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Size = new System.Drawing.Size(284, 25);
@@ -86,6 +93,13 @@ namespace KeyStroke
 			this.获取当前坐标值热键FToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
 			this.获取当前坐标值热键FToolStripMenuItem.Text = "获取当前坐标值(热键F6)";
 			this.获取当前坐标值热键FToolStripMenuItem.Click += new System.EventHandler(this.获取当前坐标值热键FToolStripMenuItemClick);
+			// 
+			// 取色器ToolStripMenuItem
+			// 
+			this.取色器ToolStripMenuItem.Name = "取色器ToolStripMenuItem";
+			this.取色器ToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+			this.取色器ToolStripMenuItem.Text = "取色器";
+			this.取色器ToolStripMenuItem.Click += new System.EventHandler(this.取色器ToolStripMenuItemClick);
 			// 
 			// cButton
 			// 
@@ -123,12 +137,32 @@ namespace KeyStroke
 			this.clearButton.Text = "toolStripButton1";
 			this.clearButton.Click += new System.EventHandler(this.ClearButtonClick);
 			// 
-			// 取色器ToolStripMenuItem
+			// cmdButton
 			// 
-			this.取色器ToolStripMenuItem.Name = "取色器ToolStripMenuItem";
-			this.取色器ToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
-			this.取色器ToolStripMenuItem.Text = "取色器";
-			this.取色器ToolStripMenuItem.Click += new System.EventHandler(this.取色器ToolStripMenuItemClick);
+			this.cmdButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.cmdButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.aria2ToolStripMenuItem,
+			this.toolStripMenuItem1});
+			this.cmdButton.Image = ((System.Drawing.Image)(resources.GetObject("cmdButton.Image")));
+			this.cmdButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.cmdButton.Name = "cmdButton";
+			this.cmdButton.Size = new System.Drawing.Size(32, 22);
+			this.cmdButton.Text = "toolStripSplitButton2";
+			// 
+			// aria2ToolStripMenuItem
+			// 
+			this.aria2ToolStripMenuItem.Name = "aria2ToolStripMenuItem";
+			this.aria2ToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
+			this.aria2ToolStripMenuItem.Text = "Aria2";
+			this.aria2ToolStripMenuItem.Click += new System.EventHandler(this.Aria2ToolStripMenuItemClick);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(231, 22);
+			this.toolStripMenuItem1.Text = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1Click);
 			// 
 			// MainForm
 			// 

@@ -681,7 +681,7 @@ namespace Notepad
 			if (_idF9 == -1)
 				_idF9 = 1 << 2;
 			RegisterHotKey(this.Handle, _idF9, 0, (int)Keys.F9);
-			_runType=2;
+			_runType = 2;
 		}
 		protected override void WndProc(ref Message m)
 		{
@@ -699,11 +699,11 @@ namespace Notepad
 				if (k == 119) {
 					Helper.CPlusPlusSnippetsVSC();
 				} else if (k == 120/*F9*/) {
-					if(_runType==1)
+					if (_runType == 1)
 						Helper.RunGoCommand();
-					else if(_runType==2)
-					Helper.RunGenerateGccCommand();
-					else if(_runType==3)
+					else if (_runType == 2)
+						Helper.RunGenerateGccCommand();
+					else if (_runType == 3)
 						Helper.RunGenerateGPlusPlusCommand();
 				}
 				// do something
@@ -714,7 +714,7 @@ namespace Notepad
 			if (_idF9 == -1)
 				_idF9 = 1 << 2;
 			RegisterHotKey(this.Handle, _idF9, 0, (int)Keys.F9);
-			_runType=3;
+			_runType = 3;
 		}
 		void C代码段VSCToolStripMenuItemClick(object sender, EventArgs e)
 		{
@@ -798,16 +798,32 @@ namespace Notepad
 			if (_idF9 == -1)
 				_idF9 = 1 << 2;
 			RegisterHotKey(this.Handle, _idF9, 0, (int)Keys.F9);
-			_runType=1;
+			_runType = 1;
 		}
 		void 字符串到数组ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			Helper.OnClipboardString((v)=>{
+			Helper.OnClipboardString((v) => {
 			                         
-			                         	var ls=new UTF8Encoding(false).GetBytes(v).Select(i=>i.ToString());
-			                         	return "int buf["+ls.Count()+"]="+"{"+string.Join(",",ls)+"};";
-			                         });
+				var ls = new UTF8Encoding(false).GetBytes(v).Select(i => i.ToString());
+				return "int buf[" + ls.Count() + "]=" + "{" + string.Join(",", ls) + "};";
+			});
 		}
+		void GitHub页面源代码到HTML文件ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			Helper.OnClipboardString((v) => {
+				var hd = new HtmlAgilityPack.HtmlDocument();
+				hd.LoadHtml(v);
+				
+				var sb=new StringBuilder();
+				sb.Append(hd.DocumentNode.SelectSingleNode("//head").OuterHtml).AppendLine().AppendLine();
+				
+				sb.Append(hd.DocumentNode.SelectSingleNode("//div[@class=\"file \"]").OuterHtml);
+				"index.htm".GetDesktopPath().WriteAllText(sb.ToString());
+			                         	
+				return null;
+			});
+		}
+	
 		 
 	}
 	

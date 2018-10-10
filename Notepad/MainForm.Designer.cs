@@ -114,6 +114,8 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripMenuItem 排序代码段ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 格式化代码段全局热键F8ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 字符串到数组ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
+		private System.Windows.Forms.ToolStripMenuItem gitHub页面源代码到HTML文件ToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -160,6 +162,7 @@ namespace Notepad
 			this.运行Go文件全局热键F9ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSplitButton2 = new System.Windows.Forms.ToolStripSplitButton();
 			this.数字序列数组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.字符串到数组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSplitButton3 = new System.Windows.Forms.ToolStripSplitButton();
 			this.其他ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
@@ -237,7 +240,8 @@ namespace Notepad
 			this.粘贴代码ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.字符串到数组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
+			this.gitHub页面源代码到HTML文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
 			this.toolStrip3.SuspendLayout();
@@ -442,8 +446,15 @@ namespace Notepad
 			// 数字序列数组ToolStripMenuItem
 			// 
 			this.数字序列数组ToolStripMenuItem.Name = "数字序列数组ToolStripMenuItem";
-			this.数字序列数组ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.数字序列数组ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
 			this.数字序列数组ToolStripMenuItem.Text = "数字序列数组";
+			// 
+			// 字符串到数组ToolStripMenuItem
+			// 
+			this.字符串到数组ToolStripMenuItem.Name = "字符串到数组ToolStripMenuItem";
+			this.字符串到数组ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+			this.字符串到数组ToolStripMenuItem.Text = "字符串到数组";
+			this.字符串到数组ToolStripMenuItem.Click += new System.EventHandler(this.字符串到数组ToolStripMenuItemClick);
 			// 
 			// toolStripSplitButton3
 			// 
@@ -774,7 +785,9 @@ namespace Notepad
 			this.ebookButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.ebookButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.wkhtml2pdfMenuItem,
-			this.移动未转换ZipToolStripMenuItem});
+			this.移动未转换ZipToolStripMenuItem,
+			this.toolStripSeparator13,
+			this.gitHub页面源代码到HTML文件ToolStripMenuItem});
 			this.ebookButton.Image = ((System.Drawing.Image)(resources.GetObject("ebookButton.Image")));
 			this.ebookButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.ebookButton.Name = "ebookButton";
@@ -784,14 +797,14 @@ namespace Notepad
 			// wkhtml2pdfMenuItem
 			// 
 			this.wkhtml2pdfMenuItem.Name = "wkhtml2pdfMenuItem";
-			this.wkhtml2pdfMenuItem.Size = new System.Drawing.Size(154, 22);
+			this.wkhtml2pdfMenuItem.Size = new System.Drawing.Size(246, 22);
 			this.wkhtml2pdfMenuItem.Text = "wkhtml命令行";
 			this.wkhtml2pdfMenuItem.Click += new System.EventHandler(this.Wkhtml2pdfMenuItemClick);
 			// 
 			// 移动未转换ZipToolStripMenuItem
 			// 
 			this.移动未转换ZipToolStripMenuItem.Name = "移动未转换ZipToolStripMenuItem";
-			this.移动未转换ZipToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+			this.移动未转换ZipToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
 			this.移动未转换ZipToolStripMenuItem.Text = "移动未转换Zip";
 			this.移动未转换ZipToolStripMenuItem.Click += new System.EventHandler(this.移动未转换ZipToolStripMenuItemClick);
 			// 
@@ -1131,12 +1144,17 @@ namespace Notepad
 			this.打开ToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
 			this.打开ToolStripMenuItem.Text = "打开";
 			// 
-			// 字符串到数组ToolStripMenuItem
+			// toolStripSeparator13
 			// 
-			this.字符串到数组ToolStripMenuItem.Name = "字符串到数组ToolStripMenuItem";
-			this.字符串到数组ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.字符串到数组ToolStripMenuItem.Text = "字符串到数组";
-			this.字符串到数组ToolStripMenuItem.Click += new System.EventHandler(this.字符串到数组ToolStripMenuItemClick);
+			this.toolStripSeparator13.Name = "toolStripSeparator13";
+			this.toolStripSeparator13.Size = new System.Drawing.Size(243, 6);
+			// 
+			// gitHub页面源代码到HTML文件ToolStripMenuItem
+			// 
+			this.gitHub页面源代码到HTML文件ToolStripMenuItem.Name = "gitHub页面源代码到HTML文件ToolStripMenuItem";
+			this.gitHub页面源代码到HTML文件ToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+			this.gitHub页面源代码到HTML文件ToolStripMenuItem.Text = "GitHub页面源代码到HTML文件";
+			this.gitHub页面源代码到HTML文件ToolStripMenuItem.Click += new System.EventHandler(this.GitHub页面源代码到HTML文件ToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 
