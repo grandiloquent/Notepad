@@ -167,6 +167,24 @@ namespace Notepad
 		}
 		void TitleButtonClick(object sender, EventArgs e)
 		{
+		
+			var array = textBox.Text.Trim().ToArray();
+			var stringBuilder = new StringBuilder();
+//			using (System.Security.Cryptography. RNGCryptoServiceProvider rng = new System.Security.Cryptography. RNGCryptoServiceProvider()) {
+//				for (int i = 0; i < array.Length; i++) {	
+//					byte[] randomNumber = new byte[4];//4 for int32
+//					rng.GetBytes(randomNumber);
+//					int value = BitConverter.ToInt32(randomNumber, 0);
+//					stringBuilder.Append("/C"+value.ToString().PadLeft(2,' ')).Append(array[i]);
+//				}
+//			}
+			// DateTime.Now.Millisecond
+			var random=new Random(DateTime.Now.Millisecond);
+			for (int i = 0; i < array.Length; i++) {	
+				stringBuilder.Append("/C" + (random.Next(0, 21)).ToString().PadLeft(2, '0')).Append(array[i]);
+			}
+			textBox.Text = stringBuilder.ToString();
+			
 			var start = textBox.SelectionStart;
 
 			while (start - 1 > -1 && textBox.Text[start - 1] != '\n') {
@@ -814,7 +832,7 @@ namespace Notepad
 				var hd = new HtmlAgilityPack.HtmlDocument();
 				hd.LoadHtml(v);
 				
-				var sb=new StringBuilder();
+				var sb = new StringBuilder();
 				sb.Append(hd.DocumentNode.SelectSingleNode("//head").OuterHtml).AppendLine().AppendLine();
 				
 				sb.Append(hd.DocumentNode.SelectSingleNode("//div[@class=\"file \"]").OuterHtml);
@@ -822,6 +840,54 @@ namespace Notepad
 			                         	
 				return null;
 			});
+		}
+		void HexToIntToolStripMenuItemClick(object sender, EventArgs e)
+		{
+
+			try {
+				replaceBox.Text = int.Parse(findBox.Text.Trim(), System.Globalization.NumberStyles.HexNumber).ToString();
+			} catch {
+				
+			}
+		}
+		void IntToHexToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			try {
+				replaceBox.Text = int.Parse(findBox.Text.Trim()).ToString("X");
+			} catch {
+				
+			}
+		}
+		void CheatEngineMemoryViewer数组到BYTE数组ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			Helper.OnClipboardString((v) => {
+				var str = v.Split(" ".ToArray(), StringSplitOptions.RemoveEmptyEntries).Select((i) => {
+					var vh = int.Parse(i, System.Globalization.NumberStyles.HexNumber);
+					if (vh == 0) {
+						return "0";
+					} else {
+						return "0x" + vh.ToString("X");
+					}
+				});
+				return "{" + string.Join(",", str) + "}";
+			});
+		}
+		void 计算匹配数量正则表达式ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+	
+			textBox.Text += "\r\n" + Regex.Matches(textBox.Text, findBox.Text).Cast<Match>().Count().ToString();
+			
+		
+		}
+		void GBK到BYTE数组ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			var buf=Encoding.GetEncoding("gbk").GetBytes(textBox.Text.Trim());
+			textBox.Text=string.Join(" ",buf.Select(i=>i.ToString("x")))+"\r\n"+string.Join(" ",buf.Select(i=>i.ToString()));
+		}
+		void UTF8到BYTE数组ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			textBox.Text=string.Join(" ",new UTF8Encoding(false).GetBytes(textBox.Text.Trim()).Select(i=>i.ToString("x")));
+	
 		}
 	
 		 

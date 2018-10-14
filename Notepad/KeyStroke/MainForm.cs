@@ -102,7 +102,8 @@ namespace KeyStroke
 				}
 			} catch {
 			}
-			var cmd = string.Format("/K gcc \"{0}\" -o \"{1}\\t.exe\" {2} && \"{1}\\t.exe\" ", f, dir, arg);
+			var exe=Path.GetFileNameWithoutExtension(f)+".exe";
+			var cmd = string.Format("/K gcc \"{0}\" -o \"{1}\\{3}\" {2} && \"{1}\\{3}\" ", f, dir, arg,exe);
 			Process.Start("cmd", cmd);
 				
 			

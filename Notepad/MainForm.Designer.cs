@@ -116,6 +116,14 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripMenuItem 字符串到数组ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
 		private System.Windows.Forms.ToolStripMenuItem gitHub页面源代码到HTML文件ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
+		private System.Windows.Forms.ToolStripMenuItem hexToIntToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem intToHexToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
+		private System.Windows.Forms.ToolStripMenuItem cheatEngineMemoryViewer数组到BYTE数组ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 计算匹配数量正则表达式ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem gBK到BYTE数组ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem uTF8到BYTE数组ToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -163,6 +171,8 @@ namespace Notepad
 			this.toolStripSplitButton2 = new System.Windows.Forms.ToolStripSplitButton();
 			this.数字序列数组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.字符串到数组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.cheatEngineMemoryViewer数组到BYTE数组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.gBK到BYTE数组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSplitButton3 = new System.Windows.Forms.ToolStripSplitButton();
 			this.其他ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
@@ -175,10 +185,14 @@ namespace Notepad
 			this.findButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.查找ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.保留正则表达式ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.计算匹配数量正则表达式ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.替换成换行符ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.替换ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
 			this.替换文件中ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
+			this.hexToIntToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.intToHexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.templateButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.行ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip3 = new System.Windows.Forms.ToolStrip();
@@ -202,6 +216,8 @@ namespace Notepad
 			this.ebookButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.wkhtml2pdfMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.移动未转换ZipToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
+			this.gitHub页面源代码到HTML文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.englishButton = new System.Windows.Forms.ToolStripButton();
 			this.chineseButton = new System.Windows.Forms.ToolStripButton();
@@ -240,8 +256,8 @@ namespace Notepad
 			this.粘贴代码ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
-			this.gitHub页面源代码到HTML文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
+			this.uTF8到BYTE数组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
 			this.toolStrip3.SuspendLayout();
@@ -436,7 +452,10 @@ namespace Notepad
 			this.toolStripSplitButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.toolStripSplitButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.数字序列数组ToolStripMenuItem,
-			this.字符串到数组ToolStripMenuItem});
+			this.字符串到数组ToolStripMenuItem,
+			this.cheatEngineMemoryViewer数组到BYTE数组ToolStripMenuItem,
+			this.gBK到BYTE数组ToolStripMenuItem,
+			this.uTF8到BYTE数组ToolStripMenuItem});
 			this.toolStripSplitButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton2.Image")));
 			this.toolStripSplitButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripSplitButton2.Name = "toolStripSplitButton2";
@@ -446,15 +465,29 @@ namespace Notepad
 			// 数字序列数组ToolStripMenuItem
 			// 
 			this.数字序列数组ToolStripMenuItem.Name = "数字序列数组ToolStripMenuItem";
-			this.数字序列数组ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+			this.数字序列数组ToolStripMenuItem.Size = new System.Drawing.Size(345, 22);
 			this.数字序列数组ToolStripMenuItem.Text = "数字序列数组";
 			// 
 			// 字符串到数组ToolStripMenuItem
 			// 
 			this.字符串到数组ToolStripMenuItem.Name = "字符串到数组ToolStripMenuItem";
-			this.字符串到数组ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+			this.字符串到数组ToolStripMenuItem.Size = new System.Drawing.Size(345, 22);
 			this.字符串到数组ToolStripMenuItem.Text = "字符串到数组";
 			this.字符串到数组ToolStripMenuItem.Click += new System.EventHandler(this.字符串到数组ToolStripMenuItemClick);
+			// 
+			// cheatEngineMemoryViewer数组到BYTE数组ToolStripMenuItem
+			// 
+			this.cheatEngineMemoryViewer数组到BYTE数组ToolStripMenuItem.Name = "cheatEngineMemoryViewer数组到BYTE数组ToolStripMenuItem";
+			this.cheatEngineMemoryViewer数组到BYTE数组ToolStripMenuItem.Size = new System.Drawing.Size(345, 22);
+			this.cheatEngineMemoryViewer数组到BYTE数组ToolStripMenuItem.Text = "(Cheat Engine Memory Viewer)数组到BYTE数组";
+			this.cheatEngineMemoryViewer数组到BYTE数组ToolStripMenuItem.Click += new System.EventHandler(this.CheatEngineMemoryViewer数组到BYTE数组ToolStripMenuItemClick);
+			// 
+			// gBK到BYTE数组ToolStripMenuItem
+			// 
+			this.gBK到BYTE数组ToolStripMenuItem.Name = "gBK到BYTE数组ToolStripMenuItem";
+			this.gBK到BYTE数组ToolStripMenuItem.Size = new System.Drawing.Size(345, 22);
+			this.gBK到BYTE数组ToolStripMenuItem.Text = "GBK 到 BYTE 数组";
+			this.gBK到BYTE数组ToolStripMenuItem.Click += new System.EventHandler(this.GBK到BYTE数组ToolStripMenuItemClick);
 			// 
 			// toolStripSplitButton3
 			// 
@@ -540,10 +573,14 @@ namespace Notepad
 			this.findButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.查找ToolStripMenuItem,
 			this.保留正则表达式ToolStripMenuItem,
+			this.计算匹配数量正则表达式ToolStripMenuItem,
 			this.替换成换行符ToolStripMenuItem,
 			this.替换ToolStripMenuItem,
 			this.toolStripSeparator9,
-			this.替换文件中ToolStripMenuItem});
+			this.替换文件中ToolStripMenuItem,
+			this.toolStripSeparator15,
+			this.hexToIntToolStripMenuItem,
+			this.intToHexToolStripMenuItem});
 			this.findButton.Image = ((System.Drawing.Image)(resources.GetObject("findButton.Image")));
 			this.findButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.findButton.Name = "findButton";
@@ -554,42 +591,68 @@ namespace Notepad
 			// 
 			this.查找ToolStripMenuItem.Name = "查找ToolStripMenuItem";
 			this.查找ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
-			this.查找ToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+			this.查找ToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
 			this.查找ToolStripMenuItem.Text = "查找";
 			this.查找ToolStripMenuItem.Click += new System.EventHandler(this.查找ToolStripMenuItemClick);
 			// 
 			// 保留正则表达式ToolStripMenuItem
 			// 
 			this.保留正则表达式ToolStripMenuItem.Name = "保留正则表达式ToolStripMenuItem";
-			this.保留正则表达式ToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+			this.保留正则表达式ToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
 			this.保留正则表达式ToolStripMenuItem.Text = "保留(正则表达式)";
 			this.保留正则表达式ToolStripMenuItem.Click += new System.EventHandler(this.保留正则表达式ToolStripMenuItemClick);
+			// 
+			// 计算匹配数量正则表达式ToolStripMenuItem
+			// 
+			this.计算匹配数量正则表达式ToolStripMenuItem.Name = "计算匹配数量正则表达式ToolStripMenuItem";
+			this.计算匹配数量正则表达式ToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+			this.计算匹配数量正则表达式ToolStripMenuItem.Text = "计算匹配数量(正则表达式)";
+			this.计算匹配数量正则表达式ToolStripMenuItem.Click += new System.EventHandler(this.计算匹配数量正则表达式ToolStripMenuItemClick);
 			// 
 			// 替换成换行符ToolStripMenuItem
 			// 
 			this.替换成换行符ToolStripMenuItem.Name = "替换成换行符ToolStripMenuItem";
-			this.替换成换行符ToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+			this.替换成换行符ToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
 			this.替换成换行符ToolStripMenuItem.Text = "替换成换行符";
 			this.替换成换行符ToolStripMenuItem.Click += new System.EventHandler(this.替换成换行符ToolStripMenuItemClick);
 			// 
 			// 替换ToolStripMenuItem
 			// 
 			this.替换ToolStripMenuItem.Name = "替换ToolStripMenuItem";
-			this.替换ToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+			this.替换ToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
 			this.替换ToolStripMenuItem.Text = "替换";
 			this.替换ToolStripMenuItem.Click += new System.EventHandler(this.替换ToolStripMenuItemClick);
 			// 
 			// toolStripSeparator9
 			// 
 			this.toolStripSeparator9.Name = "toolStripSeparator9";
-			this.toolStripSeparator9.Size = new System.Drawing.Size(165, 6);
+			this.toolStripSeparator9.Size = new System.Drawing.Size(213, 6);
 			// 
 			// 替换文件中ToolStripMenuItem
 			// 
 			this.替换文件中ToolStripMenuItem.Name = "替换文件中ToolStripMenuItem";
-			this.替换文件中ToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+			this.替换文件中ToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
 			this.替换文件中ToolStripMenuItem.Text = "替换(文件中)";
 			this.替换文件中ToolStripMenuItem.Click += new System.EventHandler(this.替换文件中ToolStripMenuItemClick);
+			// 
+			// toolStripSeparator15
+			// 
+			this.toolStripSeparator15.Name = "toolStripSeparator15";
+			this.toolStripSeparator15.Size = new System.Drawing.Size(213, 6);
+			// 
+			// hexToIntToolStripMenuItem
+			// 
+			this.hexToIntToolStripMenuItem.Name = "hexToIntToolStripMenuItem";
+			this.hexToIntToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+			this.hexToIntToolStripMenuItem.Text = "Hex to Int";
+			this.hexToIntToolStripMenuItem.Click += new System.EventHandler(this.HexToIntToolStripMenuItemClick);
+			// 
+			// intToHexToolStripMenuItem
+			// 
+			this.intToHexToolStripMenuItem.Name = "intToHexToolStripMenuItem";
+			this.intToHexToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+			this.intToHexToolStripMenuItem.Text = "Int to Hex";
+			this.intToHexToolStripMenuItem.Click += new System.EventHandler(this.IntToHexToolStripMenuItemClick);
 			// 
 			// templateButton
 			// 
@@ -807,6 +870,18 @@ namespace Notepad
 			this.移动未转换ZipToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
 			this.移动未转换ZipToolStripMenuItem.Text = "移动未转换Zip";
 			this.移动未转换ZipToolStripMenuItem.Click += new System.EventHandler(this.移动未转换ZipToolStripMenuItemClick);
+			// 
+			// toolStripSeparator13
+			// 
+			this.toolStripSeparator13.Name = "toolStripSeparator13";
+			this.toolStripSeparator13.Size = new System.Drawing.Size(243, 6);
+			// 
+			// gitHub页面源代码到HTML文件ToolStripMenuItem
+			// 
+			this.gitHub页面源代码到HTML文件ToolStripMenuItem.Name = "gitHub页面源代码到HTML文件ToolStripMenuItem";
+			this.gitHub页面源代码到HTML文件ToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+			this.gitHub页面源代码到HTML文件ToolStripMenuItem.Text = "GitHub页面源代码到HTML文件";
+			this.gitHub页面源代码到HTML文件ToolStripMenuItem.Click += new System.EventHandler(this.GitHub页面源代码到HTML文件ToolStripMenuItemClick);
 			// 
 			// toolStripSeparator1
 			// 
@@ -1074,9 +1149,10 @@ namespace Notepad
 			this.toolStripSeparator6,
 			this.粘贴代码ToolStripMenuItem,
 			this.toolStripSeparator7,
-			this.打开ToolStripMenuItem});
+			this.打开ToolStripMenuItem,
+			this.toolStripSeparator14});
 			this.contextMenuStrip1.Name = "contextMenuStrip1";
-			this.contextMenuStrip1.Size = new System.Drawing.Size(146, 176);
+			this.contextMenuStrip1.Size = new System.Drawing.Size(146, 182);
 			// 
 			// 复制ToolStripMenuItem
 			// 
@@ -1144,17 +1220,17 @@ namespace Notepad
 			this.打开ToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
 			this.打开ToolStripMenuItem.Text = "打开";
 			// 
-			// toolStripSeparator13
+			// toolStripSeparator14
 			// 
-			this.toolStripSeparator13.Name = "toolStripSeparator13";
-			this.toolStripSeparator13.Size = new System.Drawing.Size(243, 6);
+			this.toolStripSeparator14.Name = "toolStripSeparator14";
+			this.toolStripSeparator14.Size = new System.Drawing.Size(142, 6);
 			// 
-			// gitHub页面源代码到HTML文件ToolStripMenuItem
+			// uTF8到BYTE数组ToolStripMenuItem
 			// 
-			this.gitHub页面源代码到HTML文件ToolStripMenuItem.Name = "gitHub页面源代码到HTML文件ToolStripMenuItem";
-			this.gitHub页面源代码到HTML文件ToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
-			this.gitHub页面源代码到HTML文件ToolStripMenuItem.Text = "GitHub页面源代码到HTML文件";
-			this.gitHub页面源代码到HTML文件ToolStripMenuItem.Click += new System.EventHandler(this.GitHub页面源代码到HTML文件ToolStripMenuItemClick);
+			this.uTF8到BYTE数组ToolStripMenuItem.Name = "uTF8到BYTE数组ToolStripMenuItem";
+			this.uTF8到BYTE数组ToolStripMenuItem.Size = new System.Drawing.Size(345, 22);
+			this.uTF8到BYTE数组ToolStripMenuItem.Text = "UTF8 到 BYTE 数组";
+			this.uTF8到BYTE数组ToolStripMenuItem.Click += new System.EventHandler(this.UTF8到BYTE数组ToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 
