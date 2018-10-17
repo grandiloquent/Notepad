@@ -124,6 +124,7 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripMenuItem 计算匹配数量正则表达式ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem gBK到BYTE数组ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem uTF8到BYTE数组ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem bYTE数组到GBKToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -173,6 +174,7 @@ namespace Notepad
 			this.字符串到数组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.cheatEngineMemoryViewer数组到BYTE数组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.gBK到BYTE数组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.uTF8到BYTE数组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSplitButton3 = new System.Windows.Forms.ToolStripSplitButton();
 			this.其他ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
@@ -257,7 +259,7 @@ namespace Notepad
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
-			this.uTF8到BYTE数组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.bYTE数组到GBKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
 			this.toolStrip3.SuspendLayout();
@@ -455,7 +457,8 @@ namespace Notepad
 			this.字符串到数组ToolStripMenuItem,
 			this.cheatEngineMemoryViewer数组到BYTE数组ToolStripMenuItem,
 			this.gBK到BYTE数组ToolStripMenuItem,
-			this.uTF8到BYTE数组ToolStripMenuItem});
+			this.uTF8到BYTE数组ToolStripMenuItem,
+			this.bYTE数组到GBKToolStripMenuItem});
 			this.toolStripSplitButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton2.Image")));
 			this.toolStripSplitButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripSplitButton2.Name = "toolStripSplitButton2";
@@ -488,6 +491,13 @@ namespace Notepad
 			this.gBK到BYTE数组ToolStripMenuItem.Size = new System.Drawing.Size(345, 22);
 			this.gBK到BYTE数组ToolStripMenuItem.Text = "GBK 到 BYTE 数组";
 			this.gBK到BYTE数组ToolStripMenuItem.Click += new System.EventHandler(this.GBK到BYTE数组ToolStripMenuItemClick);
+			// 
+			// uTF8到BYTE数组ToolStripMenuItem
+			// 
+			this.uTF8到BYTE数组ToolStripMenuItem.Name = "uTF8到BYTE数组ToolStripMenuItem";
+			this.uTF8到BYTE数组ToolStripMenuItem.Size = new System.Drawing.Size(345, 22);
+			this.uTF8到BYTE数组ToolStripMenuItem.Text = "UTF8 到 BYTE 数组";
+			this.uTF8到BYTE数组ToolStripMenuItem.Click += new System.EventHandler(this.UTF8到BYTE数组ToolStripMenuItemClick);
 			// 
 			// toolStripSplitButton3
 			// 
@@ -1225,12 +1235,12 @@ namespace Notepad
 			this.toolStripSeparator14.Name = "toolStripSeparator14";
 			this.toolStripSeparator14.Size = new System.Drawing.Size(142, 6);
 			// 
-			// uTF8到BYTE数组ToolStripMenuItem
+			// bYTE数组到GBKToolStripMenuItem
 			// 
-			this.uTF8到BYTE数组ToolStripMenuItem.Name = "uTF8到BYTE数组ToolStripMenuItem";
-			this.uTF8到BYTE数组ToolStripMenuItem.Size = new System.Drawing.Size(345, 22);
-			this.uTF8到BYTE数组ToolStripMenuItem.Text = "UTF8 到 BYTE 数组";
-			this.uTF8到BYTE数组ToolStripMenuItem.Click += new System.EventHandler(this.UTF8到BYTE数组ToolStripMenuItemClick);
+			this.bYTE数组到GBKToolStripMenuItem.Name = "bYTE数组到GBKToolStripMenuItem";
+			this.bYTE数组到GBKToolStripMenuItem.Size = new System.Drawing.Size(345, 22);
+			this.bYTE数组到GBKToolStripMenuItem.Text = "BYTE 数组到 GBK";
+			this.bYTE数组到GBKToolStripMenuItem.Click += new System.EventHandler(this.BYTE数组到GBKToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 

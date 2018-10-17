@@ -102,8 +102,8 @@ namespace KeyStroke
 				}
 			} catch {
 			}
-			var exe=Path.GetFileNameWithoutExtension(f)+".exe";
-			var cmd = string.Format("/K gcc \"{0}\" -o \"{1}\\{3}\" {2} && \"{1}\\{3}\" ", f, dir, arg,exe);
+			var exe = Path.GetFileNameWithoutExtension(f) + ".exe";
+			var cmd = string.Format("/K gcc \"{0}\" -o \"{1}\\{3}\" {2} && \"{1}\\{3}\" ", f, dir, arg, exe);
 			Process.Start("cmd", cmd);
 				
 			
@@ -203,7 +203,7 @@ namespace KeyStroke
 				//Debug.WriteLine("PostMessage(hWnd,0x" + m.Msg.ToString("X") + " ,0x" + m.WParam.ToString("X") + " ,0x" + m.LParam.ToString("X") + ");\nSleep(100);\n");
 				
 			}
-				//Debug.WriteLine("Msg 0x" + m.Msg.ToString("X") + " WParam 0x" + m.WParam.ToString("X") + " LParam 0x" + m.LParam.ToString("X") + "\n");
+			//Debug.WriteLine("Msg 0x" + m.Msg.ToString("X") + " WParam 0x" + m.WParam.ToString("X") + " LParam 0x" + m.LParam.ToString("X") + "\n");
 			
 			base.WndProc(ref m);
 		}
@@ -246,17 +246,18 @@ namespace KeyStroke
 		}
 		void Aria2ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			var dir="aria2c".GetDesktopPath();
+			var dir = "aria2c".GetDesktopPath();
 			dir.CreateDirectoryIfNotExists();
 			Process.Start(new ProcessStartInfo() {
 				FileName = "aria2c",
-				WorkingDirectory=dir,
-				Arguments=Clipboard.GetText()
+				WorkingDirectory = dir,
+				Arguments = Clipboard.GetText()
 			});
 		}
 		void ToolStripMenuItem1Click(object sender, EventArgs e)
 		{
 			MessageBox.Show("123");
 		}
+		
 	}
 }

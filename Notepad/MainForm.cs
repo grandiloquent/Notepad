@@ -889,6 +889,12 @@ namespace Notepad
 			textBox.Text=string.Join(" ",new UTF8Encoding(false).GetBytes(textBox.Text.Trim()).Select(i=>i.ToString("x")));
 	
 		}
+		void BYTE数组到GBKToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			var buf=textBox.Text.Trim().Split(" ".ToArray(),StringSplitOptions.RemoveEmptyEntries).Select(i=>byte.Parse(i,System.Globalization.NumberStyles.HexNumber)).ToArray();
+			
+			textBox.Text=Encoding.GetEncoding("gbk").GetString(buf);
+		}
 	
 		 
 	}
