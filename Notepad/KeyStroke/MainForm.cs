@@ -92,9 +92,11 @@ namespace KeyStroke
 				} else
 					break;
 			}
+			var exe = Path.GetFileNameWithoutExtension(f) + ".exe";
 				
 			try {
-				var ps =	Process.GetProcesses().Where(i => i.ProcessName == "t" || i.ProcessName == "cmd");
+			 
+				var ps =	Process.GetProcesses().Where(i => i.ProcessName ==  Path.GetFileNameWithoutExtension(f) || i.ProcessName == "cmd");
 				if (ps.Any()) {
 					foreach (var p in ps) {
 						p.Kill();
@@ -102,7 +104,6 @@ namespace KeyStroke
 				}
 			} catch {
 			}
-			var exe = Path.GetFileNameWithoutExtension(f) + ".exe";
 			var cmd = string.Format("/K gcc \"{0}\" -o \"{1}\\{3}\" {2} && \"{1}\\{3}\" ", f, dir, arg, exe);
 			Process.Start("cmd", cmd);
 				

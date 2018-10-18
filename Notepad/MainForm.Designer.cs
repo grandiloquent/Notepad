@@ -175,6 +175,7 @@ namespace Notepad
 			this.cheatEngineMemoryViewer数组到BYTE数组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.gBK到BYTE数组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.uTF8到BYTE数组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.bYTE数组到GBKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSplitButton3 = new System.Windows.Forms.ToolStripSplitButton();
 			this.其他ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
@@ -259,7 +260,6 @@ namespace Notepad
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
-			this.bYTE数组到GBKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
 			this.toolStrip3.SuspendLayout();
@@ -381,6 +381,7 @@ namespace Notepad
 			this.格式化C代码ToolStripMenuItem.Name = "格式化C代码ToolStripMenuItem";
 			this.格式化C代码ToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
 			this.格式化C代码ToolStripMenuItem.Text = "格式化C代码";
+			this.格式化C代码ToolStripMenuItem.Click += new System.EventHandler(this.格式化C代码ToolStripMenuItemClick);
 			// 
 			// toolStripSeparator11
 			// 
@@ -498,6 +499,13 @@ namespace Notepad
 			this.uTF8到BYTE数组ToolStripMenuItem.Size = new System.Drawing.Size(345, 22);
 			this.uTF8到BYTE数组ToolStripMenuItem.Text = "UTF8 到 BYTE 数组";
 			this.uTF8到BYTE数组ToolStripMenuItem.Click += new System.EventHandler(this.UTF8到BYTE数组ToolStripMenuItemClick);
+			// 
+			// bYTE数组到GBKToolStripMenuItem
+			// 
+			this.bYTE数组到GBKToolStripMenuItem.Name = "bYTE数组到GBKToolStripMenuItem";
+			this.bYTE数组到GBKToolStripMenuItem.Size = new System.Drawing.Size(345, 22);
+			this.bYTE数组到GBKToolStripMenuItem.Text = "BYTE 数组到 GBK";
+			this.bYTE数组到GBKToolStripMenuItem.Click += new System.EventHandler(this.BYTE数组到GBKToolStripMenuItemClick);
 			// 
 			// toolStripSplitButton3
 			// 
@@ -1234,13 +1242,6 @@ namespace Notepad
 			// 
 			this.toolStripSeparator14.Name = "toolStripSeparator14";
 			this.toolStripSeparator14.Size = new System.Drawing.Size(142, 6);
-			// 
-			// bYTE数组到GBKToolStripMenuItem
-			// 
-			this.bYTE数组到GBKToolStripMenuItem.Name = "bYTE数组到GBKToolStripMenuItem";
-			this.bYTE数组到GBKToolStripMenuItem.Size = new System.Drawing.Size(345, 22);
-			this.bYTE数组到GBKToolStripMenuItem.Text = "BYTE 数组到 GBK";
-			this.bYTE数组到GBKToolStripMenuItem.Click += new System.EventHandler(this.BYTE数组到GBKToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 

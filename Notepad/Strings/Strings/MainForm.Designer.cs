@@ -33,7 +33,12 @@ namespace Strings
 		private System.Windows.Forms.ToolStripMenuItem 粘贴ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem iNTHEXToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.ToolStripSplitButton arrayTemplateButton;
+		private System.Windows.Forms.ToolStripMenuItem 数组逻辑比较ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
+		private System.Windows.Forms.ToolStripMenuItem memoryViewer到BYTE数组ToolStripMenuItem;
+		private System.Windows.Forms.ToolStrip toolStrip3;
+		private System.Windows.Forms.ToolStripButton cformatButton;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -63,6 +68,11 @@ namespace Strings
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
 			this.toGbkButton = new System.Windows.Forms.ToolStripButton();
 			this.tobyteButton = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.arrayTemplateButton = new System.Windows.Forms.ToolStripSplitButton();
+			this.数组逻辑比较ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
+			this.memoryViewer到BYTE数组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.gBKBYTEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -76,11 +86,12 @@ namespace Strings
 			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
 			this.formattimeButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.微秒到分钟ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
+			this.toolStrip3 = new System.Windows.Forms.ToolStrip();
+			this.cformatButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip1.SuspendLayout();
 			this.contextMenuStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
+			this.toolStrip3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
@@ -98,6 +109,7 @@ namespace Strings
 			this.toGbkButton,
 			this.tobyteButton,
 			this.toolStripSeparator3,
+			this.arrayTemplateButton,
 			this.toolStripSplitButton1});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
@@ -131,14 +143,56 @@ namespace Strings
 			this.tobyteButton.Text = "GBK  ➤ BYTE";
 			this.tobyteButton.Click += new System.EventHandler(this.TobyteButtonClick);
 			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+			// 
+			// arrayTemplateButton
+			// 
+			this.arrayTemplateButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.arrayTemplateButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.数组逻辑比较ToolStripMenuItem});
+			this.arrayTemplateButton.Image = ((System.Drawing.Image)(resources.GetObject("arrayTemplateButton.Image")));
+			this.arrayTemplateButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.arrayTemplateButton.Name = "arrayTemplateButton";
+			this.arrayTemplateButton.Size = new System.Drawing.Size(96, 22);
+			this.arrayTemplateButton.Text = "数组（模板）";
+			// 
+			// 数组逻辑比较ToolStripMenuItem
+			// 
+			this.数组逻辑比较ToolStripMenuItem.Name = "数组逻辑比较ToolStripMenuItem";
+			this.数组逻辑比较ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+			this.数组逻辑比较ToolStripMenuItem.Text = "数组逻辑比较";
+			this.数组逻辑比较ToolStripMenuItem.Click += new System.EventHandler(this.数组逻辑比较ToolStripMenuItemClick);
+			// 
+			// toolStripSplitButton1
+			// 
+			this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.memoryViewer到BYTE数组ToolStripMenuItem});
+			this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
+			this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripSplitButton1.Name = "toolStripSplitButton1";
+			this.toolStripSplitButton1.Size = new System.Drawing.Size(32, 22);
+			this.toolStripSplitButton1.Text = "toolStripSplitButton1";
+			// 
+			// memoryViewer到BYTE数组ToolStripMenuItem
+			// 
+			this.memoryViewer到BYTE数组ToolStripMenuItem.Name = "memoryViewer到BYTE数组ToolStripMenuItem";
+			this.memoryViewer到BYTE数组ToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
+			this.memoryViewer到BYTE数组ToolStripMenuItem.Text = "Memory Viewer 到 BYTE 数组";
+			this.memoryViewer到BYTE数组ToolStripMenuItem.Click += new System.EventHandler(this.MemoryViewer到BYTE数组ToolStripMenuItemClick);
+			// 
 			// textBox1
 			// 
 			this.textBox1.ContextMenuStrip = this.contextMenuStrip1;
 			this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.textBox1.Location = new System.Drawing.Point(0, 50);
+			this.textBox1.Location = new System.Drawing.Point(0, 75);
 			this.textBox1.Multiline = true;
 			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(656, 112);
+			this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.textBox1.Size = new System.Drawing.Size(656, 87);
 			this.textBox1.TabIndex = 2;
 			// 
 			// contextMenuStrip1
@@ -212,7 +266,7 @@ namespace Strings
 			// 
 			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.formattimeButton});
-			this.toolStrip2.Location = new System.Drawing.Point(0, 25);
+			this.toolStrip2.Location = new System.Drawing.Point(0, 50);
 			this.toolStrip2.Name = "toolStrip2";
 			this.toolStrip2.Size = new System.Drawing.Size(656, 25);
 			this.toolStrip2.TabIndex = 3;
@@ -236,19 +290,25 @@ namespace Strings
 			this.微秒到分钟ToolStripMenuItem.Text = "格式化微秒";
 			this.微秒到分钟ToolStripMenuItem.Click += new System.EventHandler(this.微秒到分钟ToolStripMenuItemClick);
 			// 
-			// toolStripSeparator3
+			// toolStrip3
 			// 
-			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+			this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.cformatButton});
+			this.toolStrip3.Location = new System.Drawing.Point(0, 25);
+			this.toolStrip3.Name = "toolStrip3";
+			this.toolStrip3.Size = new System.Drawing.Size(656, 25);
+			this.toolStrip3.TabIndex = 4;
+			this.toolStrip3.Text = "toolStrip3";
 			// 
-			// toolStripSplitButton1
+			// cformatButton
 			// 
-			this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
-			this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripSplitButton1.Name = "toolStripSplitButton1";
-			this.toolStripSplitButton1.Size = new System.Drawing.Size(32, 22);
-			this.toolStripSplitButton1.Text = "toolStripSplitButton1";
+			this.cformatButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.cformatButton.Image = ((System.Drawing.Image)(resources.GetObject("cformatButton.Image")));
+			this.cformatButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.cformatButton.Name = "cformatButton";
+			this.cformatButton.Size = new System.Drawing.Size(80, 22);
+			this.cformatButton.Text = "格式化C语言";
+			this.cformatButton.Click += new System.EventHandler(this.CformatButtonClick);
 			// 
 			// MainForm
 			// 
@@ -258,6 +318,7 @@ namespace Strings
 			this.Controls.Add(this.textBox1);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.toolStrip2);
+			this.Controls.Add(this.toolStrip3);
 			this.Controls.Add(this.toolStrip1);
 			this.Name = "MainForm";
 			this.Text = "Strings";
@@ -266,6 +327,8 @@ namespace Strings
 			this.contextMenuStrip1.ResumeLayout(false);
 			this.toolStrip2.ResumeLayout(false);
 			this.toolStrip2.PerformLayout();
+			this.toolStrip3.ResumeLayout(false);
+			this.toolStrip3.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

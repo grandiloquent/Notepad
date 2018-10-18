@@ -36,15 +36,7 @@ namespace Notepad
 			});
 		}
 		
-		public static void CFormat()
-		{
-			OnClipboardString((str) => {
-				var ls = Helper.FormatMethodList(string.Join("\n", Clipboard.GetText().Split("\r\n".ToArray(), StringSplitOptions.RemoveEmptyEntries)));
-				var d = ls.Select(i => i.SubstringBefore(")") + ");").Where(i => i.IsReadable()).Select(i => i.Trim()).OrderBy(i => i.Split("(".ToArray(), 2).First().Split(' ').Last());
-				var bodys = ls.OrderBy(i => Regex.Split(i.Split("(".ToArray(), 2).First(), "[: ]+").Last());
-				return	string.Join("\n", d) + "\n\n\n" + string.Join("\n", bodys);
-			});
-		}
+		
 		public static void CPlusPlusSnippetsVSC()
 		{
 			OnClipboardString((str) => {

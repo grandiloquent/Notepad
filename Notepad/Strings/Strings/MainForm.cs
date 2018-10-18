@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Text;
 
 namespace Strings
 {
@@ -39,24 +40,32 @@ namespace Strings
 		}
 		void GBKBYTEToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			var str = textBox1.SelectedText.Trim();
-			if (str.IsNotNullOrWhiteSpace()) {
-				str = str.GbkStringToByteArray();
+			var vs = textBox1.SelectedText.Trim();
+			if (vs.IsNotNullOrWhiteSpace()) {
+				var	str = vs.GbkStringToByteArray();
 				Clipboard.SetText(str);
-				textBox1.SelectedText += Environment.NewLine + str;
+				var hexList = System.Text.Encoding.GetEncoding("gbk").GetBytes(vs).Select(i => "0x" + i.ToHex());
+				var ass=new List<String>();
+				for (int i = 0; i < hexList.Count(); i++) {
+					
+					ass.Add(string.Format("gbk[{0}]={1};",i,hexList.ElementAt(i)));
+				}
+				ass.Add(string.Format("gbk[{0}]={1};",hexList.Count(),"0x0"));
+				
+				textBox1.SelectedText += Environment.NewLine + str + Environment.NewLine + "{" + string.Join(",", hexList) + "}" +Environment.NewLine+string.Join(Environment.NewLine,ass);
 			}
 			
 		}
 		void 计算表达式ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			try{
-			var str = textBox1.SelectedText.Trim();
-			if (str.IsNotNullOrWhiteSpace()) {
-				str = Regex.Replace(str, "0x([0-9a-fA-F]+)", new MatchEvaluator((v) => v.Groups[1].Value.HexStringToInt().ToString()));
-				// 1986BD11-1e6c0128
-				textBox1.SelectedText += Environment.NewLine + str.EvaluateToDouble();
-			}
-			}catch{
+			try {
+				var str = textBox1.SelectedText.Trim();
+				if (str.IsNotNullOrWhiteSpace()) {
+					str = Regex.Replace(str, "0x([0-9a-fA-F]+)", new MatchEvaluator((v) => v.Groups[1].Value.HexStringToInt().ToString()));
+					// 1986BD11-1e6c0128
+					textBox1.SelectedText += Environment.NewLine + str.EvaluateToDouble();
+				}
+			} catch {
 				
 			}
 		}
@@ -91,11 +100,117 @@ namespace Strings
 				textBox1.SelectedText += Environment.NewLine + str.ToHex();
 			}
 		}
+		void 数组逻辑比较ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			 
+			var splited = textBox1.SelectedText.SplitString(" ");
+			var count = -1;
+			if (splited.Length > 2) {
+				int.TryParse(splited[2], out count);
+			}
+			if (count == -1) {
+				MessageBox.Show("格式: A B 5");
+			} else {
+				var list = new List<string>(count);
+				for (int i = 0; i < count; i++) {
+					list.Add(string.Format("{0}[{2}]=={1}[{2}]", splited[0], splited[1], i));
+				}
+				var logFormattor = "";
+				var log = "";
+				for (int i = 0; i < count; i++) {
+					logFormattor += splited[0] + "[" + i + "]: " + "%d,";
+					log += splited[0] + "[" + i + "],";
+				}
+				textBox1.SelectedText += Environment.NewLine + string.Join("&&\n", list) + Environment.NewLine +
+					
+				"printf(\"" + logFormattor.TrimEnd(',') + "\\n\"," + log.TrimEnd(',') + ");";
+			}
+		}
+		void MemoryViewer到BYTE数组ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			Extensions.OnClipboardString((v) => {
+			                             
+				return string.Join(",", v.SplitString(" ").Select(i => "0x" + i));
+			});
+		}
+		void CformatButtonClick(object sender, EventArgs e)
+		{
+			Extensions.CFormat();
+		}
+			 
+		 
 	}
 	#region 常用
 
 	public static class Extensions
 	{
+		public static IEnumerable<string> FormatMethodList(string value)
+		{
+			var count = 0;
+			var sb = new StringBuilder();
+			var ls = new List<string>();
+			for (int i = 0; i < value.Length; i++) {
+				sb.Append(value[i]);
+
+				if (value[i] == '{') {
+					count++;
+				} else if (value[i] == '}') {
+					count--;
+					if (count == 0) {
+						ls.Add(sb.ToString());
+						sb.Clear();
+					}
+				}
+
+			}
+			//if (ls.Any())
+			//{
+			//    var firstLine = ls[0];
+			//    ls.RemoveAt(0);
+			//    ls.Add(firstLine.)
+
+			//}
+			return ls;
+			//return ls.Select(i => i.Split(new char[] { '{' }, 2).First().Trim() + ";").OrderBy(i => i.Trim());
+
+		}
+		public static bool IsReadable(this string value)
+		{
+			return  !string.IsNullOrWhiteSpace(value);
+		}
+		public static void CFormat()
+		{
+			OnClipboardString((str) => {
+				var ls = FormatMethodList(string.Join("\n", Clipboard.GetText().Split("\r\n".ToArray(), StringSplitOptions.RemoveEmptyEntries)));
+				var d = ls.Select(i => i.SubstringBefore(")") + ");").Where(i => i.IsReadable()).Select(i => i.Trim()).OrderBy(i => i.Split("(".ToArray(), 2).First().Split(' ').Last());
+				var bodys = ls.OrderBy(i => Regex.Split(i.Split("(".ToArray(), 2).First(), "[: ]+").Last());
+				return	string.Join("\n", d) + "\n\n\n" + string.Join("\n", bodys);
+			});
+		}
+		public static string SubstringBefore(this string value, char delimiter)
+		{
+			var index = value.IndexOf(delimiter);
+			if (index == -1)
+				return value;
+			else
+				return value.Substring(0, index);
+		}
+		public static string SubstringBefore(this string value, string delimiter)
+		{
+			var index = value.IndexOf(delimiter);
+			if (index == -1)
+				return value;
+			else
+				return value.Substring(0, index);
+		}
+		public static string SubstringBeforeLast(this string value, string delimiter)
+		{
+			var index = value.LastIndexOf(delimiter);
+			if (index == -1)
+				return value;
+			else
+				return value.Substring(0, index);
+		}
 		public static bool IsNotNullOrWhiteSpace(this string value)
 		{
 			return !string.IsNullOrWhiteSpace(value);
@@ -117,7 +232,7 @@ namespace Strings
 		public static string[] SplitString(this string value, string splitor)
 		{
 		
-			return value.Split(splitor.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+			return value.Trim().Split(splitor.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 		}
 		
 		public static string ToHex(this string value)
