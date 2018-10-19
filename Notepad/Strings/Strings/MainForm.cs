@@ -45,14 +45,14 @@ namespace Strings
 				var	str = vs.GbkStringToByteArray();
 				Clipboard.SetText(str);
 				var hexList = System.Text.Encoding.GetEncoding("gbk").GetBytes(vs).Select(i => "0x" + i.ToHex());
-				var ass=new List<String>();
+				var ass = new List<String>();
 				for (int i = 0; i < hexList.Count(); i++) {
 					
-					ass.Add(string.Format("gbk[{0}]={1};",i,hexList.ElementAt(i)));
+					ass.Add(string.Format("gbk[{0}]={1};", i, hexList.ElementAt(i)));
 				}
-				ass.Add(string.Format("gbk[{0}]={1};",hexList.Count(),"0x0"));
+				ass.Add(string.Format("gbk[{0}]={1};", hexList.Count(), "0x0"));
 				
-				textBox1.SelectedText += Environment.NewLine + str + Environment.NewLine + "{" + string.Join(",", hexList) + "}" +Environment.NewLine+string.Join(Environment.NewLine,ass);
+				textBox1.SelectedText += Environment.NewLine + str + Environment.NewLine + "{" + string.Join(",", hexList) + "}" + Environment.NewLine + string.Join(Environment.NewLine, ass);
 			}
 			
 		}
@@ -137,6 +137,24 @@ namespace Strings
 		{
 			Extensions.CFormat();
 		}
+		 
+		void Bytetoint32ButtonClick(object sender, EventArgs e)
+		{
+			Extensions.OnClipboardString((v) => {
+				var value = v.ByteToInt32();
+				textBox1.Text = value.ToString();
+				return null;
+			});
+		}
+		void IntotbyteButtonClick(object sender, EventArgs e)
+		{
+			Extensions.OnClipboardString((v) => {
+				var value = v.IntToBytes();
+				var str = string.Join(" ", value.Select(i => i.ToHex()));
+				textBox1.Text = str;
+				return null;
+			});
+		}
 			 
 		 
 	}
@@ -144,6 +162,11 @@ namespace Strings
 
 	public static class Extensions
 	{
+		public static int ByteToInt32(this string value)
+		{
+			var buffer =	value.SplitString(" ").Select(i => i.HexStringToByte()).ToArray();
+			return BitConverter.ToInt32(buffer, 0);
+		}
 		public static IEnumerable<string> FormatMethodList(string value)
 		{
 			var count = 0;
@@ -234,7 +257,12 @@ namespace Strings
 		
 			return value.Trim().Split(splitor.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 		}
-		
+		public static byte[] IntToBytes(this string value)
+		{
+			var bytes = BitConverter.GetBytes(int.Parse(value));
+			//Array.Reverse(bytes);
+			return bytes;
+		}
 		public static string ToHex(this string value)
 		{
 			return	int.Parse(value).ToString("x");

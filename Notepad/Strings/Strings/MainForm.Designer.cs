@@ -39,6 +39,8 @@ namespace Strings
 		private System.Windows.Forms.ToolStripMenuItem memoryViewer到BYTE数组ToolStripMenuItem;
 		private System.Windows.Forms.ToolStrip toolStrip3;
 		private System.Windows.Forms.ToolStripButton cformatButton;
+		private System.Windows.Forms.ToolStripButton bytetoint32Button;
+		private System.Windows.Forms.ToolStripButton intotbyteButton;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -68,6 +70,7 @@ namespace Strings
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
 			this.toGbkButton = new System.Windows.Forms.ToolStripButton();
 			this.tobyteButton = new System.Windows.Forms.ToolStripButton();
+			this.bytetoint32Button = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.arrayTemplateButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.数组逻辑比较ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -88,6 +91,7 @@ namespace Strings
 			this.微秒到分钟ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip3 = new System.Windows.Forms.ToolStrip();
 			this.cformatButton = new System.Windows.Forms.ToolStripButton();
+			this.intotbyteButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip1.SuspendLayout();
 			this.contextMenuStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
@@ -108,6 +112,8 @@ namespace Strings
 			this.toolStripLabel1,
 			this.toGbkButton,
 			this.tobyteButton,
+			this.bytetoint32Button,
+			this.intotbyteButton,
 			this.toolStripSeparator3,
 			this.arrayTemplateButton,
 			this.toolStripSplitButton1});
@@ -142,6 +148,16 @@ namespace Strings
 			this.tobyteButton.Size = new System.Drawing.Size(90, 22);
 			this.tobyteButton.Text = "GBK  ➤ BYTE";
 			this.tobyteButton.Click += new System.EventHandler(this.TobyteButtonClick);
+			// 
+			// bytetoint32Button
+			// 
+			this.bytetoint32Button.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.bytetoint32Button.Image = ((System.Drawing.Image)(resources.GetObject("bytetoint32Button.Image")));
+			this.bytetoint32Button.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.bytetoint32Button.Name = "bytetoint32Button";
+			this.bytetoint32Button.Size = new System.Drawing.Size(82, 22);
+			this.bytetoint32Button.Text = "BYTE ➤ INT";
+			this.bytetoint32Button.Click += new System.EventHandler(this.Bytetoint32ButtonClick);
 			// 
 			// toolStripSeparator3
 			// 
@@ -309,6 +325,16 @@ namespace Strings
 			this.cformatButton.Size = new System.Drawing.Size(80, 22);
 			this.cformatButton.Text = "格式化C语言";
 			this.cformatButton.Click += new System.EventHandler(this.CformatButtonClick);
+			// 
+			// intotbyteButton
+			// 
+			this.intotbyteButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.intotbyteButton.Image = ((System.Drawing.Image)(resources.GetObject("intotbyteButton.Image")));
+			this.intotbyteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.intotbyteButton.Name = "intotbyteButton";
+			this.intotbyteButton.Size = new System.Drawing.Size(86, 22);
+			this.intotbyteButton.Text = "INT ➤ BYTE ";
+			this.intotbyteButton.Click += new System.EventHandler(this.IntotbyteButtonClick);
 			// 
 			// MainForm
 			// 
