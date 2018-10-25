@@ -155,6 +155,53 @@ namespace Strings
 				return null;
 			});
 		}
+		void BYTEINTToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			textBox1.SelectedText += Environment.NewLine + textBox1.SelectedText.Trim().ByteToInt32();
+		}
+		void INTBYTEToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			textBox1.SelectedText += Environment.NewLine + string.Join(" ", textBox1.SelectedText.Trim().IntToBytes().Select(i => i.ToHex()));
+	
+		}
+		void ToolStripMenuItem2Click(object sender, EventArgs e)
+		{
+			var dictionary = new Dictionary<string,dynamic>();
+			dictionary.Add("query", "*");
+			dictionary.Add("page", 0);
+			dictionary.Add("publishers", new String[]{ "Packt Publishing" });
+			dictionary.Add("sort", "publication_date");
+			var ls = new List<string>();
+			for (int i = 0; i < 1000; i++) {
+				dictionary["page"] = i;
+				
+				var str =	Newtonsoft.Json.JsonConvert.SerializeObject(dictionary).HttpPost("https://www.safaribooksonline.com/api/v2/search/");
+				if(i==200){
+					i=200;
+				}
+				var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string,dynamic>>(str);
+
+				if (obj.ContainsKey("results")) {
+					Newtonsoft.Json.Linq.JArray list = obj["results"];
+					if (list.Count < 1) {
+						ls.Add(i.ToString());
+						break;
+					}
+					foreach (Newtonsoft.Json.Linq.JObject element in list) {
+						var item = element;
+						if (item.ContainsKey("title")) {
+							ls.Add(item["title"].ToString());
+						}
+					}
+				} else {
+					ls.Add(i.ToString());
+					break;
+				}
+				
+			}
+			
+			Clipboard.SetText(string.Join(Environment.NewLine, ls.OrderBy(i => i).Distinct()));
+		}
 			 
 		 
 	}
@@ -162,9 +209,32 @@ namespace Strings
 
 	public static class Extensions
 	{
+		public static string HttpPost(this string value, string url, string contentType = "application/json")
+		{
+			// Could not create SSL/TLS secure channel.
+			
+			System.Net.ServicePointManager.Expect100Continue = true;
+			System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+			var req = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(url);
+			req.ContentType = contentType;
+			req.Method = "POST";
+			using (var w = new System.IO.StreamWriter(req.GetRequestStream())) {
+				w.Write(value);
+				w.Flush();
+				w.Close();
+				
+			}
+			var rsp = (System.Net.HttpWebResponse)req.GetResponse();
+			using (var r = new System.IO.StreamReader(rsp.GetResponseStream())) {
+				return r.ReadToEnd();
+			}
+		}
 		public static int ByteToInt32(this string value)
 		{
 			var buffer =	value.SplitString(" ").Select(i => i.HexStringToByte()).ToArray();
+			if (buffer.Length == 2) {
+				return BitConverter.ToInt16(buffer, 0);
+			}
 			return BitConverter.ToInt32(buffer, 0);
 		}
 		public static IEnumerable<string> FormatMethodList(string value)
@@ -205,9 +275,9 @@ namespace Strings
 		{
 			OnClipboardString((str) => {
 				var ls = FormatMethodList(string.Join("\n", Clipboard.GetText().Split("\r\n".ToArray(), StringSplitOptions.RemoveEmptyEntries)));
-				var d = ls.Select(i => i.SubstringBefore(")") + ");").Where(i => i.IsReadable()).Select(i => i.Trim()).OrderBy(i => i.Split("(".ToArray(), 2).First().Split(' ').Last());
+				var d = ls.Select(i => i.SubstringBefore("{").TrimEnd() + ";").Where(i => i.IsReadable()).Select(i => i.Trim()).OrderBy(i => i.Split("(".ToArray(), 2).First().Split(' ').Last());
 				var bodys = ls.OrderBy(i => Regex.Split(i.Split("(".ToArray(), 2).First(), "[: ]+").Last());
-				return	string.Join("\n", d) + "\n\n\n" + string.Join("\n", bodys);
+				return	string.Join("\n", d) + "\n\n\n" + string.Join("", bodys);
 			});
 		}
 		public static string SubstringBefore(this string value, char delimiter)

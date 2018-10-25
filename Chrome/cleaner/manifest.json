@@ -1,0 +1,9 @@
+{
+   "content_scripts": [ {
+      "css" : ["style.css"],
+      "matches": [ "*://*/*" ]}
+   ],
+   "manifest_version": 2,
+   "name": "Cleaner",
+   "version": "1.0"
+}

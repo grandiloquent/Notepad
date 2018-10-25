@@ -41,6 +41,9 @@ namespace Strings
 		private System.Windows.Forms.ToolStripButton cformatButton;
 		private System.Windows.Forms.ToolStripButton bytetoint32Button;
 		private System.Windows.Forms.ToolStripButton intotbyteButton;
+		private System.Windows.Forms.ToolStripMenuItem bYTEINTToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem iNTBYTEToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -71,6 +74,7 @@ namespace Strings
 			this.toGbkButton = new System.Windows.Forms.ToolStripButton();
 			this.tobyteButton = new System.Windows.Forms.ToolStripButton();
 			this.bytetoint32Button = new System.Windows.Forms.ToolStripButton();
+			this.intotbyteButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.arrayTemplateButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.数组逻辑比较ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,6 +85,8 @@ namespace Strings
 			this.gBKBYTEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hEXINTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.iNTHEXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.bYTEINTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.iNTBYTEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.计算表达式ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -91,7 +97,7 @@ namespace Strings
 			this.微秒到分钟ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip3 = new System.Windows.Forms.ToolStrip();
 			this.cformatButton = new System.Windows.Forms.ToolStripButton();
-			this.intotbyteButton = new System.Windows.Forms.ToolStripButton();
+			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.contextMenuStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
@@ -159,6 +165,16 @@ namespace Strings
 			this.bytetoint32Button.Text = "BYTE ➤ INT";
 			this.bytetoint32Button.Click += new System.EventHandler(this.Bytetoint32ButtonClick);
 			// 
+			// intotbyteButton
+			// 
+			this.intotbyteButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.intotbyteButton.Image = ((System.Drawing.Image)(resources.GetObject("intotbyteButton.Image")));
+			this.intotbyteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.intotbyteButton.Name = "intotbyteButton";
+			this.intotbyteButton.Size = new System.Drawing.Size(86, 22);
+			this.intotbyteButton.Text = "INT ➤ BYTE ";
+			this.intotbyteButton.Click += new System.EventHandler(this.IntotbyteButtonClick);
+			// 
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
@@ -217,13 +233,15 @@ namespace Strings
 			this.gBKBYTEToolStripMenuItem,
 			this.hEXINTToolStripMenuItem,
 			this.iNTHEXToolStripMenuItem,
+			this.bYTEINTToolStripMenuItem,
+			this.iNTBYTEToolStripMenuItem,
 			this.toolStripSeparator2,
 			this.计算表达式ToolStripMenuItem,
 			this.toolStripSeparator1,
 			this.全选ToolStripMenuItem,
 			this.粘贴ToolStripMenuItem});
 			this.contextMenuStrip1.Name = "contextMenuStrip1";
-			this.contextMenuStrip1.Size = new System.Drawing.Size(151, 148);
+			this.contextMenuStrip1.Size = new System.Drawing.Size(151, 192);
 			// 
 			// gBKBYTEToolStripMenuItem
 			// 
@@ -245,6 +263,20 @@ namespace Strings
 			this.iNTHEXToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
 			this.iNTHEXToolStripMenuItem.Text = "INT ➤ HEX";
 			this.iNTHEXToolStripMenuItem.Click += new System.EventHandler(this.INTHEXToolStripMenuItemClick);
+			// 
+			// bYTEINTToolStripMenuItem
+			// 
+			this.bYTEINTToolStripMenuItem.Name = "bYTEINTToolStripMenuItem";
+			this.bYTEINTToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+			this.bYTEINTToolStripMenuItem.Text = "BYTE ➤ INT";
+			this.bYTEINTToolStripMenuItem.Click += new System.EventHandler(this.BYTEINTToolStripMenuItemClick);
+			// 
+			// iNTBYTEToolStripMenuItem
+			// 
+			this.iNTBYTEToolStripMenuItem.Name = "iNTBYTEToolStripMenuItem";
+			this.iNTBYTEToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+			this.iNTBYTEToolStripMenuItem.Text = "INT ➤ BYTE ";
+			this.iNTBYTEToolStripMenuItem.Click += new System.EventHandler(this.INTBYTEToolStripMenuItemClick);
 			// 
 			// toolStripSeparator2
 			// 
@@ -292,7 +324,8 @@ namespace Strings
 			// 
 			this.formattimeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.formattimeButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.微秒到分钟ToolStripMenuItem});
+			this.微秒到分钟ToolStripMenuItem,
+			this.toolStripMenuItem2});
 			this.formattimeButton.Image = ((System.Drawing.Image)(resources.GetObject("formattimeButton.Image")));
 			this.formattimeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.formattimeButton.Name = "formattimeButton";
@@ -302,7 +335,7 @@ namespace Strings
 			// 微秒到分钟ToolStripMenuItem
 			// 
 			this.微秒到分钟ToolStripMenuItem.Name = "微秒到分钟ToolStripMenuItem";
-			this.微秒到分钟ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+			this.微秒到分钟ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.微秒到分钟ToolStripMenuItem.Text = "格式化微秒";
 			this.微秒到分钟ToolStripMenuItem.Click += new System.EventHandler(this.微秒到分钟ToolStripMenuItemClick);
 			// 
@@ -326,15 +359,12 @@ namespace Strings
 			this.cformatButton.Text = "格式化C语言";
 			this.cformatButton.Click += new System.EventHandler(this.CformatButtonClick);
 			// 
-			// intotbyteButton
+			// toolStripMenuItem2
 			// 
-			this.intotbyteButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.intotbyteButton.Image = ((System.Drawing.Image)(resources.GetObject("intotbyteButton.Image")));
-			this.intotbyteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.intotbyteButton.Name = "intotbyteButton";
-			this.intotbyteButton.Size = new System.Drawing.Size(86, 22);
-			this.intotbyteButton.Text = "INT ➤ BYTE ";
-			this.intotbyteButton.Click += new System.EventHandler(this.IntotbyteButtonClick);
+			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+			this.toolStripMenuItem2.Text = "123";
+			this.toolStripMenuItem2.Click += new System.EventHandler(this.ToolStripMenuItem2Click);
 			// 
 			// MainForm
 			// 

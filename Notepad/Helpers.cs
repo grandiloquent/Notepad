@@ -37,24 +37,7 @@ namespace Notepad
 		}
 		
 		
-		public static void CPlusPlusSnippetsVSC()
-		{
-			OnClipboardString((str) => {
-				var s = str.Trim();
-				var ls = s.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).ToArray();
-				var matches = Regex.Matches(ls.First(), "[a-zA-Z]+").Cast<Match>().Select(i => i.Value.First().ToString()).ToArray();
-				
-				var obj = new Dictionary<string,dynamic>();
-				obj.Add("prefix", string.Join("", matches).ToLower());
-				obj.Add("body", ls.Select(i => i.EscapeString()));
-				
-				var r = new Dictionary<string,dynamic>();
-				r.Add(ls.First(), obj);
-				var sr = Newtonsoft.Json.JsonConvert.SerializeObject(r).Replace("\\\\u", "\\u");
-				return	sr.Substring(1, sr.Length - 2) + ",";
-				
-			});
-		}
+		
 		public static void GenerateDigit()
 		{
 			var ranges = Enumerable.Range(0, 11);

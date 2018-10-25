@@ -53,7 +53,7 @@ namespace Notepad
 			打开ToolStripMenuItem.Click += (s, o) => Helper.OpenLink(textBox);
 			kotlinExtractParametersToolStripMenuItem.Click += (s, o) => Helper.KotlinExtractParameters();
 			cSplitButton.ButtonClick += (s, o) => Helper.GenerateGccCommand();
-			格式化C代码ToolStripMenuItem.Click += (s, o) => Helper.CFormat();
+		
 			删除Aria2文件ToolStripMenuItem.Click += (s, o) => Helper.RemoveAria2File();
 			清理HTMLSToolStripMenuItem.Click += (s, o) => Helper.CleanHtmls();
 			cplusSplitButton.ButtonClick += (s, o) => Helper.GenerateGPlusPlusCommand();
@@ -168,22 +168,22 @@ namespace Notepad
 		void TitleButtonClick(object sender, EventArgs e)
 		{
 		
-			var array = textBox.Text.Trim().ToArray();
-			var stringBuilder = new StringBuilder();
-//			using (System.Security.Cryptography. RNGCryptoServiceProvider rng = new System.Security.Cryptography. RNGCryptoServiceProvider()) {
-//				for (int i = 0; i < array.Length; i++) {	
-//					byte[] randomNumber = new byte[4];//4 for int32
-//					rng.GetBytes(randomNumber);
-//					int value = BitConverter.ToInt32(randomNumber, 0);
-//					stringBuilder.Append("/C"+value.ToString().PadLeft(2,' ')).Append(array[i]);
-//				}
+//			var array = textBox.Text.Trim().ToArray();
+//			var stringBuilder = new StringBuilder();
+////			using (System.Security.Cryptography. RNGCryptoServiceProvider rng = new System.Security.Cryptography. RNGCryptoServiceProvider()) {
+////				for (int i = 0; i < array.Length; i++) {	
+////					byte[] randomNumber = new byte[4];//4 for int32
+////					rng.GetBytes(randomNumber);
+////					int value = BitConverter.ToInt32(randomNumber, 0);
+////					stringBuilder.Append("/C"+value.ToString().PadLeft(2,' ')).Append(array[i]);
+////				}
+////			}
+//			// DateTime.Now.Millisecond
+//			var random=new Random(DateTime.Now.Millisecond);
+//			for (int i = 0; i < array.Length; i++) {	
+//				stringBuilder.Append("/C" + (random.Next(0, 21)).ToString().PadLeft(2, '0')).Append(array[i]);
 //			}
-			// DateTime.Now.Millisecond
-			var random=new Random(DateTime.Now.Millisecond);
-			for (int i = 0; i < array.Length; i++) {	
-				stringBuilder.Append("/C" + (random.Next(0, 21)).ToString().PadLeft(2, '0')).Append(array[i]);
-			}
-			textBox.Text = stringBuilder.ToString();
+//			textBox.Text = stringBuilder.ToString();
 			
 			var start = textBox.SelectionStart;
 
@@ -361,10 +361,7 @@ namespace Notepad
 		{
 			textBox.SelectedText = string.Join(Environment.NewLine, textBox.SelectedText.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).Distinct().OrderBy(i => i));
 		}
-		void 格式化C代码ToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			
-		}
+		 
 		void 保留正则表达式ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			var ls = Regex.Matches(textBox.Text, findBox.Text).Cast<Match>().Select(i => i.Value).Distinct();
@@ -714,9 +711,7 @@ namespace Notepad
 				//int id = m.WParam.ToInt32();                                        // The id of the hotkey that was pressed.
 
 				var k = ((int)m.LParam >> 16) & 0xFFFF;
-				if (k == 119) {
-					Helper.CPlusPlusSnippetsVSC();
-				} else if (k == 120/*F9*/) {
+				  if (k == 120/*F9*/) {
 					if (_runType == 1)
 						Helper.RunGoCommand();
 					else if (_runType == 2)
@@ -734,12 +729,7 @@ namespace Notepad
 			RegisterHotKey(this.Handle, _idF9, 0, (int)Keys.F9);
 			_runType = 3;
 		}
-		void C代码段VSCToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			if (_idF8 == -1)
-				_idF8 = 1 << 5;
-			RegisterHotKey(this.Handle, _idF8, 0, (int)Keys.F8);
-		}
+	 
 		void 其他ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 	

@@ -52,6 +52,24 @@ namespace KeyStroke
 		
 		string _cFile = null;
 		#region
+		public static void CPlusPlusSnippetsVSC()
+		{
+			OnClipboardString((str) => {
+				var s = str.Trim();
+				var ls = s.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).ToArray();
+				var matches = Regex.Matches(ls.First(), "[a-zA-Z]+").Cast<Match>().Select(i => i.Value.First().ToString()).ToArray();
+				
+				var obj = new Dictionary<string,dynamic>();
+				obj.Add("prefix", string.Join("", matches).ToLower());
+				obj.Add("body", ls.Select(i => i.EscapeString()));
+				
+				var r = new Dictionary<string,dynamic>();
+				r.Add(ls.First(), obj);
+				var sr = Newtonsoft.Json.JsonConvert.SerializeObject(r).Replace("\\\\u", "\\u");
+				return	sr.Substring(1, sr.Length - 2) + ",";
+				
+			});
+		}
 		public static void OnClipboardFile(Action<String> action)
 		{
 			try {
@@ -96,7 +114,7 @@ namespace KeyStroke
 				
 			try {
 			 
-				var ps =	Process.GetProcesses().Where(i => i.ProcessName ==  Path.GetFileNameWithoutExtension(f) || i.ProcessName == "cmd");
+				var ps =	Process.GetProcesses().Where(i => i.ProcessName == Path.GetFileNameWithoutExtension(f) || i.ProcessName == "cmd");
 				if (ps.Any()) {
 					foreach (var p in ps) {
 						p.Kill();
@@ -166,8 +184,10 @@ namespace KeyStroke
 		#endregion
 		int _key1 = 0;
 		int _key2 = 0;
+		int _key3 = 0;
+		int _key8 = 0;
 		int _runType = 0;
-		
+		string _recordMouse = null;
 		public MainForm()
 		{
 			//
@@ -186,7 +206,7 @@ namespace KeyStroke
 				var k = ((int)m.LParam >> 16) & 0xFFFF;
 				if (k == 0x75) {
 					var point = GetCursorPosition();
-					Clipboard.SetText(string.Format("{0},{1}", point.X, point.Y));
+					_recordMouse += string.Format("{{{0},{1}}},\n", point.X, point.Y);
 				} else if (k == 0x78) {
 					if (_runType == 1)
 					if (_cFile != null)
@@ -197,6 +217,22 @@ namespace KeyStroke
 							RunGenerateGccCommand(f);
 						});
 					}
+				} else if (k == 0x76) {
+					if (_recordMouse == null) {
+					
+						this.globalEventProvider1.MouseDown += (o, e) => {
+					
+							if (e.Button == MouseButtons.Right) {
+								_recordMouse += String.Format("{{{0},{1}}},\n", e.X, e.Y);
+							}
+						};
+					} else {
+					
+						Clipboard.SetText(_recordMouse);
+						_recordMouse = null;
+					}
+				} else if (k == 0x77) {
+					CPlusPlusSnippetsVSC();
 				}
 			} else if (m.Msg == 0x100 || m.Msg == 0x101 || m.Msg == 0x104 || m.Msg == 0x105) {
 				MessageBox.Show("Msg 0x" + m.Msg.ToString("X") + " WParam 0x" + m.WParam.ToString("X") + " LParam 0x" + m.LParam.ToString("X") + "\n");
@@ -213,6 +249,9 @@ namespace KeyStroke
 			if (_key1 == 0) {
 				_key1 = 1 << 2;
 				RegisterHotKey(Handle, _key1, 0, 0x75);
+			} else {
+				Clipboard.SetText(_recordMouse);
+				_recordMouse = null;
 			}
 		}
 		void MainFormFormClosing(object sender, FormClosingEventArgs e)
@@ -222,6 +261,12 @@ namespace KeyStroke
 			}
 			if (_key2 != 0) {
 				UnregisterHotKey(Handle, _key2);
+			}
+			if (_key3 != 0) {
+				UnregisterHotKey(Handle, _key3);
+			}
+			if (_key8 != 0) {
+				UnregisterHotKey(Handle, _key8);
 			}
 		}
 		void 编译CToolStripMenuItemClick(object sender, EventArgs e)
@@ -259,6 +304,20 @@ namespace KeyStroke
 		{
 			MessageBox.Show("123");
 		}
+		void 记录鼠标事件热键F7ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			if (_key3 == 0) {
+				_key3 = 3;
+				RegisterHotKey(Handle, _key3, 0, 0x76);
+			}
+		}
+		void VSC代码段热键F8ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			if (_key8 == 0)
+				_key8 = 8;
+			RegisterHotKey(this.Handle, _key8, 0, (int)Keys.F8);
+		}
+	 
 		
 	}
 }
