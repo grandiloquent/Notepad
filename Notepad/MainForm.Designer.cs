@@ -123,6 +123,7 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripMenuItem gBK到BYTE数组ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem uTF8到BYTE数组ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem bYTE数组到GBKToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 导入代码文件ToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -256,6 +257,7 @@ namespace Notepad
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
+			this.导入代码文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
 			this.toolStrip3.SuspendLayout();
@@ -323,7 +325,8 @@ namespace Notepad
 			this.appButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.appButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.保存ToolStripMenuItem,
-			this.导出全部ToolStripMenuItem});
+			this.导出全部ToolStripMenuItem,
+			this.导入代码文件ToolStripMenuItem});
 			this.appButton.Image = ((System.Drawing.Image)(resources.GetObject("appButton.Image")));
 			this.appButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.appButton.Name = "appButton";
@@ -335,14 +338,14 @@ namespace Notepad
 			// 
 			this.保存ToolStripMenuItem.Name = "保存ToolStripMenuItem";
 			this.保存ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-			this.保存ToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+			this.保存ToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
 			this.保存ToolStripMenuItem.Text = "保存";
 			this.保存ToolStripMenuItem.Click += new System.EventHandler(this.保存ToolStripMenuItemClick);
 			// 
 			// 导出全部ToolStripMenuItem
 			// 
 			this.导出全部ToolStripMenuItem.Name = "导出全部ToolStripMenuItem";
-			this.导出全部ToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+			this.导出全部ToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
 			this.导出全部ToolStripMenuItem.Text = "导出(全部)";
 			this.导出全部ToolStripMenuItem.Click += new System.EventHandler(this.导出全部ToolStripMenuItemClick);
 			// 
@@ -1222,6 +1225,14 @@ namespace Notepad
 			// 
 			this.toolStripSeparator14.Name = "toolStripSeparator14";
 			this.toolStripSeparator14.Size = new System.Drawing.Size(142, 6);
+			// 
+			// 导入代码文件ToolStripMenuItem
+			// 
+			this.导入代码文件ToolStripMenuItem.Name = "导入代码文件ToolStripMenuItem";
+			this.导入代码文件ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
+			this.导入代码文件ToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+			this.导入代码文件ToolStripMenuItem.Text = "导入代码文件 ";
+			this.导入代码文件ToolStripMenuItem.Click += new System.EventHandler(this.导入代码文件ToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 

@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Text;
+using System.IO;
 
 namespace Strings
 {
@@ -176,8 +177,8 @@ namespace Strings
 				dictionary["page"] = i;
 				
 				var str =	Newtonsoft.Json.JsonConvert.SerializeObject(dictionary).HttpPost("https://www.safaribooksonline.com/api/v2/search/");
-				if(i==200){
-					i=200;
+				if (i == 200) {
+					i = 200;
 				}
 				var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string,dynamic>>(str);
 
@@ -202,6 +203,30 @@ namespace Strings
 			
 			Clipboard.SetText(string.Join(Environment.NewLine, ls.OrderBy(i => i).Distinct()));
 		}
+		void CompareFileButtonButtonClick(object sender, EventArgs e)
+		{
+	
+			var file1 = fileNameBox1.Text;
+			var file2 = fileNameBox2.Text;
+			
+			if (File.Exists(file1) && File.Exists(file1)) {
+				var ls=new List<string>();
+				var ls1 = file1.ReadAllLinesWithTrim();
+				var ls2 = file2.ReadAllLinesWithTrim();
+				var count=0;
+				foreach (var element in ls1) {
+					if(ls2.Count()>count){
+						if(element!=ls2.ElementAt(count)){
+								ls.Add(string.Format("{0} {1} <===> {2}",count+1,element,ls2.ElementAt(count)));
+						}
+					
+					
+					}
+						count++;
+				}
+				textBox1.Text=string.Join(Environment.NewLine,ls);
+			}
+		}
 			 
 		 
 	}
@@ -209,12 +234,26 @@ namespace Strings
 
 	public static class Extensions
 	{
+		public static string[] ReadAllLinesWithTrim(this string path)
+		{
+			String line;
+			List<String> lines = new List<String>();
+			var encoding = new UTF8Encoding(false);
+			using (StreamReader sr = new StreamReader(path, encoding))
+				while ((line = sr.ReadLine()) != null) {
+					if (string.IsNullOrWhiteSpace(line))
+						continue;
+					lines.Add(line.Trim());
+				}
+ 
+			return lines.ToArray();
+		}
 		public static string HttpPost(this string value, string url, string contentType = "application/json")
 		{
 			// Could not create SSL/TLS secure channel.
 			
 			System.Net.ServicePointManager.Expect100Continue = true;
-			System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+			System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls;
 			var req = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(url);
 			req.ContentType = contentType;
 			req.Method = "POST";
@@ -274,10 +313,10 @@ namespace Strings
 		public static void CFormat()
 		{
 			OnClipboardString((str) => {
-				var ls = FormatMethodList(string.Join("\n", Clipboard.GetText().Split("\r\n".ToArray(), StringSplitOptions.RemoveEmptyEntries)));
+				var ls = FormatMethodList(string.Join("\r\n", Clipboard.GetText().Split("\r\n".ToArray(), StringSplitOptions.RemoveEmptyEntries)));
 				var d = ls.Select(i => i.SubstringBefore("{").TrimEnd() + ";").Where(i => i.IsReadable()).Select(i => i.Trim()).OrderBy(i => i.Split("(".ToArray(), 2).First().Split(' ').Last());
 				var bodys = ls.OrderBy(i => Regex.Split(i.Split("(".ToArray(), 2).First(), "[: ]+").Last());
-				return	string.Join("\n", d) + "\n\n\n" + string.Join("", bodys);
+				return	string.Join("\r\n", d) + "\r\n\r\n\r\n" + string.Join("", bodys);
 			});
 		}
 		public static string SubstringBefore(this string value, char delimiter)

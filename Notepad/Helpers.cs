@@ -65,9 +65,11 @@ namespace Notepad
 				var diretories = Directory.GetDirectories(dir);
 				foreach (var r in diretories) {
 					const string str = "<div><div><img src=\"./images/\"><div><div><div><button><svg><g><g><g><rect></rect><title>Playlists</title><path></path><circle></circle><circle></circle><rect></rect><rect></rect><rect></rect></g></g></g></svg><div>Add&nbsp;To</div></button></div></div></div></div></div>";
+					const string str1="<div><div><img><div><div><div><button><svg><g><g><g><rect></rect><title>Playlists</title><path></path><circle></circle><circle></circle><rect></rect><rect></rect><rect></rect></g></g></g></svg><div>Add&nbsp;To</div></button></div></div></div></div></div>";
+					
 					var files = Directory.GetFiles(r, "*.html", SearchOption.TopDirectoryOnly);
 					foreach (var element in files) {
-						var sv = Regex.Replace(element.ReadAllText().Replace(str, ""), "(style|width|height)=\"[^\"]*?\"", "");
+						var sv = Regex.Replace(element.ReadAllText().Replace(str, "").Replace(str1, ""), "(style|width|height)=\"[^\"]*?\"", "");
 					
 						
 						element.WriteAllText(sv);

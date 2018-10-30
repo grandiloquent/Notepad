@@ -664,6 +664,8 @@ namespace Notepad
 				var contentList =	sql.GetTitleContentList();
 				foreach (var c in contentList) {
 					var tf = targetDirectory.Combine(Path.GetFileNameWithoutExtension(element) + " - " + c.Title.GetValidFileName() + ".html");
+				tf=	tf.GetUniqueFileName();
+					
 					StringBuilder sb = new StringBuilder();
 					sb.AppendLine("\u003C!doctype html\u003E");
 					sb.AppendLine("\u003Chtml class=\u0022no-js\u0022 lang=\u0022zh-hans\u0022 dir=\u0022ltr\u0022\u003E");
@@ -689,7 +691,6 @@ namespace Notepad
 		}
 		void 打开ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-	
 		}
 		void 运行C文件ToolStripMenuItemClick(object sender, EventArgs e)
 		{
@@ -885,6 +886,18 @@ namespace Notepad
 			
 			textBox.Text=Encoding.GetEncoding("gbk").GetString(buf);
 		}
+		void 导入代码文件ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+	
+			OnClipboardDirectory((v)=>{
+			                     	var str="";
+			                     	var files=Directory.GetFiles(v,"*").Where(i=>Regex.IsMatch(i,"\\.(?:c|h|txt)$"));
+			                     	foreach (var element in files) {
+			                     		str+=	string.Format("```\r\n\r\n{0}\r\n\r\n```\r\n\r\n", element.ReadAllText().Replace("`", "\u0060"));
+			                     	}
+			                     	textBox.SelectedText+=str;
+			                     });
+		} 
 	
 		 
 	}

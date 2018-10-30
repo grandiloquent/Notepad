@@ -202,7 +202,7 @@ namespace ColorPicker
 				_clipboardMode = 0;
 			_clipboardMode++;
 			if(_clipboardMode==1){
-				lbTitle.Text="_Click();";
+				lbTitle.Text="Click();";
 			}else if(_clipboardMode==2){
 				lbTitle.Text="{}";
 				foreach (var c in lbTitle.Text) {
@@ -243,9 +243,9 @@ namespace ColorPicker
 			if (_clipboardMode == 0)
 				Clipboard.SetText(string.Format("GetPixel(hdc,{0},{1})=={2}", _x, _y, str));
 			else if (_clipboardMode == 1)
-				Clipboard.SetText(string.Format("_Click({0},{1});\nSleep(1000);\n", _x, _y));
+				Clipboard.SetText(string.Format("Click({0},{1});\nSleep(1000);\n", _x, _y));
 			else if (_clipboardMode == 2)
-				Clipboard.SetText(string.Format("{{{0},{1}}};", _x, _y));
+				Clipboard.SetText(string.Format("{{{0},{1}}},", _x, _y));
 	
 //  Clipboard.SetText(string.Format("#define POS__X {0}\n #define POS__Y {1}\nGetPixel(hdc,{0},{1})=={2}\n {{{0},{1},{2}}}",_x,_y,str));
 			//Clipboard.SetText(string.Format("{3}GetPixel(hdc,{0},{1})=={2}",_x,_y,str,cst));
