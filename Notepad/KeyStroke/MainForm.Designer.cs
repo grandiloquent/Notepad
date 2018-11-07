@@ -28,6 +28,13 @@ namespace KeyStroke
 		private System.Windows.Forms.ToolStripMenuItem 记录鼠标事件热键F7ToolStripMenuItem;
 		private Gma.UserActivityMonitor.GlobalEventProvider globalEventProvider1;
 		private System.Windows.Forms.ToolStripMenuItem vSC代码段热键F8ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSplitButton othersButton;
+		private System.Windows.Forms.ToolStripMenuItem 压缩目录不包含ZIP文件ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 压缩目录不包含ZIP文件ToolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem 重命名压缩文件ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 鼠标下窗口句柄ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripMenuItem cPUToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -56,15 +63,22 @@ namespace KeyStroke
 			this.获取当前坐标值热键FToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.取色器ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.记录鼠标事件热键F7ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.鼠标下窗口句柄ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.cButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.编译CToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.格式化C代码ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.vSC代码段热键F8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.clearButton = new System.Windows.Forms.ToolStripButton();
+			this.othersButton = new System.Windows.Forms.ToolStripSplitButton();
+			this.压缩目录不包含ZIP文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.压缩目录不包含ZIP文件ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.重命名压缩文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmdButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.aria2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.globalEventProvider1 = new Gma.UserActivityMonitor.GlobalEventProvider();
-			this.vSC代码段热键F8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.cPUToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -74,10 +88,11 @@ namespace KeyStroke
 			this.kdButton,
 			this.cButton,
 			this.clearButton,
+			this.othersButton,
 			this.cmdButton});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(406, 25);
+			this.toolStrip1.Size = new System.Drawing.Size(294, 25);
 			this.toolStrip1.TabIndex = 0;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
@@ -87,7 +102,8 @@ namespace KeyStroke
 			this.kdButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.获取当前坐标值热键FToolStripMenuItem,
 			this.取色器ToolStripMenuItem,
-			this.记录鼠标事件热键F7ToolStripMenuItem});
+			this.记录鼠标事件热键F7ToolStripMenuItem,
+			this.鼠标下窗口句柄ToolStripMenuItem});
 			this.kdButton.Image = ((System.Drawing.Image)(resources.GetObject("kdButton.Image")));
 			this.kdButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.kdButton.Name = "kdButton";
@@ -114,6 +130,14 @@ namespace KeyStroke
 			this.记录鼠标事件热键F7ToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
 			this.记录鼠标事件热键F7ToolStripMenuItem.Text = "记录鼠标事件(热键F7)";
 			this.记录鼠标事件热键F7ToolStripMenuItem.Click += new System.EventHandler(this.记录鼠标事件热键F7ToolStripMenuItemClick);
+			// 
+			// 鼠标下窗口句柄ToolStripMenuItem
+			// 
+			this.鼠标下窗口句柄ToolStripMenuItem.Name = "鼠标下窗口句柄ToolStripMenuItem";
+			this.鼠标下窗口句柄ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
+			this.鼠标下窗口句柄ToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+			this.鼠标下窗口句柄ToolStripMenuItem.Text = "鼠标下窗口句柄";
+			this.鼠标下窗口句柄ToolStripMenuItem.Click += new System.EventHandler(this.鼠标下窗口句柄ToolStripMenuItemClick);
 			// 
 			// cButton
 			// 
@@ -142,27 +166,70 @@ namespace KeyStroke
 			this.格式化C代码ToolStripMenuItem.Text = "格式化C代码";
 			this.格式化C代码ToolStripMenuItem.Click += new System.EventHandler(this.格式化C代码ToolStripMenuItemClick);
 			// 
+			// vSC代码段热键F8ToolStripMenuItem
+			// 
+			this.vSC代码段热键F8ToolStripMenuItem.Name = "vSC代码段热键F8ToolStripMenuItem";
+			this.vSC代码段热键F8ToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+			this.vSC代码段热键F8ToolStripMenuItem.Text = "VSC 代码段(热键F8)";
+			this.vSC代码段热键F8ToolStripMenuItem.Click += new System.EventHandler(this.VSC代码段热键F8ToolStripMenuItemClick);
+			// 
 			// clearButton
 			// 
-			this.clearButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.clearButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.clearButton.Image = ((System.Drawing.Image)(resources.GetObject("clearButton.Image")));
 			this.clearButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.clearButton.Name = "clearButton";
-			this.clearButton.Size = new System.Drawing.Size(23, 22);
-			this.clearButton.Text = "toolStripButton1";
+			this.clearButton.Size = new System.Drawing.Size(36, 22);
+			this.clearButton.Text = "重设";
 			this.clearButton.Click += new System.EventHandler(this.ClearButtonClick);
+			// 
+			// othersButton
+			// 
+			this.othersButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.othersButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.压缩目录不包含ZIP文件ToolStripMenuItem,
+			this.压缩目录不包含ZIP文件ToolStripMenuItem1,
+			this.重命名压缩文件ToolStripMenuItem});
+			this.othersButton.Image = ((System.Drawing.Image)(resources.GetObject("othersButton.Image")));
+			this.othersButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.othersButton.Name = "othersButton";
+			this.othersButton.Size = new System.Drawing.Size(48, 22);
+			this.othersButton.Text = "压缩";
+			// 
+			// 压缩目录不包含ZIP文件ToolStripMenuItem
+			// 
+			this.压缩目录不包含ZIP文件ToolStripMenuItem.Name = "压缩目录不包含ZIP文件ToolStripMenuItem";
+			this.压缩目录不包含ZIP文件ToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+			this.压缩目录不包含ZIP文件ToolStripMenuItem.Text = "压缩目录下文件(不包含ZIP文件)";
+			this.压缩目录不包含ZIP文件ToolStripMenuItem.Click += new System.EventHandler(this.压缩目录不包含ZIP文件ToolStripMenuItemClick);
+			// 
+			// 压缩目录不包含ZIP文件ToolStripMenuItem1
+			// 
+			this.压缩目录不包含ZIP文件ToolStripMenuItem1.Name = "压缩目录不包含ZIP文件ToolStripMenuItem1";
+			this.压缩目录不包含ZIP文件ToolStripMenuItem1.Size = new System.Drawing.Size(246, 22);
+			this.压缩目录不包含ZIP文件ToolStripMenuItem1.Text = "压缩目录(不包含ZIP文件)";
+			this.压缩目录不包含ZIP文件ToolStripMenuItem1.Click += new System.EventHandler(this.压缩目录不包含ZIP文件ToolStripMenuItem1Click);
+			// 
+			// 重命名压缩文件ToolStripMenuItem
+			// 
+			this.重命名压缩文件ToolStripMenuItem.Name = "重命名压缩文件ToolStripMenuItem";
+			this.重命名压缩文件ToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+			this.重命名压缩文件ToolStripMenuItem.Text = "重命名压缩文件";
+			this.重命名压缩文件ToolStripMenuItem.Click += new System.EventHandler(this.重命名压缩文件ToolStripMenuItemClick);
 			// 
 			// cmdButton
 			// 
-			this.cmdButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.cmdButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.cmdButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.aria2ToolStripMenuItem,
-			this.toolStripMenuItem1});
+			this.toolStripMenuItem1,
+			this.toolStripSeparator1,
+			this.cPUToolStripMenuItem});
 			this.cmdButton.Image = ((System.Drawing.Image)(resources.GetObject("cmdButton.Image")));
 			this.cmdButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.cmdButton.Name = "cmdButton";
-			this.cmdButton.Size = new System.Drawing.Size(32, 22);
-			this.cmdButton.Text = "toolStripSplitButton2";
+			this.cmdButton.Size = new System.Drawing.Size(48, 22);
+			this.cmdButton.Text = "命令";
 			// 
 			// aria2ToolStripMenuItem
 			// 
@@ -179,22 +246,28 @@ namespace KeyStroke
 			this.toolStripMenuItem1.Text = "toolStripMenuItem1";
 			this.toolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1Click);
 			// 
-			// vSC代码段热键F8ToolStripMenuItem
+			// toolStripSeparator1
 			// 
-			this.vSC代码段热键F8ToolStripMenuItem.Name = "vSC代码段热键F8ToolStripMenuItem";
-			this.vSC代码段热键F8ToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-			this.vSC代码段热键F8ToolStripMenuItem.Text = "VSC 代码段(热键F8)";
-			this.vSC代码段热键F8ToolStripMenuItem.Click += new System.EventHandler(this.VSC代码段热键F8ToolStripMenuItemClick);
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(228, 6);
+			// 
+			// cPUToolStripMenuItem
+			// 
+			this.cPUToolStripMenuItem.Name = "cPUToolStripMenuItem";
+			this.cPUToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
+			this.cPUToolStripMenuItem.Text = "CPU";
+			this.cPUToolStripMenuItem.Click += new System.EventHandler(this.CPUToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(406, 262);
+			this.ClientSize = new System.Drawing.Size(294, 38);
 			this.Controls.Add(this.toolStrip1);
 			this.Name = "MainForm";
 			this.Text = "KeyStroke";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainFormFormClosing);
+			this.DoubleClick += new System.EventHandler(this.MainFormDoubleClick);
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
 			this.ResumeLayout(false);

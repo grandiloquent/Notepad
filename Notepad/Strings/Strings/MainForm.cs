@@ -119,7 +119,7 @@ namespace Strings
 				var logFormattor = "";
 				var log = "";
 				for (int i = 0; i < count; i++) {
-					logFormattor += splited[0] + "[" + i + "]: " + "%d,";
+					logFormattor += splited[0] + "[" + i + "]: " + "%x,";
 					log += splited[0] + "[" + i + "],";
 				}
 				textBox1.SelectedText += Environment.NewLine + string.Join("&&\n", list) + Environment.NewLine +
@@ -227,6 +227,10 @@ namespace Strings
 				textBox1.Text=string.Join(Environment.NewLine,ls);
 			}
 		}
+		void 倒序字符串ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			textBox1.SelectedText=new String( textBox1.SelectedText.ToArray().Reverse().ToArray());
+		}
 			 
 		 
 	}
@@ -314,7 +318,7 @@ namespace Strings
 		{
 			OnClipboardString((str) => {
 				var ls = FormatMethodList(string.Join("\r\n", Clipboard.GetText().Split("\r\n".ToArray(), StringSplitOptions.RemoveEmptyEntries)));
-				var d = ls.Select(i => i.SubstringBefore("{").TrimEnd() + ";").Where(i => i.IsReadable()).Select(i => i.Trim()).OrderBy(i => i.Split("(".ToArray(), 2).First().Split(' ').Last());
+				var d = ls.Select(i => i.SubstringBefore("{").TrimEnd() + ";").Where(i => i.IsReadable()).Select(i => i.Trim()).OrderBy(i => i.Split("(".ToArray(), 2).First().Split(' ').Last().Trim("*".ToCharArray()));
 				var bodys = ls.OrderBy(i => Regex.Split(i.Split("(".ToArray(), 2).First(), "[: ]+").Last());
 				return	string.Join("\r\n", d) + "\r\n\r\n\r\n" + string.Join("", bodys);
 			});

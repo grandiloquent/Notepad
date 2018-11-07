@@ -11,6 +11,7 @@ using Shared;
 using System.Text.RegularExpressions;
 using System.Text;
 using System.Collections.Generic;
+using System.Management;
 
 namespace KeyStroke
 {
@@ -38,7 +39,9 @@ namespace KeyStroke
 		private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
 		[System.Runtime.InteropServices.DllImport("user32.dll")]
 		private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
-        
+		[System.Runtime.InteropServices.DllImport("user32.dll")]
+		private static extern IntPtr WindowFromPoint(Point pnt);
+
 		public static Point GetCursorPosition()
 		{
 			POINT lpPoint;
@@ -52,6 +55,25 @@ namespace KeyStroke
 		
 		string _cFile = null;
 		#region
+		static sbyte[] unhex_table = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
+       , -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
+       , -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
+       , 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, -1, -1, -1, -1, -1, -1
+       , -1, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1
+       , -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
+       , -1, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1
+       , -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
+		};
+
+		public static int Convert(string hexNumber)
+		{
+			int decValue = unhex_table[(byte)hexNumber[0]];
+			for (int i = 1; i < hexNumber.Length; i++) {
+				decValue *= 16;
+				decValue += unhex_table[(byte)hexNumber[i]];
+			}
+			return decValue;
+		}
 		public static void CPlusPlusSnippetsVSC()
 		{
 			OnClipboardString((str) => {
@@ -316,6 +338,90 @@ namespace KeyStroke
 			if (_key8 == 0)
 				_key8 = 8;
 			RegisterHotKey(this.Handle, _key8, 0, (int)Keys.F8);
+		}
+		void 压缩目录不包含ZIP文件ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			Shared.Win32.OnClipboardDirectory((dir) => {
+				using (var zip = new Ionic.Zip.ZipFile(Encoding.GetEncoding("gbk"))) {
+					var files = dir.GetFiles("zip", true);
+					foreach (var element in files) {
+						zip.AddFile(element, "");
+					}
+					var count = 0;
+					var targetFileName = dir + ".zip";
+					while (targetFileName.FileExists()) {
+						targetFileName = dir + " V" + (++count).ToString().PadLeft(2, '0') + ".zip";
+					}
+					zip.Save(targetFileName);
+				}
+			});
+		}
+		void 压缩目录不包含ZIP文件ToolStripMenuItem1Click(object sender, EventArgs e)
+		{
+			Shared.Win32.OnClipboardDirectory((dir) => {
+				using (var zip = new Ionic.Zip.ZipFile(Encoding.GetEncoding("gbk"))) {
+					var files = dir.GetFiles("zip", true);
+					
+					zip.AddDirectory(dir, "");
+					var count = 0;
+					var targetFileName = dir + ".zip";
+					while (targetFileName.FileExists()) {
+						targetFileName = dir + " V" + (++count).ToString().PadLeft(2, '0') + ".zip";
+					}
+					zip.Save(targetFileName);
+				}
+			});
+		}
+		void 重命名压缩文件ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			Shared.Win32.OnClipboardDirectory((dir) => {
+				var files = Directory.GetFiles(dir, "*.zip");
+				var c = files.Select(i => i.ConvertToInt()).Max();
+				foreach (var element in files) {
+					var targetFileName = Path.Combine(dir, Regex.Replace(Path.GetFileNameWithoutExtension(element), "[0-9]+$", "") + (++c).ToString().PadLeft(2, '0') + ".zip");
+					File.Move(element, targetFileName);
+				}
+			                                  	
+			});
+		}
+		void 鼠标下窗口句柄ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			IntPtr hWnd = WindowFromPoint(Control.MousePosition);
+			Clipboard.SetText("0X" + hWnd.ToString("X").PadLeft(8, '0'));
+		}
+		void MainFormDoubleClick(object sender, EventArgs e)
+		{
+			System.Diagnostics.Process.Start(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location));
+		}
+		void CPUToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			using (ManagementObjectSearcher win32Proc = new ManagementObjectSearcher("select * from Win32_Processor"), 
+			       win32CompSys = new ManagementObjectSearcher("select * from Win32_ComputerSystem"),
+			       win32Memory = new ManagementObjectSearcher("select * from Win32_PhysicalMemory")) {
+				var sb = new StringBuilder();
+				foreach (ManagementObject obj in win32Proc.Get()) {
+//					var clockSpeed = obj["CurrentClockSpeed"].ToString();
+//					var procName = obj["Name"].ToString();
+//					var manufacturer = obj["Manufacturer"].ToString();
+//					var	version = obj["Version"].ToString();
+					sb.AppendLine(obj.GetText(TextFormat.Mof));
+					//MessageBox.Show(string.Format(" 当前时钟频率： {0}\r\n 名称: {1}\r\n 制造商: {2}\r\n {3}",clockSpeed,procName,manufacturer,version));
+				}
+				
+				foreach (ManagementObject obj in win32Memory.Get()) {
+					
+				 
+					sb.AppendLine(obj.GetText(TextFormat.Mof));
+					 
+				}
+				foreach (ManagementObject obj in win32CompSys.Get()) {
+					
+				 
+					sb.AppendLine(obj.GetText(TextFormat.Mof));
+					 
+				}
+				Clipboard.SetText(sb.ToString().Replace(";",";"+Environment.NewLine));
+			}
 		}
 	 
 		

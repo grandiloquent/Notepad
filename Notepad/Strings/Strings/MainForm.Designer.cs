@@ -48,6 +48,7 @@ namespace Strings
 		private System.Windows.Forms.ToolStripComboBox fileNameBox1;
 		private System.Windows.Forms.ToolStripComboBox fileNameBox2;
 		private System.Windows.Forms.ToolStripSplitButton compareFileButton;
+		private System.Windows.Forms.ToolStripMenuItem 倒序字符串ToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -106,6 +107,7 @@ namespace Strings
 			this.fileNameBox1 = new System.Windows.Forms.ToolStripComboBox();
 			this.fileNameBox2 = new System.Windows.Forms.ToolStripComboBox();
 			this.compareFileButton = new System.Windows.Forms.ToolStripSplitButton();
+			this.倒序字符串ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.contextMenuStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
@@ -193,7 +195,8 @@ namespace Strings
 			// 
 			this.arrayTemplateButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.arrayTemplateButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.数组逻辑比较ToolStripMenuItem});
+			this.数组逻辑比较ToolStripMenuItem,
+			this.倒序字符串ToolStripMenuItem});
 			this.arrayTemplateButton.Image = ((System.Drawing.Image)(resources.GetObject("arrayTemplateButton.Image")));
 			this.arrayTemplateButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.arrayTemplateButton.Name = "arrayTemplateButton";
@@ -203,7 +206,7 @@ namespace Strings
 			// 数组逻辑比较ToolStripMenuItem
 			// 
 			this.数组逻辑比较ToolStripMenuItem.Name = "数组逻辑比较ToolStripMenuItem";
-			this.数组逻辑比较ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+			this.数组逻辑比较ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.数组逻辑比较ToolStripMenuItem.Text = "数组逻辑比较";
 			this.数组逻辑比较ToolStripMenuItem.Click += new System.EventHandler(this.数组逻辑比较ToolStripMenuItemClick);
 			// 
@@ -344,14 +347,14 @@ namespace Strings
 			// 微秒到分钟ToolStripMenuItem
 			// 
 			this.微秒到分钟ToolStripMenuItem.Name = "微秒到分钟ToolStripMenuItem";
-			this.微秒到分钟ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+			this.微秒到分钟ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.微秒到分钟ToolStripMenuItem.Text = "格式化微秒";
 			this.微秒到分钟ToolStripMenuItem.Click += new System.EventHandler(this.微秒到分钟ToolStripMenuItemClick);
 			// 
 			// toolStripMenuItem2
 			// 
 			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-			this.toolStripMenuItem2.Size = new System.Drawing.Size(136, 22);
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
 			this.toolStripMenuItem2.Text = "123";
 			this.toolStripMenuItem2.Click += new System.EventHandler(this.ToolStripMenuItem2Click);
 			// 
@@ -406,6 +409,13 @@ namespace Strings
 			this.compareFileButton.Size = new System.Drawing.Size(96, 22);
 			this.compareFileButton.Text = "比较文本文件";
 			this.compareFileButton.ButtonClick += new System.EventHandler(this.CompareFileButtonButtonClick);
+			// 
+			// 倒序字符串ToolStripMenuItem
+			// 
+			this.倒序字符串ToolStripMenuItem.Name = "倒序字符串ToolStripMenuItem";
+			this.倒序字符串ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.倒序字符串ToolStripMenuItem.Text = "倒序字符串";
+			this.倒序字符串ToolStripMenuItem.Click += new System.EventHandler(this.倒序字符串ToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 

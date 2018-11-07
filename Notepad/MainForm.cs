@@ -367,7 +367,7 @@ namespace Notepad
 			var ls = Regex.Matches(textBox.Text, findBox.Text).Cast<Match>().Select(i => i.Value).Distinct();
 			var j = replaceBox.Text.Trim();
 			if (j.IsVacuum())
-				j = ",";
+				j = "\r\n";
 			textBox.Text = string.Join(j, ls);
 		}
 		void DToolStripMenuItemClick(object sender, EventArgs e)
@@ -664,7 +664,7 @@ namespace Notepad
 				var contentList =	sql.GetTitleContentList();
 				foreach (var c in contentList) {
 					var tf = targetDirectory.Combine(Path.GetFileNameWithoutExtension(element) + " - " + c.Title.GetValidFileName() + ".html");
-				tf=	tf.GetUniqueFileName();
+					tf =	tf.GetUniqueFileName();
 					
 					StringBuilder sb = new StringBuilder();
 					sb.AppendLine("\u003C!doctype html\u003E");
@@ -712,7 +712,7 @@ namespace Notepad
 				//int id = m.WParam.ToInt32();                                        // The id of the hotkey that was pressed.
 
 				var k = ((int)m.LParam >> 16) & 0xFFFF;
-				  if (k == 120/*F9*/) {
+				if (k == 120/*F9*/) {
 					if (_runType == 1)
 						Helper.RunGoCommand();
 					else if (_runType == 2)
@@ -872,34 +872,127 @@ namespace Notepad
 		}
 		void GBK到BYTE数组ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			var buf=Encoding.GetEncoding("gbk").GetBytes(textBox.Text.Trim());
-			textBox.Text=string.Join(" ",buf.Select(i=>i.ToString("x")))+"\r\n"+string.Join(" ",buf.Select(i=>i.ToString()));
+			var buf = Encoding.GetEncoding("gbk").GetBytes(textBox.Text.Trim());
+			textBox.Text = string.Join(" ", buf.Select(i => i.ToString("x"))) + "\r\n" + string.Join(" ", buf.Select(i => i.ToString()));
 		}
 		void UTF8到BYTE数组ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			textBox.Text=string.Join(" ",new UTF8Encoding(false).GetBytes(textBox.Text.Trim()).Select(i=>i.ToString("x")));
+			textBox.Text = string.Join(" ", new UTF8Encoding(false).GetBytes(textBox.Text.Trim()).Select(i => i.ToString("x")));
 	
 		}
 		void BYTE数组到GBKToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			var buf=textBox.Text.Trim().Split(" ".ToArray(),StringSplitOptions.RemoveEmptyEntries).Select(i=>byte.Parse(i,System.Globalization.NumberStyles.HexNumber)).ToArray();
+			var buf = textBox.Text.Trim().Split(" ".ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => byte.Parse(i, System.Globalization.NumberStyles.HexNumber)).ToArray();
 			
-			textBox.Text=Encoding.GetEncoding("gbk").GetString(buf);
+			textBox.Text = Encoding.GetEncoding("gbk").GetString(buf);
 		}
 		void 导入代码文件ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 	
-			OnClipboardDirectory((v)=>{
-			                     	var str="";
-			                     	var files=Directory.GetFiles(v,"*").Where(i=>Regex.IsMatch(i,"\\.(?:c|h|txt)$"));
-			                     	foreach (var element in files) {
-			                     		str+=	string.Format("```\r\n\r\n{0}\r\n\r\n```\r\n\r\n", element.ReadAllText().Replace("`", "\u0060"));
-			                     	}
-			                     	textBox.SelectedText+=str;
-			                     });
-		} 
+			OnClipboardDirectory((v) => {
+				var str = "";
+				var files = Directory.GetFiles(v, "*").Where(i => Regex.IsMatch(i, "\\.(?:c|h|txt)$"));
+				foreach (var element in files) {
+					str +=	string.Format("```\r\n\r\n{0}\r\n\r\n```\r\n\r\n", element.ReadAllText().Replace("`", "\u0060"));
+				}
+				textBox.SelectedText += str;
+			});
+		}
+		void 大写ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			textBox.SelectedText = textBox.SelectedText.ToUpper();
+			
+		}
+		void 导入Apress单文件ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			Helper.OnClipboardDirectory((dir) => {
+				
+				var files = Directory.GetFiles(dir, "*.html");
+				foreach (var element in files) {
+					ImportApressCode1("实例: C++ Recipes",element);
+				}
+			                       	
+			});
+		}
+		void ImportApressCode(string prefixTitle, string file)
+		{
+			var hd = new HtmlAgilityPack.HtmlDocument();
+			hd.LoadHtml(file.ReadAllText());
+				
+			var nodes = hd.DocumentNode.DescendantNodes();
+			var sb = new StringBuilder();
+			var ul = new StringBuilder();
+				
+			foreach (var element in nodes) {
+				if (element.NodeType == HtmlAgilityPack.HtmlNodeType.Element) {
+					if (element.Name == "h2") {
+						var tn= Regex.Replace(element.InnerText, "[\r\n\t]+", " ").Trim();
+						ul.AppendLine(string.Format("- {0}",tn));
+						sb.Append(string.Format("## {0}\r\n\r\n", tn));
+					} else if (element.GetAttributeValue("class", "") == "ProgramCode") {
+						sb.Append("```\r\n\r\n");
+						var codes = element.ChildNodes;
+						foreach (var cn in codes) {
+							sb.AppendLine(HtmlAgilityPack.HtmlEntity.DeEntitize(cn.InnerText));
+						}
+						sb.Append("\r\n\r\n```\r\n\r\n");
+							
+					}
+				}
+			}
+			var title = prefixTitle + " "+hd.DocumentNode.SelectSingleNode("//h1").InnerText;
+			var article = new Article {
+				Title = title,
+				Content = "# " + title + Environment.NewLine + Environment.NewLine + ul.ToString() + Environment.NewLine + Environment.NewLine + sb.ToString(),
+				CreateAt = DateTime.UtcNow,
+				UpdateAt = DateTime.UtcNow,
+			};
+			HelperSqlite.GetInstance().Insert(article);
+				
+			 
+				
+		}
 	
-		 
+		 void ImportApressCode1(string prefixTitle, string file)
+		{
+			var hd = new HtmlAgilityPack.HtmlDocument();
+			hd.LoadHtml(file.ReadAllText());
+				
+			var nodes = hd.DocumentNode.DescendantNodes();
+			var sb = new StringBuilder();
+			var ul = new StringBuilder();
+				
+			foreach (var element in nodes) {
+				if (element.NodeType == HtmlAgilityPack.HtmlNodeType.Element) {
+					if (element.GetAttributeValue("class", "") == "Heading1") {
+						var tn= Regex.Replace(element.InnerText, "[\r\n\t]+", " ").Trim();
+						ul.AppendLine(string.Format("- {0}",tn));
+						sb.Append(string.Format("## {0}\r\n\r\n", tn));
+					} else if (element.Name=="pre") {
+						sb.Append("```\r\n\r\n");
+						var codes = element.ChildNodes;
+						foreach (var cn in codes) {
+							sb.AppendLine(HtmlAgilityPack.HtmlEntity.DeEntitize(cn.InnerText));
+						}
+						sb.Append("\r\n\r\n```\r\n\r\n");
+							
+					}
+				}
+			}
+			var title = prefixTitle + " "+hd.DocumentNode.SelectSingleNode("//*[@class='ChapterNumber']").InnerText;
+			var article = new Article {
+				Title = title,
+				Content = "# " + title + Environment.NewLine + Environment.NewLine + ul.ToString() + Environment.NewLine + Environment.NewLine + sb.ToString(),
+				CreateAt = DateTime.UtcNow,
+				UpdateAt = DateTime.UtcNow,
+			};
+			HelperSqlite.GetInstance().Insert(article);
+				
+			 
+				
+		}
+	
+		
 	}
 	
 	public static class Helpers

@@ -14,17 +14,44 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 
+using System.Windows.Forms;
 
 namespace Shared
 {
 
 
+	public static class Win32
+	{
+		public static void OnClipboardDirectory(Action<String> action)
+		{
+			try {
+				var dir = Clipboard.GetText().Trim();
+				var found = false;
+				if (Directory.Exists(dir)) {
+					found = true;
+				} else {
+					var ls = Clipboard.GetFileDropList();
+					if (ls.Count > 0) {
+						if (Directory.Exists(ls[0])) {
+							dir = ls[0];
+						}
+					}
+				}
+				if (found) {
+					action(dir);
+				}
+			} catch {
+				
+			}
+		}
+	}
   
      
 	public static class StringExtensions
 	{
-		public static string GetDesktopPath(this string f){
-			return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop),f);
+		public static string GetDesktopPath(this string f)
+		{
+			return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), f);
 		}
 	
 		public static bool IsWhiteSpace(this String value)
@@ -39,11 +66,12 @@ namespace Shared
 
 			return true;
 		}
-		public static string EscapeString(this string s){
-			  char[] cs=new []{'\\','"','\'','<','>'};
-			  string[] ss=cs.Select(i=>"\\u" + ((int) i).ToString( "x4" )).ToArray();
+		public static string EscapeString(this string s)
+		{
+			char[] cs = new []{ '\\', '"', '\'', '<', '>' };
+			string[] ss = cs.Select(i => "\\u" + ((int)i).ToString("x4")).ToArray();
 			for (int i = 0; i < cs.Length; i++) {
-				s=s.Replace(cs[i].ToString(),ss[i]);
+				s = s.Replace(cs[i].ToString(), ss[i]);
 			}
 			return s;
 		}
@@ -75,7 +103,7 @@ namespace Shared
 				pos = i;
 			}
 			if (pos > 0)
-				return value.Substring(pos+1);
+				return value.Substring(pos + 1);
 			return value;
 		}
 		public static string SubstringAfter(this string value, string delimiter)
@@ -290,6 +318,14 @@ namespace Shared
 			}
 			return t;
 		}
+		public static IEnumerable<string> GetFiles(this string dir, string pattern, bool bExclude = false)
+		{
+			if (bExclude)
+				return Directory.GetFiles(dir).Where(i => !Regex.IsMatch(i, "\\.(?:" + pattern + ")$"));
+			else
+				return Directory.GetFiles(dir).Where(i => Regex.IsMatch(i, "\\.(?:" + pattern + ")$"));
+			
+		}
 
 		public static string GetValidFileName(this String v)
 		{
@@ -343,12 +379,12 @@ namespace Shared
 		}
 		public static UTF8Encoding sUTF8Encoding = new UTF8Encoding(false);
 
-		public static IEnumerable<string> GetFiles(this String path, string pattern = "*")
-		{
-			foreach (var item in Directory.GetFiles(path, pattern)) {
-				yield return item;
-			}
-		}
+//		public static IEnumerable<string> GetFiles(this String path, string pattern = "*")
+//		{
+//			foreach (var item in Directory.GetFiles(path, pattern)) {
+//				yield return item;
+//			}
+//		}
 		public static DirectoryInfo GetParent(this String path)
 		{
 			return  Directory.GetParent(path);		}
