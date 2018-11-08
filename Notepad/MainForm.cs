@@ -53,13 +53,10 @@ namespace Notepad
 			打开ToolStripMenuItem.Click += (s, o) => Helper.OpenLink(textBox);
 			kotlinExtractParametersToolStripMenuItem.Click += (s, o) => Helper.KotlinExtractParameters();
 			cSplitButton.ButtonClick += (s, o) => Helper.GenerateGccCommand();
-		
-			删除Aria2文件ToolStripMenuItem.Click += (s, o) => Helper.RemoveAria2File();
-			清理HTMLSToolStripMenuItem.Click += (s, o) => Helper.CleanHtmls();
+
 			cplusSplitButton.ButtonClick += (s, o) => Helper.GenerateGPlusPlusCommand();
 			数字序列数组ToolStripMenuItem.Click += (s, o) => Helper.GenerateDigit();
-			压缩子目录ToolStripMenuItem.Click += (s, o) => Helper.ZipDirectories();
-			//C代码段VSCToolStripMenuItem
+				//C代码段VSCToolStripMenuItem
 		 
 			排序代码段ToolStripMenuItem.Click += (s, o) => Helper.SortVSCSnippets();
 			if ("settings.txt".GetCommandPath().FileExists()) {
@@ -579,55 +576,7 @@ namespace Notepad
 			                     	
 			});
 		}
-		void 压缩AndroidToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			OnClipboardDirectory(Helpers.ZipAndroidProject);
-		}
-		void Wkhtml2pdfMenuItemClick(object sender, EventArgs e)
-		{
-			var dir = Clipboard.GetText().Trim();
-			if (!Directory.Exists(dir))
-				return;
-
-			foreach (var item in Directory.GetDirectories(dir)) {
-				InvokeWkhtmltopdf(item);
-			}
-		}
-		private void InvokeWkhtmltopdf(string f)
-		{
-
-			if (!File.Exists(Path.Combine(f, "目录.html")))
-				return;
-
-			var styleFile = "safari".GetDesktopPath().Combine("style.css");
-			if (File.Exists(styleFile)) {
-				var targetStyleFile = Path.Combine(f, "style.css");
-				if (File.Exists(targetStyleFile))
-					File.Delete(targetStyleFile);
-				File.Copy(styleFile, targetStyleFile);
-			}
-			var hd = new HtmlAgilityPack.HtmlDocument();
-			hd.LoadHtml(Path.Combine(f, "目录.html").ReadAllText());
-			var nodes = hd.DocumentNode.SelectNodes("//a");
-			var ls = new List<string>();
-			foreach (var item in nodes) {
-				var href = item.GetAttributeValue("href", "").Split('#').First();
-
-				if (ls.Contains(href))
-					continue;
-				ls.Add(href);
-			}
-
-			var str = "\"C:\\wkhtmltox\\wkhtmltopdf.exe\"";
-			var arg = "--footer-center [page] -s Letter " + string.Join(" ", ls.Select(i => string.Format("\"{0}\"", i))) + string.Format("  \"{0}.pdf\"", f);
-
-			var p = System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo {
-				FileName = "wkhtmltopdf.exe",
-				Arguments = arg,
-				WorkingDirectory = f
-			});
-			p.WaitForExit();
-		}
+ 
 		void AaToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			textBox.SelectedText = string.Format(" <a href=\"{1}\">{0}</a> ", textBox.SelectedText.Trim(), Clipboard.GetText().Trim());
@@ -756,10 +705,7 @@ namespace Notepad
 				}
 			}
 		}
-		void 删除Aria2文件ToolStripMenuItemClick(object sender, EventArgs e)
-		{
 	
-		}
 		void 其他ToolStripMenuItem1Click(object sender, EventArgs e)
 		{
 	
@@ -790,18 +736,7 @@ namespace Notepad
 				}
 			}
 		}
-		void 解压目录中文件ToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			var dir = Clipboard.GetText().Trim();
-			if (!Directory.Exists(dir))
-				return;
-			var zipFiles = Directory.GetFiles(dir, "*.zip");
-			foreach (var element in zipFiles) {
-				using (var zip = new Ionic.Zip.ZipFile(element, Encoding.GetEncoding("gbk"))) {
-					zip.ExtractAll(Path.Combine(element.GetDirectoryName(), element.GetFileNameWithoutExtension()));
-				}
-			}
-		}
+		
 		void 运行Go文件全局热键F9ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			if (_idF9 == -1)
@@ -909,7 +844,7 @@ namespace Notepad
 				
 				var files = Directory.GetFiles(dir, "*.html");
 				foreach (var element in files) {
-					ImportApressCode1("实例: C++ Recipes",element);
+					ImportApressCode1("实例: C++ Recipes", element);
 				}
 			                       	
 			});
@@ -926,8 +861,8 @@ namespace Notepad
 			foreach (var element in nodes) {
 				if (element.NodeType == HtmlAgilityPack.HtmlNodeType.Element) {
 					if (element.Name == "h2") {
-						var tn= Regex.Replace(element.InnerText, "[\r\n\t]+", " ").Trim();
-						ul.AppendLine(string.Format("- {0}",tn));
+						var tn = Regex.Replace(element.InnerText, "[\r\n\t]+", " ").Trim();
+						ul.AppendLine(string.Format("- {0}", tn));
 						sb.Append(string.Format("## {0}\r\n\r\n", tn));
 					} else if (element.GetAttributeValue("class", "") == "ProgramCode") {
 						sb.Append("```\r\n\r\n");
@@ -940,7 +875,7 @@ namespace Notepad
 					}
 				}
 			}
-			var title = prefixTitle + " "+hd.DocumentNode.SelectSingleNode("//h1").InnerText;
+			var title = prefixTitle + " " + hd.DocumentNode.SelectSingleNode("//h1").InnerText;
 			var article = new Article {
 				Title = title,
 				Content = "# " + title + Environment.NewLine + Environment.NewLine + ul.ToString() + Environment.NewLine + Environment.NewLine + sb.ToString(),
@@ -953,7 +888,7 @@ namespace Notepad
 				
 		}
 	
-		 void ImportApressCode1(string prefixTitle, string file)
+		void ImportApressCode1(string prefixTitle, string file)
 		{
 			var hd = new HtmlAgilityPack.HtmlDocument();
 			hd.LoadHtml(file.ReadAllText());
@@ -965,10 +900,10 @@ namespace Notepad
 			foreach (var element in nodes) {
 				if (element.NodeType == HtmlAgilityPack.HtmlNodeType.Element) {
 					if (element.GetAttributeValue("class", "") == "Heading1") {
-						var tn= Regex.Replace(element.InnerText, "[\r\n\t]+", " ").Trim();
-						ul.AppendLine(string.Format("- {0}",tn));
+						var tn = Regex.Replace(element.InnerText, "[\r\n\t]+", " ").Trim();
+						ul.AppendLine(string.Format("- {0}", tn));
 						sb.Append(string.Format("## {0}\r\n\r\n", tn));
-					} else if (element.Name=="pre") {
+					} else if (element.Name == "pre") {
 						sb.Append("```\r\n\r\n");
 						var codes = element.ChildNodes;
 						foreach (var cn in codes) {
@@ -979,7 +914,7 @@ namespace Notepad
 					}
 				}
 			}
-			var title = prefixTitle + " "+hd.DocumentNode.SelectSingleNode("//*[@class='ChapterNumber']").InnerText;
+			var title = prefixTitle + " " + hd.DocumentNode.SelectSingleNode("//*[@class='ChapterNumber']").InnerText;
 			var article = new Article {
 				Title = title,
 				Content = "# " + title + Environment.NewLine + Environment.NewLine + ul.ToString() + Environment.NewLine + Environment.NewLine + sb.ToString(),
@@ -991,29 +926,55 @@ namespace Notepad
 			 
 				
 		}
+		void 导出当前数据库ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+		
+		
+			var targetDirectory = comboBox.Text.GetFileNameWithoutExtension().GetDesktopPath();
+			targetDirectory.CreateDirectoryIfNotExists();
+			File.Copy("assets".GetCommandPath().Combine("stylesheets").Combine("markdown.css"),targetDirectory.Combine("markdown.css"));
+			var sql =	HelperSqlite.GetInstance();
+			var contentList =	sql.GetTitleContentList();
+			foreach (var c in contentList) {
+				var tf = targetDirectory.Combine(c.Title.GetValidFileName() + ".html");
+				
+					
+				StringBuilder sb = new StringBuilder();
+				sb.AppendLine("\u003C!doctype html\u003E");
+				sb.AppendLine("\u003Chtml class=\u0022no-js\u0022 lang=\u0022zh-hans\u0022 dir=\u0022ltr\u0022\u003E");
+				sb.AppendLine("");
+				sb.AppendLine("\u003Chead\u003E");
+				sb.AppendLine("    \u003Cmeta charset=\u0022utf-8\u0022\u003E");
+				sb.AppendLine("    \u003Cmeta http-equiv=\u0022x-ua-compatible\u0022 content=\u0022ie=edge\u0022\u003E");
+				sb.AppendLine("    \u003Ctitle\u003E");
+				sb.AppendLine(HtmlAgilityPack.HtmlEntity.Entitize(c.Title));
+				sb.AppendLine("    \u003C/title\u003E");
+				sb.AppendLine("    \u003Cmeta name=\u0022viewport\u0022 content=\u0022width=device-width, initial-scale=1\u0022\u003E");
+				sb.AppendLine("    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022markdown.css\u0022\u003E");
+				sb.AppendLine("\u003C/head\u003E");
+				sb.AppendLine("\u003Cbody\u003E");
+				sb.AppendLine(c.Content.FormatMarkdown());
+
+				sb.AppendLine("\u003C/body\u003E");
+				sb.AppendLine("\u003C/html\u003E");
+				tf.WriteAllText(sb.ToString());
+			}
+			
+		}
+		void 复制当前数据库ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			var sc=new System.Collections.Specialized.StringCollection();
+			sc.Add(Path.Combine(_dataPath,comboBox.Text));
+			Clipboard.SetFileDropList(sc);
+		}
+		
 	
 		
 	}
 	
 	public static class Helpers
 	{
-		public static void ZipAndroidProject(string dir)
-		{
-			 
-			using (var zip = new Ionic.Zip.ZipFile(Encoding.GetEncoding("gbk"))) {
-
-				zip.AddFiles(Directory.GetFiles(dir).Where(i => !i.EndsWith(".zip", StringComparison.InvariantCultureIgnoreCase)).ToArray(), "");
-				zip.AddFiles(Directory.GetFiles(Path.Combine(dir, "app")), "app");
-				zip.AddDirectory(Path.Combine(Path.Combine(dir, "app"), "src"), "app/src");
-				zip.AddDirectory(Path.Combine(dir, "gradle"), "gradle");
-				var targetFileName = Path.Combine(dir, Path.GetFileName(dir) + ".zip");
-				var count = 0;
-				while (File.Exists(targetFileName)) {
-					targetFileName = Path.Combine(dir, string.Format("{0} {1:000}.zip", Path.GetFileName(dir), ++count));
-				}
-				zip.Save(targetFileName);
-			}
-		}
+		
 		public static String FormatProperties(string value)
 		{
 		

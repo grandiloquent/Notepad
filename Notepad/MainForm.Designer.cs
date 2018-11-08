@@ -78,10 +78,7 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripMenuItem 行ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
 		private System.Windows.Forms.ToolStripMenuItem 替换文件中ToolStripMenuItem;
-		private System.Windows.Forms.ToolStripSplitButton zipButton;
-		private System.Windows.Forms.ToolStripMenuItem 压缩AndroidToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSplitButton ebookButton;
-		private System.Windows.Forms.ToolStripMenuItem wkhtml2pdfMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem aaToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSplitButton noteButton;
 		private System.Windows.Forms.ToolStripSplitButton boldButton;
@@ -94,10 +91,7 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripMenuItem 打开ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 运行C文件ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
-		private System.Windows.Forms.ToolStripMenuItem 删除Aria2文件ToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem 清理HTMLSToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSplitButton cplusSplitButton;
-		private System.Windows.Forms.ToolStripMenuItem 压缩子目录ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton2;
 		private System.Windows.Forms.ToolStripMenuItem 数字序列数组ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 运行C文件热键F9ToolStripMenuItem;
@@ -105,7 +99,6 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton3;
 		private System.Windows.Forms.ToolStripMenuItem 其他ToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem 移动未转换ZipToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem 解压目录中文件ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSplitButton goButton;
 		private System.Windows.Forms.ToolStripMenuItem 运行Go文件全局热键F9ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
@@ -127,6 +120,8 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripMenuItem 大写ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
 		private System.Windows.Forms.ToolStripMenuItem 导入Apress单文件ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 导出当前数据库ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 复制当前数据库ToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -153,13 +148,13 @@ namespace Notepad
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
-			this.删除Aria2文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.清理HTMLSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.其他ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.appButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.保存ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.导出全部ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.导入代码文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.导出当前数据库ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.复制当前数据库ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.newButton = new System.Windows.Forms.ToolStripButton();
 			this.cSplitButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
@@ -207,10 +202,6 @@ namespace Notepad
 			this.kotlinExtractParametersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
 			this.排序funToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.zipButton = new System.Windows.Forms.ToolStripSplitButton();
-			this.压缩AndroidToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.压缩子目录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.解压目录中文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.编码 = new System.Windows.Forms.ToolStripSplitButton();
 			this.字符串到数组GBKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.字符串到数组UTF8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -218,7 +209,6 @@ namespace Notepad
 			this.pathButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.逃逸路径ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ebookButton = new System.Windows.Forms.ToolStripSplitButton();
-			this.wkhtml2pdfMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.移动未转换ZipToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
 			this.gitHub页面源代码到HTML文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -238,6 +228,8 @@ namespace Notepad
 			this.导入ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.导入目录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.cODEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
+			this.导入Apress单文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.linkButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.aaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.下载ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -262,8 +254,6 @@ namespace Notepad
 			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripSeparator16 = new System.Windows.Forms.ToolStripSeparator();
-			this.导入Apress单文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
 			this.toolStrip3.SuspendLayout();
@@ -298,8 +288,6 @@ namespace Notepad
 			// 
 			this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.删除Aria2文件ToolStripMenuItem,
-			this.清理HTMLSToolStripMenuItem,
 			this.其他ToolStripMenuItem});
 			this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
 			this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -307,22 +295,10 @@ namespace Notepad
 			this.toolStripSplitButton1.Size = new System.Drawing.Size(48, 22);
 			this.toolStripSplitButton1.Text = "书籍";
 			// 
-			// 删除Aria2文件ToolStripMenuItem
-			// 
-			this.删除Aria2文件ToolStripMenuItem.Name = "删除Aria2文件ToolStripMenuItem";
-			this.删除Aria2文件ToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-			this.删除Aria2文件ToolStripMenuItem.Text = "删除Aria2文件";
-			// 
-			// 清理HTMLSToolStripMenuItem
-			// 
-			this.清理HTMLSToolStripMenuItem.Name = "清理HTMLSToolStripMenuItem";
-			this.清理HTMLSToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-			this.清理HTMLSToolStripMenuItem.Text = "清理HTMLS";
-			// 
 			// 其他ToolStripMenuItem
 			// 
 			this.其他ToolStripMenuItem.Name = "其他ToolStripMenuItem";
-			this.其他ToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+			this.其他ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
 			this.其他ToolStripMenuItem.Text = "其他";
 			this.其他ToolStripMenuItem.Click += new System.EventHandler(this.其他ToolStripMenuItemClick);
 			// 
@@ -332,7 +308,9 @@ namespace Notepad
 			this.appButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.保存ToolStripMenuItem,
 			this.导出全部ToolStripMenuItem,
-			this.导入代码文件ToolStripMenuItem});
+			this.导入代码文件ToolStripMenuItem,
+			this.导出当前数据库ToolStripMenuItem,
+			this.复制当前数据库ToolStripMenuItem});
 			this.appButton.Image = ((System.Drawing.Image)(resources.GetObject("appButton.Image")));
 			this.appButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.appButton.Name = "appButton";
@@ -362,6 +340,20 @@ namespace Notepad
 			this.导入代码文件ToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
 			this.导入代码文件ToolStripMenuItem.Text = "导入代码文件 ";
 			this.导入代码文件ToolStripMenuItem.Click += new System.EventHandler(this.导入代码文件ToolStripMenuItemClick);
+			// 
+			// 导出当前数据库ToolStripMenuItem
+			// 
+			this.导出当前数据库ToolStripMenuItem.Name = "导出当前数据库ToolStripMenuItem";
+			this.导出当前数据库ToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+			this.导出当前数据库ToolStripMenuItem.Text = "导出当前数据库";
+			this.导出当前数据库ToolStripMenuItem.Click += new System.EventHandler(this.导出当前数据库ToolStripMenuItemClick);
+			// 
+			// 复制当前数据库ToolStripMenuItem
+			// 
+			this.复制当前数据库ToolStripMenuItem.Name = "复制当前数据库ToolStripMenuItem";
+			this.复制当前数据库ToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+			this.复制当前数据库ToolStripMenuItem.Text = "复制当前数据库";
+			this.复制当前数据库ToolStripMenuItem.Click += new System.EventHandler(this.复制当前数据库ToolStripMenuItemClick);
 			// 
 			// newButton
 			// 
@@ -692,7 +684,6 @@ namespace Notepad
 			// 
 			this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.kotlinButton,
-			this.zipButton,
 			this.编码,
 			this.pathButton,
 			this.ebookButton,
@@ -773,39 +764,6 @@ namespace Notepad
 			this.排序funToolStripMenuItem.Text = "排序fun";
 			this.排序funToolStripMenuItem.Click += new System.EventHandler(this.排序funToolStripMenuItemClick);
 			// 
-			// zipButton
-			// 
-			this.zipButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.zipButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.压缩AndroidToolStripMenuItem,
-			this.压缩子目录ToolStripMenuItem,
-			this.解压目录中文件ToolStripMenuItem});
-			this.zipButton.Image = ((System.Drawing.Image)(resources.GetObject("zipButton.Image")));
-			this.zipButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.zipButton.Name = "zipButton";
-			this.zipButton.Size = new System.Drawing.Size(42, 22);
-			this.zipButton.Text = "ZIP";
-			// 
-			// 压缩AndroidToolStripMenuItem
-			// 
-			this.压缩AndroidToolStripMenuItem.Name = "压缩AndroidToolStripMenuItem";
-			this.压缩AndroidToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-			this.压缩AndroidToolStripMenuItem.Text = "压缩Android";
-			this.压缩AndroidToolStripMenuItem.Click += new System.EventHandler(this.压缩AndroidToolStripMenuItemClick);
-			// 
-			// 压缩子目录ToolStripMenuItem
-			// 
-			this.压缩子目录ToolStripMenuItem.Name = "压缩子目录ToolStripMenuItem";
-			this.压缩子目录ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-			this.压缩子目录ToolStripMenuItem.Text = "压缩子目录";
-			// 
-			// 解压目录中文件ToolStripMenuItem
-			// 
-			this.解压目录中文件ToolStripMenuItem.Name = "解压目录中文件ToolStripMenuItem";
-			this.解压目录中文件ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-			this.解压目录中文件ToolStripMenuItem.Text = "解压目录中文件";
-			this.解压目录中文件ToolStripMenuItem.Click += new System.EventHandler(this.解压目录中文件ToolStripMenuItemClick);
-			// 
 			// 编码
 			// 
 			this.编码.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -863,7 +821,6 @@ namespace Notepad
 			// 
 			this.ebookButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.ebookButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.wkhtml2pdfMenuItem,
 			this.移动未转换ZipToolStripMenuItem,
 			this.toolStripSeparator13,
 			this.gitHub页面源代码到HTML文件ToolStripMenuItem});
@@ -872,13 +829,6 @@ namespace Notepad
 			this.ebookButton.Name = "ebookButton";
 			this.ebookButton.Size = new System.Drawing.Size(48, 22);
 			this.ebookButton.Text = "书籍";
-			// 
-			// wkhtml2pdfMenuItem
-			// 
-			this.wkhtml2pdfMenuItem.Name = "wkhtml2pdfMenuItem";
-			this.wkhtml2pdfMenuItem.Size = new System.Drawing.Size(246, 22);
-			this.wkhtml2pdfMenuItem.Text = "wkhtml命令行";
-			this.wkhtml2pdfMenuItem.Click += new System.EventHandler(this.Wkhtml2pdfMenuItemClick);
 			// 
 			// 移动未转换ZipToolStripMenuItem
 			// 
@@ -1036,6 +986,18 @@ namespace Notepad
 			this.cODEToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
 			this.cODEToolStripMenuItem.Text = "CODE";
 			this.cODEToolStripMenuItem.Click += new System.EventHandler(this.CodeButtonClick);
+			// 
+			// toolStripSeparator16
+			// 
+			this.toolStripSeparator16.Name = "toolStripSeparator16";
+			this.toolStripSeparator16.Size = new System.Drawing.Size(181, 6);
+			// 
+			// 导入Apress单文件ToolStripMenuItem
+			// 
+			this.导入Apress单文件ToolStripMenuItem.Name = "导入Apress单文件ToolStripMenuItem";
+			this.导入Apress单文件ToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+			this.导入Apress单文件ToolStripMenuItem.Text = "导入Apress(单文件)";
+			this.导入Apress单文件ToolStripMenuItem.Click += new System.EventHandler(this.导入Apress单文件ToolStripMenuItemClick);
 			// 
 			// linkButton
 			// 
@@ -1252,18 +1214,6 @@ namespace Notepad
 			// 
 			this.toolStripSeparator14.Name = "toolStripSeparator14";
 			this.toolStripSeparator14.Size = new System.Drawing.Size(142, 6);
-			// 
-			// toolStripSeparator16
-			// 
-			this.toolStripSeparator16.Name = "toolStripSeparator16";
-			this.toolStripSeparator16.Size = new System.Drawing.Size(181, 6);
-			// 
-			// 导入Apress单文件ToolStripMenuItem
-			// 
-			this.导入Apress单文件ToolStripMenuItem.Name = "导入Apress单文件ToolStripMenuItem";
-			this.导入Apress单文件ToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-			this.导入Apress单文件ToolStripMenuItem.Text = "导入Apress(单文件)";
-			this.导入Apress单文件ToolStripMenuItem.Click += new System.EventHandler(this.导入Apress单文件ToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 

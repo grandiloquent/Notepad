@@ -55,28 +55,10 @@ namespace KeyStroke
 		
 		string _cFile = null;
 		#region
-		static sbyte[] unhex_table = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
-       , -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
-       , -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
-       , 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, -1, -1, -1, -1, -1, -1
-       , -1, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1
-       , -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
-       , -1, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1
-       , -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
-		};
-
-		public static int Convert(string hexNumber)
-		{
-			int decValue = unhex_table[(byte)hexNumber[0]];
-			for (int i = 1; i < hexNumber.Length; i++) {
-				decValue *= 16;
-				decValue += unhex_table[(byte)hexNumber[i]];
-			}
-			return decValue;
-		}
+		
 		public static void CPlusPlusSnippetsVSC()
 		{
-			OnClipboardString((str) => {
+			WinForms.OnClipboardString((str) => {
 				var s = str.Trim();
 				var ls = s.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).ToArray();
 				var matches = Regex.Matches(ls.First(), "[a-zA-Z]+").Cast<Match>().Select(i => i.Value.First().ToString()).ToArray();
@@ -92,28 +74,7 @@ namespace KeyStroke
 				
 			});
 		}
-		public static void OnClipboardFile(Action<String> action)
-		{
-			try {
-				var dir = Clipboard.GetText().Trim();
-				var found = false;
-				if (File.Exists(dir)) {
-					found = true;
-				} else {
-					var ls = Clipboard.GetFileDropList();
-					if (ls.Count > 0) {
-						if (File.Exists(ls[0])) {
-							dir = ls[0];
-						}
-					}
-				}
-				if (found) {
-					action(dir);
-				}
-			} catch {
-				
-			}
-		}
+		
 		public static void RunGenerateGccCommand(string f)
 		{
 			
@@ -150,63 +111,21 @@ namespace KeyStroke
 			
 		}
 		
-		public static void OnClipboardString(Func<String,String> func)
-		{
-			try {
-				var str = Clipboard.GetText().Trim();
-				if (str.IsVacuum())
-					return;
-				str = func(str);
-				if (str.IsReadable())
-					Clipboard.SetText(str);
-			} catch {
-				
-			}
-		}
 		public static void CFormat()
 		{
-			OnClipboardString((str) => {
-				var ls = FormatMethodList(Clipboard.GetText());
+			WinForms.OnClipboardString((str) => {
+				var ls = Codes.FormatMethodList(Clipboard.GetText());
 				var d = ls.Select(i => i.SubstringBefore(")") + ");").Where(i => i.IsReadable()).Select(i => i.Trim()).OrderBy(i => i.Split("(".ToArray(), 2).First().Split(' ').Last());
 				var bodys = ls.OrderBy(i => Regex.Split(i.Split("(".ToArray(), 2).First(), "[: ]+").Last());
 				return	string.Join("\n", d) + "\n\n\n" + string.Join("\n", string.Join("\n", bodys).Split("\r\n".ToArray(), StringSplitOptions.RemoveEmptyEntries));
 			});
 		}
 		
-		public static IEnumerable<string> FormatMethodList(string value)
-		{
-			var count = 0;
-			var sb = new StringBuilder();
-			var ls = new List<string>();
-			for (int i = 0; i < value.Length; i++) {
-				sb.Append(value[i]);
-
-				if (value[i] == '{') {
-					count++;
-				} else if (value[i] == '}') {
-					count--;
-					if (count == 0) {
-						ls.Add(sb.ToString());
-						sb.Clear();
-					}
-				}
-
-			}
-			//if (ls.Any())
-			//{
-			//    var firstLine = ls[0];
-			//    ls.RemoveAt(0);
-			//    ls.Add(firstLine.)
-
-			//}
-			return ls;
-			//return ls.Select(i => i.Split(new char[] { '{' }, 2).First().Trim() + ";").OrderBy(i => i.Trim());
-
-		}
 		#endregion
 		int _key1 = 0;
 		int _key2 = 0;
 		int _key3 = 0;
+		int _key7 = 0;
 		int _key8 = 0;
 		int _runType = 0;
 		string _recordMouse = null;
@@ -234,7 +153,7 @@ namespace KeyStroke
 					if (_cFile != null)
 						RunGenerateGccCommand(_cFile);
 					else {
-						OnClipboardFile((f) => {
+						WinForms.OnClipboardFile((f) => {
 							_cFile = f;
 							RunGenerateGccCommand(f);
 						});
@@ -255,6 +174,16 @@ namespace KeyStroke
 					}
 				} else if (k == 0x77) {
 					CPlusPlusSnippetsVSC();
+				} else if (k == 0x79) {
+					if (_cFile != null)
+						Codes.FormatWithClangFormat(_cFile);
+					else {
+						WinForms.OnClipboardFile((f) => {
+							_cFile = f;
+						Codes.FormatWithClangFormat(f);
+						});
+					}
+					
 				}
 			} else if (m.Msg == 0x100 || m.Msg == 0x101 || m.Msg == 0x104 || m.Msg == 0x105) {
 				MessageBox.Show("Msg 0x" + m.Msg.ToString("X") + " WParam 0x" + m.WParam.ToString("X") + " LParam 0x" + m.LParam.ToString("X") + "\n");
@@ -297,6 +226,11 @@ namespace KeyStroke
 				_key2 = 2 << 2;
 				_runType = 1;
 				RegisterHotKey(Handle, _key2, 0, 0x78);
+			}
+			
+			if (_key7 == 0) {
+				_key7 = 7;
+				RegisterHotKey(Handle, _key7, 0, 0x79);
 			}
 		}
 	
@@ -420,7 +354,49 @@ namespace KeyStroke
 					sb.AppendLine(obj.GetText(TextFormat.Mof));
 					 
 				}
-				Clipboard.SetText(sb.ToString().Replace(";",";"+Environment.NewLine));
+				Clipboard.SetText(sb.ToString().Replace(";", ";" + Environment.NewLine));
+			}
+		}
+		void CLangFormatToolStripMenuItemClick(object sender, EventArgs e)
+		{
+
+		}
+		void 压缩AndroidToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardDirectory(WinForms.ZipAndroidProject);
+		}
+		void 压缩子目录ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.ZipDirectories();
+		}
+		void 解压目录中文件ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+		var dir = Clipboard.GetText().Trim();
+			if (!Directory.Exists(dir))
+				return;
+			var zipFiles = Directory.GetFiles(dir, "*.zip");
+			foreach (var element in zipFiles) {
+				using (var zip = new Ionic.Zip.ZipFile(element, Encoding.GetEncoding("gbk"))) {
+					zip.ExtractAll(Path.Combine(element.GetDirectoryName(), element.GetFileNameWithoutExtension()));
+				}
+			}
+		}
+		void 删除Aria2文件ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.RemoveAria2File();
+		}
+		void 清理HTMLSToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.CleanHtmls();
+		}
+		void WkhtmlToPdfToolStripMenuItemClick(object sender, EventArgs e)
+		{
+	var dir = Clipboard.GetText().Trim();
+			if (!Directory.Exists(dir))
+				return;
+
+			foreach (var item in Directory.GetDirectories(dir)) {
+			WinForms.	InvokeWkhtmltopdf(item);
 			}
 		}
 	 
