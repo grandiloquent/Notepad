@@ -54,18 +54,21 @@ namespace KeyStroke
 		#endregion
 		
 		string _cFile = null;
+		string _cProcessName = null;
 		#region
 		
 		public static void CPlusPlusSnippetsVSC()
 		{
 			WinForms.OnClipboardString((str) => {
-				var s = str.Trim();
+				var s = Regex.Replace(str, "[\r\n]+", "").Trim();// changed
+				s = Regex.Replace(s, "\\s{2,}", " ");// changed
 				var ls = s.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).ToArray();
-				var matches = Regex.Matches(ls.First(), "[a-zA-Z]+").Cast<Match>().Select(i => i.Value.First().ToString()).ToArray();
+				// var matches = Regex.Matches(ls.First(), "[a-zA-Z]+").Cast<Match>().Select(i => i.Value.First().ToString()).ToArray();
 				
 				var obj = new Dictionary<string,dynamic>();
-				obj.Add("prefix", string.Join("", matches).ToLower());
-				obj.Add("body", ls.Select(i => i.EscapeString()));
+				obj.Add("prefix", s.SubstringBefore('(').SubstringAfter(" ").SubstringAfter("*").SubstringAfter("WINAPI ").Trim());
+				//obj.Add("prefix", string.Join("", matches).ToLower());
+				obj.Add("body", ls.Select(i => Regex.Replace(i.EscapeString(), "[a-z _A-Z]+[ \\*]+(?=[a-zA-Z]+[, )])", "").SubstringAfter(" ").TrimStart('*')));// changed
 				
 				var r = new Dictionary<string,dynamic>();
 				r.Add(ls.First(), obj);
@@ -78,11 +81,12 @@ namespace KeyStroke
 		public static void RunGenerateGccCommand(string f)
 		{
 			
-			var dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "output");
-			if (!Directory.Exists(dir)) {
-				Directory.CreateDirectory(dir);
-			}
-				
+//			var dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "output");
+//			if (!Directory.Exists(dir)) {
+//				Directory.CreateDirectory(dir);
+//			}
+			var dir = Path.Combine(Path.GetDirectoryName(f), "bin");
+			dir.CreateDirectoryIfNotExists();
 			var arg = "";
 			var argLines = f.ReadLines();
 			foreach (var element in argLines) {
@@ -105,7 +109,9 @@ namespace KeyStroke
 				}
 			} catch {
 			}
-			var cmd = string.Format("/K gcc \"{0}\" -o \"{1}\\{3}\" {2} && \"{1}\\{3}\" ", f, dir, arg, exe);
+			//var cmd = string.Format("/K gcc -Wall -g -finput-charset=GBK -fexec-charset=GBK \"{0}\" -o \"{1}\\{3}\" {2} && \"{1}\\{3}\" ", f, dir, arg, exe);
+			var cmd = string.Format("/K gcc -Wall -g -finput-charset=UTF-8 -fexec-charset=GBK \"{0}\" -o \"{1}\\{3}\" {2} && \"{1}\\{3}\" ", f, dir, arg, exe);
+		
 			Process.Start("cmd", cmd);
 				
 			
@@ -127,6 +133,7 @@ namespace KeyStroke
 		int _key3 = 0;
 		int _key7 = 0;
 		int _key8 = 0;
+		int _key10 = 0;
 		int _runType = 0;
 		string _recordMouse = null;
 		public MainForm()
@@ -173,18 +180,24 @@ namespace KeyStroke
 						_recordMouse = null;
 					}
 				} else if (k == 0x77) {
+					//Codes.FormatVSCTypeDef();
 					CPlusPlusSnippetsVSC();
 				} else if (k == 0x79) {
-					if (_cFile != null)
-						Codes.FormatWithClangFormat(_cFile);
-					else {
-						WinForms.OnClipboardFile((f) => {
-							_cFile = f;
-						Codes.FormatWithClangFormat(f);
-						});
+//					if (_cFile != null)
+//						Codes.FormatWithClangFormat(_cFile);
+//					else {
+//						WinForms.OnClipboardFile((f) => {
+//							_cFile = f;
+//						Codes.FormatWithClangFormat(f);
+//						});
+//					}
+					var files =	Process.GetProcesses().Where(i => i.ProcessName == "cb_console_runner" || i.ProcessName == _cProcessName);
+					foreach (var element in files) {
+						element.Kill();
 					}
 					
-				}
+					
+				} 
 			} else if (m.Msg == 0x100 || m.Msg == 0x101 || m.Msg == 0x104 || m.Msg == 0x105) {
 				MessageBox.Show("Msg 0x" + m.Msg.ToString("X") + " WParam 0x" + m.WParam.ToString("X") + " LParam 0x" + m.LParam.ToString("X") + "\n");
 				//Debug.WriteLine("Msg 0x" + m.Msg.ToString("X") + " WParam 0x" + m.WParam.ToString("X") + " LParam 0x" + m.LParam.ToString("X") + "\n");
@@ -371,7 +384,7 @@ namespace KeyStroke
 		}
 		void 解压目录中文件ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-		var dir = Clipboard.GetText().Trim();
+			var dir = Clipboard.GetText().Trim();
 			if (!Directory.Exists(dir))
 				return;
 			var zipFiles = Directory.GetFiles(dir, "*.zip");
@@ -391,13 +404,56 @@ namespace KeyStroke
 		}
 		void WkhtmlToPdfToolStripMenuItemClick(object sender, EventArgs e)
 		{
-	var dir = Clipboard.GetText().Trim();
+			var dir = Clipboard.GetText().Trim();
 			if (!Directory.Exists(dir))
 				return;
 
 			foreach (var item in Directory.GetDirectories(dir)) {
-			WinForms.	InvokeWkhtmltopdf(item);
+				WinForms.InvokeWkhtmltopdf(item);
 			}
+		}
+		void CodeBlocksToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardString((v) => {
+				_cProcessName = v;
+				return null;
+			});
+			if (_key10 == 0)
+				_key10 = 10;
+			RegisterHotKey(this.Handle, _key10, 0, (int)Keys.F10);
+		}
+		void MainFormDragDrop(object sender, DragEventArgs e)
+		{
+			_cFile = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();
+		}
+		void MainFormDragEnter(object sender, DragEventArgs e)
+		{
+			if (e.Data.GetDataPresent(DataFormats.FileDrop))
+				e.Effect = DragDropEffects.Link;
+			else
+				e.Effect = DragDropEffects.None;
+		}
+		void 清空CodeBlocks项目ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardDirectory((dir) => {
+			                              
+				var ls = Directory.GetDirectories(dir, "*", SearchOption.AllDirectories);
+				foreach (var element in ls) {
+					var f = element.GetFileName();
+					if (f == "bin" || f == "obj")
+						Directory.Delete(element, true);
+				}
+			});
+		}
+		void GBKToUTF8ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardDirectory((dir) => {
+				var files = Directory.GetFiles(dir, "*").Where(i => Regex.IsMatch(i, "\\.(?:c|h|txt)"));
+				foreach (var element in files) {
+			                              		
+					element.GbkToUTF8();
+				}
+			});
 		}
 	 
 		

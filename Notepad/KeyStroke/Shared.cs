@@ -211,6 +211,24 @@ namespace Shared
 				Arguments = string.Format("\"{0}\" -i -style=llvm -sort-includes=false", fileName)
 			});
 		}
+		
+		public static void FormatVSCTypeDef()
+		{
+			WinForms.OnClipboardString((str) => {
+				var result = str.Trim();
+				var obj = new Dictionary<string,dynamic>();
+				obj.Add("prefix",result.SubstringAfterLast(' ').TrimEnd(';'));
+				//obj.Add("prefix", string.Join("", matches).ToLower());
+				obj.Add("body", result.SubstringAfterLast(' ').TrimEnd(';')+" $0");// changed
+				
+		 
+				var r = new Dictionary<string,dynamic>();
+				r.Add(result, obj);
+				var sr = Newtonsoft.Json.JsonConvert.SerializeObject(r).Replace("\\\\u", "\\u");
+				return	sr.Substring(1, sr.Length - 2) + ",";
+			                         
+			});
+		}
 	}
 
 
@@ -508,8 +526,16 @@ namespace Shared
 			'/'
 		};
 
-
-
+		public static void UTF8ToGbk(this string path)
+		{
+			var content = File.ReadAllText(path, new UTF8Encoding(false));
+			File.WriteAllText(path, content, Encoding.GetEncoding("gbk"));
+		}
+		public static void GbkToUTF8(this string path)
+		{
+			var content = File.ReadAllText(path, Encoding.GetEncoding("gbk"));
+			File.WriteAllText(path, content, new UTF8Encoding(false));
+		}
 		public static string GetDirectoryFileName(this string v)
 		{
 			return Path.GetFileName(Path.GetDirectoryName(v));
