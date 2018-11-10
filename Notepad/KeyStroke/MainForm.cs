@@ -55,6 +55,8 @@ namespace KeyStroke
 		
 		string _cFile = null;
 		string _cProcessName = null;
+		IntPtr _hWnd = IntPtr.Zero;
+		bool _bSurveillance=false;
 		#region
 		
 		public static void CPlusPlusSnippetsVSC()
@@ -198,7 +200,8 @@ namespace KeyStroke
 					
 					
 				} 
-			} else if (m.Msg == 0x100 || m.Msg == 0x101 || m.Msg == 0x104 || m.Msg == 0x105) {
+			} else if (_bSurveillance&&(m.Msg == 0x100 || m.Msg == 0x101 || m.Msg == 0x104 || m.Msg == 0x105)) {
+				
 				MessageBox.Show("Msg 0x" + m.Msg.ToString("X") + " WParam 0x" + m.WParam.ToString("X") + " LParam 0x" + m.LParam.ToString("X") + "\n");
 				//Debug.WriteLine("Msg 0x" + m.Msg.ToString("X") + " WParam 0x" + m.WParam.ToString("X") + " LParam 0x" + m.LParam.ToString("X") + "\n");
 				//Debug.WriteLine("PostMessage(hWnd,0x" + m.Msg.ToString("X") + " ,0x" + m.WParam.ToString("X") + " ,0x" + m.LParam.ToString("X") + ");\nSleep(100);\n");
@@ -334,6 +337,7 @@ namespace KeyStroke
 		void 鼠标下窗口句柄ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			IntPtr hWnd = WindowFromPoint(Control.MousePosition);
+			_hWnd = hWnd;
 			Clipboard.SetText("0X" + hWnd.ToString("X").PadLeft(8, '0'));
 		}
 		void MainFormDoubleClick(object sender, EventArgs e)
@@ -454,6 +458,23 @@ namespace KeyStroke
 					element.GbkToUTF8();
 				}
 			});
+		}
+		void 按键F8ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			if (_hWnd != IntPtr.Zero) {
+				Win32.SetForegroundWindow(_hWnd);
+				System.Threading.Tasks.Task.Factory.StartNew(() => {
+					while (true) {
+						SendKeys.SendWait("{F8}");
+						System.Threading.Thread.Sleep(1000);
+					}
+				});
+				
+			}
+		}
+		void 监视按键ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			_bSurveillance=!_bSurveillance;
 		}
 	 
 		

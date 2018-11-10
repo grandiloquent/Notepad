@@ -48,6 +48,8 @@ namespace KeyStroke
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripMenuItem gBKToUTF8ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem uTF8ToGBKToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 按键F8ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 监视按键ToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -77,6 +79,7 @@ namespace KeyStroke
 			this.取色器ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.记录鼠标事件热键F7ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.鼠标下窗口句柄ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.按键F8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.cButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.编译CToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.格式化C代码ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -105,6 +108,7 @@ namespace KeyStroke
 			this.gBKToUTF8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.uTF8ToGBKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.globalEventProvider1 = new Gma.UserActivityMonitor.GlobalEventProvider();
+			this.监视按键ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -130,7 +134,9 @@ namespace KeyStroke
 			this.获取当前坐标值热键FToolStripMenuItem,
 			this.取色器ToolStripMenuItem,
 			this.记录鼠标事件热键F7ToolStripMenuItem,
-			this.鼠标下窗口句柄ToolStripMenuItem});
+			this.鼠标下窗口句柄ToolStripMenuItem,
+			this.按键F8ToolStripMenuItem,
+			this.监视按键ToolStripMenuItem});
 			this.kdButton.Image = ((System.Drawing.Image)(resources.GetObject("kdButton.Image")));
 			this.kdButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.kdButton.Name = "kdButton";
@@ -165,6 +171,14 @@ namespace KeyStroke
 			this.鼠标下窗口句柄ToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
 			this.鼠标下窗口句柄ToolStripMenuItem.Text = "鼠标下窗口句柄";
 			this.鼠标下窗口句柄ToolStripMenuItem.Click += new System.EventHandler(this.鼠标下窗口句柄ToolStripMenuItemClick);
+			// 
+			// 按键F8ToolStripMenuItem
+			// 
+			this.按键F8ToolStripMenuItem.Name = "按键F8ToolStripMenuItem";
+			this.按键F8ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
+			this.按键F8ToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+			this.按键F8ToolStripMenuItem.Text = "按键F8";
+			this.按键F8ToolStripMenuItem.Click += new System.EventHandler(this.按键F8ToolStripMenuItemClick);
 			// 
 			// cButton
 			// 
@@ -387,6 +401,13 @@ namespace KeyStroke
 			this.uTF8ToGBKToolStripMenuItem.Name = "uTF8ToGBKToolStripMenuItem";
 			this.uTF8ToGBKToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
 			this.uTF8ToGBKToolStripMenuItem.Text = "UTF8 To GBK";
+			// 
+			// 监视按键ToolStripMenuItem
+			// 
+			this.监视按键ToolStripMenuItem.Name = "监视按键ToolStripMenuItem";
+			this.监视按键ToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
+			this.监视按键ToolStripMenuItem.Text = "监视按键";
+			this.监视按键ToolStripMenuItem.Click += new System.EventHandler(this.监视按键ToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 

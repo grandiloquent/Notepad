@@ -8,7 +8,9 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Net.Http;
 using System.Net;
-
+using System.Runtime.InteropServices;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Windows.Forms;
 using System.Diagnostics;
 
@@ -217,9 +219,9 @@ namespace Shared
 			WinForms.OnClipboardString((str) => {
 				var result = str.Trim();
 				var obj = new Dictionary<string,dynamic>();
-				obj.Add("prefix",result.SubstringAfterLast(' ').TrimEnd(';'));
+				obj.Add("prefix", result.SubstringAfterLast(' ').TrimEnd(';'));
 				//obj.Add("prefix", string.Join("", matches).ToLower());
-				obj.Add("body", result.SubstringAfterLast(' ').TrimEnd(';')+" $0");// changed
+				obj.Add("body", result.SubstringAfterLast(' ').TrimEnd(';') + " $0");// changed
 				
 		 
 				var r = new Dictionary<string,dynamic>();
@@ -234,6 +236,47 @@ namespace Shared
 
 	public static class Win32
 	{
+		public  const int PROCESS_WM_READ = 0x0010;
+		public   const int PROCESS_VM_WRITE = 0x0020;
+		public    const int PROCESS_VM_OPERATION = 0x0008;
+
+		
+		[DllImport("kernel32.dll", SetLastError = true)]
+
+		public static extern bool WriteProcessMemory(int hProcess, int lpBaseAddress, 
+			byte[] lpBuffer, int dwSize, ref int lpNumberOfBytesWritten);
+		[DllImport("kernel32.dll")]
+		public static extern IntPtr OpenProcess(int dwDesiredAccess, bool bInheritHandle, int dwProcessId);
+
+		[DllImport("kernel32.dll")]
+		public static extern bool ReadProcessMemory(int hProcess, 
+			int lpBaseAddress, byte[] lpBuffer, int dwSize, ref int lpNumberOfBytesRead);
+    
+		[DllImport("user32.dll")]
+		public static extern bool GetCursorPos(ref Point lpPoint);
+
+		[DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
+		public static extern int BitBlt(IntPtr hDC, int x, int y, int nWidth, int nHeight, IntPtr hSrcDC, int xSrc, int ySrc, int dwRop);
+
+		[DllImport("user32.dll")]
+		public static extern bool SetForegroundWindow(IntPtr hWnd);
+		public static Color GetColorAt(Point location, Bitmap screenPixel)
+		{
+			if (screenPixel == null) {
+				screenPixel = new Bitmap(1, 1, PixelFormat.Format32bppArgb);
+			}
+			using (Graphics gdest = Graphics.FromImage(screenPixel)) {
+				using (Graphics gsrc = Graphics.FromHwnd(IntPtr.Zero)) {
+					IntPtr hSrcDC = gsrc.GetHdc();
+					IntPtr hDC = gdest.GetHdc();
+					int retval = BitBlt(hDC, 0, 0, 1, 1, hSrcDC, location.X, location.Y, (int)CopyPixelOperation.SourceCopy);
+					gdest.ReleaseHdc();
+					gsrc.ReleaseHdc();
+				}
+			}
+
+			return screenPixel.GetPixel(0, 0);
+		}
 		public static void OnClipboardDirectory(Action<String> action)
 		{
 			try {

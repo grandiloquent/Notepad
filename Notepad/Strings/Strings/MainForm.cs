@@ -28,7 +28,13 @@ namespace Strings
 		void ToGbkButtonClick(object sender, EventArgs e)
 		{
 			Extensions.OnClipboardString((value) => {
-				textBox1.Text = value.ByteArrayToGbkString();
+			                             	var array=Regex.Split(value," 00");
+			                             	var list=new List<string>();
+			                             	foreach (var element in array) {
+			                             		var line=element.ByteArrayToGbkString();
+			                             		list.Add(line);
+			                             	}
+			                             	textBox1.Text = string.Join(Environment.NewLine,list);
 				return null;
 			});
 		}

@@ -10,7 +10,7 @@
     <AssemblyName>Strings</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <ApplicationIcon>..\..\..\..\..\..\Downloads\bitbug_favicon %281%29.ico</ApplicationIcon>
+    <ApplicationIcon>..\..\..\Archives\3.ico</ApplicationIcon>
     <NoWin32Manifest>False</NoWin32Manifest>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
