@@ -56,7 +56,7 @@ namespace KeyStroke
 		string _cFile = null;
 		string _cProcessName = null;
 		IntPtr _hWnd = IntPtr.Zero;
-		bool _bSurveillance=false;
+		bool _bSurveillance = false;
 		#region
 		
 		public static void CPlusPlusSnippetsVSC()
@@ -200,7 +200,7 @@ namespace KeyStroke
 					
 					
 				} 
-			} else if (_bSurveillance&&(m.Msg == 0x100 || m.Msg == 0x101 || m.Msg == 0x104 || m.Msg == 0x105)) {
+			} else if (_bSurveillance && (m.Msg == 0x100 || m.Msg == 0x101 || m.Msg == 0x104 || m.Msg == 0x105)) {
 				
 				MessageBox.Show("Msg 0x" + m.Msg.ToString("X") + " WParam 0x" + m.WParam.ToString("X") + " LParam 0x" + m.LParam.ToString("X") + "\n");
 				//Debug.WriteLine("Msg 0x" + m.Msg.ToString("X") + " WParam 0x" + m.WParam.ToString("X") + " LParam 0x" + m.LParam.ToString("X") + "\n");
@@ -291,7 +291,7 @@ namespace KeyStroke
 		}
 		void 压缩目录不包含ZIP文件ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			Shared.Win32.OnClipboardDirectory((dir) => {
+			WinForms.OnClipboardDirectory((dir) => {
 				using (var zip = new Ionic.Zip.ZipFile(Encoding.GetEncoding("gbk"))) {
 					var files = dir.GetFiles("zip", true);
 					foreach (var element in files) {
@@ -308,7 +308,7 @@ namespace KeyStroke
 		}
 		void 压缩目录不包含ZIP文件ToolStripMenuItem1Click(object sender, EventArgs e)
 		{
-			Shared.Win32.OnClipboardDirectory((dir) => {
+			WinForms.OnClipboardDirectory((dir) => {
 				using (var zip = new Ionic.Zip.ZipFile(Encoding.GetEncoding("gbk"))) {
 					var files = dir.GetFiles("zip", true);
 					
@@ -324,7 +324,7 @@ namespace KeyStroke
 		}
 		void 重命名压缩文件ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			Shared.Win32.OnClipboardDirectory((dir) => {
+			WinForms.OnClipboardDirectory((dir) => {
 				var files = Directory.GetFiles(dir, "*.zip");
 				var c = files.Select(i => i.ConvertToInt()).Max();
 				foreach (var element in files) {
@@ -437,18 +437,7 @@ namespace KeyStroke
 			else
 				e.Effect = DragDropEffects.None;
 		}
-		void 清空CodeBlocks项目ToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			WinForms.OnClipboardDirectory((dir) => {
-			                              
-				var ls = Directory.GetDirectories(dir, "*", SearchOption.AllDirectories);
-				foreach (var element in ls) {
-					var f = element.GetFileName();
-					if (f == "bin" || f == "obj")
-						Directory.Delete(element, true);
-				}
-			});
-		}
+		
 		void GBKToUTF8ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			WinForms.OnClipboardDirectory((dir) => {
@@ -474,7 +463,25 @@ namespace KeyStroke
 		}
 		void 监视按键ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			_bSurveillance=!_bSurveillance;
+			_bSurveillance = !_bSurveillance;
+		}
+		void VSC代码段格式化ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardString((s) => {
+				var obj = new Dictionary<string,dynamic>();
+				obj.Add("prefix", "f" + s.SubstringBefore('(').SubstringAfterLast(" ").Trim());
+				//obj.Add("prefix", string.Join("", matches).ToLower());
+				var ls = s.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).ToArray();
+				obj.Add("body", ls.Select(i => i.EscapeString()));// changed
+				
+				var r = new Dictionary<string,dynamic>();
+				r.Add(ls.First(), obj);
+				var sr=Newtonsoft.Json.JsonConvert.SerializeObject(r).Replace("\\\\u", "\\u");
+				return sr.Substring(1, sr.Length - 2) + ",";;            
+			});
+			
+			
+				
 		}
 	 
 		
