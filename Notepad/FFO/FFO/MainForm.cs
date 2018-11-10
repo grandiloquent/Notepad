@@ -88,6 +88,19 @@
 					var hWnd = new IntPtr(int.Parse(handleBox1.Text, System.Globalization.NumberStyles.HexNumber));
 					Win32.SetForegroundWindow(hWnd);
 					if (k == 0x37) {
+						Point p1 = new Point(236, 131);
+						Point p2 = new Point(237, 137);
+						var c1 =	Win32.GetColorAt(p1, null);
+						var c2 =	Win32.GetColorAt(p2, null);
+						
+						if ((c1.R == 102 && c1.G == 102 && c1.B == 85) && (c2.R == 204 && c2.G == 51 && c2.B == 0)) {
+							SendKeys.SendWait("{F3}");
+							Thread.Sleep(1000);
+							SendKeys.SendWait("%");
+							SendKeys.SendWait("9");
+							Thread.Sleep(4000);
+						}
+						
 						SendKeys.SendWait("{F3}");
 						Thread.Sleep(1000);
 						SendKeys.SendWait("%");
@@ -95,6 +108,9 @@
 						Thread.Sleep(1000);
 						SendKeys.SendWait("%");
 						SendKeys.SendWait("5");
+						Thread.Sleep(4000);
+						SendKeys.SendWait("%");
+						SendKeys.SendWait("9");
 					} else if (k == 0x39) {
 						while (true) {
 							SendKeys.SendWait("{F10}");
@@ -267,7 +283,7 @@
 			if (_ks7 == 0) {
 				_ys = true;
 				_ks7 = 17;
-				_ks9=19;
+				_ks9 = 19;
 				Win32.RegisterHotKey(Handle, _ks9, 0, (int)Keys.D9);
 				Win32.RegisterHotKey(Handle, _ks7, 0, (int)Keys.D7);
 				
