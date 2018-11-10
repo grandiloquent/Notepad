@@ -483,6 +483,12 @@ namespace KeyStroke
 			
 				
 		}
+		void 格式化C代码ToolStripMenuItem1Click(object sender, EventArgs e)
+		{
+			var v=Clipboard.GetText();
+			var str=Codes.FormatCSharpCode(v);
+			Clipboard.SetText(str);
+		}
 	 
 		
 	}

@@ -1,18 +1,21 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Threading;
-using Shared;
-
-namespace FFO
+﻿namespace FFO
 {
-	public partial class MainForm : Form
+	using Shared;
+
+	using System;
+	using System.Collections.Generic;
+	using System.Diagnostics;
+	using System.Drawing;
+	using System.Threading;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+	public partial   class MainForm: Form
 	{
 		int _key1 = 0;
+		int _ks7 = 0;
+		int _ks9 = 0;
+		
+		bool _ys = false;
 		
 		public MainForm()
 		{
@@ -25,69 +28,9 @@ namespace FFO
 			// TODO: Add constructor code after the InitializeComponent() call.
 			//
 		}
-		protected override void WndProc(ref Message m)
+		void DestroyClawsButtonClick(object sender, EventArgs e)
 		{
-			if (m.Msg == 0x0312) {
-				var k = ((int)m.LParam >> 16) & 0xFFFF;
-				if (k == (int)Keys.B) {
-					var intptr =	Win32.WindowFromPoint(Control.MousePosition);
-					Clipboard.SetText(intptr.ToString("X"));
-				}
-			} 		
-			base.WndProc(ref m);
-		}
-		void 扫描血量内存地址ToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			if (memoryBox1.Text.IsReadable())
-				return;
-			int pid;
-		 
-			Win32.GetWindowThreadProcessId(new IntPtr(int.Parse(handleBox1.Text, System.Globalization.NumberStyles.HexNumber)), out pid);
-			if (pid < 1) {
-				return;
-			}
-			var pattern = new byte [] {
-				0xFF,
-				0xFF,
-				0xFF,
-				0xFF,
-				0x50,
-				0,
-				0,
-				0,
-				0x26,
-				0,
-				0,
-				0,
-				0x5B
-			};
-			var stopWatch = new Stopwatch();
-			stopWatch.Start();
-			var address =	Win32.ScanSegments(pid, pattern) + 0x80;
-			stopWatch.Stop();
-			decimal micro = stopWatch.Elapsed.Ticks / 10m;
-			this.Text = string.Format("Execution time was {0:F1} microseconds. seconds{1}", micro, micro / 1000000);
-			memoryBox1.Text = address.ToString("X");
 			
-		}
-		void MainFormLoad(object sender, EventArgs e)
-		{
-			if (_key1 == 0) {
-				_key1 = 1;
-				Win32.RegisterHotKey(this.Handle, _key1, Win32.MOD_CONTROL, (int)Keys.B);
-			}
-			var str = "settings.json".GetExePath().ReadAllText();
-			var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Dictionary<string,string>>>(str);
-			var s1 = obj[0];
-			handleBox1.Text = s1["hWnd"];
-			thresholdBox1.Text = s1["threshold"];
-			memoryBox1.Text = s1["address"];
-			chatBox1.Text = s1["chat"];
-			
-			var s2 = obj[1];
-			handleBox2.Text = s2["hWnd"];
-			thresholdBox2.Text = s2["threshold"];
-			memoryBox2.Text = s2["address"];
 		}
 		void MainFormFormClosing(object sender, FormClosingEventArgs e)
 		{
@@ -113,6 +56,55 @@ namespace FFO
 			
 			"settings.json".GetExePath().WriteAllText(Newtonsoft.Json.JsonConvert.SerializeObject(ls));
 			
+		}
+		void MainFormLoad(object sender, EventArgs e)
+		{
+			if (_key1 == 0) {
+				_key1 = 1;
+				Win32.RegisterHotKey(this.Handle, _key1, Win32.MOD_CONTROL, (int)Keys.B);
+			}
+			var str = "settings.json".GetExePath().ReadAllText();
+			var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Dictionary<string,string>>>(str);
+			var s1 = obj[0];
+			handleBox1.Text = s1["hWnd"];
+			thresholdBox1.Text = s1["threshold"];
+			memoryBox1.Text = s1["address"];
+			chatBox1.Text = s1["chat"];
+			
+			var s2 = obj[1];
+			handleBox2.Text = s2["hWnd"];
+			thresholdBox2.Text = s2["threshold"];
+			memoryBox2.Text = s2["address"];
+		}
+		protected	override void WndProc(ref Message m)
+		{
+			if (m.Msg == 0x0312) {
+				var k = ((int)m.LParam >> 16) & 0xFFFF;
+				if (k == (int)Keys.B) {
+					var intptr =	Win32.WindowFromPoint(Control.MousePosition);
+					Clipboard.SetText(intptr.ToString("X"));
+				}
+				if (_ys) {
+					var hWnd = new IntPtr(int.Parse(handleBox1.Text, System.Globalization.NumberStyles.HexNumber));
+					Win32.SetForegroundWindow(hWnd);
+					if (k == 0x37) {
+						SendKeys.SendWait("{F3}");
+						Thread.Sleep(1000);
+						SendKeys.SendWait("%");
+						SendKeys.SendWait("3");
+						Thread.Sleep(1000);
+						SendKeys.SendWait("%");
+						SendKeys.SendWait("5");
+					} else if (k == 0x39) {
+						while (true) {
+							SendKeys.SendWait("{F10}");
+							Thread.Sleep(1000);
+						}
+					}
+					
+				}
+			} 		
+			base.WndProc(ref m);
 		}
 		void StartButton1ButtonClick(object sender, EventArgs e)
 		{
@@ -230,15 +222,56 @@ namespace FFO
 			});
 			
 		}
-		void DestroyClawsButtonClick(object sender, EventArgs e)
-		{
-			
-		}
 		void 勾魂利爪ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			var hWnd = new IntPtr(int.Parse(handleBox1.Text, System.Globalization.NumberStyles.HexNumber));
 			var dc =	new DestoryClaws(hWnd);
 			dc.Start();
+		}
+		void 扫描血量内存地址ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			if (memoryBox1.Text.IsReadable())
+				return;
+			int pid;
+		 
+			Win32.GetWindowThreadProcessId(new IntPtr(int.Parse(handleBox1.Text, System.Globalization.NumberStyles.HexNumber)), out pid);
+			if (pid < 1) {
+				return;
+			}
+			var pattern = new byte [] {
+				0xFF,
+				0xFF,
+				0xFF,
+				0xFF,
+				0x50,
+				0,
+				0,
+				0,
+				0x26,
+				0,
+				0,
+				0,
+				0x5B
+			};
+			var stopWatch = new Stopwatch();
+			stopWatch.Start();
+			var address =	Win32.ScanSegments(pid, pattern) + 0x80;
+			stopWatch.Stop();
+			decimal micro = stopWatch.Elapsed.Ticks / 10m;
+			this.Text = string.Format("Execution time was {0:F1} microseconds. seconds{1}", micro, micro / 1000000);
+			memoryBox1.Text = address.ToString("X");
+			
+		}
+		void 注册药师技能热键ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			if (_ks7 == 0) {
+				_ys = true;
+				_ks7 = 17;
+				_ks9=19;
+				Win32.RegisterHotKey(Handle, _ks9, 0, (int)Keys.D9);
+				Win32.RegisterHotKey(Handle, _ks7, 0, (int)Keys.D7);
+				
+			}
 		}
 	}
 }

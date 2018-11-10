@@ -38,6 +38,7 @@ namespace FFO
 		private System.Windows.Forms.ToolStripButton destroyClawsButton;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem 勾魂利爪ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 注册药师技能热键ToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -71,6 +72,8 @@ namespace FFO
 			this.startButton1 = new System.Windows.Forms.ToolStripSplitButton();
 			this.扫描血量内存地址ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.发送文本消息ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.勾魂利爪ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.chatBox1 = new System.Windows.Forms.ToolStripTextBox();
 			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
@@ -83,8 +86,7 @@ namespace FFO
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip3 = new System.Windows.Forms.ToolStrip();
 			this.destroyClawsButton = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.勾魂利爪ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.注册药师技能热键ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
 			this.toolStrip3.SuspendLayout();
@@ -148,7 +150,8 @@ namespace FFO
 			this.扫描血量内存地址ToolStripMenuItem,
 			this.发送文本消息ToolStripMenuItem,
 			this.toolStripSeparator1,
-			this.勾魂利爪ToolStripMenuItem});
+			this.勾魂利爪ToolStripMenuItem,
+			this.注册药师技能热键ToolStripMenuItem});
 			this.startButton1.Image = ((System.Drawing.Image)(resources.GetObject("startButton1.Image")));
 			this.startButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.startButton1.Name = "startButton1";
@@ -169,6 +172,18 @@ namespace FFO
 			this.发送文本消息ToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
 			this.发送文本消息ToolStripMenuItem.Text = "发送文本消息";
 			this.发送文本消息ToolStripMenuItem.Click += new System.EventHandler(this.发送文本消息ToolStripMenuItemClick);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(169, 6);
+			// 
+			// 勾魂利爪ToolStripMenuItem
+			// 
+			this.勾魂利爪ToolStripMenuItem.Name = "勾魂利爪ToolStripMenuItem";
+			this.勾魂利爪ToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.勾魂利爪ToolStripMenuItem.Text = "勾魂利爪";
+			this.勾魂利爪ToolStripMenuItem.Click += new System.EventHandler(this.勾魂利爪ToolStripMenuItemClick);
 			// 
 			// chatBox1
 			// 
@@ -264,17 +279,12 @@ namespace FFO
 			this.destroyClawsButton.Text = "toolStripButton1";
 			this.destroyClawsButton.Click += new System.EventHandler(this.DestroyClawsButtonClick);
 			// 
-			// toolStripSeparator1
+			// 注册药师技能热键ToolStripMenuItem
 			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(169, 6);
-			// 
-			// 勾魂利爪ToolStripMenuItem
-			// 
-			this.勾魂利爪ToolStripMenuItem.Name = "勾魂利爪ToolStripMenuItem";
-			this.勾魂利爪ToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-			this.勾魂利爪ToolStripMenuItem.Text = "勾魂利爪";
-			this.勾魂利爪ToolStripMenuItem.Click += new System.EventHandler(this.勾魂利爪ToolStripMenuItemClick);
+			this.注册药师技能热键ToolStripMenuItem.Name = "注册药师技能热键ToolStripMenuItem";
+			this.注册药师技能热键ToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.注册药师技能热键ToolStripMenuItem.Text = "注册药师技能热键";
+			this.注册药师技能热键ToolStripMenuItem.Click += new System.EventHandler(this.注册药师技能热键ToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 

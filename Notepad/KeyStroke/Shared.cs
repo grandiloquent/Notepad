@@ -14,6 +14,9 @@ using System.Drawing.Imaging;
 using System.Windows.Forms;
 using System.Threading;
 using System.Diagnostics;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Shared
 {
@@ -185,6 +188,94 @@ namespace Shared
 	
 	public static class Codes
 	{
+		public static string FormatCSharpCode(string value)
+		{
+
+			var s = new StringBuilder();
+
+			var rootNode = CSharpSyntaxTree.ParseText(value).GetRoot();
+
+			var namespace_ = rootNode.DescendantNodes().OfType<NamespaceDeclarationSyntax>();
+
+			if (namespace_.Any()) {
+
+				s.Append(namespace_.First().NamespaceKeyword.Text).Append(' ').Append(namespace_.First().Name).Append('{');
+			}
+
+			var using_ = rootNode.DescendantNodes().OfType<UsingDirectiveSyntax>();
+			if (using_.Any()) {
+
+				using_ = using_.OrderBy(i => i.Name.ToString());//.Distinct(i => i.Name.GetText());
+
+				foreach (var item in using_) {
+					s.Append(item.ToFullString());
+				}
+			}
+			var enum_ = rootNode.DescendantNodes().OfType<EnumDeclarationSyntax>();
+			if (enum_.Any()) {
+				foreach (var item in enum_) {
+					enum_ = enum_.OrderBy(i => i.Identifier.ToFullString());
+					s.Append(item.ToFullString());
+				}
+			}
+			var struct_ = rootNode.DescendantNodes().OfType<StructDeclarationSyntax>();
+			if (struct_.Any()) {
+				foreach (var item in struct_) {
+					struct_ = struct_.OrderBy(i => i.Identifier.ToFullString());
+					s.Append(item.ToFullString());
+				}
+			}
+			var class_ = rootNode.DescendantNodes().OfType<ClassDeclarationSyntax>();
+
+			if (class_.Any()) {
+				class_ = class_.OrderBy(i => i.Identifier.ValueText);
+
+				foreach (var item in class_) {
+                    
+					s.Append(item.Modifiers.ToFullString()).Append(" class ").Append(item.Identifier.ValueText);
+					if (item.BaseList != null)
+						s.Append(item.BaseList.GetText());
+                    	
+					s.Append('{');
+					var field_ = item.DescendantNodes().OfType<FieldDeclarationSyntax>();
+					if (field_.Any()) {
+						field_ = field_.OrderBy(i => i.Declaration.Variables.First().ToFullString());
+
+						foreach (var itemField in field_) {
+
+							s.Append(itemField.ToFullString().Trim() + '\n');
+						}
+					}
+
+					var constructor_ = item.DescendantNodes().OfType<ConstructorDeclarationSyntax>();
+					if (constructor_.Any()) {
+						constructor_ = constructor_.OrderBy(i => i.Identifier.ValueText);//.OrderBy(i => i.Identifier.ValueText).ThenBy(i=>i.Modifiers.ToFullString());
+						foreach (var itemMethod in constructor_) {
+
+
+							s.Append(itemMethod.ToFullString());
+						}
+
+					}
+					var method_ = item.DescendantNodes().OfType<MethodDeclarationSyntax>();
+
+					if (method_.Any()) {
+						method_ = method_.OrderBy(i => i.Modifiers.ToFullString().Trim() + i.Identifier.ValueText.Trim());//.OrderBy(i => i.Identifier.ValueText).ThenBy(i=>i.Modifiers.ToFullString());
+						foreach (var itemMethod in method_) {
+
+
+							s.Append(itemMethod.ToFullString());
+						}
+
+					}
+					s.Append('}');
+				}
+
+			}
+			s.Append('}');
+			return s.ToString();
+
+		}
 		public static IEnumerable<string> FormatMethodList(string value)
 		{
 			var count = 0;
@@ -440,7 +531,7 @@ namespace Shared
 	}
   
      
-	public static class StringExtensions
+	public static  class StringExtensions
 	{
 		static sbyte[] unhex_table = { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
        , -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
@@ -451,6 +542,81 @@ namespace Shared
        , -1, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1
        , -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 		};
+		//public static string GetRandomStringAlpha(this int length)
+		//{
+
+		//    StringBuilder builder = new StringBuilder();
+		//    char ch;
+		//    for (int i = 0; i < length; i++)
+		//    {
+		//        ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * s_nameRand.NextDouble() + 65)));
+		//        builder.Append(ch);
+		//    }
+		//    return builder.ToString();
+		//}
+		public static StringBuilder Append(this String value)
+		{
+			return new StringBuilder().Append(value);
+		}
+
+		public static StringBuilder AppendLine(this String value)
+		{
+			return  new StringBuilder().AppendLine(value);
+		}
+		public static string Capitalize(this string value)
+		{
+			//  && char.IsLower(value[0])
+			if (!string.IsNullOrEmpty(value)) {
+				return value.Substring(0, 1).ToUpper() + value.Substring(1).ToLower();
+			}
+			return value;
+		}
+		public static int ConvertToInt(this string value, int defaultValue = 0)
+		{
+			var match = Regex.Match(value, "[0-9]+");
+			if (match.Success) {
+				return int.Parse(match.Value);
+			}
+			return defaultValue;
+		}
+
+		public static int CountStart(this string value, char c)
+		{
+			var count = 0;
+
+			foreach (var item in value) {
+				if (item == c)
+					count++;
+				else
+					break;
+			}
+			return count;
+		}
+		public static string EscapeString(this string s)
+		{
+			char[] cs = new []{ '\\', '"', '\'', '<', '>' };
+			string[] ss = cs.Select(i => "\\u" + ((int)i).ToString("x4")).ToArray();
+			for (int i = 0; i < cs.Length; i++) {
+				s = s.Replace(cs[i].ToString(), ss[i]);
+			}
+			return s;
+		}
+		public static string GetDesktopPath(this string f)
+		{
+			return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), f);
+		}
+		public static string GetFirstReadable(this string value)
+		{
+			return  value.TrimStart().Split(new char[] { '\n' }, 2).First().Trim();
+		}
+		public static string GetRandomString(this int length)
+		{
+			Random s_nameRand = new Random();//new Random((int)(new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds()));
+
+			const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_";
+			return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[s_nameRand.Next(s.Length)]).ToArray());
+		}
 
 		public static int HexToInt(this string hexNumber)
 		{
@@ -461,9 +627,13 @@ namespace Shared
 			}
 			return decValue;
 		}
-		public static string GetDesktopPath(this string f)
+		public static bool IsReadable(this string value)
 		{
-			return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), f);
+			return  !string.IsNullOrWhiteSpace(value);
+		}
+		public static bool IsVacuum(this string value)
+		{
+			return  string.IsNullOrWhiteSpace(value);
 		}
 	
 		public static bool IsWhiteSpace(this String value)
@@ -478,45 +648,36 @@ namespace Shared
 
 			return true;
 		}
-		public static string EscapeString(this string s)
+        
+		public static IEnumerable<string> Matches(this string value, string pattern)
 		{
-			char[] cs = new []{ '\\', '"', '\'', '<', '>' };
-			string[] ss = cs.Select(i => "\\u" + ((int)i).ToString("x4")).ToArray();
-			for (int i = 0; i < cs.Length; i++) {
-				s = s.Replace(cs[i].ToString(), ss[i]);
+			var match = Regex.Match(value, pattern);
+
+			while (match.Success) {
+
+				yield return match.Value;
+				match = match.NextMatch();
 			}
-			return s;
 		}
-		public static string SubstringAfterLast(this string value, char delimiter)
+		public static IEnumerable<string> MatchesByGroup(this string value, string pattern)
 		{
-			var index = value.LastIndexOf(delimiter);
-			if (index == -1)
-				return value;
-			else
-				return value.Substring(index + 1);
-		}
-		public static string TrimNonLetterOrDigitStart(this string value)
-		{
-			var len = value.Length;
-			var pos = 0;
-//			int a='`';
-//			int a1='a';
-//			int a2='z';
-//			int a3='A';
-//			int a4='Z';
-//			int a5='0';
-//			int a6='9';
-			
-			for (int i = 0; i < len; i++) {
-				if (('a' <= value[i] && value[i] <= 'z') ||
-				    ('A' <= value[i] && value[i] <= 'Z') ||
-				    ('0' <= value[i] && value[i] <= '9'))
-					break;
-				pos = i;
+			var match = Regex.Match(value, pattern);
+
+			while (match.Success) {
+
+				yield return match.Groups[1].Value;
+				match = match.NextMatch();
 			}
-			if (pos > 0)
-				return value.Substring(pos + 1);
-			return value;
+		}
+		public static IEnumerable<string> MatchesMultiline(this string value, string pattern)
+		{
+			var match = Regex.Match(value, pattern, RegexOptions.Multiline);
+
+			while (match.Success) {
+
+				yield return match.Value;
+				match = match.NextMatch();
+			}
 		}
 		public static string SubstringAfter(this string value, string delimiter)
 		{
@@ -525,6 +686,14 @@ namespace Shared
 				return value;
 			else
 				return value.Substring(index + delimiter.Length);
+		}
+		public static string SubstringAfterLast(this string value, char delimiter)
+		{
+			var index = value.LastIndexOf(delimiter);
+			if (index == -1)
+				return value;
+			else
+				return value.Substring(index + 1);
 		}
 		public static string SubstringAfterLast(this string value, string delimiter)
 		{
@@ -558,114 +727,34 @@ namespace Shared
 			else
 				return value.Substring(0, index);
 		}
-		public static string Capitalize(this string value)
-		{
-			//  && char.IsLower(value[0])
-			if (!string.IsNullOrEmpty(value)) {
-				return value.Substring(0, 1).ToUpper() + value.Substring(1).ToLower();
-			}
-			return value;
-		}
-        
-		public static IEnumerable<string> Matches(this string value, string pattern)
-		{
-			var match = Regex.Match(value, pattern);
-
-			while (match.Success) {
-
-				yield return match.Value;
-				match = match.NextMatch();
-			}
-		}
-		public static IEnumerable<string> MatchesMultiline(this string value, string pattern)
-		{
-			var match = Regex.Match(value, pattern, RegexOptions.Multiline);
-
-			while (match.Success) {
-
-				yield return match.Value;
-				match = match.NextMatch();
-			}
-		}
-		public static IEnumerable<string> MatchesByGroup(this string value, string pattern)
-		{
-			var match = Regex.Match(value, pattern);
-
-			while (match.Success) {
-
-				yield return match.Groups[1].Value;
-				match = match.NextMatch();
-			}
-		}
-
-		public static int CountStart(this string value, char c)
-		{
-			var count = 0;
-
-			foreach (var item in value) {
-				if (item == c)
-					count++;
-				else
-					break;
-			}
-			return count;
-		}
-		public static int ConvertToInt(this string value, int defaultValue = 0)
-		{
-			var match = Regex.Match(value, "[0-9]+");
-			if (match.Success) {
-				return int.Parse(match.Value);
-			}
-			return defaultValue;
-		}
-		public static string GetRandomString(this int length)
-		{
-			Random s_nameRand = new Random();//new Random((int)(new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds()));
-
-			const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_";
-			return new string(Enumerable.Repeat(chars, length)
-              .Select(s => s[s_nameRand.Next(s.Length)]).ToArray());
-		}
-		//public static string GetRandomStringAlpha(this int length)
-		//{
-
-		//    StringBuilder builder = new StringBuilder();
-		//    char ch;
-		//    for (int i = 0; i < length; i++)
-		//    {
-		//        ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * s_nameRand.NextDouble() + 65)));
-		//        builder.Append(ch);
-		//    }
-		//    return builder.ToString();
-		//}
-		public static StringBuilder Append(this String value)
-		{
-			return new StringBuilder().Append(value);
-		}
-
-		public static StringBuilder AppendLine(this String value)
-		{
-			return  new StringBuilder().AppendLine(value);
-		}
-		public static bool IsVacuum(this string value)
-		{
-			return  string.IsNullOrWhiteSpace(value);
-		}
-		public static bool IsReadable(this string value)
-		{
-			return  !string.IsNullOrWhiteSpace(value);
-		}
-		public static string GetFirstReadable(this string value)
-		{
-			return  value.TrimStart().Split(new char[] { '\n' }, 2).First().Trim();
-		}
 		public static IEnumerable<string> ToLines(this string value)
 		{
 			return  value.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim());
 		}
-
+		public static string TrimNonLetterOrDigitStart(this string value)
+		{
+			var len = value.Length;
+			var pos = 0;
+//			int a='`';
+//			int a1='a';
+//			int a2='z';
+//			int a3='A';
+//			int a4='Z';
+//			int a5='0';
+//			int a6='9';
+			
+			for (int i = 0; i < len; i++) {
+				if (('a' <= value[i] && value[i] <= 'z') ||
+				    ('A' <= value[i] && value[i] <= 'Z') ||
+				    ('0' <= value[i] && value[i] <= '9'))
+					break;
+				pos = i;
+			}
+			if (pos > 0)
+				return value.Substring(pos + 1);
+			return value;
+		}
 	}
-
 	public static class GenericExtensions
 	{
 		public static IEnumerable<T> Distinct<T, U>(

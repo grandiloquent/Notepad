@@ -51,6 +51,8 @@ namespace KeyStroke
 		private System.Windows.Forms.ToolStripMenuItem 监视按键ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripMenuItem vSC代码段格式化ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSplitButton csharpButton;
+		private System.Windows.Forms.ToolStripMenuItem 格式化C代码ToolStripMenuItem1;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -89,6 +91,7 @@ namespace KeyStroke
 			this.cLangFormatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.清空CodeBlocks项目ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			this.vSC代码段格式化ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.clearButton = new System.Windows.Forms.ToolStripButton();
 			this.othersButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.压缩目录不包含ZIP文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -110,7 +113,8 @@ namespace KeyStroke
 			this.gBKToUTF8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.uTF8ToGBKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.globalEventProvider1 = new Gma.UserActivityMonitor.GlobalEventProvider();
-			this.vSC代码段格式化ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.csharpButton = new System.Windows.Forms.ToolStripSplitButton();
+			this.格式化C代码ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -122,10 +126,11 @@ namespace KeyStroke
 			this.clearButton,
 			this.othersButton,
 			this.cmdButton,
-			this.ebookButton});
+			this.ebookButton,
+			this.csharpButton});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(314, 25);
+			this.toolStrip1.Size = new System.Drawing.Size(435, 25);
 			this.toolStrip1.TabIndex = 0;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
@@ -244,6 +249,13 @@ namespace KeyStroke
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
 			this.toolStripSeparator3.Size = new System.Drawing.Size(266, 6);
+			// 
+			// vSC代码段格式化ToolStripMenuItem
+			// 
+			this.vSC代码段格式化ToolStripMenuItem.Name = "vSC代码段格式化ToolStripMenuItem";
+			this.vSC代码段格式化ToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+			this.vSC代码段格式化ToolStripMenuItem.Text = "VSC 代码段格式化";
+			this.vSC代码段格式化ToolStripMenuItem.Click += new System.EventHandler(this.VSC代码段格式化ToolStripMenuItemClick);
 			// 
 			// clearButton
 			// 
@@ -367,7 +379,7 @@ namespace KeyStroke
 			this.ebookButton.Image = ((System.Drawing.Image)(resources.GetObject("ebookButton.Image")));
 			this.ebookButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.ebookButton.Name = "ebookButton";
-			this.ebookButton.Size = new System.Drawing.Size(48, 21);
+			this.ebookButton.Size = new System.Drawing.Size(48, 22);
 			this.ebookButton.Text = "书籍";
 			// 
 			// 删除Aria2文件ToolStripMenuItem
@@ -409,19 +421,30 @@ namespace KeyStroke
 			this.uTF8ToGBKToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
 			this.uTF8ToGBKToolStripMenuItem.Text = "UTF8 To GBK";
 			// 
-			// vSC代码段格式化ToolStripMenuItem
+			// csharpButton
 			// 
-			this.vSC代码段格式化ToolStripMenuItem.Name = "vSC代码段格式化ToolStripMenuItem";
-			this.vSC代码段格式化ToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
-			this.vSC代码段格式化ToolStripMenuItem.Text = "VSC 代码段格式化";
-			this.vSC代码段格式化ToolStripMenuItem.Click += new System.EventHandler(this.VSC代码段格式化ToolStripMenuItemClick);
+			this.csharpButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.csharpButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.格式化C代码ToolStripMenuItem1});
+			this.csharpButton.Image = ((System.Drawing.Image)(resources.GetObject("csharpButton.Image")));
+			this.csharpButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.csharpButton.Name = "csharpButton";
+			this.csharpButton.Size = new System.Drawing.Size(32, 22);
+			this.csharpButton.Text = "toolStripSplitButton1";
+			// 
+			// 格式化C代码ToolStripMenuItem1
+			// 
+			this.格式化C代码ToolStripMenuItem1.Name = "格式化C代码ToolStripMenuItem1";
+			this.格式化C代码ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+			this.格式化C代码ToolStripMenuItem1.Text = "格式化C#代码";
+			this.格式化C代码ToolStripMenuItem1.Click += new System.EventHandler(this.格式化C代码ToolStripMenuItem1Click);
 			// 
 			// MainForm
 			// 
 			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(314, 38);
+			this.ClientSize = new System.Drawing.Size(435, 38);
 			this.Controls.Add(this.toolStrip1);
 			this.Name = "MainForm";
 			this.Text = "KeyStroke";
