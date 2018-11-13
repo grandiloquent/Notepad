@@ -9,14 +9,18 @@
 	using System.Threading;
 	using System.Threading.Tasks;
 	using System.Windows.Forms;
+	using System.Runtime.InteropServices;
+	
 	public partial   class MainForm: Form
 	{
 		int _key1 = 0;
+		int _ks6 = 0;
 		int _ks7 = 0;
+		int _ks8 = 0;
 		int _ks9 = 0;
 		
 		bool _ys = false;
-		
+		bool _b1 = false;
 		public MainForm()
 		{
 			//
@@ -35,7 +39,7 @@
 		void MainFormFormClosing(object sender, FormClosingEventArgs e)
 		{
 			if (_key1 != 0) {
-				Win32.UnregisterHotKey(this.Handle, _key1);
+				NativeMethods.UnregisterHotKey(NativeMethods.HWND.Cast(Handle), _key1);
 			}
 			
 			var settings1 = new Dictionary<string,string>();
@@ -61,7 +65,7 @@
 		{
 			if (_key1 == 0) {
 				_key1 = 1;
-				Win32.RegisterHotKey(this.Handle, _key1, Win32.MOD_CONTROL, (int)Keys.B);
+				NativeMethods.RegisterHotKey(NativeMethods.HWND.Cast(Handle), _key1, NativeMethods.MOD_CONTROL, (int)Keys.B);
 			}
 			var str = "settings.json".GetExePath().ReadAllText();
 			var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Dictionary<string,string>>>(str);
@@ -81,24 +85,35 @@
 			if (m.Msg == 0x0312) {
 				var k = ((int)m.LParam >> 16) & 0xFFFF;
 				if (k == (int)Keys.B) {
-					var intptr =	Win32.WindowFromPoint(Control.MousePosition);
+					var intptr =	NativeMethods.WindowFromPoint(Control.MousePosition.X, Control.MousePosition.Y);
 					Clipboard.SetText(intptr.ToString("X"));
 				}
 				if (_ys) {
 					var hWnd = new IntPtr(int.Parse(handleBox1.Text, System.Globalization.NumberStyles.HexNumber));
-					Win32.SetForegroundWindow(hWnd);
-					if (k == 0x37) {
+					NativeMethods.SetForegroundWindow(new HandleRef(this, Handle));
+					if (k == 0x36) {
+						
+						SendKeys.SendWait("{F3}");
+						Thread.Sleep(1000);
+						SendKeys.SendWait("%");
+						SendKeys.SendWait("3");
+						Thread.Sleep(1000);
+						SendKeys.SendWait("%");
+						SendKeys.SendWait("5");
+						Thread.Sleep(4000);
+						
+					} else if (k == 0x37) {
 						Point p1 = new Point(236, 131);
 						Point p2 = new Point(237, 137);
-						var c1 =	Win32.GetColorAt(p1, null);
-						var c2 =	Win32.GetColorAt(p2, null);
+						var c1 =	Screens.GetColorAt(p1, null);
+						var c2 =	Screens.GetColorAt(p2, null);
 						
 						if ((c1.R == 102 && c1.G == 102 && c1.B == 85) && (c2.R == 204 && c2.G == 51 && c2.B == 0)) {
 							SendKeys.SendWait("{F3}");
 							Thread.Sleep(1000);
 							SendKeys.SendWait("%");
 							SendKeys.SendWait("9");
-							Thread.Sleep(4000);
+							Thread.Sleep(1000);
 						}
 						
 						SendKeys.SendWait("{F3}");
@@ -111,6 +126,21 @@
 						Thread.Sleep(4000);
 						SendKeys.SendWait("%");
 						SendKeys.SendWait("9");
+					} else if (k == 0x38) {
+						SendKeys.SendWait("{F3}");
+						Thread.Sleep(1000);
+						SendKeys.SendWait("%");
+						SendKeys.SendWait("3");
+						Thread.Sleep(1000);
+						SendKeys.SendWait("%");
+						SendKeys.SendWait("6");
+						Thread.Sleep(2000);
+						SendKeys.SendWait("%");
+						SendKeys.SendWait("3");
+						Thread.Sleep(1000);
+						SendKeys.SendWait("%");
+						SendKeys.SendWait("7");
+						Thread.Sleep(3000);
 					} else if (k == 0x39) {
 						while (true) {
 							SendKeys.SendWait("{F10}");
@@ -122,59 +152,66 @@
 			} 		
 			base.WndProc(ref m);
 		}
+		IntPtr GetHWnd(string str)
+		{
+			return  new IntPtr(int.Parse(str, System.Globalization.NumberStyles.HexNumber));
+		}
 		void StartButton1ButtonClick(object sender, EventArgs e)
 		{
-			var hWnd = new IntPtr(int.Parse(handleBox1.Text, System.Globalization.NumberStyles.HexNumber));
-			var threshold = int.Parse(thresholdBox1.Text);
-			var address = int.Parse(memoryBox1.Text, System.Globalization.NumberStyles.HexNumber);
-			int pid;
+			if (!_b1) {
+				var hWnd = new IntPtr(int.Parse(handleBox1.Text, System.Globalization.NumberStyles.HexNumber));
+				var threshold = int.Parse(thresholdBox1.Text);
+				var address = new IntPtr(int.Parse(memoryBox1.Text, System.Globalization.NumberStyles.HexNumber));
+				int pid;
 		 
-			Win32.GetWindowThreadProcessId(new IntPtr(int.Parse(handleBox1.Text, System.Globalization.NumberStyles.HexNumber)), out pid);
-			if (pid < 1) {
-				return;
-			}
-			var hProcess = Win32.OpenProcess(Win32.PROCESS_QUERY_INFORMATION | Win32.PROCESS_WM_READ, false, pid);
-			
-			Task.Run(() => {
-				var h = hProcess.ToInt32();
-				while (true) {
-					if (Win32.ReadMemoryInt(h, address) < threshold) {
-						Win32.PostKey(hWnd, 0x71);
-						Thread.Sleep(1000);
-						Win32.PostKey(hWnd, 0x72);
-						Thread.Sleep(1000);
-						
-						continue;
-					}
-					Thread.Sleep(1000);
+			NativeMethods.GetWindowThreadProcessId(new HandleRef(this, new IntPtr(int.Parse(handleBox1.Text, System.Globalization.NumberStyles.HexNumber))), out pid);
+ 
+				if (pid < 1) {
+					return;
 				}
+				var hProcess = NativeMethods.OpenProcess(NativeMethods.PROCESS_QUERY_INFORMATION | NativeMethods.PROCESS_VM_READ, false, pid);
+			
+				Task.Run(() => {
+					
+					while (true) {
+						if (Memory.ReadMemoryInt(hProcess, address) < threshold) {
+							Keyboard.SendKey(hWnd, 0x71);
+							Thread.Sleep(1000);
+							Keyboard.SendKey(hWnd, 0x72);
+							Thread.Sleep(1000);
+						
+							continue;
+						}
+						Thread.Sleep(1000);
+					}
 			        
-			});
-			this.startButton1.Enabled = false;
+				});
+				_b1 = true;
+			
+			}
 		}
 		void StartButton2ButtonClick(object sender, EventArgs e)
 		{
 			var hWnd = new IntPtr(int.Parse(handleBox2.Text, System.Globalization.NumberStyles.HexNumber));
 			var threshold = int.Parse(thresholdBox2.Text);
-			var address = int.Parse(memoryBox2.Text, System.Globalization.NumberStyles.HexNumber);
+			var address = new IntPtr(int.Parse(memoryBox2.Text, System.Globalization.NumberStyles.HexNumber));
 			int pid;
 		 
-			Win32.GetWindowThreadProcessId(new IntPtr(int.Parse(handleBox2.Text, System.Globalization.NumberStyles.HexNumber)), out pid);
+			NativeMethods.GetWindowThreadProcessId(new HandleRef(this, new IntPtr(int.Parse(handleBox2.Text, System.Globalization.NumberStyles.HexNumber))), out pid);
+			 
 			if (pid < 1) {
 				return;
 			}
-			var hProcess = Win32.OpenProcess(Win32.PROCESS_QUERY_INFORMATION | Win32.PROCESS_WM_READ, false, pid);
+			var hProcess = NativeMethods.OpenProcess(NativeMethods.PROCESS_QUERY_INFORMATION | NativeMethods.PROCESS_VM_READ, false, pid);
 			
 			Task.Run(() => {
-				var h = hProcess.ToInt32();
+			 
 				while (true) {
-					if (Win32.ReadMemoryInt(h, address) < threshold) {
-						Win32.PostKey(hWnd, 0x77);
-						Thread.Sleep(1000);
+					if (Memory.ReadMemoryInt(hProcess, address) < threshold) {
+						Keyboard.SendKey(hWnd, 0x77);
 						
-						continue;
 					}
-					Thread.Sleep(1000);
+					Thread.Sleep(5000);
 				}
 			        
 			});
@@ -183,11 +220,11 @@
 		void ToolStripMenuItem1Click(object sender, EventArgs e)
 		{
 	
-			if (memoryBox2.Text.IsReadable())
-				return;
+			
 			int pid;
 		 
-			Win32.GetWindowThreadProcessId(new IntPtr(int.Parse(handleBox2.Text, System.Globalization.NumberStyles.HexNumber)), out pid);
+			NativeMethods.GetWindowThreadProcessId(new HandleRef(this, new IntPtr(int.Parse(handleBox2.Text, System.Globalization.NumberStyles.HexNumber))), out pid);
+			 
 			if (pid < 1) {
 				return;
 			}
@@ -208,7 +245,7 @@
 			};
 			var stopWatch = new Stopwatch();
 			stopWatch.Start();
-			var address =	Win32.ScanSegments(pid, pattern) + 0x80;
+			var address =	Memory.ScanSegments(pid, pattern) + 0x80;
 			stopWatch.Stop();
 			decimal micro = stopWatch.Elapsed.Ticks / 10m;
 			this.Text = string.Format("Execution time was {0:F1} microseconds. seconds{1}", micro, micro / 1000000);
@@ -226,11 +263,11 @@
 				while (true) {
 				
 					for (int i = 0; i < str.Length; i++) {
-						Win32.PostMessage(hWnd, Win32.WM_CHAR, (uint)str[i], 0);
+						NativeMethods.PostMessage(hWnd, (int)NativeMethods.WindowMessage.WM_CHAR, (uint)str[i], 0);
 					}
 					Thread.Sleep(1000);
 					         		
-					Win32.PostKey(hWnd, (uint)Keys.Enter);
+					Keyboard.SendKey(hWnd, (uint)Keys.Enter);
 					         		
 					Thread.Sleep(7000);
 				}
@@ -246,11 +283,10 @@
 		}
 		void 扫描血量内存地址ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			if (memoryBox1.Text.IsReadable())
-				return;
+			
 			int pid;
 		 
-			Win32.GetWindowThreadProcessId(new IntPtr(int.Parse(handleBox1.Text, System.Globalization.NumberStyles.HexNumber)), out pid);
+			NativeMethods.GetWindowThreadProcessId(new HandleRef(this, new IntPtr(int.Parse(handleBox1.Text, System.Globalization.NumberStyles.HexNumber))), out pid);
 			if (pid < 1) {
 				return;
 			}
@@ -271,7 +307,7 @@
 			};
 			var stopWatch = new Stopwatch();
 			stopWatch.Start();
-			var address =	Win32.ScanSegments(pid, pattern) + 0x80;
+			var address =	Memory.ScanSegments(pid, pattern) + 0x80;
 			stopWatch.Stop();
 			decimal micro = stopWatch.Elapsed.Ticks / 10m;
 			this.Text = string.Format("Execution time was {0:F1} microseconds. seconds{1}", micro, micro / 1000000);
@@ -283,11 +319,54 @@
 			if (_ks7 == 0) {
 				_ys = true;
 				_ks7 = 17;
+				_ks8 = 18;
 				_ks9 = 19;
-				Win32.RegisterHotKey(Handle, _ks9, 0, (int)Keys.D9);
-				Win32.RegisterHotKey(Handle, _ks7, 0, (int)Keys.D7);
+				_ks6 = 16;
+				var k = 0x36;
+				for (int i = 16; i < 20; i++) {
+					NativeMethods.RegisterHotKey(NativeMethods.HWND.Cast(Handle), i, 0, k++);
+				}
+				
+				 
+				/*
+				 * [6] 集中+加速
+				 * [7] 集中+加速+坐骑
+				 * [8] 集中+祝福+防御
+				 *  
+				 */
 				
 			}
+		}
+		void KeyPressContinue(string h, object sender)
+		{
+			var hWnd = GetHWnd(h);
+			
+			var menuItem = sender as ToolStripMenuItem;
+			uint keyString = 0;
+			switch (menuItem.Text) {
+				case "F8":
+					keyString = (uint)Keys.F8;
+					break;
+			}
+			if (keyString != 0) {
+				Task.Factory.StartNew(() => {
+					while (true) {
+						Keyboard.SendKey(hWnd, keyString);
+						Thread.Sleep(1000);
+					}
+				});
+			}
+			menuItem.Enabled = false;
+		}
+		void F8ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			KeyPressContinue(handleBox1.Text, sender);
+		
+		}
+		void F8Item2Click(object sender, EventArgs e)
+		{
+			KeyPressContinue(handleBox2.Text, sender);
+		 
 		}
 	}
 }

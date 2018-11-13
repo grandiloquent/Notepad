@@ -39,6 +39,11 @@ namespace FFO
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripMenuItem 勾魂利爪ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 注册药师技能热键ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripLabel messageLabel1;
+		private System.Windows.Forms.ToolStripSplitButton keyButton1;
+		private System.Windows.Forms.ToolStripMenuItem f8ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
+		private System.Windows.Forms.ToolStripMenuItem f8Item2;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -69,12 +74,14 @@ namespace FFO
 			this.thresholdBox1 = new System.Windows.Forms.ToolStripComboBox();
 			this.memoryLabel1 = new System.Windows.Forms.ToolStripLabel();
 			this.memoryBox1 = new System.Windows.Forms.ToolStripComboBox();
+			this.messageLabel1 = new System.Windows.Forms.ToolStripLabel();
+			this.chatBox1 = new System.Windows.Forms.ToolStripTextBox();
 			this.startButton1 = new System.Windows.Forms.ToolStripSplitButton();
 			this.扫描血量内存地址ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.发送文本消息ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.勾魂利爪ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.chatBox1 = new System.Windows.Forms.ToolStripTextBox();
+			this.注册药师技能热键ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
 			this.handleBox2 = new System.Windows.Forms.ToolStripTextBox();
@@ -86,7 +93,10 @@ namespace FFO
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip3 = new System.Windows.Forms.ToolStrip();
 			this.destroyClawsButton = new System.Windows.Forms.ToolStripButton();
-			this.注册药师技能热键ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.f8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.keyButton1 = new System.Windows.Forms.ToolStripSplitButton();
+			this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
+			this.f8Item2 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
 			this.toolStrip3.SuspendLayout();
@@ -101,11 +111,13 @@ namespace FFO
 			this.thresholdBox1,
 			this.memoryLabel1,
 			this.memoryBox1,
+			this.messageLabel1,
+			this.chatBox1,
 			this.startButton1,
-			this.chatBox1});
+			this.keyButton1});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(758, 25);
+			this.toolStrip1.Size = new System.Drawing.Size(767, 25);
 			this.toolStrip1.TabIndex = 0;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
@@ -142,6 +154,17 @@ namespace FFO
 			// 
 			this.memoryBox1.Name = "memoryBox1";
 			this.memoryBox1.Size = new System.Drawing.Size(121, 25);
+			// 
+			// messageLabel1
+			// 
+			this.messageLabel1.Name = "messageLabel1";
+			this.messageLabel1.Size = new System.Drawing.Size(32, 22);
+			this.messageLabel1.Text = "消失";
+			// 
+			// chatBox1
+			// 
+			this.chatBox1.Name = "chatBox1";
+			this.chatBox1.Size = new System.Drawing.Size(100, 25);
 			// 
 			// startButton1
 			// 
@@ -185,10 +208,12 @@ namespace FFO
 			this.勾魂利爪ToolStripMenuItem.Text = "勾魂利爪";
 			this.勾魂利爪ToolStripMenuItem.Click += new System.EventHandler(this.勾魂利爪ToolStripMenuItemClick);
 			// 
-			// chatBox1
+			// 注册药师技能热键ToolStripMenuItem
 			// 
-			this.chatBox1.Name = "chatBox1";
-			this.chatBox1.Size = new System.Drawing.Size(100, 25);
+			this.注册药师技能热键ToolStripMenuItem.Name = "注册药师技能热键ToolStripMenuItem";
+			this.注册药师技能热键ToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+			this.注册药师技能热键ToolStripMenuItem.Text = "注册药师技能热键";
+			this.注册药师技能热键ToolStripMenuItem.Click += new System.EventHandler(this.注册药师技能热键ToolStripMenuItemClick);
 			// 
 			// toolStrip2
 			// 
@@ -199,10 +224,11 @@ namespace FFO
 			this.thresholdBox2,
 			this.toolStripLabel3,
 			this.memoryBox2,
-			this.startButton2});
+			this.startButton2,
+			this.toolStripSplitButton1});
 			this.toolStrip2.Location = new System.Drawing.Point(0, 25);
 			this.toolStrip2.Name = "toolStrip2";
-			this.toolStrip2.Size = new System.Drawing.Size(758, 25);
+			this.toolStrip2.Size = new System.Drawing.Size(767, 25);
 			this.toolStrip2.TabIndex = 1;
 			this.toolStrip2.Text = "toolStrip2";
 			// 
@@ -265,7 +291,7 @@ namespace FFO
 			this.destroyClawsButton});
 			this.toolStrip3.Location = new System.Drawing.Point(0, 50);
 			this.toolStrip3.Name = "toolStrip3";
-			this.toolStrip3.Size = new System.Drawing.Size(758, 25);
+			this.toolStrip3.Size = new System.Drawing.Size(767, 25);
 			this.toolStrip3.TabIndex = 2;
 			this.toolStrip3.Text = "toolStrip3";
 			// 
@@ -279,18 +305,47 @@ namespace FFO
 			this.destroyClawsButton.Text = "toolStripButton1";
 			this.destroyClawsButton.Click += new System.EventHandler(this.DestroyClawsButtonClick);
 			// 
-			// 注册药师技能热键ToolStripMenuItem
+			// f8ToolStripMenuItem
 			// 
-			this.注册药师技能热键ToolStripMenuItem.Name = "注册药师技能热键ToolStripMenuItem";
-			this.注册药师技能热键ToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-			this.注册药师技能热键ToolStripMenuItem.Text = "注册药师技能热键";
-			this.注册药师技能热键ToolStripMenuItem.Click += new System.EventHandler(this.注册药师技能热键ToolStripMenuItemClick);
+			this.f8ToolStripMenuItem.Name = "f8ToolStripMenuItem";
+			this.f8ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.f8ToolStripMenuItem.Text = "F8";
+			this.f8ToolStripMenuItem.Click += new System.EventHandler(this.F8ToolStripMenuItemClick);
+			// 
+			// keyButton1
+			// 
+			this.keyButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.keyButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.f8ToolStripMenuItem});
+			this.keyButton1.Image = ((System.Drawing.Image)(resources.GetObject("keyButton1.Image")));
+			this.keyButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.keyButton1.Name = "keyButton1";
+			this.keyButton1.Size = new System.Drawing.Size(48, 22);
+			this.keyButton1.Text = "按键";
+			// 
+			// toolStripSplitButton1
+			// 
+			this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.f8Item2});
+			this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
+			this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripSplitButton1.Name = "toolStripSplitButton1";
+			this.toolStripSplitButton1.Size = new System.Drawing.Size(48, 22);
+			this.toolStripSplitButton1.Text = "按键";
+			// 
+			// f8Item2
+			// 
+			this.f8Item2.Name = "f8Item2";
+			this.f8Item2.Size = new System.Drawing.Size(152, 22);
+			this.f8Item2.Text = "F8";
+			this.f8Item2.Click += new System.EventHandler(this.F8Item2Click);
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(758, 131);
+			this.ClientSize = new System.Drawing.Size(767, 78);
 			this.Controls.Add(this.toolStrip3);
 			this.Controls.Add(this.toolStrip2);
 			this.Controls.Add(this.toolStrip1);
