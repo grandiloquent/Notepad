@@ -44,7 +44,7 @@ namespace  Shared
 		{
 			//  && char.IsLower(value[0])
 			if (!string.IsNullOrEmpty(value)) {
-				return value.Substring(0, 1).ToUpper() + value.Substring(1).ToLower();
+				return value.Substring(0, 1).ToUpper() + value.Substring(1);
 			}
 			return value;
 		}
@@ -135,6 +135,9 @@ namespace  Shared
 				yield return match.Value;
 				match = match.NextMatch();
 			}
+		}
+		public static string RemoveEmptyLines(this string value){
+			return string.Join(Environment.NewLine,value.Split(Environment.NewLine.ToCharArray(),StringSplitOptions.RemoveEmptyEntries));
 		}
 		public static IEnumerable<string> MatchesByGroup(this string value, string pattern)
 		{

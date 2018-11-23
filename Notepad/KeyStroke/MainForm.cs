@@ -70,7 +70,7 @@ namespace KeyStroke
 				var obj = new Dictionary<string,dynamic>();
 				obj.Add("prefix", s.SubstringBefore('(').SubstringAfter(" ").SubstringAfter("*").SubstringAfter("WINAPI ").Trim());
 				//obj.Add("prefix", string.Join("", matches).ToLower());
-				obj.Add("body", ls.Select(i => Regex.Replace(i.EscapeString(), "[a-z _A-Z]+[ \\*]+(?=[a-zA-Z]+[, )])", "").SubstringAfter(" ").TrimStart('*')));// changed
+				obj.Add("body", ls.Select(i => Regex.Replace(i.EscapeString(), "[a-z _A-Z]+[ \\*]+(?=[a-zA-Z0-9]+[, )])", "").SubstringAfter(" ").TrimStart('*')));// changed
 				
 				var r = new Dictionary<string,dynamic>();
 				r.Add(ls.First(), obj);
@@ -346,33 +346,316 @@ namespace KeyStroke
 		}
 		void CPUToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			using (ManagementObjectSearcher win32Proc = new ManagementObjectSearcher("select * from Win32_Processor"), 
-			       win32CompSys = new ManagementObjectSearcher("select * from Win32_ComputerSystem"),
-			       win32Memory = new ManagementObjectSearcher("select * from Win32_PhysicalMemory")) {
-				var sb = new StringBuilder();
-				foreach (ManagementObject obj in win32Proc.Get()) {
-//					var clockSpeed = obj["CurrentClockSpeed"].ToString();
-//					var procName = obj["Name"].ToString();
-//					var manufacturer = obj["Manufacturer"].ToString();
-//					var	version = obj["Version"].ToString();
-					sb.AppendLine(obj.GetText(TextFormat.Mof));
-					//MessageBox.Show(string.Format(" 当前时钟频率： {0}\r\n 名称: {1}\r\n 制造商: {2}\r\n {3}",clockSpeed,procName,manufacturer,version));
-				}
-				
-				foreach (ManagementObject obj in win32Memory.Get()) {
-					
-				 
-					sb.AppendLine(obj.GetText(TextFormat.Mof));
-					 
-				}
-				foreach (ManagementObject obj in win32CompSys.Get()) {
-					
-				 
-					sb.AppendLine(obj.GetText(TextFormat.Mof));
-					 
-				}
-				Clipboard.SetText(sb.ToString().Replace(";", ";" + Environment.NewLine));
+	 
+			var str = Clipboard.GetText();
+			var lines = str.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim().TrimEnd(';').Split(' ').Last());
+			
+			var sb = new StringBuilder();
+			foreach (var element in lines) {
+				sb.AppendLine(string.Format("try{{sb.AppendLine(\"【{0}】：\"+obj[\"{0}\"].ToString());}}catch{{sb.AppendLine(\"{0}\");}}", element));
 			}
+			Clipboard.SetText(sb.ToString());
+//			using (ManagementObjectSearcher win321394Controller = new ManagementObjectSearcher("select * from Win32_1394Controller"),
+//win321394ControllerDevice = new ManagementObjectSearcher("select * from Win32_1394ControllerDevice"),
+//win32AssociatedProcessorMemory = new ManagementObjectSearcher("select * from Win32_AssociatedProcessorMemory"),
+//win32AutochkSetting = new ManagementObjectSearcher("select * from Win32_AutochkSetting"),
+//win32BaseBoard = new ManagementObjectSearcher("select * from Win32_BaseBoard"),
+//win32Battery = new ManagementObjectSearcher("select * from Win32_Battery"),
+//win32BIOS = new ManagementObjectSearcher("select * from Win32_BIOS"),
+//win32Bus = new ManagementObjectSearcher("select * from Win32_Bus"),
+//win32CacheMemory = new ManagementObjectSearcher("select * from Win32_CacheMemory"),
+//win32CDROMDrive = new ManagementObjectSearcher("select * from Win32_CDROMDrive"),
+//win32CIMLogicalDeviceCIMDataFile = new ManagementObjectSearcher("select * from Win32_CIMLogicalDeviceCIMDataFile"),
+//win32ComputerSystemProcessor = new ManagementObjectSearcher("select * from Win32_ComputerSystemProcessor"),
+//win32CurrentProbe = new ManagementObjectSearcher("select * from Win32_CurrentProbe"),
+//win32DesktopMonitor = new ManagementObjectSearcher("select * from Win32_DesktopMonitor"),
+//win32DeviceBus = new ManagementObjectSearcher("select * from Win32_DeviceBus"),
+//win32DeviceChangeEvent = new ManagementObjectSearcher("select * from Win32_DeviceChangeEvent"),
+//win32DeviceMemoryAddress = new ManagementObjectSearcher("select * from Win32_DeviceMemoryAddress"),
+//win32DeviceSettings = new ManagementObjectSearcher("select * from Win32_DeviceSettings"),
+//win32DiskDrive = new ManagementObjectSearcher("select * from Win32_DiskDrive"),
+//win32DiskDriveToDiskPartition = new ManagementObjectSearcher("select * from Win32_DiskDriveToDiskPartition"),
+//win32DiskPartition = new ManagementObjectSearcher("select * from Win32_DiskPartition"),
+//win32DisplayControllerConfiguration = new ManagementObjectSearcher("select * from Win32_DisplayControllerConfiguration"),
+//win32DMAChannel = new ManagementObjectSearcher("select * from Win32_DMAChannel"),
+//win32DriverForDevice = new ManagementObjectSearcher("select * from Win32_DriverForDevice"),
+//win32Fan = new ManagementObjectSearcher("select * from Win32_Fan"),
+//win32FloppyController = new ManagementObjectSearcher("select * from Win32_FloppyController"),
+//win32FloppyDrive = new ManagementObjectSearcher("select * from Win32_FloppyDrive"),
+//win32HeatPipe = new ManagementObjectSearcher("select * from Win32_HeatPipe"),
+//win32IDEController = new ManagementObjectSearcher("select * from Win32_IDEController"),
+//win32IDEControllerDevice = new ManagementObjectSearcher("select * from Win32_IDEControllerDevice"),
+//win32InfraredDevice = new ManagementObjectSearcher("select * from Win32_InfraredDevice"),
+//win32IRQResource = new ManagementObjectSearcher("select * from Win32_IRQResource"),
+//win32Keyboard = new ManagementObjectSearcher("select * from Win32_Keyboard"),
+//win32LogicalDisk = new ManagementObjectSearcher("select * from Win32_LogicalDisk"),
+//win32LogicalDiskRootDirectory = new ManagementObjectSearcher("select * from Win32_LogicalDiskRootDirectory"),
+//win32LogicalDiskToPartition = new ManagementObjectSearcher("select * from Win32_LogicalDiskToPartition"),
+//win32LogicalProgramGroup = new ManagementObjectSearcher("select * from Win32_LogicalProgramGroup"),
+//win32LogicalProgramGroupDirectory = new ManagementObjectSearcher("select * from Win32_LogicalProgramGroupDirectory"),
+//win32LogicalProgramGroupItem = new ManagementObjectSearcher("select * from Win32_LogicalProgramGroupItem"),
+//win32LogicalProgramGroupItemDataFile = new ManagementObjectSearcher("select * from Win32_LogicalProgramGroupItemDataFile"),
+//win32MappedLogicalDisk = new ManagementObjectSearcher("select * from Win32_MappedLogicalDisk"),
+//win32MemoryArray = new ManagementObjectSearcher("select * from Win32_MemoryArray"),
+//win32MemoryArrayLocation = new ManagementObjectSearcher("select * from Win32_MemoryArrayLocation"),
+//win32MemoryDevice = new ManagementObjectSearcher("select * from Win32_MemoryDevice"),
+//win32MemoryDeviceArray = new ManagementObjectSearcher("select * from Win32_MemoryDeviceArray"),
+//win32MemoryDeviceLocation = new ManagementObjectSearcher("select * from Win32_MemoryDeviceLocation"),
+//win32MotherboardDevice = new ManagementObjectSearcher("select * from Win32_MotherboardDevice"),
+//win32NetworkAdapter = new ManagementObjectSearcher("select * from Win32_NetworkAdapter"),
+//win32NetworkAdapterConfiguration = new ManagementObjectSearcher("select * from Win32_NetworkAdapterConfiguration"),
+//win32NetworkAdapterSetting = new ManagementObjectSearcher("select * from Win32_NetworkAdapterSetting"),
+//win32NetworkClient = new ManagementObjectSearcher("select * from Win32_NetworkClient"),
+//win32NetworkConnection = new ManagementObjectSearcher("select * from Win32_NetworkConnection"),
+//win32NetworkLoginProfile = new ManagementObjectSearcher("select * from Win32_NetworkLoginProfile"),
+//win32NetworkProtocol = new ManagementObjectSearcher("select * from Win32_NetworkProtocol"),
+//win32OnBoardDevice = new ManagementObjectSearcher("select * from Win32_OnBoardDevice"),
+//win32ParallelPort = new ManagementObjectSearcher("select * from Win32_ParallelPort"),
+//win32PCMCIAController = new ManagementObjectSearcher("select * from Win32_PCMCIAController"),
+//win32PhysicalMemory = new ManagementObjectSearcher("select * from Win32_PhysicalMemory"),
+//win32PhysicalMemoryArray = new ManagementObjectSearcher("select * from Win32_PhysicalMemoryArray"),
+//win32PhysicalMemoryLocation = new ManagementObjectSearcher("select * from Win32_PhysicalMemoryLocation"),
+//win32PnPAllocatedResource = new ManagementObjectSearcher("select * from Win32_PnPAllocatedResource"),
+//win32PnPDevice = new ManagementObjectSearcher("select * from Win32_PnPDevice"),
+//win32PnPDeviceProperty = new ManagementObjectSearcher("select * from Win32_PnPDeviceProperty"),
+//win32PnPDevicePropertyBinary = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertyBinary"),
+//win32PnPDevicePropertyBoolean = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertyBoolean"),
+//win32PnPDevicePropertyBooleanArray = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertyBooleanArray"),
+//win32PnPDevicePropertyDateTime = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertyDateTime"),
+//win32PnPDevicePropertyDateTimeArray = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertyDateTimeArray"),
+//win32PnPDevicePropertyReal32 = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertyReal32"),
+//win32PnPDevicePropertyReal32Array = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertyReal32Array"),
+//win32PnPDevicePropertyReal64 = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertyReal64"),
+//win32PnPDevicePropertyReal64Array = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertyReal64Array"),
+//win32PnPDevicePropertySecurityDescriptor = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertySecurityDescriptor"),
+//win32PnPDevicePropertySecurityDescriptorArray = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertySecurityDescriptorArray"),
+//win32PnPDevicePropertySint16 = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertySint16"),
+//win32PnPDevicePropertySint16Array = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertySint16Array"),
+//win32PnPDevicePropertySint32 = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertySint32"),
+//win32PnPDevicePropertySint32Array = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertySint32Array"),
+//win32PnPDevicePropertySint64 = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertySint64"),
+//win32PnPDevicePropertySint64Array = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertySint64Array"),
+//win32PnPDevicePropertySint8 = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertySint8"),
+//win32PnPDevicePropertySint8Array = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertySint8Array"),
+//win32PnPDevicePropertyString = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertyString"),
+//win32PnPDevicePropertyStringArray = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertyStringArray"),
+//win32PnPDevicePropertyUint16 = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertyUint16"),
+//win32PnPDevicePropertyUint16Array = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertyUint16Array"),
+//win32PnPDevicePropertyUint32 = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertyUint32"),
+//win32PnPDevicePropertyUint32Array = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertyUint32Array"),
+//win32PnPDevicePropertyUint64 = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertyUint64"),
+//win32PnPDevicePropertyUint64Array = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertyUint64Array"),
+//win32PnPDevicePropertyUint8 = new ManagementObjectSearcher("select * from Win32_PnPDevicePropertyUint8"),
+//win32PnPEntity = new ManagementObjectSearcher("select * from Win32_PnPEntity"),
+//win32PointingDevice = new ManagementObjectSearcher("select * from Win32_PointingDevice"),
+//win32PortableBattery = new ManagementObjectSearcher("select * from Win32_PortableBattery"),
+//win32PortConnector = new ManagementObjectSearcher("select * from Win32_PortConnector"),
+//win32PortResource = new ManagementObjectSearcher("select * from Win32_PortResource"),
+//win32POTSModem = new ManagementObjectSearcher("select * from Win32_POTSModem"),
+//win32POTSModemToSerialPort = new ManagementObjectSearcher("select * from Win32_POTSModemToSerialPort"),
+//win32Printer = new ManagementObjectSearcher("select * from Win32_Printer"),
+//win32PrinterConfiguration = new ManagementObjectSearcher("select * from Win32_PrinterConfiguration"),
+//win32PrinterController = new ManagementObjectSearcher("select * from Win32_PrinterController"),
+//win32PrinterDriver = new ManagementObjectSearcher("select * from Win32_PrinterDriver"),
+//win32PrinterDriverDll = new ManagementObjectSearcher("select * from Win32_PrinterDriverDll"),
+//win32PrinterSetting = new ManagementObjectSearcher("select * from Win32_PrinterSetting"),
+//win32PrinterShare = new ManagementObjectSearcher("select * from Win32_PrinterShare"),
+//win32PrintJob = new ManagementObjectSearcher("select * from Win32_PrintJob"),
+//win32Processor = new ManagementObjectSearcher("select * from Win32_Processor"),
+//win32Refrigeration = new ManagementObjectSearcher("select * from Win32_Refrigeration"),
+//win32SCSIController = new ManagementObjectSearcher("select * from Win32_SCSIController"),
+//win32SCSIControllerDevice = new ManagementObjectSearcher("select * from Win32_SCSIControllerDevice"),
+//win32SerialPort = new ManagementObjectSearcher("select * from Win32_SerialPort"),
+//win32SerialPortConfiguration = new ManagementObjectSearcher("select * from Win32_SerialPortConfiguration"),
+//win32SerialPortSetting = new ManagementObjectSearcher("select * from Win32_SerialPortSetting"),
+//win32SMBIOSMemory = new ManagementObjectSearcher("select * from Win32_SMBIOSMemory"),
+//win32SoundDevice = new ManagementObjectSearcher("select * from Win32_SoundDevice"),
+//win32TapeDrive = new ManagementObjectSearcher("select * from Win32_TapeDrive"),
+//win32TCPIPPrinterPort = new ManagementObjectSearcher("select * from Win32_TCPIPPrinterPort"),
+//win32TemperatureProbe = new ManagementObjectSearcher("select * from Win32_TemperatureProbe"),
+//win32USBController = new ManagementObjectSearcher("select * from Win32_USBController"),
+//win32USBControllerDevice = new ManagementObjectSearcher("select * from Win32_USBControllerDevice"),
+//win32VideoController = new ManagementObjectSearcher("select * from Win32_VideoController"),
+//win32VideoSettings = new ManagementObjectSearcher("select * from Win32_VideoSettings"),
+//win32VoltageProbe = new ManagementObjectSearcher("select * from Win32_VoltageProbe")) {
+//var sb = new StringBuilder();
+//try{foreach (ManagementObject obj in win321394Controller.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win321394ControllerDevice.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32AssociatedProcessorMemory.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32AutochkSetting.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32BaseBoard.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32Battery.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32BIOS.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32Bus.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32CacheMemory.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32CDROMDrive.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32CIMLogicalDeviceCIMDataFile.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32ComputerSystemProcessor.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32CurrentProbe.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32DesktopMonitor.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32DeviceBus.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32DeviceChangeEvent.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32DeviceMemoryAddress.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32DeviceSettings.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32DiskDrive.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32DiskDriveToDiskPartition.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32DiskPartition.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32DisplayControllerConfiguration.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32DMAChannel.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32DriverForDevice.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32Fan.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32FloppyController.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32FloppyDrive.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32HeatPipe.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32IDEController.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32IDEControllerDevice.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32InfraredDevice.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32IRQResource.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32Keyboard.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32LogicalDisk.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32LogicalDiskRootDirectory.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32LogicalDiskToPartition.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32LogicalProgramGroup.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32LogicalProgramGroupDirectory.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32LogicalProgramGroupItem.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32LogicalProgramGroupItemDataFile.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32MappedLogicalDisk.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32MemoryArray.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32MemoryArrayLocation.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32MemoryDevice.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32MemoryDeviceArray.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32MemoryDeviceLocation.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32MotherboardDevice.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32NetworkAdapter.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32NetworkAdapterConfiguration.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32NetworkAdapterSetting.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32NetworkClient.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32NetworkConnection.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32NetworkLoginProfile.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32NetworkProtocol.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32OnBoardDevice.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32ParallelPort.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PCMCIAController.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PhysicalMemory.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PhysicalMemoryArray.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PhysicalMemoryLocation.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPAllocatedResource.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevice.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDeviceProperty.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertyBinary.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertyBoolean.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertyBooleanArray.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertyDateTime.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertyDateTimeArray.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertyReal32.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertyReal32Array.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertyReal64.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertyReal64Array.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertySecurityDescriptor.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertySecurityDescriptorArray.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertySint16.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertySint16Array.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertySint32.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertySint32Array.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertySint64.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertySint64Array.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertySint8.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertySint8Array.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertyString.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertyStringArray.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertyUint16.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertyUint16Array.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertyUint32.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertyUint32Array.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertyUint64.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertyUint64Array.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPDevicePropertyUint8.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PnPEntity.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PointingDevice.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PortableBattery.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PortConnector.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PortResource.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32POTSModem.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32POTSModemToSerialPort.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32Printer.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PrinterConfiguration.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PrinterController.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PrinterDriver.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PrinterDriverDll.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PrinterSetting.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PrinterShare.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32PrintJob.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32Processor.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32Refrigeration.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32SCSIController.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32SCSIControllerDevice.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32SerialPort.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32SerialPortConfiguration.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32SerialPortSetting.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32SMBIOSMemory.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32SoundDevice.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32TapeDrive.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32TCPIPPrinterPort.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32TemperatureProbe.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32USBController.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32USBControllerDevice.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32VideoController.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32VideoSettings.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//try{foreach (ManagementObject obj in win32VoltageProbe.Get()) {sb.AppendLine(obj.GetText(TextFormat.Mof));}}catch{}
+//Clipboard.SetText(sb.ToString().Replace(";", ";" + Environment.NewLine));
+//}
+
+//			using (ManagementObjectSearcher win32Proc = new ManagementObjectSearcher("select * from Win32_Processor"), 
+//			       win32CompSys = new ManagementObjectSearcher("select * from Win32_ComputerSystem"),
+//			       win32Memory = new ManagementObjectSearcher("select * from Win32_PhysicalMemory")  ) {
+//				var sb = new StringBuilder();
+//				foreach (ManagementObject obj in win32Proc.Get()) {
+////					var clockSpeed = obj["CurrentClockSpeed"].ToString();
+////					var procName = obj["Name"].ToString();
+////					var manufacturer = obj["Manufacturer"].ToString();
+////					var	version = obj["Version"].ToString();
+//					sb.AppendLine(obj.GetText(TextFormat.Mof));
+//					//MessageBox.Show(string.Format(" 当前时钟频率： {0}\r\n 名称: {1}\r\n 制造商: {2}\r\n {3}",clockSpeed,procName,manufacturer,version));
+//				}
+//				
+//				foreach (ManagementObject obj in win32Memory.Get()) {
+//					
+//				 
+//					sb.AppendLine(obj.GetText(TextFormat.Mof));
+//					 
+//				}
+//				foreach (ManagementObject obj in win32CompSys.Get()) {
+//					
+//				 
+//					sb.AppendLine(obj.GetText(TextFormat.Mof));
+//					 
+//				}
+//				Clipboard.SetText(sb.ToString().Replace(";", ";" + Environment.NewLine));
+//			}
+
+//			var hd = new HtmlAgilityPack.HtmlDocument();
+//			hd.LoadHtml(Clipboard.GetText());
+//			var nodes=hd.DocumentNode.SelectNodes("//li/a");
+//			var ls=new List<string>();
+//			var sb=new StringBuilder();
+//			foreach (var element in nodes) {
+//				var str=element.InnerText.Trim();
+//				if(str.StartsWith("Win32_")&& !str.Contains(' '))
+//				ls.Add(str);
+//			}
+//			ls=ls.Distinct().OrderBy(i=>i).ToList();
+//			
+//			var p1=ls.Select(i=>string.Format("win32{1} = new ManagementObjectSearcher(\"select * from {0}\")",i,i.Split('_').Last()));
+//			sb.Append("using (ManagementObjectSearcher ");
+//			sb.Append(string.Join(","+Environment.NewLine,p1));
+//			sb.AppendLine(") {");
+//			sb.AppendLine("var sb = new StringBuilder();");
+//			var p2=ls.Select(i=>string.Format("try{{foreach (ManagementObject obj in win32{0}.Get()) {{sb.AppendLine(obj.GetText(TextFormat.Mof));}}}}catch{{}}",i.Split('_').Last()));
+//			sb.AppendLine(string.Join(Environment.NewLine,p2));
+//			sb.AppendLine("Clipboard.SetText(sb.ToString().Replace(\";\", \";\" + Environment.NewLine));");
+//			sb.AppendLine("}");
+//			
+//			Clipboard.SetText(sb.ToString());
 		}
 		void CLangFormatToolStripMenuItemClick(object sender, EventArgs e)
 		{
@@ -476,8 +759,9 @@ namespace KeyStroke
 				
 				var r = new Dictionary<string,dynamic>();
 				r.Add(ls.First(), obj);
-				var sr=Newtonsoft.Json.JsonConvert.SerializeObject(r).Replace("\\\\u", "\\u");
-				return sr.Substring(1, sr.Length - 2) + ",";;            
+				var sr = Newtonsoft.Json.JsonConvert.SerializeObject(r).Replace("\\\\u", "\\u");
+				return sr.Substring(1, sr.Length - 2) + ",";
+				;            
 			});
 			
 			
@@ -485,9 +769,152 @@ namespace KeyStroke
 		}
 		void 格式化C代码ToolStripMenuItem1Click(object sender, EventArgs e)
 		{
-			var v=Clipboard.GetText();
-			var str=Codes.FormatCSharpCode(v);
+			var v = Clipboard.GetText();
+			var str = Codes.FormatCSharpCode(v);
 			Clipboard.SetText(str);
+		}
+		void KotlinButtonButtonClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardString((v) => {
+			                           
+				var fileName = v.SubstringBefore('{').SubstringBefore('(').SubstringBefore('<').SubstringAfterLast(' ') + ".kt";
+			                           
+				fileName.GetDesktopPath().WriteAllText(v);
+				return null;
+			});
+		}
+		void 清理JavaKt文件ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardDirectory((v) => {
+				var files = Directory
+			                           		.GetFiles(v, "*", SearchOption.AllDirectories)
+			                           		.Where(i => Regex.IsMatch(i, "\\.(?:java|kt)$"));
+				var pattern = "package ";
+				foreach (var element in files) {
+					var content = element.ReadAllText().TrimStart();
+					if (content.StartsWith(pattern)) {
+						continue;
+					} else {
+						var pos =	content.IndexOf(pattern);
+						if (pos > -1) {
+							element.WriteAllText(content.Substring(pos));
+						}
+					}
+				}
+			});
+		}
+	 
+		void 生成IDXMLToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardString(Codes.GenerateAndroidId);
+		}
+		void 清除空行ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardDirectory((v) => v.ClearEmptyLinesInDirectory());
+		}
+		void 格式化XML资源文件ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardString(Codes.FormatAndroidResource);
+	
+		}
+		void 合并XML文件ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardDirectory(Codes.CombineAndroidResource);
+	
+		}
+		void JavaStaticKotlinConstToolStripMenuItemClick(object sender, EventArgs e)
+		{
+	
+		}
+		void KotlinConstToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardString((v) => {
+				return Regex.Replace(v, "(?<!const) val", " const val");
+			});
+		}
+		void 函数ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardString(Codes.OrderKotlinFun);
+		}
+		void 行ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardString((v) => {
+				return string.Join("\n", v.Split('\n').Select(i => i.Trim()).Distinct().OrderBy(i => i));
+			});
+	
+		}
+		
+		void PublicMethodsToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardString((v) => {
+				var ls = new List<string>();
+				var ls1=new List<string>();
+				var hd = new HtmlAgilityPack.HtmlDocument();
+				hd.LoadHtml(v);
+				var nodes = hd.DocumentNode.SelectNodes("//tbody/tr[contains(@class, 'api')]").ToArray();
+				foreach (var element in nodes) {
+					try {
+					 
+						var children = element.ChildNodes.Where(i => i.NodeType != HtmlAgilityPack.HtmlNodeType.Text).ToArray();
+						var rs = children[0].InnerText.Trim().SubstringAfterLast(" ");
+						if(rs.Contains("final"))continue;
+						var rs1 = children[1].ChildNodes[1].InnerText.Trim();
+						var rs2 = "";
+
+						try {
+							rs2 = children[1].ChildNodes[3].InnerText.Trim();
+						} catch {
+						
+						}
+						var sb = new StringBuilder();
+			                           		
+						var ab = new string[2];
+						try {
+							if (rs1.IsReadable())
+								ab =	Codes.ParseJavaParameters(rs1);
+						} catch (Exception ex) {
+						
+						}
+			                           		
+						//sb.AppendLine("TODO(\"not implemented\")");
+						if (rs == "void") {
+							ls1.Add(string.Format("// override fun {0}({1})", rs1.SubstringBefore('('), ab[1]));
+							sb.AppendLine(string.Format("override fun {0}({1}){{", rs1.SubstringBefore('('), ab[1]));
+							sb.AppendLine("// "+Regex.Replace(rs2,"[\r\n]+"," "));
+			                           			
+							sb.AppendLine("TODO(\"not implemented\")\r\n// "+ab[0]);
+			                           		
+						} else {
+							ls1.Add(string.Format("// override fun {0}({1}):{2}", rs1.SubstringBefore('('), ab[1], rs.Capitalize()));
+							
+							sb.AppendLine(string.Format("override fun {0}({1}):{2}{{", rs1.SubstringBefore('('), ab[1], rs.Capitalize()));
+							sb.AppendLine("// "+Regex.Replace(rs2,"[\r\n]+"," "));
+			                           			
+							sb.AppendLine("TODO(\"not implemented\")\r\n// return " + ab[0]);
+							
+						}
+						sb.AppendLine("}");
+						ls.Add(sb.ToString());
+					} catch (Exception ex) {
+						
+					}
+			                    
+			                           		
+				}
+				return string.Join(Environment.NewLine,ls1.OrderBy(i=>i))+"\r\n\r\n\rn"+ string.Join(Environment.NewLine, ls);
+			});
+		}
+		void KotlinParameterToolStripMenuItemClick(object sender, EventArgs e)
+		{
+	WinForms.OnClipboardString((v) => {
+				 
+			var a=v.SubstringAfter("(").SubstringBeforeLast(")");
+			var b=a.Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries);
+			var c=b.Select(i=>Regex.Split(i,"\\s").Where(ix=>ix.IsReadable()).Last()).ToArray();
+ 
+			
+			return  string.Join(",",c);
+			});
 		}
 	 
 		

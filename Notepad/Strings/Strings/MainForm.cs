@@ -28,13 +28,13 @@ namespace Strings
 		void ToGbkButtonClick(object sender, EventArgs e)
 		{
 			Extensions.OnClipboardString((value) => {
-			                             	var array=Regex.Split(value," 00");
-			                             	var list=new List<string>();
-			                             	foreach (var element in array) {
-			                             		var line=element.ByteArrayToGbkString();
-			                             		list.Add(line);
-			                             	}
-			                             	textBox1.Text = string.Join(Environment.NewLine,list);
+				var array = Regex.Split(value, " 00");
+				var list = new List<string>();
+				foreach (var element in array) {
+					var line = element.ByteArrayToGbkString();
+					list.Add(line);
+				}
+				textBox1.Text = string.Join(Environment.NewLine, list);
 				return null;
 			});
 		}
@@ -209,6 +209,11 @@ namespace Strings
 			
 			Clipboard.SetText(string.Join(Environment.NewLine, ls.OrderBy(i => i).Distinct()));
 		}
+		static string StripComments(string code)
+		{
+			var re = @"(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|//.*|/\*(?s:.*?)\*/";
+			return Regex.Replace(code, re, "$1");
+		}
 		void CompareFileButtonButtonClick(object sender, EventArgs e)
 		{
 	
@@ -216,26 +221,45 @@ namespace Strings
 			var file2 = fileNameBox2.Text;
 			
 			if (File.Exists(file1) && File.Exists(file1)) {
-				var ls=new List<string>();
-				var ls1 = file1.ReadAllLinesWithTrim();
-				var ls2 = file2.ReadAllLinesWithTrim();
-				var count=0;
+				var ls = new List<string>();
+				var ls1 = StripComments(File.ReadAllText(file1, new UTF8Encoding(false))).Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Where(i => !string.IsNullOrWhiteSpace(i)).ToArray();
+				var ls2 = StripComments(File.ReadAllText(file2, new UTF8Encoding(false))).Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Where(i => !string.IsNullOrWhiteSpace(i)).ToArray();
+				var count = 0;
 				foreach (var element in ls1) {
-					if(ls2.Count()>count){
-						if(element!=ls2.ElementAt(count)){
-								ls.Add(string.Format("{0} {1} <===> {2}",count+1,element,ls2.ElementAt(count)));
+					if (ls2.Count() > count) {
+						if (element != ls2.ElementAt(count)) {
+							ls.Add(string.Format("{0} {1} <===> {2}", count + 1, element, ls2.ElementAt(count)));
 						}
 					
 					
 					}
-						count++;
+					count++;
 				}
-				textBox1.Text=string.Join(Environment.NewLine,ls);
+				textBox1.Text = string.Join(Environment.NewLine, ls);
 			}
 		}
 		void 倒序字符串ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			textBox1.SelectedText=new String( textBox1.SelectedText.ToArray().Reverse().ToArray());
+			textBox1.SelectedText = new String(textBox1.SelectedText.ToArray().Reverse().ToArray());
+		}
+		void 比较字符串ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			var ls = new List<string>();
+			var ls1 = StripComments( textBox1.Text).Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Where(i => !string.IsNullOrWhiteSpace(i)).ToArray();
+			                        var ls2 = StripComments( textBox2.Text).Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Where(i => !string.IsNullOrWhiteSpace(i)).ToArray();
+			var count = 0;
+			foreach (var element in ls1) {
+				if (ls2.Count() > count) {
+					if (element != ls2.ElementAt(count)) {
+						ls.Add(string.Format("{0} {1} <===> {2}", count + 1, element, ls2.ElementAt(count)));
+					}
+					
+					
+				}
+				count++;
+			}
+			textBox1.Text = string.Join(Environment.NewLine, ls);
+	
 		}
 			 
 		 

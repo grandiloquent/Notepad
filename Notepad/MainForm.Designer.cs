@@ -108,8 +108,6 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
 		private System.Windows.Forms.ToolStripMenuItem gitHub页面源代码到HTML文件ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
-		private System.Windows.Forms.ToolStripMenuItem hexToIntToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem intToHexToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
 		private System.Windows.Forms.ToolStripMenuItem cheatEngineMemoryViewer数组到BYTE数组ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 计算匹配数量正则表达式ToolStripMenuItem;
@@ -122,6 +120,7 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripMenuItem 导入Apress单文件ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 导出当前数据库ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 复制当前数据库ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 排序分隔符ToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -190,8 +189,7 @@ namespace Notepad
 			this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
 			this.替换文件中ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator15 = new System.Windows.Forms.ToolStripSeparator();
-			this.hexToIntToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.intToHexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.排序分隔符ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.templateButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.行ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip3 = new System.Windows.Forms.ToolStrip();
@@ -587,8 +585,7 @@ namespace Notepad
 			this.toolStripSeparator9,
 			this.替换文件中ToolStripMenuItem,
 			this.toolStripSeparator15,
-			this.hexToIntToolStripMenuItem,
-			this.intToHexToolStripMenuItem});
+			this.排序分隔符ToolStripMenuItem});
 			this.findButton.Image = ((System.Drawing.Image)(resources.GetObject("findButton.Image")));
 			this.findButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.findButton.Name = "findButton";
@@ -648,19 +645,12 @@ namespace Notepad
 			this.toolStripSeparator15.Name = "toolStripSeparator15";
 			this.toolStripSeparator15.Size = new System.Drawing.Size(213, 6);
 			// 
-			// hexToIntToolStripMenuItem
+			// 排序分隔符ToolStripMenuItem
 			// 
-			this.hexToIntToolStripMenuItem.Name = "hexToIntToolStripMenuItem";
-			this.hexToIntToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
-			this.hexToIntToolStripMenuItem.Text = "Hex to Int";
-			this.hexToIntToolStripMenuItem.Click += new System.EventHandler(this.HexToIntToolStripMenuItemClick);
-			// 
-			// intToHexToolStripMenuItem
-			// 
-			this.intToHexToolStripMenuItem.Name = "intToHexToolStripMenuItem";
-			this.intToHexToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
-			this.intToHexToolStripMenuItem.Text = "Int to Hex";
-			this.intToHexToolStripMenuItem.Click += new System.EventHandler(this.IntToHexToolStripMenuItemClick);
+			this.排序分隔符ToolStripMenuItem.Name = "排序分隔符ToolStripMenuItem";
+			this.排序分隔符ToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+			this.排序分隔符ToolStripMenuItem.Text = "排序(分隔符)";
+			this.排序分隔符ToolStripMenuItem.Click += new System.EventHandler(this.排序分隔符ToolStripMenuItemClick);
 			// 
 			// templateButton
 			// 

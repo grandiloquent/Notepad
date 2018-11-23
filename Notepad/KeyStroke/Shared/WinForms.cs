@@ -146,7 +146,7 @@ namespace Shared
 				str = func(str);
 				if (str.IsReadable())
 					Clipboard.SetText(str);
-			} catch {
+			} catch(Exception ingored) {
 				
 			}
 		}

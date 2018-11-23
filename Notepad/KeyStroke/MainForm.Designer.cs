@@ -53,6 +53,24 @@ namespace KeyStroke
 		private System.Windows.Forms.ToolStripMenuItem vSC代码段格式化ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSplitButton csharpButton;
 		private System.Windows.Forms.ToolStripMenuItem 格式化C代码ToolStripMenuItem1;
+		private System.Windows.Forms.ToolStripSplitButton kotlinButton;
+		private System.Windows.Forms.ToolStripMenuItem 清理JavaKt文件ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 生成IDXMLToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSplitButton stringSplitButton1;
+		private System.Windows.Forms.ToolStripMenuItem 清除空行ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 格式化XML资源文件ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+		private System.Windows.Forms.ToolStripMenuItem xMLToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 合并XML文件ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 格式化ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem javaStaticKotlinConstToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem kotlinConstToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 排序ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 函数ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 行ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 生成ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem publicMethodsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem kotlinParameterToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -92,6 +110,21 @@ namespace KeyStroke
 			this.清空CodeBlocks项目ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.vSC代码段格式化ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.kotlinButton = new System.Windows.Forms.ToolStripSplitButton();
+			this.清理JavaKt文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.生成IDXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.格式化XML资源文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+			this.xMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.合并XML文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.格式化ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.javaStaticKotlinConstToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.kotlinConstToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.排序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.函数ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.行ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.生成ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.publicMethodsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.clearButton = new System.Windows.Forms.ToolStripButton();
 			this.othersButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.压缩目录不包含ZIP文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -112,9 +145,12 @@ namespace KeyStroke
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.gBKToUTF8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.uTF8ToGBKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.globalEventProvider1 = new Gma.UserActivityMonitor.GlobalEventProvider();
 			this.csharpButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.格式化C代码ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.stringSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
+			this.清除空行ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.globalEventProvider1 = new Gma.UserActivityMonitor.GlobalEventProvider();
+			this.kotlinParameterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -123,14 +159,16 @@ namespace KeyStroke
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.kdButton,
 			this.cButton,
+			this.kotlinButton,
 			this.clearButton,
 			this.othersButton,
 			this.cmdButton,
 			this.ebookButton,
-			this.csharpButton});
+			this.csharpButton,
+			this.stringSplitButton1});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(435, 25);
+			this.toolStrip1.Size = new System.Drawing.Size(547, 25);
 			this.toolStrip1.TabIndex = 0;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
@@ -256,6 +294,128 @@ namespace KeyStroke
 			this.vSC代码段格式化ToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
 			this.vSC代码段格式化ToolStripMenuItem.Text = "VSC 代码段格式化";
 			this.vSC代码段格式化ToolStripMenuItem.Click += new System.EventHandler(this.VSC代码段格式化ToolStripMenuItemClick);
+			// 
+			// kotlinButton
+			// 
+			this.kotlinButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.kotlinButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.清理JavaKt文件ToolStripMenuItem,
+			this.生成IDXMLToolStripMenuItem,
+			this.格式化XML资源文件ToolStripMenuItem,
+			this.toolStripSeparator4,
+			this.xMLToolStripMenuItem,
+			this.格式化ToolStripMenuItem,
+			this.排序ToolStripMenuItem,
+			this.生成ToolStripMenuItem});
+			this.kotlinButton.Image = ((System.Drawing.Image)(resources.GetObject("kotlinButton.Image")));
+			this.kotlinButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.kotlinButton.Name = "kotlinButton";
+			this.kotlinButton.Size = new System.Drawing.Size(57, 22);
+			this.kotlinButton.Text = "Kotlin";
+			this.kotlinButton.ButtonClick += new System.EventHandler(this.KotlinButtonButtonClick);
+			// 
+			// 清理JavaKt文件ToolStripMenuItem
+			// 
+			this.清理JavaKt文件ToolStripMenuItem.Name = "清理JavaKt文件ToolStripMenuItem";
+			this.清理JavaKt文件ToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+			this.清理JavaKt文件ToolStripMenuItem.Text = "清理Java/Kt文件";
+			this.清理JavaKt文件ToolStripMenuItem.Click += new System.EventHandler(this.清理JavaKt文件ToolStripMenuItemClick);
+			// 
+			// 生成IDXMLToolStripMenuItem
+			// 
+			this.生成IDXMLToolStripMenuItem.Name = "生成IDXMLToolStripMenuItem";
+			this.生成IDXMLToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+			this.生成IDXMLToolStripMenuItem.Text = "生成 ID XML";
+			this.生成IDXMLToolStripMenuItem.Click += new System.EventHandler(this.生成IDXMLToolStripMenuItemClick);
+			// 
+			// 格式化XML资源文件ToolStripMenuItem
+			// 
+			this.格式化XML资源文件ToolStripMenuItem.Name = "格式化XML资源文件ToolStripMenuItem";
+			this.格式化XML资源文件ToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+			this.格式化XML资源文件ToolStripMenuItem.Text = "格式化 XML 资源文件";
+			this.格式化XML资源文件ToolStripMenuItem.Click += new System.EventHandler(this.格式化XML资源文件ToolStripMenuItemClick);
+			// 
+			// toolStripSeparator4
+			// 
+			this.toolStripSeparator4.Name = "toolStripSeparator4";
+			this.toolStripSeparator4.Size = new System.Drawing.Size(191, 6);
+			// 
+			// xMLToolStripMenuItem
+			// 
+			this.xMLToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.合并XML文件ToolStripMenuItem});
+			this.xMLToolStripMenuItem.Name = "xMLToolStripMenuItem";
+			this.xMLToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+			this.xMLToolStripMenuItem.Text = "XML";
+			// 
+			// 合并XML文件ToolStripMenuItem
+			// 
+			this.合并XML文件ToolStripMenuItem.Name = "合并XML文件ToolStripMenuItem";
+			this.合并XML文件ToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+			this.合并XML文件ToolStripMenuItem.Text = "合并 XML 文件";
+			this.合并XML文件ToolStripMenuItem.Click += new System.EventHandler(this.合并XML文件ToolStripMenuItemClick);
+			// 
+			// 格式化ToolStripMenuItem
+			// 
+			this.格式化ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.javaStaticKotlinConstToolStripMenuItem,
+			this.kotlinConstToolStripMenuItem,
+			this.kotlinParameterToolStripMenuItem});
+			this.格式化ToolStripMenuItem.Name = "格式化ToolStripMenuItem";
+			this.格式化ToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+			this.格式化ToolStripMenuItem.Text = "格式化";
+			// 
+			// javaStaticKotlinConstToolStripMenuItem
+			// 
+			this.javaStaticKotlinConstToolStripMenuItem.Name = "javaStaticKotlinConstToolStripMenuItem";
+			this.javaStaticKotlinConstToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
+			this.javaStaticKotlinConstToolStripMenuItem.Text = "Java Static - Kotlin const";
+			this.javaStaticKotlinConstToolStripMenuItem.Click += new System.EventHandler(this.JavaStaticKotlinConstToolStripMenuItemClick);
+			// 
+			// kotlinConstToolStripMenuItem
+			// 
+			this.kotlinConstToolStripMenuItem.Name = "kotlinConstToolStripMenuItem";
+			this.kotlinConstToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
+			this.kotlinConstToolStripMenuItem.Text = "Kotlin const";
+			this.kotlinConstToolStripMenuItem.Click += new System.EventHandler(this.KotlinConstToolStripMenuItemClick);
+			// 
+			// 排序ToolStripMenuItem
+			// 
+			this.排序ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.函数ToolStripMenuItem,
+			this.行ToolStripMenuItem});
+			this.排序ToolStripMenuItem.Name = "排序ToolStripMenuItem";
+			this.排序ToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+			this.排序ToolStripMenuItem.Text = "排序";
+			// 
+			// 函数ToolStripMenuItem
+			// 
+			this.函数ToolStripMenuItem.Name = "函数ToolStripMenuItem";
+			this.函数ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+			this.函数ToolStripMenuItem.Text = "函数";
+			this.函数ToolStripMenuItem.Click += new System.EventHandler(this.函数ToolStripMenuItemClick);
+			// 
+			// 行ToolStripMenuItem
+			// 
+			this.行ToolStripMenuItem.Name = "行ToolStripMenuItem";
+			this.行ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+			this.行ToolStripMenuItem.Text = "行";
+			this.行ToolStripMenuItem.Click += new System.EventHandler(this.行ToolStripMenuItemClick);
+			// 
+			// 生成ToolStripMenuItem
+			// 
+			this.生成ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.publicMethodsToolStripMenuItem});
+			this.生成ToolStripMenuItem.Name = "生成ToolStripMenuItem";
+			this.生成ToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+			this.生成ToolStripMenuItem.Text = "生成";
+			// 
+			// publicMethodsToolStripMenuItem
+			// 
+			this.publicMethodsToolStripMenuItem.Name = "publicMethodsToolStripMenuItem";
+			this.publicMethodsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+			this.publicMethodsToolStripMenuItem.Text = "Public methods";
+			this.publicMethodsToolStripMenuItem.Click += new System.EventHandler(this.PublicMethodsToolStripMenuItemClick);
 			// 
 			// clearButton
 			// 
@@ -439,12 +599,37 @@ namespace KeyStroke
 			this.格式化C代码ToolStripMenuItem1.Text = "格式化C#代码";
 			this.格式化C代码ToolStripMenuItem1.Click += new System.EventHandler(this.格式化C代码ToolStripMenuItem1Click);
 			// 
+			// stringSplitButton1
+			// 
+			this.stringSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.stringSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.清除空行ToolStripMenuItem});
+			this.stringSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("stringSplitButton1.Image")));
+			this.stringSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.stringSplitButton1.Name = "stringSplitButton1";
+			this.stringSplitButton1.Size = new System.Drawing.Size(60, 22);
+			this.stringSplitButton1.Text = "字符串";
+			// 
+			// 清除空行ToolStripMenuItem
+			// 
+			this.清除空行ToolStripMenuItem.Name = "清除空行ToolStripMenuItem";
+			this.清除空行ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+			this.清除空行ToolStripMenuItem.Text = "清除空行";
+			this.清除空行ToolStripMenuItem.Click += new System.EventHandler(this.清除空行ToolStripMenuItemClick);
+			// 
+			// kotlinParameterToolStripMenuItem
+			// 
+			this.kotlinParameterToolStripMenuItem.Name = "kotlinParameterToolStripMenuItem";
+			this.kotlinParameterToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
+			this.kotlinParameterToolStripMenuItem.Text = "Kotlin Parameter";
+			this.kotlinParameterToolStripMenuItem.Click += new System.EventHandler(this.KotlinParameterToolStripMenuItemClick);
+			// 
 			// MainForm
 			// 
 			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(435, 38);
+			this.ClientSize = new System.Drawing.Size(547, 35);
 			this.Controls.Add(this.toolStrip1);
 			this.Name = "MainForm";
 			this.Text = "KeyStroke";

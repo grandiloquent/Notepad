@@ -18,7 +18,7 @@ namespace Notepad
 		private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
 		[System.Runtime.InteropServices.DllImport("user32.dll")]
 		private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
-        
+		
 		private string _defaultDatabase;
 		private readonly string _dataPath;
 		private Article _article;
@@ -56,8 +56,8 @@ namespace Notepad
 
 			cplusSplitButton.ButtonClick += (s, o) => Helper.GenerateGPlusPlusCommand();
 			数字序列数组ToolStripMenuItem.Click += (s, o) => Helper.GenerateDigit();
-				//C代码段VSCToolStripMenuItem
-		 
+			//C代码段VSCToolStripMenuItem
+			
 			排序代码段ToolStripMenuItem.Click += (s, o) => Helper.SortVSCSnippets();
 			if ("settings.txt".GetCommandPath().FileExists()) {
 				var value = "settings.txt".GetCommandPath().ReadAllText();
@@ -110,7 +110,7 @@ namespace Notepad
 		}
 		void H2ButtonClick(object sender, EventArgs e)
 		{
-	
+			
 			var start = textBox.SelectionStart;
 
 			while (start - 1 > -1 && textBox.Text[start - 1] != '\n') {
@@ -160,24 +160,24 @@ namespace Notepad
 		void 全选ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			textBox.SelectAll();
-	
+			
 		}
 		void TitleButtonClick(object sender, EventArgs e)
 		{
-		
+			
 //			var array = textBox.Text.Trim().ToArray();
 //			var stringBuilder = new StringBuilder();
-////			using (System.Security.Cryptography. RNGCryptoServiceProvider rng = new System.Security.Cryptography. RNGCryptoServiceProvider()) {
-////				for (int i = 0; i < array.Length; i++) {	
-////					byte[] randomNumber = new byte[4];//4 for int32
-////					rng.GetBytes(randomNumber);
-////					int value = BitConverter.ToInt32(randomNumber, 0);
-////					stringBuilder.Append("/C"+value.ToString().PadLeft(2,' ')).Append(array[i]);
-////				}
-////			}
+			////			using (System.Security.Cryptography. RNGCryptoServiceProvider rng = new System.Security.Cryptography. RNGCryptoServiceProvider()) {
+			////				for (int i = 0; i < array.Length; i++) {
+			////					byte[] randomNumber = new byte[4];//4 for int32
+			////					rng.GetBytes(randomNumber);
+			////					int value = BitConverter.ToInt32(randomNumber, 0);
+			////					stringBuilder.Append("/C"+value.ToString().PadLeft(2,' ')).Append(array[i]);
+			////				}
+			////			}
 //			// DateTime.Now.Millisecond
 //			var random=new Random(DateTime.Now.Millisecond);
-//			for (int i = 0; i < array.Length; i++) {	
+//			for (int i = 0; i < array.Length; i++) {
 //				stringBuilder.Append("/C" + (random.Next(0, 21)).ToString().PadLeft(2, '0')).Append(array[i]);
 //			}
 //			textBox.Text = stringBuilder.ToString();
@@ -210,9 +210,9 @@ namespace Notepad
 				return;
 			if (_article == null) {
 				var title = textBox.Text.GetFirstReadable().TrimStart(new char[] {
-					' ',
-					'#'
-				});
+				                                                      	' ',
+				                                                      	'#'
+				                                                      });
 				_article = new Article {
 					Title = title,
 					Content = textBox.Text,
@@ -225,9 +225,9 @@ namespace Notepad
 				this.Text = title;
 			} else {
 				var title = textBox.Text.GetFirstReadable().TrimStart(new char[] {
-					' ',
-					'#'
-				});
+				                                                      	' ',
+				                                                      	'#'
+				                                                      });
 				var updateList = false;
 				if (_article.Title != title) {
 					updateList = true;
@@ -256,12 +256,12 @@ namespace Notepad
 		void 粘贴ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			textBox.Paste();
-	
+			
 		}
 		void NewButtonClick(object sender, EventArgs e)
 		{
 			_article = null;
-			 
+			
 			textBox.Text = string.Empty;
 
 			this.Text = string.Empty;
@@ -289,7 +289,7 @@ namespace Notepad
 		}
 		void EnglishButtonClick(object sender, EventArgs e)
 		{
-	
+			
 			textBox.SelectLine(true);
 
 			var val = textBox.SelectedText;
@@ -329,7 +329,7 @@ namespace Notepad
 					HelperSqlite.GetInstance().Delete(element.ToString());
 				}
 				UpdateList();
-				                                  
+				
 			}
 		}
 		void 查找ToolStripMenuItemClick(object sender, EventArgs e)
@@ -358,7 +358,7 @@ namespace Notepad
 		{
 			textBox.SelectedText = string.Join(Environment.NewLine, textBox.SelectedText.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).Distinct().OrderBy(i => i));
 		}
-		 
+		
 		void 保留正则表达式ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			var ls = Regex.Matches(textBox.Text, findBox.Text).Cast<Match>().Select(i => i.Value).Distinct();
@@ -370,8 +370,8 @@ namespace Notepad
 		void DToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			var ls = textBox.Text.Split(',').Select(i => i.Trim());
-	
-		
+			
+			
 			textBox.Text = "printf(\"" + string.Join(",\\n ", ls.Select(i => i + ":%d")) + "\"," + string.Join(",", ls) + ");";
 		}
 		void PathButtonButtonClick(object sender, EventArgs e)
@@ -385,13 +385,13 @@ namespace Notepad
 		void GccToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			OnClipboardDirectory((path) => {
-				var cf = Directory.GetFiles(path, "*.c").Select(i => i.GetFileName());
-				var sb = new StringBuilder();
-				sb.AppendFormat("gcc -c {0} && ", string.Join(" ", cf.Select(i => "\"" + i + "\"")));
-				var of = cf.Select(i => i.ChangeExtension(".o"));
-				sb.AppendFormat("gcc -o \"{1}\" {0} && \"{1}\"", string.Join(" ", of.Select(i => "\"" + i + "\"")), path.GetFileName());
-				Clipboard.SetText(sb.ToString());
-			});
+			                     	var cf = Directory.GetFiles(path, "*.c").Select(i => i.GetFileName());
+			                     	var sb = new StringBuilder();
+			                     	sb.AppendFormat("gcc -c {0} && ", string.Join(" ", cf.Select(i => "\"" + i + "\"")));
+			                     	var of = cf.Select(i => i.ChangeExtension(".o"));
+			                     	sb.AppendFormat("gcc -o \"{1}\" {0} && \"{1}\"", string.Join(" ", of.Select(i => "\"" + i + "\"")), path.GetFileName());
+			                     	Clipboard.SetText(sb.ToString());
+			                     });
 		}
 		
 		public static void OnClipboardString(Func<String,String> func)
@@ -432,26 +432,26 @@ namespace Notepad
 		void 导入ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			OnClipboardDirectory((p) => {
-				var files = Directory.GetFiles(p, "*", SearchOption.AllDirectories).Where(i => Regex.IsMatch(i, "\\.(?:c|h|cpp|java|txt)$") || i.GetExtension().IsVacuum());
-				var j = "\u0060";
-				var sb = new StringBuilder();
-				sb.AppendLine("# " + p.GetFileName()).AppendLine();
-				foreach (var element in files) {
-					var str = element.ReadAllText().Trim();
-					while (str.StartsWith("/*")) {
-						str = str.SubstringAfter("*/").Trim();
-					}
-					sb.AppendLine("## " + element.GetFileName())
-						.AppendLine()
-						.AppendLine()
-						.AppendLine("```")
-						.AppendLine()
-						.AppendLine(Regex.Replace(str.Replace("`", j), "[\r\n]+", "\r\n"))
-						.AppendLine("```")
-						.AppendLine();
-				}
-				textBox.Text = sb.ToString();
-			});
+			                     	var files = Directory.GetFiles(p, "*", SearchOption.AllDirectories).Where(i => Regex.IsMatch(i, "\\.(?:c|h|cpp|java|txt)$") || i.GetExtension().IsVacuum());
+			                     	var j = "\u0060";
+			                     	var sb = new StringBuilder();
+			                     	sb.AppendLine("# " + p.GetFileName()).AppendLine();
+			                     	foreach (var element in files) {
+			                     		var str = element.ReadAllText().Trim();
+			                     		while (str.StartsWith("/*")) {
+			                     			str = str.SubstringAfter("*/").Trim();
+			                     		}
+			                     		sb.AppendLine("## " + element.GetFileName())
+			                     			.AppendLine()
+			                     			.AppendLine()
+			                     			.AppendLine("```")
+			                     			.AppendLine()
+			                     			.AppendLine(Regex.Replace(str.Replace("`", j), "[\r\n]+", "\r\n"))
+			                     			.AppendLine("```")
+			                     			.AppendLine();
+			                     	}
+			                     	textBox.Text = sb.ToString();
+			                     });
 		}
 		void LinkButtonButtonClick(object sender, EventArgs e)
 		{
@@ -468,40 +468,40 @@ namespace Notepad
 		void 导入目录ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			OnClipboardDirectory((p) => {
-				var files = Directory.GetFiles(p, "*", SearchOption.AllDirectories).Where(i => Regex.IsMatch(i, "\\.(?:c|h|cpp|java|txt)$") || i.GetExtension().IsVacuum());
-				var j = "\u0060";
-				
-				foreach (var element in files) {
-					var title = p.GetFileName() + ": " + element.GetFileName();
-					var sb = new StringBuilder();
-					sb.AppendLine("# " + title).AppendLine();
-					var str = element.ReadAllText().Trim();
-					while (str.StartsWith("/*")) {
-						str = str.SubstringAfter("*/").Trim();
-					}
-					sb 
-						.AppendLine()
-						.AppendLine("```")
-						.AppendLine()
-						.AppendLine(Regex.Replace(str.Replace("`", j), "[\r\n]+", "\r\n"))
-						.AppendLine("```")
-						.AppendLine();
-					
-					var article = new Article {
-						Title = title,
-						Content = sb.ToString(),
-						CreateAt = DateTime.UtcNow,
-						UpdateAt = DateTime.UtcNow,
-					};
-					try {
-						HelperSqlite.GetInstance().Insert(article);
-					} catch {
-						
-					}
-				}
-				UpdateList();
-				
-			});
+			                     	var files = Directory.GetFiles(p, "*", SearchOption.AllDirectories).Where(i => Regex.IsMatch(i, "\\.(?:c|h|cpp|java|txt)$") || i.GetExtension().IsVacuum());
+			                     	var j = "\u0060";
+			                     	
+			                     	foreach (var element in files) {
+			                     		var title = p.GetFileName() + ": " + element.GetFileName();
+			                     		var sb = new StringBuilder();
+			                     		sb.AppendLine("# " + title).AppendLine();
+			                     		var str = element.ReadAllText().Trim();
+			                     		while (str.StartsWith("/*")) {
+			                     			str = str.SubstringAfter("*/").Trim();
+			                     		}
+			                     		sb
+			                     			.AppendLine()
+			                     			.AppendLine("```")
+			                     			.AppendLine()
+			                     			.AppendLine(Regex.Replace(str.Replace("`", j), "[\r\n]+", "\r\n"))
+			                     			.AppendLine("```")
+			                     			.AppendLine();
+			                     		
+			                     		var article = new Article {
+			                     			Title = title,
+			                     			Content = sb.ToString(),
+			                     			CreateAt = DateTime.UtcNow,
+			                     			UpdateAt = DateTime.UtcNow,
+			                     		};
+			                     		try {
+			                     			HelperSqlite.GetInstance().Insert(article);
+			                     		} catch {
+			                     			
+			                     		}
+			                     	}
+			                     	UpdateList();
+			                     	
+			                     });
 		}
 		
 		void 字符串到数组GBKToolStripMenuItemClick(object sender, EventArgs e)
@@ -512,14 +512,14 @@ namespace Notepad
 		}
 		void 字符串到数组UTF8ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-	
+			
 			var encoding = new UTF8Encoding(false);
 			var bytes =	encoding.GetBytes(Clipboard.GetText().Trim());
 			textBox.Text = string.Join(",", bytes);
 		}
 		void 数组到字符串GBKToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			 
+			
 			var bytes = Regex.Matches(Clipboard.GetText(), "[0-9]+").Cast<Match>().Select(i => byte.Parse(i.Value)).ToArray();
 			textBox.Text = Encoding.GetEncoding("gbk").GetString(bytes);
 		}
@@ -552,7 +552,7 @@ namespace Notepad
 		}
 		void 行ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-	
+			
 			var ls = new List<String>();
 			
 			var lines = textBox.Text.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries);
@@ -567,34 +567,34 @@ namespace Notepad
 		{
 			OnClipboardDirectory((v) => {
 			                     	
-				var files = Directory.GetFiles(v, "*", SearchOption.AllDirectories)
+			                     	var files = Directory.GetFiles(v, "*", SearchOption.AllDirectories)
 			                     		.Where(i => Regex.IsMatch(i, "\\.(?:java|kt|xml|css|cs|js|htm|c|h)"));
-				foreach (var element in files) {
-					var str = element.ReadAllText();
-					element.WriteAllText(str.Replace(findBox.Text, replaceBox.Text));
-				}
+			                     	foreach (var element in files) {
+			                     		var str = element.ReadAllText();
+			                     		element.WriteAllText(str.Replace(findBox.Text, replaceBox.Text));
+			                     	}
 			                     	
-			});
+			                     });
 		}
- 
+		
 		void AaToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			textBox.SelectedText = string.Format(" <a href=\"{1}\">{0}</a> ", textBox.SelectedText.Trim(), Clipboard.GetText().Trim());
-	
+			
 		}
 		void NoteButtonButtonClick(object sender, EventArgs e)
 		{
 			textBox.SelectedText = string.Format(" <p class=\"note\">{0}</p> ", textBox.SelectedText.Trim());
-	
+			
 		}
 		void BoldButtonButtonClick(object sender, EventArgs e)
 		{
 			textBox.SelectedText = string.Format(" **{0}** ", textBox.SelectedText.Trim());
-	
+			
 		}
 		void 下载ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-	
+			
 			var lines = textBox.Text.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).Distinct().OrderBy(i => i);
 			var dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "downloads");
 			dir.CreateDirectoryIfNotExists();
@@ -654,7 +654,7 @@ namespace Notepad
 
 			if (m.Msg == 0x0312) {
 				/* Note that the three lines below are not needed if you only want to register one hotkey.
-                 * The below lines are useful in case you want to register multiple keys, which you can use a switch with the id as argument, or if you want to know which key/modifier was pressed for some particular reason. */
+				 * The below lines are useful in case you want to register multiple keys, which you can use a switch with the id as argument, or if you want to know which key/modifier was pressed for some particular reason. */
 
 				//Keys key = (Keys)(((int)m.LParam >> 16) & 0xFFFF);                  // The key of the hotkey that was pressed.
 				//KeyModifier modifier = (KeyModifier)((int)m.LParam & 0xFFFF);       // The modifier of the hotkey that was pressed.
@@ -679,10 +679,10 @@ namespace Notepad
 			RegisterHotKey(this.Handle, _idF9, 0, (int)Keys.F9);
 			_runType = 3;
 		}
-	 
+		
 		void 其他ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-	
+			
 			var hd = new HtmlAgilityPack.HtmlDocument();
 			hd.LoadHtml(Clipboard.GetText());
 			var links = hd.DocumentNode.SelectNodes("//a");
@@ -690,7 +690,7 @@ namespace Notepad
 			if (links.Any()) {
 				foreach (var element in links) {
 					list.Add(element.InnerText.Trim());
-				}	
+				}
 			}
 			list = list.Distinct().Where(i => Regex.IsMatch(i, "^[0-9]+\\."))
 				.Select(i => HtmlAgilityPack.HtmlEntity.DeEntitize(i))
@@ -705,10 +705,10 @@ namespace Notepad
 				}
 			}
 		}
-	
+		
 		void 其他ToolStripMenuItem1Click(object sender, EventArgs e)
 		{
-	
+			
 			var dir = Clipboard.GetText().Trim();
 			if (Directory.Exists(dir)) {
 				var files = Directory.GetFiles(dir, "*.mp3");
@@ -747,63 +747,47 @@ namespace Notepad
 		void 字符串到数组ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			Helper.OnClipboardString((v) => {
-			                         
-				var ls = new UTF8Encoding(false).GetBytes(v).Select(i => i.ToString());
-				return "int buf[" + ls.Count() + "]=" + "{" + string.Join(",", ls) + "};";
-			});
+			                         	
+			                         	var ls = new UTF8Encoding(false).GetBytes(v).Select(i => i.ToString());
+			                         	return "int buf[" + ls.Count() + "]=" + "{" + string.Join(",", ls) + "};";
+			                         });
 		}
 		void GitHub页面源代码到HTML文件ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			Helper.OnClipboardString((v) => {
-				var hd = new HtmlAgilityPack.HtmlDocument();
-				hd.LoadHtml(v);
-				
-				var sb = new StringBuilder();
-				sb.Append(hd.DocumentNode.SelectSingleNode("//head").OuterHtml).AppendLine().AppendLine();
-				
-				sb.Append(hd.DocumentNode.SelectSingleNode("//div[@class=\"file \"]").OuterHtml);
-				"index.htm".GetDesktopPath().WriteAllText(sb.ToString());
+			                         	var hd = new HtmlAgilityPack.HtmlDocument();
+			                         	hd.LoadHtml(v);
 			                         	
-				return null;
-			});
+			                         	var sb = new StringBuilder();
+			                         	sb.Append(hd.DocumentNode.SelectSingleNode("//head").OuterHtml).AppendLine().AppendLine();
+			                         	
+			                         	sb.Append(hd.DocumentNode.SelectSingleNode("//div[@class=\"file \"]").OuterHtml);
+			                         	"index.htm".GetDesktopPath().WriteAllText(sb.ToString());
+			                         	
+			                         	return null;
+			                         });
 		}
-		void HexToIntToolStripMenuItemClick(object sender, EventArgs e)
-		{
-
-			try {
-				replaceBox.Text = int.Parse(findBox.Text.Trim(), System.Globalization.NumberStyles.HexNumber).ToString();
-			} catch {
-				
-			}
-		}
-		void IntToHexToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			try {
-				replaceBox.Text = int.Parse(findBox.Text.Trim()).ToString("X");
-			} catch {
-				
-			}
-		}
+		
 		void CheatEngineMemoryViewer数组到BYTE数组ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			Helper.OnClipboardString((v) => {
-				var str = v.Split(" ".ToArray(), StringSplitOptions.RemoveEmptyEntries).Select((i) => {
-					var vh = int.Parse(i, System.Globalization.NumberStyles.HexNumber);
-					if (vh == 0) {
-						return "0";
-					} else {
-						return "0x" + vh.ToString("X");
-					}
-				});
-				return "{" + string.Join(",", str) + "}";
-			});
+			                         	var str = v.Split(" ".ToArray(), StringSplitOptions.RemoveEmptyEntries).Select((i) => {
+			                         	                                                                               	var vh = int.Parse(i, System.Globalization.NumberStyles.HexNumber);
+			                         	                                                                               	if (vh == 0) {
+			                         	                                                                               		return "0";
+			                         	                                                                               	} else {
+			                         	                                                                               		return "0x" + vh.ToString("X");
+			                         	                                                                               	}
+			                         	                                                                               });
+			                         	return "{" + string.Join(",", str) + "}";
+			                         });
 		}
 		void 计算匹配数量正则表达式ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-	
+			
 			textBox.Text += "\r\n" + Regex.Matches(textBox.Text, findBox.Text).Cast<Match>().Count().ToString();
 			
-		
+			
 		}
 		void GBK到BYTE数组ToolStripMenuItemClick(object sender, EventArgs e)
 		{
@@ -813,7 +797,7 @@ namespace Notepad
 		void UTF8到BYTE数组ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			textBox.Text = string.Join(" ", new UTF8Encoding(false).GetBytes(textBox.Text.Trim()).Select(i => i.ToString("x")));
-	
+			
 		}
 		void BYTE数组到GBKToolStripMenuItemClick(object sender, EventArgs e)
 		{
@@ -823,15 +807,15 @@ namespace Notepad
 		}
 		void 导入代码文件ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-	
+			
 			OnClipboardDirectory((v) => {
-				var str = "";
-				var files = Directory.GetFiles(v, "*").Where(i => Regex.IsMatch(i, "\\.(?:c|h|txt)$"));
-				foreach (var element in files) {
-					str +=	string.Format("```\r\n\r\n{0}\r\n\r\n```\r\n\r\n", element.ReadAllText().Replace("`", "\u0060"));
-				}
-				textBox.SelectedText += str;
-			});
+			                     	var str = "";
+			                     	var files = Directory.GetFiles(v, "*").Where(i => Regex.IsMatch(i, "\\.(?:c|h|txt)$"));
+			                     	foreach (var element in files) {
+			                     		str +=	string.Format("```\r\n\r\n{0}\r\n\r\n```\r\n\r\n", element.ReadAllText().Replace("`", "\u0060"));
+			                     	}
+			                     	textBox.SelectedText += str;
+			                     });
 		}
 		void 大写ToolStripMenuItemClick(object sender, EventArgs e)
 		{
@@ -841,37 +825,39 @@ namespace Notepad
 		void 导入Apress单文件ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			Helper.OnClipboardDirectory((dir) => {
-				
-				var files = Directory.GetFiles(dir, "*.html");
-				foreach (var element in files) {
-					ImportApressCode1("实例: C++ Recipes", element);
-				}
-			                       	
-			});
+			                            	
+			                            	var files = Directory.GetFiles(dir, "*.html");
+			                            	foreach (var element in files) {
+			                            		ImportApressCode("实例: C in a Nutshell", element);
+			                            	}
+			                            	
+			                            });
 		}
 		void ImportApressCode(string prefixTitle, string file)
 		{
 			var hd = new HtmlAgilityPack.HtmlDocument();
 			hd.LoadHtml(file.ReadAllText());
-				
+			
 			var nodes = hd.DocumentNode.DescendantNodes();
 			var sb = new StringBuilder();
 			var ul = new StringBuilder();
-				
+			
 			foreach (var element in nodes) {
 				if (element.NodeType == HtmlAgilityPack.HtmlNodeType.Element) {
-					if (element.Name == "h2") {
+					if (element.Name == "h1") {
 						var tn = Regex.Replace(element.InnerText, "[\r\n\t]+", " ").Trim();
 						ul.AppendLine(string.Format("- {0}", tn));
 						sb.Append(string.Format("## {0}\r\n\r\n", tn));
-					} else if (element.GetAttributeValue("class", "") == "ProgramCode") {
+					} else if (element.Name == "pre") {
+						// else if (element.GetAttributeValue("class", "") == "ProgramCode") {
 						sb.Append("```\r\n\r\n");
-						var codes = element.ChildNodes;
-						foreach (var cn in codes) {
-							sb.AppendLine(HtmlAgilityPack.HtmlEntity.DeEntitize(cn.InnerText));
-						}
+						sb.AppendLine(HtmlAgilityPack.HtmlEntity.DeEntitize(element.InnerText));
+//						var codes = element.ChildNodes;
+//						foreach (var cn in codes) {
+//							sb.AppendLine(HtmlAgilityPack.HtmlEntity.DeEntitize(cn.InnerText));
+//						}
 						sb.Append("\r\n\r\n```\r\n\r\n");
-							
+						
 					}
 				}
 			}
@@ -883,20 +869,20 @@ namespace Notepad
 				UpdateAt = DateTime.UtcNow,
 			};
 			HelperSqlite.GetInstance().Insert(article);
-				
-			 
-				
+			
+			
+			
 		}
-	
+		
 		void ImportApressCode1(string prefixTitle, string file)
 		{
 			var hd = new HtmlAgilityPack.HtmlDocument();
 			hd.LoadHtml(file.ReadAllText());
-				
+			
 			var nodes = hd.DocumentNode.DescendantNodes();
 			var sb = new StringBuilder();
 			var ul = new StringBuilder();
-				
+			
 			foreach (var element in nodes) {
 				if (element.NodeType == HtmlAgilityPack.HtmlNodeType.Element) {
 					if (element.GetAttributeValue("class", "") == "Heading1") {
@@ -910,7 +896,7 @@ namespace Notepad
 							sb.AppendLine(HtmlAgilityPack.HtmlEntity.DeEntitize(cn.InnerText));
 						}
 						sb.Append("\r\n\r\n```\r\n\r\n");
-							
+						
 					}
 				}
 			}
@@ -922,14 +908,14 @@ namespace Notepad
 				UpdateAt = DateTime.UtcNow,
 			};
 			HelperSqlite.GetInstance().Insert(article);
-				
-			 
-				
+			
+			
+			
 		}
 		void 导出当前数据库ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-		
-		
+			
+			
 			var targetDirectory = comboBox.Text.GetFileNameWithoutExtension().GetDesktopPath();
 			targetDirectory.CreateDirectoryIfNotExists();
 			File.Copy("assets".GetCommandPath().Combine("stylesheets").Combine("markdown.css"),targetDirectory.Combine("markdown.css"));
@@ -938,7 +924,7 @@ namespace Notepad
 			foreach (var c in contentList) {
 				var tf = targetDirectory.Combine(c.Title.GetValidFileName() + ".html");
 				
-					
+				
 				StringBuilder sb = new StringBuilder();
 				sb.AppendLine("\u003C!doctype html\u003E");
 				sb.AppendLine("\u003Chtml class=\u0022no-js\u0022 lang=\u0022zh-hans\u0022 dir=\u0022ltr\u0022\u003E");
@@ -967,8 +953,17 @@ namespace Notepad
 			sc.Add(Path.Combine(_dataPath,comboBox.Text));
 			Clipboard.SetFileDropList(sc);
 		}
+		void 排序分隔符ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			var search  = findBox.Text;
+		 
+			if (search.IsVacuum())
+				return;
+			textBox.SelectedText=string.Join(search.Trim('\\'),Regex.Split(textBox.SelectedText.Trim(),search).OrderBy(i=>i));
+			
+		}
 		
-	
+		
 		
 	}
 	
@@ -977,13 +972,13 @@ namespace Notepad
 		
 		public static String FormatProperties(string value)
 		{
-		
+			
 			string[] lsr = null;
 			// var isFirst = false;
-// isFirst = true;
+			// isFirst = true;
 			lsr = Regex.Split(value, "\\s+(?=va[rl]\\s+[a-zA-Z_0-9]+\\:)", RegexOptions.Multiline);
 //			if (Regex.IsMatch(value, "}\\s+(?:var|val)")) {
-//               
+//
 //
 //			} else {
 //				// lsr = Regex.Split(value, "^\\s+(?=var\\s+|val\\s+)", RegexOptions.Multiline);
@@ -991,7 +986,7 @@ namespace Notepad
 			if (lsr.Any()) {
 
 				var result = lsr.Where(i => !string.IsNullOrWhiteSpace(i))
-                    .OrderBy(i => i.Split(':').First().Split(' ').Last()).ToList();
+					.OrderBy(i => i.Split(':').First().Split(' ').Last()).ToList();
 				//if (isFirst) {
 				//result = result.Select(i => i + "}").ToList();
 				//	}
@@ -1013,7 +1008,7 @@ namespace Notepad
 		}
 		public static String FormatDelegate(string value)
 		{
-			  
+			
 			var lines = value.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries);
 			var singleItems = lines.Where(i => (i.StartsWith("val") || i.StartsWith("fun ") || i.StartsWith("private fun") || i.StartsWith("private val")) && i.Contains(") = ") && !i.EndsWith("{")).ToArray();
 			var sss = lines.Except(singleItems).ToArray();
@@ -1023,7 +1018,7 @@ namespace Notepad
 		}
 		public static String FormatFun(string value)
 		{
-			  
+			
 			var lines = value.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries);
 			var singleItems = lines.Where(i => (i.StartsWith("val") || i.StartsWith("fun ") || i.StartsWith("private fun") || i.StartsWith("private val")) && i.Contains(") = ") && !i.EndsWith("{")).ToArray();
 			var sss = lines.Except(singleItems).ToArray();
@@ -1041,7 +1036,7 @@ namespace Notepad
 				var v = item.Groups[2].Value;
 				//var m="private";
 				strings.Add(string.Format("// const val {0}={1}", name, v));
-				 
+				
 				strings.Add(string.Format("private const val {0}={1}", name, v));
 			}
 			return string.Join("\n", strings.OrderBy(i => i));

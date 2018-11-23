@@ -6,6 +6,10 @@ using System.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Text.RegularExpressions;
+using System.Xml;
+
+using System.Xml.Linq;
 
 namespace Shared
 {
@@ -143,7 +147,12 @@ namespace Shared
 				Arguments = string.Format("\"{0}\" -i -style=llvm -sort-includes=false", fileName)
 			});
 		}
-		
+		public static string OrderKotlinFun(string value)
+		{
+			var list = FormatMethodList(value);
+			list = list.OrderBy(i => i.SubstringBefore('(').TrimEnd().SubstringAfterLast(' '));
+			return string.Join(Environment.NewLine, list).RemoveEmptyLines();
+		}
 		public static void FormatVSCTypeDef()
 		{
 			WinForms.OnClipboardString((str) => {
@@ -160,6 +169,71 @@ namespace Shared
 				return	sr.Substring(1, sr.Length - 2) + ",";
 			                         
 			});
+		}
+		public static void CombineAndroidResource(string dir){
+			var sb=new StringBuilder();
+			foreach (var element in System.IO.Directory.GetFiles(dir,"*.xml")) {
+				var xd = new  XmlDocument();
+				xd.LoadXml(element.ReadAllText());
+				sb.AppendLine(xd.DocumentElement.InnerXml);
+			}
+			System.IO.Path.Combine(dir,dir.GetFileName()+".txt").WriteAllText(sb.ToString());
+		}
+		public static string FormatAndroidResource(string value)
+		{
+			var xd = new  XmlDocument();
+			xd.LoadXml(value);
+			var ls =	new List<XmlNode>();
+//			var first =	xd.FirstChild;
+//			var sb = new StringBuilder();
+//			if (first is XmlDeclaration) {
+//				sb.AppendLine(first.OuterXml.ToString());
+//			}
+			var i = xd.DocumentElement.ChildNodes.GetEnumerator();
+			while (i.MoveNext()) {
+				var nodes = i.Current as XmlNode;
+				if(nodes is XmlComment) continue;
+				ls.Add(nodes);
+			}
+			 
+			var array=ls.ToArray();
+			xd.DocumentElement.InnerXml=string.Join(Environment.NewLine,ls.OrderBy(ie=>ie.Name).ThenBy(ie=> ie.Attributes["name"].Value).Distinct(ie=>ie.Attributes["name"].Value).Select(ie=>ie.OuterXml.ToString()));
+			return xd.OuterXml;
+			
+		}
+		public static string[] ParseJavaParameters(string value){
+			
+			var a=value.SubstringAfter("(").SubstringBeforeLast(")");
+			var b=a.Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries);
+			var c=b.Select(i=>Regex.Split(i,"\\s").Where(ix=>ix.IsReadable()).Last()).ToArray();
+			 
+			
+			var h="super."+value.SubstringBefore("(")+"("+string.Join(",",c)+")";
+			var j=string.Join(",", b.Select((i)=>{
+			                                	var list= Regex.Split(i,"\\s").Where(ix=>ix.IsReadable()).ToArray();
+			                                	return list[1]+":"+list[0].Capitalize();
+			           
+			               	
+			                                }));
+			return new string[]{h,j};
+		}
+		public static string GenerateAndroidId(string value)
+		{
+			var pattern = "(?<=@\\+id\\/)[\\w_\\d]+";
+			
+			var matches = Regex.Matches(value, pattern).Cast<Match>().Select(i => i.Value).OrderBy(i => i);
+			
+			var p1 = new []{ "R.id.{0} -> {0}.isChecked = true" };
+				
+			var list = new List<String>();
+			for (int i = 0; i < p1.Length; i++) {
+				foreach (var element in matches) {
+				
+					list.Add(string.Format(p1[i], element));
+				}
+			}
+			return string.Join(Environment.NewLine, list);
+			
 		}
 	}
 

@@ -280,6 +280,16 @@ namespace  Shared
 			return 	Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), path);
 			
 		}
+		public static void ClearEmptyLinesInDirectory(this string dir)
+		{
+			var files = Directory.GetFiles(dir, "*", SearchOption.AllDirectories);
+			var regex = new Regex("\\.(?:java|kt|xml|txt|js|cs|c|h)$");
+			foreach (var element in files) {
+				if (regex.IsMatch(element)) {
+					element.WriteAllText(	element.ReadAllText().RemoveEmptyLines());
+				}
+			}
+		}
 		public static string GetValidFileName(this string value, char c)
 		{
 

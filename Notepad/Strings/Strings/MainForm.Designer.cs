@@ -49,6 +49,9 @@ namespace Strings
 		private System.Windows.Forms.ToolStripComboBox fileNameBox2;
 		private System.Windows.Forms.ToolStripSplitButton compareFileButton;
 		private System.Windows.Forms.ToolStripMenuItem 倒序字符串ToolStripMenuItem;
+		private System.Windows.Forms.SplitContainer splitContainer1;
+		private System.Windows.Forms.ToolStripMenuItem 比较字符串ToolStripMenuItem;
+		private System.Windows.Forms.TextBox textBox2;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -83,9 +86,9 @@ namespace Strings
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.arrayTemplateButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.数组逻辑比较ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.倒序字符串ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
 			this.memoryViewer到BYTE数组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.gBKBYTEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.hEXINTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -107,19 +110,26 @@ namespace Strings
 			this.fileNameBox1 = new System.Windows.Forms.ToolStripComboBox();
 			this.fileNameBox2 = new System.Windows.Forms.ToolStripComboBox();
 			this.compareFileButton = new System.Windows.Forms.ToolStripSplitButton();
-			this.倒序字符串ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.textBox2 = new System.Windows.Forms.TextBox();
+			this.比较字符串ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.contextMenuStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
 			this.toolStrip3.SuspendLayout();
 			this.toolStrip4.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+			this.splitContainer1.Panel1.SuspendLayout();
+			this.splitContainer1.Panel2.SuspendLayout();
+			this.splitContainer1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusStrip1
 			// 
-			this.statusStrip1.Location = new System.Drawing.Point(0, 234);
+			this.statusStrip1.Location = new System.Drawing.Point(0, 451);
 			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(656, 22);
+			this.statusStrip1.Size = new System.Drawing.Size(671, 22);
 			this.statusStrip1.TabIndex = 0;
 			this.statusStrip1.Text = "statusStrip1";
 			// 
@@ -136,7 +146,7 @@ namespace Strings
 			this.toolStripSplitButton1});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(656, 25);
+			this.toolStrip1.Size = new System.Drawing.Size(671, 25);
 			this.toolStrip1.TabIndex = 1;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
@@ -206,9 +216,16 @@ namespace Strings
 			// 数组逻辑比较ToolStripMenuItem
 			// 
 			this.数组逻辑比较ToolStripMenuItem.Name = "数组逻辑比较ToolStripMenuItem";
-			this.数组逻辑比较ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.数组逻辑比较ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
 			this.数组逻辑比较ToolStripMenuItem.Text = "数组逻辑比较";
 			this.数组逻辑比较ToolStripMenuItem.Click += new System.EventHandler(this.数组逻辑比较ToolStripMenuItemClick);
+			// 
+			// 倒序字符串ToolStripMenuItem
+			// 
+			this.倒序字符串ToolStripMenuItem.Name = "倒序字符串ToolStripMenuItem";
+			this.倒序字符串ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+			this.倒序字符串ToolStripMenuItem.Text = "倒序字符串";
+			this.倒序字符串ToolStripMenuItem.Click += new System.EventHandler(this.倒序字符串ToolStripMenuItemClick);
 			// 
 			// toolStripSplitButton1
 			// 
@@ -227,17 +244,6 @@ namespace Strings
 			this.memoryViewer到BYTE数组ToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
 			this.memoryViewer到BYTE数组ToolStripMenuItem.Text = "Memory Viewer 到 BYTE 数组";
 			this.memoryViewer到BYTE数组ToolStripMenuItem.Click += new System.EventHandler(this.MemoryViewer到BYTE数组ToolStripMenuItemClick);
-			// 
-			// textBox1
-			// 
-			this.textBox1.ContextMenuStrip = this.contextMenuStrip1;
-			this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.textBox1.Location = new System.Drawing.Point(0, 100);
-			this.textBox1.Multiline = true;
-			this.textBox1.Name = "textBox1";
-			this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textBox1.Size = new System.Drawing.Size(656, 134);
-			this.textBox1.TabIndex = 2;
 			// 
 			// contextMenuStrip1
 			// 
@@ -328,7 +334,7 @@ namespace Strings
 			this.formattimeButton});
 			this.toolStrip2.Location = new System.Drawing.Point(0, 50);
 			this.toolStrip2.Name = "toolStrip2";
-			this.toolStrip2.Size = new System.Drawing.Size(656, 25);
+			this.toolStrip2.Size = new System.Drawing.Size(671, 25);
 			this.toolStrip2.TabIndex = 3;
 			this.toolStrip2.Text = "toolStrip2";
 			// 
@@ -347,14 +353,14 @@ namespace Strings
 			// 微秒到分钟ToolStripMenuItem
 			// 
 			this.微秒到分钟ToolStripMenuItem.Name = "微秒到分钟ToolStripMenuItem";
-			this.微秒到分钟ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.微秒到分钟ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
 			this.微秒到分钟ToolStripMenuItem.Text = "格式化微秒";
 			this.微秒到分钟ToolStripMenuItem.Click += new System.EventHandler(this.微秒到分钟ToolStripMenuItemClick);
 			// 
 			// toolStripMenuItem2
 			// 
 			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-			this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(136, 22);
 			this.toolStripMenuItem2.Text = "123";
 			this.toolStripMenuItem2.Click += new System.EventHandler(this.ToolStripMenuItem2Click);
 			// 
@@ -364,7 +370,7 @@ namespace Strings
 			this.cformatButton});
 			this.toolStrip3.Location = new System.Drawing.Point(0, 25);
 			this.toolStrip3.Name = "toolStrip3";
-			this.toolStrip3.Size = new System.Drawing.Size(656, 25);
+			this.toolStrip3.Size = new System.Drawing.Size(671, 25);
 			this.toolStrip3.TabIndex = 4;
 			this.toolStrip3.Text = "toolStrip3";
 			// 
@@ -386,7 +392,7 @@ namespace Strings
 			this.compareFileButton});
 			this.toolStrip4.Location = new System.Drawing.Point(0, 75);
 			this.toolStrip4.Name = "toolStrip4";
-			this.toolStrip4.Size = new System.Drawing.Size(656, 25);
+			this.toolStrip4.Size = new System.Drawing.Size(671, 25);
 			this.toolStrip4.TabIndex = 5;
 			this.toolStrip4.Text = "toolStrip4";
 			// 
@@ -403,6 +409,8 @@ namespace Strings
 			// compareFileButton
 			// 
 			this.compareFileButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.compareFileButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.比较字符串ToolStripMenuItem});
 			this.compareFileButton.Image = ((System.Drawing.Image)(resources.GetObject("compareFileButton.Image")));
 			this.compareFileButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.compareFileButton.Name = "compareFileButton";
@@ -410,19 +418,59 @@ namespace Strings
 			this.compareFileButton.Text = "比较文本文件";
 			this.compareFileButton.ButtonClick += new System.EventHandler(this.CompareFileButtonButtonClick);
 			// 
-			// 倒序字符串ToolStripMenuItem
+			// splitContainer1
 			// 
-			this.倒序字符串ToolStripMenuItem.Name = "倒序字符串ToolStripMenuItem";
-			this.倒序字符串ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.倒序字符串ToolStripMenuItem.Text = "倒序字符串";
-			this.倒序字符串ToolStripMenuItem.Click += new System.EventHandler(this.倒序字符串ToolStripMenuItemClick);
+			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer1.Location = new System.Drawing.Point(0, 100);
+			this.splitContainer1.Name = "splitContainer1";
+			// 
+			// splitContainer1.Panel1
+			// 
+			this.splitContainer1.Panel1.Controls.Add(this.textBox1);
+			// 
+			// splitContainer1.Panel2
+			// 
+			this.splitContainer1.Panel2.Controls.Add(this.textBox2);
+			this.splitContainer1.Size = new System.Drawing.Size(671, 351);
+			this.splitContainer1.SplitterDistance = 303;
+			this.splitContainer1.TabIndex = 6;
+			// 
+			// textBox1
+			// 
+			this.textBox1.ContextMenuStrip = this.contextMenuStrip1;
+			this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.textBox1.Location = new System.Drawing.Point(0, 0);
+			this.textBox1.MaxLength = 3276700;
+			this.textBox1.Multiline = true;
+			this.textBox1.Name = "textBox1";
+			this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.textBox1.Size = new System.Drawing.Size(303, 351);
+			this.textBox1.TabIndex = 0;
+			// 
+			// textBox2
+			// 
+			this.textBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.textBox2.Location = new System.Drawing.Point(0, 0);
+			this.textBox2.MaxLength = 3276700;
+			this.textBox2.Multiline = true;
+			this.textBox2.Name = "textBox2";
+			this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.textBox2.Size = new System.Drawing.Size(364, 351);
+			this.textBox2.TabIndex = 1;
+			// 
+			// 比较字符串ToolStripMenuItem
+			// 
+			this.比较字符串ToolStripMenuItem.Name = "比较字符串ToolStripMenuItem";
+			this.比较字符串ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.比较字符串ToolStripMenuItem.Text = "比较字符串";
+			this.比较字符串ToolStripMenuItem.Click += new System.EventHandler(this.比较字符串ToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(656, 256);
-			this.Controls.Add(this.textBox1);
+			this.ClientSize = new System.Drawing.Size(671, 473);
+			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.toolStrip4);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.toolStrip2);
@@ -439,6 +487,12 @@ namespace Strings
 			this.toolStrip3.PerformLayout();
 			this.toolStrip4.ResumeLayout(false);
 			this.toolStrip4.PerformLayout();
+			this.splitContainer1.Panel1.ResumeLayout(false);
+			this.splitContainer1.Panel1.PerformLayout();
+			this.splitContainer1.Panel2.ResumeLayout(false);
+			this.splitContainer1.Panel2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+			this.splitContainer1.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

@@ -164,7 +164,7 @@
 				var address = new IntPtr(int.Parse(memoryBox1.Text, System.Globalization.NumberStyles.HexNumber));
 				int pid;
 		 
-			NativeMethods.GetWindowThreadProcessId(new HandleRef(this, new IntPtr(int.Parse(handleBox1.Text, System.Globalization.NumberStyles.HexNumber))), out pid);
+				NativeMethods.GetWindowThreadProcessId(new HandleRef(this, new IntPtr(int.Parse(handleBox1.Text, System.Globalization.NumberStyles.HexNumber))), out pid);
  
 				if (pid < 1) {
 					return;
@@ -344,6 +344,9 @@
 			var menuItem = sender as ToolStripMenuItem;
 			uint keyString = 0;
 			switch (menuItem.Text) {
+				case "F2":
+					keyString = (uint)Keys.F2;
+					break;
 				case "F8":
 					keyString = (uint)Keys.F8;
 					break;
@@ -367,6 +370,69 @@
 		{
 			KeyPressContinue(handleBox2.Text, sender);
 		 
+		}
+		void 发送文本消息ToolStripMenuItem1Click(object sender, EventArgs e)
+		{
+			var hWnd = new IntPtr(int.Parse(handleBox2.Text, System.Globalization.NumberStyles.HexNumber));
+			var str = "你说你，爷爷我教你练刀，你练剑，你还上剑不练，练下剑！金剑不练，练银剑！";
+			if (str.IsVacuum())
+				return;
+			Task.Run(() => {
+
+	         
+				while (true) {
+				
+					for (int i = 0; i < str.Length; i++) {
+//						if (str[i] == '\n') {
+//							Keyboard.SendKey(hWnd, (uint)Keys.Enter);
+//							continue;
+//						}
+						NativeMethods.PostMessage(hWnd, (int)NativeMethods.WindowMessage.WM_CHAR, (uint)str[i], 0);
+					}
+					Thread.Sleep(1000);
+					Keyboard.SendKey(hWnd, (uint)Keys.Enter);
+//					Thread.Sleep(1000);
+//					NativeMethods.PostMessage(hWnd, (int)NativeMethods.WindowMessage.WM_KEYDOWN, (uint)Keys.Control, 0);
+//					Thread.Sleep(100);
+//					NativeMethods.PostMessage(hWnd, (int)NativeMethods.WindowMessage.WM_KEYUP, (uint)Keys.Control, 0);
+//					Thread.Sleep(100);
+//					Keyboard.SendKey(hWnd,(uint)Keys.Menu);
+//					Thread.Sleep(100);                       
+//					Keyboard.SendKey(hWnd, (uint)Keys.S);
+//				
+//					
+//					         		
+//					
+//					var array = str.ToCharArray();
+//					Array.Reverse(array);
+//					str = new string(array);
+					Thread.Sleep(7000);
+				}
+			        
+			});
+		}
+		void F3F5F4ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			var hWnd = GetHWnd(handleBox2.Text);
+			
+			var menuItem = sender as ToolStripMenuItem;
+			uint k1 = 0x72;
+			uint k2 = 0x74;
+			uint k3 = 0x73;
+			uint k5 = 0x71;
+			
+			Task.Factory.StartNew(() => {
+				while (true) {
+			                      		Keyboard.SendKey(hWnd, k5);
+					Thread.Sleep(2000);
+					Keyboard.SendKey(hWnd, k1);
+					Thread.Sleep(2000);
+					Keyboard.SendKey(hWnd, k2);
+					Thread.Sleep(2000);
+					Keyboard.SendKey(hWnd, k3);
+					Thread.Sleep(2000);
+				}
+			});
 		}
 	}
 }
