@@ -210,9 +210,9 @@ namespace Notepad
 				return;
 			if (_article == null) {
 				var title = textBox.Text.GetFirstReadable().TrimStart(new char[] {
-				                                                      	' ',
-				                                                      	'#'
-				                                                      });
+					' ',
+					'#'
+				});
 				_article = new Article {
 					Title = title,
 					Content = textBox.Text,
@@ -225,9 +225,9 @@ namespace Notepad
 				this.Text = title;
 			} else {
 				var title = textBox.Text.GetFirstReadable().TrimStart(new char[] {
-				                                                      	' ',
-				                                                      	'#'
-				                                                      });
+					' ',
+					'#'
+				});
 				var updateList = false;
 				if (_article.Title != title) {
 					updateList = true;
@@ -385,13 +385,13 @@ namespace Notepad
 		void GccToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			OnClipboardDirectory((path) => {
-			                     	var cf = Directory.GetFiles(path, "*.c").Select(i => i.GetFileName());
-			                     	var sb = new StringBuilder();
-			                     	sb.AppendFormat("gcc -c {0} && ", string.Join(" ", cf.Select(i => "\"" + i + "\"")));
-			                     	var of = cf.Select(i => i.ChangeExtension(".o"));
-			                     	sb.AppendFormat("gcc -o \"{1}\" {0} && \"{1}\"", string.Join(" ", of.Select(i => "\"" + i + "\"")), path.GetFileName());
-			                     	Clipboard.SetText(sb.ToString());
-			                     });
+				var cf = Directory.GetFiles(path, "*.c").Select(i => i.GetFileName());
+				var sb = new StringBuilder();
+				sb.AppendFormat("gcc -c {0} && ", string.Join(" ", cf.Select(i => "\"" + i + "\"")));
+				var of = cf.Select(i => i.ChangeExtension(".o"));
+				sb.AppendFormat("gcc -o \"{1}\" {0} && \"{1}\"", string.Join(" ", of.Select(i => "\"" + i + "\"")), path.GetFileName());
+				Clipboard.SetText(sb.ToString());
+			});
 		}
 		
 		public static void OnClipboardString(Func<String,String> func)
@@ -432,16 +432,16 @@ namespace Notepad
 		void 导入ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			OnClipboardDirectory((p) => {
-			                     	var files = Directory.GetFiles(p, "*", SearchOption.AllDirectories).Where(i => Regex.IsMatch(i, "\\.(?:c|h|cpp|java|txt)$") || i.GetExtension().IsVacuum());
-			                     	var j = "\u0060";
-			                     	var sb = new StringBuilder();
-			                     	sb.AppendLine("# " + p.GetFileName()).AppendLine();
-			                     	foreach (var element in files) {
-			                     		var str = element.ReadAllText().Trim();
-			                     		while (str.StartsWith("/*")) {
-			                     			str = str.SubstringAfter("*/").Trim();
-			                     		}
-			                     		sb.AppendLine("## " + element.GetFileName())
+				var files = Directory.GetFiles(p, "*", SearchOption.AllDirectories).Where(i => Regex.IsMatch(i, "\\.(?:c|h|cpp|java|txt)$") || i.GetExtension().IsVacuum());
+				var j = "\u0060";
+				var sb = new StringBuilder();
+				sb.AppendLine("# " + p.GetFileName()).AppendLine();
+				foreach (var element in files) {
+					var str = element.ReadAllText().Trim();
+					while (str.StartsWith("/*")) {
+						str = str.SubstringAfter("*/").Trim();
+					}
+					sb.AppendLine("## " + element.GetFileName())
 			                     			.AppendLine()
 			                     			.AppendLine()
 			                     			.AppendLine("```")
@@ -449,9 +449,9 @@ namespace Notepad
 			                     			.AppendLine(Regex.Replace(str.Replace("`", j), "[\r\n]+", "\r\n"))
 			                     			.AppendLine("```")
 			                     			.AppendLine();
-			                     	}
-			                     	textBox.Text = sb.ToString();
-			                     });
+				}
+				textBox.Text = sb.ToString();
+			});
 		}
 		void LinkButtonButtonClick(object sender, EventArgs e)
 		{
@@ -463,23 +463,32 @@ namespace Notepad
 		}
 		void 粘贴代码ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			textBox.SelectedText = string.Format("```\r\n\r\n{0}\r\n\r\n```\r\n\r\n", Clipboard.GetText().Trim().Replace("`", "\u0060"));
+			var value = Clipboard.GetText();
+			value=Regex.Replace(value,"([,\\(])\\s+","$1");
+			textBox.SelectedText="`"+value.Trim()+"`";
+//			if (value.Contains('\n')) {
+//				textBox.SelectedText = string.Format("```\r\n\r\n{0}\r\n\r\n```\r\n\r\n", Clipboard.GetText().Trim().Replace("`", "\u0060"));
+//
+//			} else {
+//				textBox.SelectedText = string.Format("`{0}`", Clipboard.GetText().Trim().Replace("`", "\u0060"));
+//
+//			}
 		}
 		void 导入目录ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			OnClipboardDirectory((p) => {
-			                     	var files = Directory.GetFiles(p, "*", SearchOption.AllDirectories).Where(i => Regex.IsMatch(i, "\\.(?:c|h|cpp|java|txt)$") || i.GetExtension().IsVacuum());
-			                     	var j = "\u0060";
+				var files = Directory.GetFiles(p, "*", SearchOption.AllDirectories).Where(i => Regex.IsMatch(i, "\\.(?:c|h|cpp|java|txt)$") || i.GetExtension().IsVacuum());
+				var j = "\u0060";
 			                     	
-			                     	foreach (var element in files) {
-			                     		var title = p.GetFileName() + ": " + element.GetFileName();
-			                     		var sb = new StringBuilder();
-			                     		sb.AppendLine("# " + title).AppendLine();
-			                     		var str = element.ReadAllText().Trim();
-			                     		while (str.StartsWith("/*")) {
-			                     			str = str.SubstringAfter("*/").Trim();
-			                     		}
-			                     		sb
+				foreach (var element in files) {
+					var title = p.GetFileName() + ": " + element.GetFileName();
+					var sb = new StringBuilder();
+					sb.AppendLine("# " + title).AppendLine();
+					var str = element.ReadAllText().Trim();
+					while (str.StartsWith("/*")) {
+						str = str.SubstringAfter("*/").Trim();
+					}
+					sb
 			                     			.AppendLine()
 			                     			.AppendLine("```")
 			                     			.AppendLine()
@@ -487,21 +496,21 @@ namespace Notepad
 			                     			.AppendLine("```")
 			                     			.AppendLine();
 			                     		
-			                     		var article = new Article {
-			                     			Title = title,
-			                     			Content = sb.ToString(),
-			                     			CreateAt = DateTime.UtcNow,
-			                     			UpdateAt = DateTime.UtcNow,
-			                     		};
-			                     		try {
-			                     			HelperSqlite.GetInstance().Insert(article);
-			                     		} catch {
+					var article = new Article {
+						Title = title,
+						Content = sb.ToString(),
+						CreateAt = DateTime.UtcNow,
+						UpdateAt = DateTime.UtcNow,
+					};
+					try {
+						HelperSqlite.GetInstance().Insert(article);
+					} catch {
 			                     			
-			                     		}
-			                     	}
-			                     	UpdateList();
+					}
+				}
+				UpdateList();
 			                     	
-			                     });
+			});
 		}
 		
 		void 字符串到数组GBKToolStripMenuItemClick(object sender, EventArgs e)
@@ -567,14 +576,14 @@ namespace Notepad
 		{
 			OnClipboardDirectory((v) => {
 			                     	
-			                     	var files = Directory.GetFiles(v, "*", SearchOption.AllDirectories)
+				var files = Directory.GetFiles(v, "*", SearchOption.AllDirectories)
 			                     		.Where(i => Regex.IsMatch(i, "\\.(?:java|kt|xml|css|cs|js|htm|c|h)"));
-			                     	foreach (var element in files) {
-			                     		var str = element.ReadAllText();
-			                     		element.WriteAllText(str.Replace(findBox.Text, replaceBox.Text));
-			                     	}
+				foreach (var element in files) {
+					var str = element.ReadAllText();
+					element.WriteAllText(str.Replace(findBox.Text, replaceBox.Text));
+				}
 			                     	
-			                     });
+			});
 		}
 		
 		void AaToolStripMenuItemClick(object sender, EventArgs e)
@@ -748,39 +757,39 @@ namespace Notepad
 		{
 			Helper.OnClipboardString((v) => {
 			                         	
-			                         	var ls = new UTF8Encoding(false).GetBytes(v).Select(i => i.ToString());
-			                         	return "int buf[" + ls.Count() + "]=" + "{" + string.Join(",", ls) + "};";
-			                         });
+				var ls = new UTF8Encoding(false).GetBytes(v).Select(i => i.ToString());
+				return "int buf[" + ls.Count() + "]=" + "{" + string.Join(",", ls) + "};";
+			});
 		}
 		void GitHub页面源代码到HTML文件ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			Helper.OnClipboardString((v) => {
-			                         	var hd = new HtmlAgilityPack.HtmlDocument();
-			                         	hd.LoadHtml(v);
+				var hd = new HtmlAgilityPack.HtmlDocument();
+				hd.LoadHtml(v);
 			                         	
-			                         	var sb = new StringBuilder();
-			                         	sb.Append(hd.DocumentNode.SelectSingleNode("//head").OuterHtml).AppendLine().AppendLine();
+				var sb = new StringBuilder();
+				sb.Append(hd.DocumentNode.SelectSingleNode("//head").OuterHtml).AppendLine().AppendLine();
 			                         	
-			                         	sb.Append(hd.DocumentNode.SelectSingleNode("//div[@class=\"file \"]").OuterHtml);
-			                         	"index.htm".GetDesktopPath().WriteAllText(sb.ToString());
+				sb.Append(hd.DocumentNode.SelectSingleNode("//div[@class=\"file \"]").OuterHtml);
+				"index.htm".GetDesktopPath().WriteAllText(sb.ToString());
 			                         	
-			                         	return null;
-			                         });
+				return null;
+			});
 		}
 		
 		void CheatEngineMemoryViewer数组到BYTE数组ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			Helper.OnClipboardString((v) => {
-			                         	var str = v.Split(" ".ToArray(), StringSplitOptions.RemoveEmptyEntries).Select((i) => {
-			                         	                                                                               	var vh = int.Parse(i, System.Globalization.NumberStyles.HexNumber);
-			                         	                                                                               	if (vh == 0) {
-			                         	                                                                               		return "0";
-			                         	                                                                               	} else {
-			                         	                                                                               		return "0x" + vh.ToString("X");
-			                         	                                                                               	}
-			                         	                                                                               });
-			                         	return "{" + string.Join(",", str) + "}";
-			                         });
+				var str = v.Split(" ".ToArray(), StringSplitOptions.RemoveEmptyEntries).Select((i) => {
+					var vh = int.Parse(i, System.Globalization.NumberStyles.HexNumber);
+					if (vh == 0) {
+						return "0";
+					} else {
+						return "0x" + vh.ToString("X");
+					}
+				});
+				return "{" + string.Join(",", str) + "}";
+			});
 		}
 		void 计算匹配数量正则表达式ToolStripMenuItemClick(object sender, EventArgs e)
 		{
@@ -809,13 +818,13 @@ namespace Notepad
 		{
 			
 			OnClipboardDirectory((v) => {
-			                     	var str = "";
-			                     	var files = Directory.GetFiles(v, "*").Where(i => Regex.IsMatch(i, "\\.(?:c|h|txt)$"));
-			                     	foreach (var element in files) {
-			                     		str +=	string.Format("```\r\n\r\n{0}\r\n\r\n```\r\n\r\n", element.ReadAllText().Replace("`", "\u0060"));
-			                     	}
-			                     	textBox.SelectedText += str;
-			                     });
+				var str = "";
+				var files = Directory.GetFiles(v, "*").Where(i => Regex.IsMatch(i, "\\.(?:c|h|txt)$"));
+				foreach (var element in files) {
+					str +=	string.Format("```\r\n\r\n{0}\r\n\r\n```\r\n\r\n", element.ReadAllText().Replace("`", "\u0060"));
+				}
+				textBox.SelectedText += str;
+			});
 		}
 		void 大写ToolStripMenuItemClick(object sender, EventArgs e)
 		{
@@ -826,12 +835,12 @@ namespace Notepad
 		{
 			Helper.OnClipboardDirectory((dir) => {
 			                            	
-			                            	var files = Directory.GetFiles(dir, "*.html");
-			                            	foreach (var element in files) {
-			                            		ImportApressCode("实例: C in a Nutshell", element);
-			                            	}
+				var files = Directory.GetFiles(dir, "*.html");
+				foreach (var element in files) {
+					ImportApressCode("实例: C in a Nutshell", element);
+				}
 			                            	
-			                            });
+			});
 		}
 		void ImportApressCode(string prefixTitle, string file)
 		{
@@ -918,7 +927,7 @@ namespace Notepad
 			
 			var targetDirectory = comboBox.Text.GetFileNameWithoutExtension().GetDesktopPath();
 			targetDirectory.CreateDirectoryIfNotExists();
-			File.Copy("assets".GetCommandPath().Combine("stylesheets").Combine("markdown.css"),targetDirectory.Combine("markdown.css"));
+			File.Copy("assets".GetCommandPath().Combine("stylesheets").Combine("markdown.css"), targetDirectory.Combine("markdown.css"));
 			var sql =	HelperSqlite.GetInstance();
 			var contentList =	sql.GetTitleContentList();
 			foreach (var c in contentList) {
@@ -949,18 +958,26 @@ namespace Notepad
 		}
 		void 复制当前数据库ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			var sc=new System.Collections.Specialized.StringCollection();
-			sc.Add(Path.Combine(_dataPath,comboBox.Text));
+			var sc = new System.Collections.Specialized.StringCollection();
+			sc.Add(Path.Combine(_dataPath, comboBox.Text));
 			Clipboard.SetFileDropList(sc);
 		}
 		void 排序分隔符ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			var search  = findBox.Text;
+			var search = findBox.Text;
 		 
 			if (search.IsVacuum())
 				return;
-			textBox.SelectedText=string.Join(search.Trim('\\'),Regex.Split(textBox.SelectedText.Trim(),search).OrderBy(i=>i));
+			textBox.SelectedText = string.Join(search.Trim('\\'), Regex.Split(textBox.SelectedText.Trim(), search).OrderBy(i => i));
 			
+		}
+		void 粘贴注释ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+		var value = Clipboard.GetText();
+		value=Regex.Replace(value,"\\s+\\*\\s+","");
+		value=Regex.Replace(value,"[\r\n]+","");
+		value=Regex.Replace(value,"\\s{2,}"," ");
+		textBox.SelectedText=value;
 		}
 		
 		

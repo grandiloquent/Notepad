@@ -777,7 +777,7 @@ namespace KeyStroke
 		{
 			WinForms.OnClipboardString((v) => {
 			                           
-				var fileName = v.SubstringBefore('{').SubstringBefore('(').SubstringBefore('<').SubstringAfterLast(' ') + ".kt";
+			                           	var fileName = v.SubstringBefore('{').SubstringBefore('(').SubstringBefore('<').Trim().SubstringAfterLast(' ') + ".kt";
 			                           
 				fileName.GetDesktopPath().WriteAllText(v);
 				return null;
@@ -812,11 +812,7 @@ namespace KeyStroke
 		{
 			WinForms.OnClipboardDirectory((v) => v.ClearEmptyLinesInDirectory());
 		}
-		void 格式化XML资源文件ToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			WinForms.OnClipboardString(Codes.FormatAndroidResource);
-	
-		}
+	 
 		void 合并XML文件ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			WinForms.OnClipboardDirectory(Codes.CombineAndroidResource);
@@ -848,7 +844,7 @@ namespace KeyStroke
 		{
 			WinForms.OnClipboardString((v) => {
 				var ls = new List<string>();
-				var ls1=new List<string>();
+				var ls1 = new List<string>();
 				var hd = new HtmlAgilityPack.HtmlDocument();
 				hd.LoadHtml(v);
 				var nodes = hd.DocumentNode.SelectNodes("//tbody/tr[contains(@class, 'api')]").ToArray();
@@ -857,7 +853,8 @@ namespace KeyStroke
 					 
 						var children = element.ChildNodes.Where(i => i.NodeType != HtmlAgilityPack.HtmlNodeType.Text).ToArray();
 						var rs = children[0].InnerText.Trim().SubstringAfterLast(" ");
-						if(rs.Contains("final"))continue;
+						if (rs.Contains("final"))
+							continue;
 						var rs1 = children[1].ChildNodes[1].InnerText.Trim();
 						var rs2 = "";
 
@@ -880,15 +877,15 @@ namespace KeyStroke
 						if (rs == "void") {
 							ls1.Add(string.Format("// override fun {0}({1})", rs1.SubstringBefore('('), ab[1]));
 							sb.AppendLine(string.Format("override fun {0}({1}){{", rs1.SubstringBefore('('), ab[1]));
-							sb.AppendLine("// "+Regex.Replace(rs2,"[\r\n]+"," "));
+							sb.AppendLine("// " + Regex.Replace(rs2, "[\r\n]+", " "));
 			                           			
-							sb.AppendLine("TODO(\"not implemented\")\r\n// "+ab[0]);
+							sb.AppendLine("TODO(\"not implemented\")\r\n// " + ab[0]);
 			                           		
 						} else {
 							ls1.Add(string.Format("// override fun {0}({1}):{2}", rs1.SubstringBefore('('), ab[1], rs.Capitalize()));
 							
 							sb.AppendLine(string.Format("override fun {0}({1}):{2}{{", rs1.SubstringBefore('('), ab[1], rs.Capitalize()));
-							sb.AppendLine("// "+Regex.Replace(rs2,"[\r\n]+"," "));
+							sb.AppendLine("// " + Regex.Replace(rs2, "[\r\n]+", " "));
 			                           			
 							sb.AppendLine("TODO(\"not implemented\")\r\n// return " + ab[0]);
 							
@@ -901,20 +898,56 @@ namespace KeyStroke
 			                    
 			                           		
 				}
-				return string.Join(Environment.NewLine,ls1.OrderBy(i=>i))+"\r\n\r\n\rn"+ string.Join(Environment.NewLine, ls);
+				return string.Join(Environment.NewLine, ls1.OrderBy(i => i)) + "\r\n\r\n\rn" + string.Join(Environment.NewLine, ls);
 			});
 		}
 		void KotlinParameterToolStripMenuItemClick(object sender, EventArgs e)
 		{
-	WinForms.OnClipboardString((v) => {
+			WinForms.OnClipboardString((v) => {
 				 
-			var a=v.SubstringAfter("(").SubstringBeforeLast(")");
-			var b=a.Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries);
-			var c=b.Select(i=>Regex.Split(i,"\\s").Where(ix=>ix.IsReadable()).Last()).ToArray();
+				var a = v.SubstringAfter("(").SubstringBeforeLast(")");
+				var b = a.Split(new char[]{ ',' }, StringSplitOptions.RemoveEmptyEntries);
+				var c = b.Select(i => Regex.Split(i, "\\s").Where(ix => ix.IsReadable()).Last()).ToArray();
  
 			
-			return  string.Join(",",c);
+				return  string.Join(",", c);
 			});
+		}
+		
+		void 排序资源文件ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardString(Codes.FormatAndroidResource);
+	
+		}
+		void 函数执行标记ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardString(Codes.OrderKotlinFunLog);
+		}
+		void CMSDNAPIToKotlinFunToolStripMenuItemClick(object sender, EventArgs e)
+		{
+	
+			var value=Clipboard.GetText();
+			var hd=new HtmlAgilityPack.HtmlDocument();
+			hd.LoadHtml(value);
+	
+			var nodes=hd.DocumentNode.SelectNodes("//span[contains(@class,'lang-csharp')]/a").Select(i=>HtmlAgilityPack.HtmlEntity.DeEntitize( i.InnerText)).ToArray();
+			var list=new List<String>();
+			
+			foreach (var element in nodes) {
+				list.Add(string.Format("fun File.{0}{{\n}}",element.DeCapitalize()));
+			}
+			 Clipboard.SetText(string.Join("\n",list));
+		}
+		void SVGToDrawableToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardDirectory((v)=>{
+			                              
+			                              		var files=System.IO.Directory.GetFiles(v,"*.svg");
+			                              		foreach (var element in files) {
+			                              		
+			                              	Codes.		ConvertSVGToVector(element);
+			                              		}
+			                              });
 		}
 	 
 		

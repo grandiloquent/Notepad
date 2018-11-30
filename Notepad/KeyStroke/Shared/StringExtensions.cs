@@ -48,6 +48,14 @@ namespace  Shared
 			}
 			return value;
 		}
+		public static string DeCapitalize(this string value)
+		{
+			//  && char.IsLower(value[0])
+			if (!string.IsNullOrEmpty(value)) {
+				return value.Substring(0, 1).ToLower() + value.Substring(1);
+			}
+			return value;
+		}
 		public static int ConvertToInt(this string value, int defaultValue = 0)
 		{
 			var match = Regex.Match(value, "[0-9]+");
@@ -56,7 +64,11 @@ namespace  Shared
 			}
 			return defaultValue;
 		}
-
+		public static string ReplaceFirst(this string value,string find,string replace){
+			var start=value.SubstringBefore(find);
+			var end=value.SubstringAfter(find);
+			return start+replace+end;
+		}
 		public static int CountStart(this string value, char c)
 		{
 			var count = 0;
