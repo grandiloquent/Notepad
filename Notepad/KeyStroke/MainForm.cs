@@ -949,6 +949,24 @@ namespace KeyStroke
 			                              		}
 			                              });
 		}
+		void Val区块ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+		WinForms.OnClipboardString(Codes.OrderKotlinValFun);
+	
+		}
+		void ToolStripMenuItem3Click(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardString((v)=>{
+			                           	v=v.Trim();
+			                           	if(v.StartsWith("\"")){
+			                           		v=v.Trim('\"');
+			                           	return "\""+string.Join("|",v.Split("|".ToArray(),StringSplitOptions.RemoveEmptyEntries).Distinct().OrderBy(i=>i))+ "\"";
+			                           		
+			                           	   }
+			                           	return string.Join("|",v.Split("|".ToArray(),StringSplitOptions.RemoveEmptyEntries).Distinct().OrderBy(i=>i));
+			                           });
+	
+		}
 	 
 		
 	}

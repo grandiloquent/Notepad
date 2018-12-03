@@ -148,6 +148,20 @@ namespace Shared
 				Arguments = string.Format("\"{0}\" -i -style=llvm -sort-includes=false", fileName)
 			});
 		}
+		public static string OrderKotlinValFun(string value)
+		{
+			var list = FormatMethodList(value);
+			
+			list = list.OrderBy((i) => {
+			                    	var matched=	Regex.Match(i,"[\\:\\=]");
+			                    	if(matched.Index>=0){
+			                    		var v=i.Substring(0,matched.Index);
+			                    		return v.Trim().SubstringAfterLast(" ");
+			                    	}
+				return i;
+			});
+			return string.Join(Environment.NewLine, list).RemoveEmptyLines();
+		}
 		public static string OrderKotlinFun(string value)
 		{
 			var list = FormatMethodList(value);
@@ -162,7 +176,7 @@ namespace Shared
 			//var orders=list.Select(i => i.SubstringBefore('(').TrimEnd().SubstringAfterLast(' ')).ToArray();
 			
 			list = list.OrderBy(i => i.SubstringBefore('(').TrimEnd().SubstringAfterLast(' '))
-				.Select(i=>i.ReplaceFirst("{",string.Format("{{\nLog.e(TAG,\"[{0}]\")\n",i.SubstringBefore('(').TrimEnd().SubstringAfterLast(' '))));
+				.Select(i => i.ReplaceFirst("{", string.Format("{{\nLog.e(TAG,\"[{0}]\")\n", i.SubstringBefore('(').TrimEnd().SubstringAfterLast(' '))));
 			return string.Join(Environment.NewLine, list).RemoveEmptyLines();
 		}
 		public static void FormatVSCTypeDef()
@@ -182,8 +196,9 @@ namespace Shared
 			                         
 			});
 		}
-		public static void CombineAndroidResource(string dir){
-			var sb=new StringBuilder();
+		public static void CombineAndroidResource(string dir)
+		{
+			var sb = new StringBuilder();
 			sb.AppendLine("<resource>");
 			foreach (var element in System.IO.Directory.GetFiles(dir,"*.xml")) {
 				var xd = new  XmlDocument();
@@ -191,7 +206,7 @@ namespace Shared
 				sb.AppendLine(xd.DocumentElement.InnerXml);
 			}
 			sb.AppendLine("</resources>");
-			System.IO.Path.Combine(dir,dir.GetFileName()+".xml").WriteAllText(Regex.Replace(sb.ToString(),"(</[a-zA-Z0-9]+>)","$1\n"));
+			System.IO.Path.Combine(dir, dir.GetFileName() + ".xml").WriteAllText(Regex.Replace(sb.ToString(), "(</[a-zA-Z0-9]+>)", "$1\n"));
 		}
 		public static string FormatAndroidResource(string value)
 		{
@@ -206,14 +221,15 @@ namespace Shared
 			var i = xd.DocumentElement.ChildNodes.GetEnumerator();
 			while (i.MoveNext()) {
 				var nodes = i.Current as XmlNode;
-				if(nodes is XmlComment) continue;
+				if (nodes is XmlComment)
+					continue;
 				ls.Add(nodes);
 			}
 			 
-			var array=ls.ToArray();
-			xd.DocumentElement.InnerXml=string.Join(Environment.NewLine,ls.OrderBy(ie=>ie.Name).ThenBy(ie=> ie.Attributes["name"].Value).Distinct(ie=>ie.Attributes["name"].Value).Select(ie=>ie.OuterXml.ToString()));
+			var array = ls.ToArray();
+			xd.DocumentElement.InnerXml = string.Join(Environment.NewLine, ls.OrderBy(ie => ie.Name).ThenBy(ie => ie.Attributes["name"].Value).Distinct(ie => ie.Attributes["name"].Value).Select(ie => ie.OuterXml.ToString()));
 			return xd.OuterXml.Replace("\r"
-			                           ,"");
+			                           , "");
 			
 		}
 		public static void ConvertSVGToVector(string path)
@@ -314,21 +330,22 @@ namespace Shared
 			(Path.Combine(dir, whiteFileName + ".xml")).WriteAllText(vector.ToString().Replace("#FF000000", "#FFFFFFFF"));
  
 		}
-		public static string[] ParseJavaParameters(string value){
+		public static string[] ParseJavaParameters(string value)
+		{
 			
-			var a=value.SubstringAfter("(").SubstringBeforeLast(")");
-			var b=a.Split(new char[]{','},StringSplitOptions.RemoveEmptyEntries);
-			var c=b.Select(i=>Regex.Split(i,"\\s").Where(ix=>ix.IsReadable()).Last()).ToArray();
+			var a = value.SubstringAfter("(").SubstringBeforeLast(")");
+			var b = a.Split(new char[]{ ',' }, StringSplitOptions.RemoveEmptyEntries);
+			var c = b.Select(i => Regex.Split(i, "\\s").Where(ix => ix.IsReadable()).Last()).ToArray();
 			 
 			
-			var h="super."+value.SubstringBefore("(")+"("+string.Join(",",c)+")";
-			var j=string.Join(",", b.Select((i)=>{
-			                                	var list= Regex.Split(i,"\\s").Where(ix=>ix.IsReadable()).ToArray();
-			                                	return list[1]+":"+list[0].Capitalize();
+			var h = "super." + value.SubstringBefore("(") + "(" + string.Join(",", c) + ")";
+			var j = string.Join(",", b.Select((i) => {
+				var list = Regex.Split(i, "\\s").Where(ix => ix.IsReadable()).ToArray();
+				return list[1] + ":" + list[0].Capitalize();
 			           
 			               	
-			                                }));
-			return new string[]{h,j};
+			}));
+			return new string[]{ h, j };
 		}
 		public static string GenerateAndroidId(string value)
 		{
