@@ -79,6 +79,11 @@ namespace KeyStroke
 		private System.Windows.Forms.ToolStripMenuItem val区块ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 分隔符排序ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+		private System.Windows.Forms.ToolStripSplitButton javaButton1;
+		private System.Windows.Forms.ToolStripMenuItem 生成ToolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem logToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 生成Safari文件夹ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 下载Safari文件ToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -118,6 +123,36 @@ namespace KeyStroke
 			this.清空CodeBlocks项目ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.vSC代码段格式化ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.clearButton = new System.Windows.Forms.ToolStripButton();
+			this.othersButton = new System.Windows.Forms.ToolStripSplitButton();
+			this.压缩目录不包含ZIP文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.压缩目录不包含ZIP文件ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.重命名压缩文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.压缩AndroidToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.压缩子目录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.解压目录中文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.cmdButton = new System.Windows.Forms.ToolStripSplitButton();
+			this.aria2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.cPUToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.ebookButton = new System.Windows.Forms.ToolStripSplitButton();
+			this.删除Aria2文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.清理HTMLSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.wkhtmlToPdfToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.gBKToUTF8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.uTF8ToGBKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.生成Safari文件夹ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.csharpButton = new System.Windows.Forms.ToolStripSplitButton();
+			this.格式化C代码ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.stringSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
+			this.清除空行ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.分隔符排序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+			this.javaButton1 = new System.Windows.Forms.ToolStripSplitButton();
+			this.生成ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.logToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.kotlinButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.清理JavaKt文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.生成IDXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -140,33 +175,8 @@ namespace KeyStroke
 			this.cMSDNAPIToKotlinFunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.多媒体ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sVGToDrawableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.clearButton = new System.Windows.Forms.ToolStripButton();
-			this.othersButton = new System.Windows.Forms.ToolStripSplitButton();
-			this.压缩目录不包含ZIP文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.压缩目录不包含ZIP文件ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			this.重命名压缩文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.压缩AndroidToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.压缩子目录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.解压目录中文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.cmdButton = new System.Windows.Forms.ToolStripSplitButton();
-			this.aria2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.cPUToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.ebookButton = new System.Windows.Forms.ToolStripSplitButton();
-			this.删除Aria2文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.清理HTMLSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.wkhtmlToPdfToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.gBKToUTF8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.uTF8ToGBKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.csharpButton = new System.Windows.Forms.ToolStripSplitButton();
-			this.格式化C代码ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			this.stringSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
-			this.清除空行ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.globalEventProvider1 = new Gma.UserActivityMonitor.GlobalEventProvider();
-			this.分隔符排序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+			this.下载Safari文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -175,13 +185,14 @@ namespace KeyStroke
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.kdButton,
 			this.cButton,
-			this.kotlinButton,
 			this.clearButton,
 			this.othersButton,
 			this.cmdButton,
 			this.ebookButton,
 			this.csharpButton,
-			this.stringSplitButton1});
+			this.stringSplitButton1,
+			this.javaButton1,
+			this.kotlinButton});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Size = new System.Drawing.Size(547, 25);
@@ -310,6 +321,258 @@ namespace KeyStroke
 			this.vSC代码段格式化ToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
 			this.vSC代码段格式化ToolStripMenuItem.Text = "VSC 代码段格式化";
 			this.vSC代码段格式化ToolStripMenuItem.Click += new System.EventHandler(this.VSC代码段格式化ToolStripMenuItemClick);
+			// 
+			// clearButton
+			// 
+			this.clearButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.clearButton.Image = ((System.Drawing.Image)(resources.GetObject("clearButton.Image")));
+			this.clearButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.clearButton.Name = "clearButton";
+			this.clearButton.Size = new System.Drawing.Size(36, 22);
+			this.clearButton.Text = "重设";
+			this.clearButton.Click += new System.EventHandler(this.ClearButtonClick);
+			// 
+			// othersButton
+			// 
+			this.othersButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.othersButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.压缩目录不包含ZIP文件ToolStripMenuItem,
+			this.压缩目录不包含ZIP文件ToolStripMenuItem1,
+			this.重命名压缩文件ToolStripMenuItem,
+			this.压缩AndroidToolStripMenuItem,
+			this.压缩子目录ToolStripMenuItem,
+			this.解压目录中文件ToolStripMenuItem});
+			this.othersButton.Image = ((System.Drawing.Image)(resources.GetObject("othersButton.Image")));
+			this.othersButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.othersButton.Name = "othersButton";
+			this.othersButton.Size = new System.Drawing.Size(48, 22);
+			this.othersButton.Text = "压缩";
+			// 
+			// 压缩目录不包含ZIP文件ToolStripMenuItem
+			// 
+			this.压缩目录不包含ZIP文件ToolStripMenuItem.Name = "压缩目录不包含ZIP文件ToolStripMenuItem";
+			this.压缩目录不包含ZIP文件ToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+			this.压缩目录不包含ZIP文件ToolStripMenuItem.Text = "压缩目录下文件(不包含ZIP文件)";
+			this.压缩目录不包含ZIP文件ToolStripMenuItem.Click += new System.EventHandler(this.压缩目录不包含ZIP文件ToolStripMenuItemClick);
+			// 
+			// 压缩目录不包含ZIP文件ToolStripMenuItem1
+			// 
+			this.压缩目录不包含ZIP文件ToolStripMenuItem1.Name = "压缩目录不包含ZIP文件ToolStripMenuItem1";
+			this.压缩目录不包含ZIP文件ToolStripMenuItem1.Size = new System.Drawing.Size(246, 22);
+			this.压缩目录不包含ZIP文件ToolStripMenuItem1.Text = "压缩目录(不包含ZIP文件)";
+			this.压缩目录不包含ZIP文件ToolStripMenuItem1.Click += new System.EventHandler(this.压缩目录不包含ZIP文件ToolStripMenuItem1Click);
+			// 
+			// 重命名压缩文件ToolStripMenuItem
+			// 
+			this.重命名压缩文件ToolStripMenuItem.Name = "重命名压缩文件ToolStripMenuItem";
+			this.重命名压缩文件ToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+			this.重命名压缩文件ToolStripMenuItem.Text = "重命名压缩文件";
+			this.重命名压缩文件ToolStripMenuItem.Click += new System.EventHandler(this.重命名压缩文件ToolStripMenuItemClick);
+			// 
+			// 压缩AndroidToolStripMenuItem
+			// 
+			this.压缩AndroidToolStripMenuItem.Name = "压缩AndroidToolStripMenuItem";
+			this.压缩AndroidToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+			this.压缩AndroidToolStripMenuItem.Text = "压缩Android";
+			this.压缩AndroidToolStripMenuItem.Click += new System.EventHandler(this.压缩AndroidToolStripMenuItemClick);
+			// 
+			// 压缩子目录ToolStripMenuItem
+			// 
+			this.压缩子目录ToolStripMenuItem.Name = "压缩子目录ToolStripMenuItem";
+			this.压缩子目录ToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+			this.压缩子目录ToolStripMenuItem.Text = "压缩子目录";
+			this.压缩子目录ToolStripMenuItem.Click += new System.EventHandler(this.压缩子目录ToolStripMenuItemClick);
+			// 
+			// 解压目录中文件ToolStripMenuItem
+			// 
+			this.解压目录中文件ToolStripMenuItem.Name = "解压目录中文件ToolStripMenuItem";
+			this.解压目录中文件ToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+			this.解压目录中文件ToolStripMenuItem.Text = "解压目录中文件";
+			this.解压目录中文件ToolStripMenuItem.Click += new System.EventHandler(this.解压目录中文件ToolStripMenuItemClick);
+			// 
+			// cmdButton
+			// 
+			this.cmdButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.cmdButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.aria2ToolStripMenuItem,
+			this.toolStripMenuItem1,
+			this.toolStripSeparator1,
+			this.cPUToolStripMenuItem});
+			this.cmdButton.Image = ((System.Drawing.Image)(resources.GetObject("cmdButton.Image")));
+			this.cmdButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.cmdButton.Name = "cmdButton";
+			this.cmdButton.Size = new System.Drawing.Size(48, 22);
+			this.cmdButton.Text = "命令";
+			// 
+			// aria2ToolStripMenuItem
+			// 
+			this.aria2ToolStripMenuItem.Name = "aria2ToolStripMenuItem";
+			this.aria2ToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
+			this.aria2ToolStripMenuItem.Text = "Aria2";
+			this.aria2ToolStripMenuItem.Click += new System.EventHandler(this.Aria2ToolStripMenuItemClick);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(231, 22);
+			this.toolStripMenuItem1.Text = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(228, 6);
+			// 
+			// cPUToolStripMenuItem
+			// 
+			this.cPUToolStripMenuItem.Name = "cPUToolStripMenuItem";
+			this.cPUToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
+			this.cPUToolStripMenuItem.Text = "CPU";
+			this.cPUToolStripMenuItem.Click += new System.EventHandler(this.CPUToolStripMenuItemClick);
+			// 
+			// ebookButton
+			// 
+			this.ebookButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.ebookButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.删除Aria2文件ToolStripMenuItem,
+			this.清理HTMLSToolStripMenuItem,
+			this.wkhtmlToPdfToolStripMenuItem,
+			this.toolStripSeparator2,
+			this.gBKToUTF8ToolStripMenuItem,
+			this.uTF8ToGBKToolStripMenuItem,
+			this.生成Safari文件夹ToolStripMenuItem,
+			this.下载Safari文件ToolStripMenuItem});
+			this.ebookButton.Image = ((System.Drawing.Image)(resources.GetObject("ebookButton.Image")));
+			this.ebookButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.ebookButton.Name = "ebookButton";
+			this.ebookButton.Size = new System.Drawing.Size(48, 22);
+			this.ebookButton.Text = "书籍";
+			// 
+			// 删除Aria2文件ToolStripMenuItem
+			// 
+			this.删除Aria2文件ToolStripMenuItem.Name = "删除Aria2文件ToolStripMenuItem";
+			this.删除Aria2文件ToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.删除Aria2文件ToolStripMenuItem.Text = "删除Aria2文件";
+			this.删除Aria2文件ToolStripMenuItem.Click += new System.EventHandler(this.删除Aria2文件ToolStripMenuItemClick);
+			// 
+			// 清理HTMLSToolStripMenuItem
+			// 
+			this.清理HTMLSToolStripMenuItem.Name = "清理HTMLSToolStripMenuItem";
+			this.清理HTMLSToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.清理HTMLSToolStripMenuItem.Text = "清理HTMLS";
+			this.清理HTMLSToolStripMenuItem.Click += new System.EventHandler(this.清理HTMLSToolStripMenuItemClick);
+			// 
+			// wkhtmlToPdfToolStripMenuItem
+			// 
+			this.wkhtmlToPdfToolStripMenuItem.Name = "wkhtmlToPdfToolStripMenuItem";
+			this.wkhtmlToPdfToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.wkhtmlToPdfToolStripMenuItem.Text = "Wkhtml To Pdf";
+			this.wkhtmlToPdfToolStripMenuItem.Click += new System.EventHandler(this.WkhtmlToPdfToolStripMenuItemClick);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(166, 6);
+			// 
+			// gBKToUTF8ToolStripMenuItem
+			// 
+			this.gBKToUTF8ToolStripMenuItem.Name = "gBKToUTF8ToolStripMenuItem";
+			this.gBKToUTF8ToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.gBKToUTF8ToolStripMenuItem.Text = "GBK To UTF8";
+			this.gBKToUTF8ToolStripMenuItem.Click += new System.EventHandler(this.GBKToUTF8ToolStripMenuItemClick);
+			// 
+			// uTF8ToGBKToolStripMenuItem
+			// 
+			this.uTF8ToGBKToolStripMenuItem.Name = "uTF8ToGBKToolStripMenuItem";
+			this.uTF8ToGBKToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.uTF8ToGBKToolStripMenuItem.Text = "UTF8 To GBK";
+			// 
+			// 生成Safari文件夹ToolStripMenuItem
+			// 
+			this.生成Safari文件夹ToolStripMenuItem.Name = "生成Safari文件夹ToolStripMenuItem";
+			this.生成Safari文件夹ToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.生成Safari文件夹ToolStripMenuItem.Text = "生成Safari文件夹";
+			this.生成Safari文件夹ToolStripMenuItem.Click += new System.EventHandler(this.生成Safari文件夹ToolStripMenuItemClick);
+			// 
+			// csharpButton
+			// 
+			this.csharpButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.csharpButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.格式化C代码ToolStripMenuItem1});
+			this.csharpButton.Image = ((System.Drawing.Image)(resources.GetObject("csharpButton.Image")));
+			this.csharpButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.csharpButton.Name = "csharpButton";
+			this.csharpButton.Size = new System.Drawing.Size(32, 22);
+			this.csharpButton.Text = "toolStripSplitButton1";
+			// 
+			// 格式化C代码ToolStripMenuItem1
+			// 
+			this.格式化C代码ToolStripMenuItem1.Name = "格式化C代码ToolStripMenuItem1";
+			this.格式化C代码ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+			this.格式化C代码ToolStripMenuItem1.Text = "格式化C#代码";
+			this.格式化C代码ToolStripMenuItem1.Click += new System.EventHandler(this.格式化C代码ToolStripMenuItem1Click);
+			// 
+			// stringSplitButton1
+			// 
+			this.stringSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.stringSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.清除空行ToolStripMenuItem,
+			this.分隔符排序ToolStripMenuItem});
+			this.stringSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("stringSplitButton1.Image")));
+			this.stringSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.stringSplitButton1.Name = "stringSplitButton1";
+			this.stringSplitButton1.Size = new System.Drawing.Size(60, 22);
+			this.stringSplitButton1.Text = "字符串";
+			// 
+			// 清除空行ToolStripMenuItem
+			// 
+			this.清除空行ToolStripMenuItem.Name = "清除空行ToolStripMenuItem";
+			this.清除空行ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+			this.清除空行ToolStripMenuItem.Text = "清除空行";
+			this.清除空行ToolStripMenuItem.Click += new System.EventHandler(this.清除空行ToolStripMenuItemClick);
+			// 
+			// 分隔符排序ToolStripMenuItem
+			// 
+			this.分隔符排序ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.toolStripMenuItem3});
+			this.分隔符排序ToolStripMenuItem.Name = "分隔符排序ToolStripMenuItem";
+			this.分隔符排序ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+			this.分隔符排序ToolStripMenuItem.Text = "分隔符排序";
+			// 
+			// toolStripMenuItem3
+			// 
+			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+			this.toolStripMenuItem3.Size = new System.Drawing.Size(79, 22);
+			this.toolStripMenuItem3.Text = "|";
+			this.toolStripMenuItem3.Click += new System.EventHandler(this.ToolStripMenuItem3Click);
+			// 
+			// javaButton1
+			// 
+			this.javaButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.javaButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.生成ToolStripMenuItem1});
+			this.javaButton1.Image = ((System.Drawing.Image)(resources.GetObject("javaButton1.Image")));
+			this.javaButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.javaButton1.Name = "javaButton1";
+			this.javaButton1.Size = new System.Drawing.Size(49, 22);
+			this.javaButton1.Text = "Java";
+			this.javaButton1.ButtonClick += new System.EventHandler(this.LogToolStripMenuItemClick);
+			// 
+			// 生成ToolStripMenuItem1
+			// 
+			this.生成ToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.logToolStripMenuItem});
+			this.生成ToolStripMenuItem1.Name = "生成ToolStripMenuItem1";
+			this.生成ToolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
+			this.生成ToolStripMenuItem1.Text = "生成";
+			// 
+			// logToolStripMenuItem
+			// 
+			this.logToolStripMenuItem.Name = "logToolStripMenuItem";
+			this.logToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+			this.logToolStripMenuItem.Text = "Log";
+			this.logToolStripMenuItem.Click += new System.EventHandler(this.LogToolStripMenuItemClick);
 			// 
 			// kotlinButton
 			// 
@@ -486,221 +749,12 @@ namespace KeyStroke
 			this.sVGToDrawableToolStripMenuItem.Text = "SVG To Drawable";
 			this.sVGToDrawableToolStripMenuItem.Click += new System.EventHandler(this.SVGToDrawableToolStripMenuItemClick);
 			// 
-			// clearButton
+			// 下载Safari文件ToolStripMenuItem
 			// 
-			this.clearButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.clearButton.Image = ((System.Drawing.Image)(resources.GetObject("clearButton.Image")));
-			this.clearButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.clearButton.Name = "clearButton";
-			this.clearButton.Size = new System.Drawing.Size(36, 22);
-			this.clearButton.Text = "重设";
-			this.clearButton.Click += new System.EventHandler(this.ClearButtonClick);
-			// 
-			// othersButton
-			// 
-			this.othersButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.othersButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.压缩目录不包含ZIP文件ToolStripMenuItem,
-			this.压缩目录不包含ZIP文件ToolStripMenuItem1,
-			this.重命名压缩文件ToolStripMenuItem,
-			this.压缩AndroidToolStripMenuItem,
-			this.压缩子目录ToolStripMenuItem,
-			this.解压目录中文件ToolStripMenuItem});
-			this.othersButton.Image = ((System.Drawing.Image)(resources.GetObject("othersButton.Image")));
-			this.othersButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.othersButton.Name = "othersButton";
-			this.othersButton.Size = new System.Drawing.Size(48, 22);
-			this.othersButton.Text = "压缩";
-			// 
-			// 压缩目录不包含ZIP文件ToolStripMenuItem
-			// 
-			this.压缩目录不包含ZIP文件ToolStripMenuItem.Name = "压缩目录不包含ZIP文件ToolStripMenuItem";
-			this.压缩目录不包含ZIP文件ToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
-			this.压缩目录不包含ZIP文件ToolStripMenuItem.Text = "压缩目录下文件(不包含ZIP文件)";
-			this.压缩目录不包含ZIP文件ToolStripMenuItem.Click += new System.EventHandler(this.压缩目录不包含ZIP文件ToolStripMenuItemClick);
-			// 
-			// 压缩目录不包含ZIP文件ToolStripMenuItem1
-			// 
-			this.压缩目录不包含ZIP文件ToolStripMenuItem1.Name = "压缩目录不包含ZIP文件ToolStripMenuItem1";
-			this.压缩目录不包含ZIP文件ToolStripMenuItem1.Size = new System.Drawing.Size(246, 22);
-			this.压缩目录不包含ZIP文件ToolStripMenuItem1.Text = "压缩目录(不包含ZIP文件)";
-			this.压缩目录不包含ZIP文件ToolStripMenuItem1.Click += new System.EventHandler(this.压缩目录不包含ZIP文件ToolStripMenuItem1Click);
-			// 
-			// 重命名压缩文件ToolStripMenuItem
-			// 
-			this.重命名压缩文件ToolStripMenuItem.Name = "重命名压缩文件ToolStripMenuItem";
-			this.重命名压缩文件ToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
-			this.重命名压缩文件ToolStripMenuItem.Text = "重命名压缩文件";
-			this.重命名压缩文件ToolStripMenuItem.Click += new System.EventHandler(this.重命名压缩文件ToolStripMenuItemClick);
-			// 
-			// 压缩AndroidToolStripMenuItem
-			// 
-			this.压缩AndroidToolStripMenuItem.Name = "压缩AndroidToolStripMenuItem";
-			this.压缩AndroidToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
-			this.压缩AndroidToolStripMenuItem.Text = "压缩Android";
-			this.压缩AndroidToolStripMenuItem.Click += new System.EventHandler(this.压缩AndroidToolStripMenuItemClick);
-			// 
-			// 压缩子目录ToolStripMenuItem
-			// 
-			this.压缩子目录ToolStripMenuItem.Name = "压缩子目录ToolStripMenuItem";
-			this.压缩子目录ToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
-			this.压缩子目录ToolStripMenuItem.Text = "压缩子目录";
-			this.压缩子目录ToolStripMenuItem.Click += new System.EventHandler(this.压缩子目录ToolStripMenuItemClick);
-			// 
-			// 解压目录中文件ToolStripMenuItem
-			// 
-			this.解压目录中文件ToolStripMenuItem.Name = "解压目录中文件ToolStripMenuItem";
-			this.解压目录中文件ToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
-			this.解压目录中文件ToolStripMenuItem.Text = "解压目录中文件";
-			this.解压目录中文件ToolStripMenuItem.Click += new System.EventHandler(this.解压目录中文件ToolStripMenuItemClick);
-			// 
-			// cmdButton
-			// 
-			this.cmdButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.cmdButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.aria2ToolStripMenuItem,
-			this.toolStripMenuItem1,
-			this.toolStripSeparator1,
-			this.cPUToolStripMenuItem});
-			this.cmdButton.Image = ((System.Drawing.Image)(resources.GetObject("cmdButton.Image")));
-			this.cmdButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.cmdButton.Name = "cmdButton";
-			this.cmdButton.Size = new System.Drawing.Size(48, 22);
-			this.cmdButton.Text = "命令";
-			// 
-			// aria2ToolStripMenuItem
-			// 
-			this.aria2ToolStripMenuItem.Name = "aria2ToolStripMenuItem";
-			this.aria2ToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
-			this.aria2ToolStripMenuItem.Text = "Aria2";
-			this.aria2ToolStripMenuItem.Click += new System.EventHandler(this.Aria2ToolStripMenuItemClick);
-			// 
-			// toolStripMenuItem1
-			// 
-			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(231, 22);
-			this.toolStripMenuItem1.Text = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Click += new System.EventHandler(this.ToolStripMenuItem1Click);
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(228, 6);
-			// 
-			// cPUToolStripMenuItem
-			// 
-			this.cPUToolStripMenuItem.Name = "cPUToolStripMenuItem";
-			this.cPUToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
-			this.cPUToolStripMenuItem.Text = "CPU";
-			this.cPUToolStripMenuItem.Click += new System.EventHandler(this.CPUToolStripMenuItemClick);
-			// 
-			// ebookButton
-			// 
-			this.ebookButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.ebookButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.删除Aria2文件ToolStripMenuItem,
-			this.清理HTMLSToolStripMenuItem,
-			this.wkhtmlToPdfToolStripMenuItem,
-			this.toolStripSeparator2,
-			this.gBKToUTF8ToolStripMenuItem,
-			this.uTF8ToGBKToolStripMenuItem});
-			this.ebookButton.Image = ((System.Drawing.Image)(resources.GetObject("ebookButton.Image")));
-			this.ebookButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.ebookButton.Name = "ebookButton";
-			this.ebookButton.Size = new System.Drawing.Size(48, 22);
-			this.ebookButton.Text = "书籍";
-			// 
-			// 删除Aria2文件ToolStripMenuItem
-			// 
-			this.删除Aria2文件ToolStripMenuItem.Name = "删除Aria2文件ToolStripMenuItem";
-			this.删除Aria2文件ToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-			this.删除Aria2文件ToolStripMenuItem.Text = "删除Aria2文件";
-			this.删除Aria2文件ToolStripMenuItem.Click += new System.EventHandler(this.删除Aria2文件ToolStripMenuItemClick);
-			// 
-			// 清理HTMLSToolStripMenuItem
-			// 
-			this.清理HTMLSToolStripMenuItem.Name = "清理HTMLSToolStripMenuItem";
-			this.清理HTMLSToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-			this.清理HTMLSToolStripMenuItem.Text = "清理HTMLS";
-			this.清理HTMLSToolStripMenuItem.Click += new System.EventHandler(this.清理HTMLSToolStripMenuItemClick);
-			// 
-			// wkhtmlToPdfToolStripMenuItem
-			// 
-			this.wkhtmlToPdfToolStripMenuItem.Name = "wkhtmlToPdfToolStripMenuItem";
-			this.wkhtmlToPdfToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-			this.wkhtmlToPdfToolStripMenuItem.Text = "Wkhtml To Pdf";
-			this.wkhtmlToPdfToolStripMenuItem.Click += new System.EventHandler(this.WkhtmlToPdfToolStripMenuItemClick);
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(159, 6);
-			// 
-			// gBKToUTF8ToolStripMenuItem
-			// 
-			this.gBKToUTF8ToolStripMenuItem.Name = "gBKToUTF8ToolStripMenuItem";
-			this.gBKToUTF8ToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-			this.gBKToUTF8ToolStripMenuItem.Text = "GBK To UTF8";
-			this.gBKToUTF8ToolStripMenuItem.Click += new System.EventHandler(this.GBKToUTF8ToolStripMenuItemClick);
-			// 
-			// uTF8ToGBKToolStripMenuItem
-			// 
-			this.uTF8ToGBKToolStripMenuItem.Name = "uTF8ToGBKToolStripMenuItem";
-			this.uTF8ToGBKToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-			this.uTF8ToGBKToolStripMenuItem.Text = "UTF8 To GBK";
-			// 
-			// csharpButton
-			// 
-			this.csharpButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.csharpButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.格式化C代码ToolStripMenuItem1});
-			this.csharpButton.Image = ((System.Drawing.Image)(resources.GetObject("csharpButton.Image")));
-			this.csharpButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.csharpButton.Name = "csharpButton";
-			this.csharpButton.Size = new System.Drawing.Size(32, 22);
-			this.csharpButton.Text = "toolStripSplitButton1";
-			// 
-			// 格式化C代码ToolStripMenuItem1
-			// 
-			this.格式化C代码ToolStripMenuItem1.Name = "格式化C代码ToolStripMenuItem1";
-			this.格式化C代码ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-			this.格式化C代码ToolStripMenuItem1.Text = "格式化C#代码";
-			this.格式化C代码ToolStripMenuItem1.Click += new System.EventHandler(this.格式化C代码ToolStripMenuItem1Click);
-			// 
-			// stringSplitButton1
-			// 
-			this.stringSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.stringSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.清除空行ToolStripMenuItem,
-			this.分隔符排序ToolStripMenuItem});
-			this.stringSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("stringSplitButton1.Image")));
-			this.stringSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.stringSplitButton1.Name = "stringSplitButton1";
-			this.stringSplitButton1.Size = new System.Drawing.Size(60, 22);
-			this.stringSplitButton1.Text = "字符串";
-			// 
-			// 清除空行ToolStripMenuItem
-			// 
-			this.清除空行ToolStripMenuItem.Name = "清除空行ToolStripMenuItem";
-			this.清除空行ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.清除空行ToolStripMenuItem.Text = "清除空行";
-			this.清除空行ToolStripMenuItem.Click += new System.EventHandler(this.清除空行ToolStripMenuItemClick);
-			// 
-			// 分隔符排序ToolStripMenuItem
-			// 
-			this.分隔符排序ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.toolStripMenuItem3});
-			this.分隔符排序ToolStripMenuItem.Name = "分隔符排序ToolStripMenuItem";
-			this.分隔符排序ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.分隔符排序ToolStripMenuItem.Text = "分隔符排序";
-			// 
-			// toolStripMenuItem3
-			// 
-			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-			this.toolStripMenuItem3.Size = new System.Drawing.Size(152, 22);
-			this.toolStripMenuItem3.Text = "|";
-			this.toolStripMenuItem3.Click += new System.EventHandler(this.ToolStripMenuItem3Click);
+			this.下载Safari文件ToolStripMenuItem.Name = "下载Safari文件ToolStripMenuItem";
+			this.下载Safari文件ToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.下载Safari文件ToolStripMenuItem.Text = "下载Safari文件";
+			this.下载Safari文件ToolStripMenuItem.Click += new System.EventHandler(this.下载Safari文件ToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 

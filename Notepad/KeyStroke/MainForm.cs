@@ -667,6 +667,14 @@ namespace KeyStroke
 		}
 		void 压缩子目录ToolStripMenuItemClick(object sender, EventArgs e)
 		{
+//			WinForms.OnClipboardDirectory((dir) => {
+//			                              	var directories = Directory.GetFiles(dir,"*",SearchOption.AllDirectories)
+//			                              		.Where(i=>Regex.IsMatch(i,"\\.(?:opf|ncx)$")).ToArray();
+//			                              	foreach (var element in directories) {
+//			                              		var str=element.ReadAllText().Replace(".xhtml",".html");
+//			                              		element.WriteAllText(str);
+//			                              	}
+//			                              });
 			WinForms.ZipDirectories();
 		}
 		void 解压目录中文件ToolStripMenuItemClick(object sender, EventArgs e)
@@ -777,7 +785,7 @@ namespace KeyStroke
 		{
 			WinForms.OnClipboardString((v) => {
 			                           
-			                           	var fileName = v.SubstringBefore('{').SubstringBefore('(').SubstringBefore('<').Trim().SubstringAfterLast(' ') + ".kt";
+				var fileName = v.SubstringBefore('{').SubstringBefore('(').SubstringBefore('<').Trim().SubstringAfterLast(' ') + ".kt";
 			                           
 				fileName.GetDesktopPath().WriteAllText(v);
 				return null;
@@ -926,48 +934,113 @@ namespace KeyStroke
 		void CMSDNAPIToKotlinFunToolStripMenuItemClick(object sender, EventArgs e)
 		{
 	
-			var value=Clipboard.GetText();
-			var hd=new HtmlAgilityPack.HtmlDocument();
+			var value = Clipboard.GetText();
+			var hd = new HtmlAgilityPack.HtmlDocument();
 			hd.LoadHtml(value);
 	
-			var nodes=hd.DocumentNode.SelectNodes("//span[contains(@class,'lang-csharp')]/a").Select(i=>HtmlAgilityPack.HtmlEntity.DeEntitize( i.InnerText)).ToArray();
-			var list=new List<String>();
+			var nodes = hd.DocumentNode.SelectNodes("//span[contains(@class,'lang-csharp')]/a").Select(i => HtmlAgilityPack.HtmlEntity.DeEntitize(i.InnerText)).ToArray();
+			var list = new List<String>();
 			
 			foreach (var element in nodes) {
-				list.Add(string.Format("fun File.{0}{{\n}}",element.DeCapitalize()));
+				list.Add(string.Format("fun File.{0}{{\n}}", element.DeCapitalize()));
 			}
-			 Clipboard.SetText(string.Join("\n",list));
+			Clipboard.SetText(string.Join("\n", list));
 		}
 		void SVGToDrawableToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			WinForms.OnClipboardDirectory((v)=>{
+			WinForms.OnClipboardDirectory((v) => {
 			                              
-			                              		var files=System.IO.Directory.GetFiles(v,"*.svg");
-			                              		foreach (var element in files) {
+				var files = System.IO.Directory.GetFiles(v, "*.svg");
+				foreach (var element in files) {
 			                              		
-			                              	Codes.		ConvertSVGToVector(element);
-			                              		}
-			                              });
+					Codes.ConvertSVGToVector(element);
+				}
+			});
 		}
 		void Val区块ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-		WinForms.OnClipboardString(Codes.OrderKotlinValFun);
+			WinForms.OnClipboardString(Codes.OrderKotlinValFun);
 	
 		}
 		void ToolStripMenuItem3Click(object sender, EventArgs e)
 		{
-			WinForms.OnClipboardString((v)=>{
-			                           	v=v.Trim();
-			                           	if(v.StartsWith("\"")){
-			                           		v=v.Trim('\"');
-			                           	return "\""+string.Join("|",v.Split("|".ToArray(),StringSplitOptions.RemoveEmptyEntries).Distinct().OrderBy(i=>i))+ "\"";
+			WinForms.OnClipboardString((v) => {
+				v = v.Trim();
+				if (v.StartsWith("\"")) {
+					v = v.Trim('\"');
+					return "\"" + string.Join("|", v.Split("|".ToArray(), StringSplitOptions.RemoveEmptyEntries).Distinct().OrderBy(i => i)) + "\"";
 			                           		
-			                           	   }
-			                           	return string.Join("|",v.Split("|".ToArray(),StringSplitOptions.RemoveEmptyEntries).Distinct().OrderBy(i=>i));
-			                           });
+				}
+				return string.Join("|", v.Split("|".ToArray(), StringSplitOptions.RemoveEmptyEntries).Distinct().OrderBy(i => i));
+			});
 	
 		}
+		void LogToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardString(JavaGenerateLog);
+		}
 	 
-		
+		private string JavaGenerateLog(string value)
+		{
+			var matches = Regex.Matches(value, "(?<=[\\w] )[\\w\\d_]+(?= \\=)").Cast<Match>().Select(i => i);
+			var sb = new StringBuilder();
+			sb.Append("Log.e(TAG,");
+			foreach (var element in matches) {
+				sb.AppendFormat("\" {0} =>\" +{0}+", element);
+			}
+			sb.Remove(sb.Length - 1, 1);
+			sb.AppendLine(");");
+			return sb.ToString();
+		}
+		void 生成Safari文件夹ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardDirectory((dir) => {
+				var files = Directory.GetFiles(dir, "*.html");
+				foreach (var element in files) {
+					var hd = new HtmlAgilityPack.HtmlDocument();
+					hd.LoadHtml(element.ReadAllText());
+					var title = hd.DocumentNode.SelectSingleNode("//title").InnerText.SubstringBefore('[').Trim().GetValidFileName();
+					
+					var targetDirectory = Path.Combine(dir, title);
+					if (!Directory.Exists(targetDirectory))
+						Directory.CreateDirectory(targetDirectory);
+					
+					var targetFile = Path.Combine(targetDirectory, "目录.html");
+					var node = hd.DocumentNode.SelectSingleNode("//*[@class='detail-toc']");
+					targetFile.WriteAllText(
+						"<!DOCTYPE html> <html lang=en> <head> <meta charset=utf-8> <meta content=\"IE=edge http-equiv=X-UA-Compatible> <meta content=\"width=device-width,initial-scale=1\" name=viewport><link href=\"style.css\" rel=\"stylesheet\"></head><body><ol>" +
+						node.InnerHtml.Replace(".xhtml",".html") +
+						"</ol></body>");
+				}
+			});
+		}
+		void 下载Safari文件ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardDirectory((dir) => {
+				var directories = Directory.GetDirectories(dir);
+				
+				foreach (var element in directories) {
+					var hd = new HtmlAgilityPack.HtmlDocument();
+					hd.LoadHtml((Path.Combine(element, "目录.html")).ReadAllText());
+					
+					var targetFile = Path.Combine(element, "links.txt");
+					var nodes = hd.DocumentNode.SelectNodes("//a");
+					var list = new List<String>();
+					foreach (var n in nodes) {
+						var h = n.GetAttributeValue("href", "").SubstringBefore('#');
+						if (!list.Contains(h))
+							list.Add(h);
+					}
+					targetFile.WriteAllText(  string.Join(Environment.NewLine, list));
+					
+					Process.Start(new ProcessStartInfo() {
+					              FileName="aria2c.exe",
+					              WorkingDirectory=element,
+					              Arguments="-i \""+targetFile+"\" "+"--load-cookies=\"C:\\Users\\Administrator\\Desktop\\Safari\\cookie.txt\""
+					});
+				}
+			});
+		}
+	
 	}
 }
