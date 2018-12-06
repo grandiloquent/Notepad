@@ -995,7 +995,8 @@ namespace KeyStroke
 		}
 		void 生成Safari文件夹ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			WinForms.OnClipboardDirectory((dir) => {
+			 
+			var dir=Clipboard.GetText();
 				var files = Directory.GetFiles(dir, "*.html");
 				foreach (var element in files) {
 					var hd = new HtmlAgilityPack.HtmlDocument();
@@ -1019,7 +1020,7 @@ namespace KeyStroke
 						str +
 						"</ol></body>");
 				}
-			});
+			 
 		}
 		void 下载Safari文件ToolStripMenuItemClick(object sender, EventArgs e)
 		{
@@ -1077,7 +1078,7 @@ namespace KeyStroke
 		{
 			  
 		 
-			var node = string.Join(Environment.NewLine, Safari.ParsePublisher(Clipboard.GetText()));
+			var node = string.Join(Environment.NewLine, Safari.ParseSearch(Clipboard.GetText()));
 			//var node = hd.DocumentNode.SelectNodes("//a[contains(@class,'js-search-link t-title')]").ToArray().Select(i => "https://www.safaribooksonline.com" + i.GetAttributeValue("href", "")).Distinct().ToArray();
 			("aria2c".GetDesktopPath() + "\\links.txt").WriteAllText(string.Join(Environment.NewLine, node));
 			Process.Start(new ProcessStartInfo() {

@@ -57,5 +57,19 @@ namespace Shared
 				.ToArray();
 			return nodes;
 		}
+		public static string[] ParseSearch(string value){
+			
+			var hd=new HtmlDocument();
+			hd.LoadHtml(value);
+			var nodes=hd.DocumentNode.SelectNodes("//a[contains(@class,'js-book-title')]");
+			if(nodes.Any()){
+				return nodes.Select(i => i.GetAttributeValue("href", ""))
+				.Where(i => i.IsReadable())
+				.Distinct()
+				.Select(i => "https://www.safaribooksonline.com" + i)
+				.ToArray();
+			}
+			return null;
+		}
 	}
 }
