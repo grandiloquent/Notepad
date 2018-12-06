@@ -91,7 +91,7 @@ namespace Shared
 				foreach (var element in directories) {
 					using (var zip = new Ionic.Zip.ZipFile(Encoding.GetEncoding("gbk"))) {
 						zip.AddDirectory(element);
-						zip.Save(element + ".zip");
+						zip.Save(element + ".epub");
 					}
 					
 				}

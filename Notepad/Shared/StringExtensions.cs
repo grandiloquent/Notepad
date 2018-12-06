@@ -195,6 +195,7 @@ namespace  Shared
 			else
 				return value.Substring(index + 1);
 		}
+		
 		public static string SubstringBefore(this string value, char delimiter)
 		{
 			var index = value.IndexOf(delimiter);
@@ -206,6 +207,14 @@ namespace  Shared
 		public static string SubstringBefore(this string value, string delimiter)
 		{
 			var index = value.IndexOf(delimiter);
+			if (index == -1)
+				return value;
+			else
+				return value.Substring(0, index);
+		}
+		public static string SubstringBeforeLast(this string value, char delimiter)
+		{
+			var index = value.LastIndexOf(delimiter);
 			if (index == -1)
 				return value;
 			else

@@ -90,13 +90,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\Codes.cs" />
-    <Compile Include="Shared\FileExtensions.cs" />
-    <Compile Include="Shared\GenericExtensions.cs" />
     <Compile Include="Shared\Memory.cs" />
     <Compile Include="Shared\Mouse.cs" />
     <Compile Include="Shared\NativeMethods.cs" />
-    <Compile Include="Shared\NetHttpExtensions.cs" />
-    <Compile Include="Shared\StringExtensions.cs" />
     <Compile Include="Shared\Win32.cs" />
     <Compile Include="Shared\WinForms.cs" />
   </ItemGroup>
@@ -111,6 +107,12 @@
   <ItemGroup>
     <Folder Include="Hooks" />
     <Folder Include="Shared" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{9ca817c1-201e-44ec-9f3d-af5b1c8076c5}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

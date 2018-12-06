@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 using System.Text;
 using System.Collections.Generic;
 using System.Management;
+ 
 
 namespace KeyStroke
 {
@@ -999,7 +1000,7 @@ namespace KeyStroke
 				foreach (var element in files) {
 					var hd = new HtmlAgilityPack.HtmlDocument();
 					hd.LoadHtml(element.ReadAllText());
-					var title = hd.DocumentNode.SelectSingleNode("//title").InnerText.SubstringBefore('[').Trim().GetValidFileName();
+					var title = Htmls.DeEntitize(hd.DocumentNode.SelectSingleNode("//title").InnerText.SubstringBefore('[').Trim().GetValidFileName());
 					
 					var targetDirectory = Path.Combine(dir, title);
 					if (!Directory.Exists(targetDirectory))
@@ -1007,9 +1008,15 @@ namespace KeyStroke
 					
 					var targetFile = Path.Combine(targetDirectory, "目录.html");
 					var node = hd.DocumentNode.SelectSingleNode("//*[@class='detail-toc']");
+					var sb = new List<string>();
+					var str = Regex.Replace(node.InnerHtml, "(?<=\\<a href\\=\")[#\\:\\w\\d\\-\\./]+", new MatchEvaluator((m) => {
+						sb.Add(m.Value.SubstringBeforeLast("#").TrimEnd('"'));
+						return m.Value.SubstringBeforeLast(".").SubstringAfterLast('/') + ".html";
+					}));
+					Path.Combine(targetDirectory, "links.txt").WriteAllText(string.Join(Environment.NewLine, sb.Distinct()));
 					targetFile.WriteAllText(
 						"<!DOCTYPE html> <html lang=en> <head> <meta charset=utf-8> <meta content=\"IE=edge http-equiv=X-UA-Compatible> <meta content=\"width=device-width,initial-scale=1\" name=viewport><link href=\"style.css\" rel=\"stylesheet\"></head><body><ol>" +
-						node.InnerHtml.Replace(".xhtml",".html") +
+						str +
 						"</ol></body>");
 				}
 			});
@@ -1031,15 +1038,92 @@ namespace KeyStroke
 						if (!list.Contains(h))
 							list.Add(h);
 					}
-					targetFile.WriteAllText(  string.Join(Environment.NewLine, list));
+					targetFile.WriteAllText(string.Join(Environment.NewLine, list));
 					
 					Process.Start(new ProcessStartInfo() {
-					              FileName="aria2c.exe",
-					              WorkingDirectory=element,
-					              Arguments="-i \""+targetFile+"\" "+"--load-cookies=\"C:\\Users\\Administrator\\Desktop\\Safari\\cookie.txt\""
+						FileName = "aria2c.exe",
+						WorkingDirectory = element,
+						Arguments = "-i \"" + targetFile + "\" " + "--load-cookies=\"C:\\Users\\Administrator\\Desktop\\Safari\\cookie.txt\""
 					});
 				}
 			});
+		}
+		void 清理Safari文件ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardDirectory((dir) => {
+				var files = Directory.GetFiles(dir, "*.html", SearchOption.AllDirectories);
+				foreach (var element in files) {
+					// <a href="06_Chapter01.xhtml#c
+					
+					var valuue = Regex.Replace(element.ReadAllText(), "(?<=\\<a href\\=\")[\\w\\d\\-\\.]+", new MatchEvaluator((m) => {
+					                                                                                                        
+						return m.Value.SubstringBeforeLast(".") + ".html";
+					}));
+					element.WriteAllText(valuue);
+				}
+				files = Directory.GetFiles(dir, "*.ncx", SearchOption.AllDirectories);
+				foreach (var element in files) {
+					// <a href="06_Chapter01.xhtml#c
+					
+					var value = Regex.Replace(element.ReadAllText(), "(?<=\\<content src\\=\")[\\:\\w\\d\\-\\./#]+\"", new MatchEvaluator((m) => {
+					                                                                                                        
+						return m.Value.SubstringAfterLast("/");
+					}));
+					element.WriteAllText(value);
+				}
+			});
+		}
+		void 下载页面链接ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			  
+		 
+			var node = string.Join(Environment.NewLine, Safari.ParsePublisher(Clipboard.GetText()));
+			//var node = hd.DocumentNode.SelectNodes("//a[contains(@class,'js-search-link t-title')]").ToArray().Select(i => "https://www.safaribooksonline.com" + i.GetAttributeValue("href", "")).Distinct().ToArray();
+			("aria2c".GetDesktopPath() + "\\links.txt").WriteAllText(string.Join(Environment.NewLine, node));
+			Process.Start(new ProcessStartInfo() {
+				FileName = "aria2c",
+				WorkingDirectory = "aria2c".GetDesktopPath(),
+				Arguments = "-i \"" + ("aria2c".GetDesktopPath() + "\\links.txt") + "\""
+			});
+		}
+	
+		void 清除重复SafariToolStripMenuItemClick(object sender, EventArgs e)
+		{
+		 
+			WinForms.OnClipboardDirectory((dir) => {
+				var file = Path.Combine(dir, "books.txt");
+				if (File.Exists(file)) {
+					var names =	file.ReadAllLines().Select(i => i.SubstringBeforeLast('.')).ToList();
+					var epubs = @"C:\Users\Administrator\Desktop\Safari\EPUBS".GetFiles(false, "\\.(?:epub)$").Select(i => i.SubstringAfterLast('\\').SubstringBeforeLast('.')).ToList();
+					names.AddRange(epubs);
+					names.Distinct();
+					var directories = dir.GetDirectories();
+					var targetDirectory = Path.Combine(dir, ".others");
+					targetDirectory.CreateDirectoryIfNotExists();
+					
+					foreach (var element in directories) {
+						if (names.Contains(element.GetFileName())) {
+							Directory.Move(element, Path.Combine(targetDirectory, element.GetFileName()));
+						}
+					}
+				}
+			});
+		}
+		void XxxToolStripMenuItemClick(object sender, EventArgs e)
+		{
+	
+			var files = Directory.GetFileSystemEntries(Clipboard.GetText());
+			
+			foreach (var element in files) {
+				
+				if (element != Htmls.DeEntitize(element)) {
+					if (Directory.Exists(element)) {
+						Directory.Move(element,Htmls.DeEntitize(element));
+					}else if(File.Exists(element)){
+						File.Move(element,Htmls.DeEntitize(element));
+					}
+				}
+			}
 		}
 	
 	}

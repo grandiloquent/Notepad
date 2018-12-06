@@ -83,7 +83,11 @@ namespace KeyStroke
 		private System.Windows.Forms.ToolStripMenuItem 生成ToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem logToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 生成Safari文件夹ToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem 下载Safari文件ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 清理Safari文件ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 下载页面链接ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+		private System.Windows.Forms.ToolStripMenuItem 清除重复SafariToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem xxxToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -143,7 +147,11 @@ namespace KeyStroke
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.gBKToUTF8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.uTF8ToGBKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+			this.下载页面链接ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.生成Safari文件夹ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.清除重复SafariToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.清理Safari文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.csharpButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.格式化C代码ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.stringSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
@@ -176,7 +184,7 @@ namespace KeyStroke
 			this.多媒体ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sVGToDrawableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.globalEventProvider1 = new Gma.UserActivityMonitor.GlobalEventProvider();
-			this.下载Safari文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.xxxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -441,8 +449,12 @@ namespace KeyStroke
 			this.toolStripSeparator2,
 			this.gBKToUTF8ToolStripMenuItem,
 			this.uTF8ToGBKToolStripMenuItem,
+			this.toolStripSeparator6,
+			this.下载页面链接ToolStripMenuItem,
 			this.生成Safari文件夹ToolStripMenuItem,
-			this.下载Safari文件ToolStripMenuItem});
+			this.清除重复SafariToolStripMenuItem,
+			this.清理Safari文件ToolStripMenuItem,
+			this.xxxToolStripMenuItem});
 			this.ebookButton.Image = ((System.Drawing.Image)(resources.GetObject("ebookButton.Image")));
 			this.ebookButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.ebookButton.Name = "ebookButton";
@@ -488,12 +500,38 @@ namespace KeyStroke
 			this.uTF8ToGBKToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
 			this.uTF8ToGBKToolStripMenuItem.Text = "UTF8 To GBK";
 			// 
+			// toolStripSeparator6
+			// 
+			this.toolStripSeparator6.Name = "toolStripSeparator6";
+			this.toolStripSeparator6.Size = new System.Drawing.Size(166, 6);
+			// 
+			// 下载页面链接ToolStripMenuItem
+			// 
+			this.下载页面链接ToolStripMenuItem.Name = "下载页面链接ToolStripMenuItem";
+			this.下载页面链接ToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.下载页面链接ToolStripMenuItem.Text = "下载页面链接";
+			this.下载页面链接ToolStripMenuItem.Click += new System.EventHandler(this.下载页面链接ToolStripMenuItemClick);
+			// 
 			// 生成Safari文件夹ToolStripMenuItem
 			// 
 			this.生成Safari文件夹ToolStripMenuItem.Name = "生成Safari文件夹ToolStripMenuItem";
 			this.生成Safari文件夹ToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
 			this.生成Safari文件夹ToolStripMenuItem.Text = "生成Safari文件夹";
 			this.生成Safari文件夹ToolStripMenuItem.Click += new System.EventHandler(this.生成Safari文件夹ToolStripMenuItemClick);
+			// 
+			// 清除重复SafariToolStripMenuItem
+			// 
+			this.清除重复SafariToolStripMenuItem.Name = "清除重复SafariToolStripMenuItem";
+			this.清除重复SafariToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.清除重复SafariToolStripMenuItem.Text = "清除重复Safari";
+			this.清除重复SafariToolStripMenuItem.Click += new System.EventHandler(this.清除重复SafariToolStripMenuItemClick);
+			// 
+			// 清理Safari文件ToolStripMenuItem
+			// 
+			this.清理Safari文件ToolStripMenuItem.Name = "清理Safari文件ToolStripMenuItem";
+			this.清理Safari文件ToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.清理Safari文件ToolStripMenuItem.Text = "清理Safari文件";
+			this.清理Safari文件ToolStripMenuItem.Click += new System.EventHandler(this.清理Safari文件ToolStripMenuItemClick);
 			// 
 			// csharpButton
 			// 
@@ -749,12 +787,12 @@ namespace KeyStroke
 			this.sVGToDrawableToolStripMenuItem.Text = "SVG To Drawable";
 			this.sVGToDrawableToolStripMenuItem.Click += new System.EventHandler(this.SVGToDrawableToolStripMenuItemClick);
 			// 
-			// 下载Safari文件ToolStripMenuItem
+			// xxxToolStripMenuItem
 			// 
-			this.下载Safari文件ToolStripMenuItem.Name = "下载Safari文件ToolStripMenuItem";
-			this.下载Safari文件ToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-			this.下载Safari文件ToolStripMenuItem.Text = "下载Safari文件";
-			this.下载Safari文件ToolStripMenuItem.Click += new System.EventHandler(this.下载Safari文件ToolStripMenuItemClick);
+			this.xxxToolStripMenuItem.Name = "xxxToolStripMenuItem";
+			this.xxxToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.xxxToolStripMenuItem.Text = "xxx";
+			this.xxxToolStripMenuItem.Click += new System.EventHandler(this.XxxToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 
