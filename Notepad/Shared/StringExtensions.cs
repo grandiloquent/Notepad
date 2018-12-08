@@ -56,6 +56,9 @@ namespace  Shared
 			}
 			return value;
 		}
+		public static string SortLines(this string value){
+			return  string.Join("\n", value.Split('\n').Select(i => i.Trim()).Distinct().OrderBy(i => i));
+		}
 		public static int ConvertToInt(this string value, int defaultValue = 0)
 		{
 			var match = Regex.Match(value, "[0-9]+");

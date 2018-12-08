@@ -841,14 +841,7 @@ namespace KeyStroke
 		{
 			WinForms.OnClipboardString(Codes.OrderKotlinFun);
 		}
-		void 行ToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			WinForms.OnClipboardString((v) => {
-				return string.Join("\n", v.Split('\n').Select(i => i.Trim()).Distinct().OrderBy(i => i));
-			});
-	
-		}
-		
+		 
 		void PublicMethodsToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			WinForms.OnClipboardString((v) => {
@@ -1113,18 +1106,35 @@ namespace KeyStroke
 		void XxxToolStripMenuItemClick(object sender, EventArgs e)
 		{
 	
-			var files = Directory.GetFileSystemEntries(Clipboard.GetText());
+			Clipboard.SetText(Android.ConvertToGradle(Clipboard.GetText()));
 			
-			foreach (var element in files) {
-				
-				if (element != Htmls.DeEntitize(element)) {
-					if (Directory.Exists(element)) {
-						Directory.Move(element,Htmls.DeEntitize(element));
-					}else if(File.Exists(element)){
-						File.Move(element,Htmls.DeEntitize(element));
-					}
-				}
-			}
+//			var files = Directory.GetFileSystemEntries(Clipboard.GetText());
+//			
+//			foreach (var element in files) {
+//				
+//				if (element != Htmls.DeEntitize(element)) {
+//					if (Directory.Exists(element)) {
+//						Directory.Move(element,Htmls.DeEntitize(element));
+//					}else if(File.Exists(element)){
+//						File.Move(element,Htmls.DeEntitize(element));
+//					}
+//				}
+//			}
+		}
+		void StaticInt字段ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			 
+			WinForms.OnClipboardString(Javas.FormatStaticIntField);
+		}
+		void 排序ToolStripMenuItem1Click(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardString(v=>v.SortLines());
+	
+		}
+		void StaticString字段ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardString(Javas.FormatStaticStringField);
+	
 		}
 	
 	}

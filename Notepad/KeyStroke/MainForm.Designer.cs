@@ -66,7 +66,6 @@ namespace KeyStroke
 		private System.Windows.Forms.ToolStripMenuItem kotlinConstToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 排序ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 函数ToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem 行ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 生成ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem publicMethodsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem kotlinParameterToolStripMenuItem;
@@ -88,6 +87,10 @@ namespace KeyStroke
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
 		private System.Windows.Forms.ToolStripMenuItem 清除重复SafariToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem xxxToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 格式化ToolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem staticInt字段ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 排序ToolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem staticString字段ToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -152,15 +155,19 @@ namespace KeyStroke
 			this.生成Safari文件夹ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.清除重复SafariToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.清理Safari文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.xxxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.csharpButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.格式化C代码ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.stringSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
 			this.清除空行ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.分隔符排序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+			this.排序ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.javaButton1 = new System.Windows.Forms.ToolStripSplitButton();
 			this.生成ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.logToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.格式化ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.staticInt字段ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.kotlinButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.清理JavaKt文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.生成IDXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -175,7 +182,6 @@ namespace KeyStroke
 			this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
 			this.排序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.函数ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.行ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.val区块ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.生成ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.publicMethodsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -184,7 +190,7 @@ namespace KeyStroke
 			this.多媒体ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sVGToDrawableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.globalEventProvider1 = new Gma.UserActivityMonitor.GlobalEventProvider();
-			this.xxxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.staticString字段ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -533,6 +539,13 @@ namespace KeyStroke
 			this.清理Safari文件ToolStripMenuItem.Text = "清理Safari文件";
 			this.清理Safari文件ToolStripMenuItem.Click += new System.EventHandler(this.清理Safari文件ToolStripMenuItemClick);
 			// 
+			// xxxToolStripMenuItem
+			// 
+			this.xxxToolStripMenuItem.Name = "xxxToolStripMenuItem";
+			this.xxxToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.xxxToolStripMenuItem.Text = "xxx";
+			this.xxxToolStripMenuItem.Click += new System.EventHandler(this.XxxToolStripMenuItemClick);
+			// 
 			// csharpButton
 			// 
 			this.csharpButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -556,7 +569,8 @@ namespace KeyStroke
 			this.stringSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.stringSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.清除空行ToolStripMenuItem,
-			this.分隔符排序ToolStripMenuItem});
+			this.分隔符排序ToolStripMenuItem,
+			this.排序ToolStripMenuItem1});
 			this.stringSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("stringSplitButton1.Image")));
 			this.stringSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.stringSplitButton1.Name = "stringSplitButton1";
@@ -566,7 +580,7 @@ namespace KeyStroke
 			// 清除空行ToolStripMenuItem
 			// 
 			this.清除空行ToolStripMenuItem.Name = "清除空行ToolStripMenuItem";
-			this.清除空行ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+			this.清除空行ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.清除空行ToolStripMenuItem.Text = "清除空行";
 			this.清除空行ToolStripMenuItem.Click += new System.EventHandler(this.清除空行ToolStripMenuItemClick);
 			// 
@@ -575,7 +589,7 @@ namespace KeyStroke
 			this.分隔符排序ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.toolStripMenuItem3});
 			this.分隔符排序ToolStripMenuItem.Name = "分隔符排序ToolStripMenuItem";
-			this.分隔符排序ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+			this.分隔符排序ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.分隔符排序ToolStripMenuItem.Text = "分隔符排序";
 			// 
 			// toolStripMenuItem3
@@ -585,11 +599,19 @@ namespace KeyStroke
 			this.toolStripMenuItem3.Text = "|";
 			this.toolStripMenuItem3.Click += new System.EventHandler(this.ToolStripMenuItem3Click);
 			// 
+			// 排序ToolStripMenuItem1
+			// 
+			this.排序ToolStripMenuItem1.Name = "排序ToolStripMenuItem1";
+			this.排序ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+			this.排序ToolStripMenuItem1.Text = "排序";
+			this.排序ToolStripMenuItem1.Click += new System.EventHandler(this.排序ToolStripMenuItem1Click);
+			// 
 			// javaButton1
 			// 
 			this.javaButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.javaButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.生成ToolStripMenuItem1});
+			this.生成ToolStripMenuItem1,
+			this.格式化ToolStripMenuItem1});
 			this.javaButton1.Image = ((System.Drawing.Image)(resources.GetObject("javaButton1.Image")));
 			this.javaButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.javaButton1.Name = "javaButton1";
@@ -602,7 +624,7 @@ namespace KeyStroke
 			this.生成ToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.logToolStripMenuItem});
 			this.生成ToolStripMenuItem1.Name = "生成ToolStripMenuItem1";
-			this.生成ToolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
+			this.生成ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
 			this.生成ToolStripMenuItem1.Text = "生成";
 			// 
 			// logToolStripMenuItem
@@ -611,6 +633,22 @@ namespace KeyStroke
 			this.logToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
 			this.logToolStripMenuItem.Text = "Log";
 			this.logToolStripMenuItem.Click += new System.EventHandler(this.LogToolStripMenuItemClick);
+			// 
+			// 格式化ToolStripMenuItem1
+			// 
+			this.格式化ToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.staticInt字段ToolStripMenuItem,
+			this.staticString字段ToolStripMenuItem});
+			this.格式化ToolStripMenuItem1.Name = "格式化ToolStripMenuItem1";
+			this.格式化ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+			this.格式化ToolStripMenuItem1.Text = "格式化";
+			// 
+			// staticInt字段ToolStripMenuItem
+			// 
+			this.staticInt字段ToolStripMenuItem.Name = "staticInt字段ToolStripMenuItem";
+			this.staticInt字段ToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+			this.staticInt字段ToolStripMenuItem.Text = "static int 字段";
+			this.staticInt字段ToolStripMenuItem.Click += new System.EventHandler(this.StaticInt字段ToolStripMenuItemClick);
 			// 
 			// kotlinButton
 			// 
@@ -714,7 +752,6 @@ namespace KeyStroke
 			// 
 			this.排序ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.函数ToolStripMenuItem,
-			this.行ToolStripMenuItem,
 			this.val区块ToolStripMenuItem});
 			this.排序ToolStripMenuItem.Name = "排序ToolStripMenuItem";
 			this.排序ToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
@@ -726,13 +763,6 @@ namespace KeyStroke
 			this.函数ToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
 			this.函数ToolStripMenuItem.Text = "函数";
 			this.函数ToolStripMenuItem.Click += new System.EventHandler(this.函数ToolStripMenuItemClick);
-			// 
-			// 行ToolStripMenuItem
-			// 
-			this.行ToolStripMenuItem.Name = "行ToolStripMenuItem";
-			this.行ToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
-			this.行ToolStripMenuItem.Text = "行";
-			this.行ToolStripMenuItem.Click += new System.EventHandler(this.行ToolStripMenuItemClick);
 			// 
 			// val区块ToolStripMenuItem
 			// 
@@ -787,12 +817,12 @@ namespace KeyStroke
 			this.sVGToDrawableToolStripMenuItem.Text = "SVG To Drawable";
 			this.sVGToDrawableToolStripMenuItem.Click += new System.EventHandler(this.SVGToDrawableToolStripMenuItemClick);
 			// 
-			// xxxToolStripMenuItem
+			// staticString字段ToolStripMenuItem
 			// 
-			this.xxxToolStripMenuItem.Name = "xxxToolStripMenuItem";
-			this.xxxToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-			this.xxxToolStripMenuItem.Text = "xxx";
-			this.xxxToolStripMenuItem.Click += new System.EventHandler(this.XxxToolStripMenuItemClick);
+			this.staticString字段ToolStripMenuItem.Name = "staticString字段ToolStripMenuItem";
+			this.staticString字段ToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+			this.staticString字段ToolStripMenuItem.Text = "static string 字段";
+			this.staticString字段ToolStripMenuItem.Click += new System.EventHandler(this.StaticString字段ToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 
