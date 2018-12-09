@@ -1136,6 +1136,25 @@ namespace KeyStroke
 			WinForms.OnClipboardString(Javas.FormatStaticStringField);
 	
 		}
+		void 方法LogToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardString(Javas.GenerateLog);
+	
+		}
+		void CsharpButtonButtonClick(object sender, EventArgs e)
+		{
+			Musics.Download163Music(Clipboard.GetText());
+		}
+		void PublicLgToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardString(Javas.GeneratePublicLog);
+	
+		}
+		void 从Android文档生成可重载方法ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardString(Javas.GenerateMethods);
+	
+		}
 	
 	}
 }

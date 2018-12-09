@@ -50,11 +50,13 @@
   <ItemGroup>
     <Compile Include="Android.cs" />
     <Compile Include="Book\Safari.cs" />
+    <Compile Include="Code\CodeHelper.cs" />
     <Compile Include="Code\Htmls.cs" />
     <Compile Include="Code\Javas.cs" />
     <Compile Include="FileExtensions.cs" />
     <Compile Include="GenericExtensions.cs" />
     <Compile Include="Library\HtmlAgilityPack.cs" />
+    <Compile Include="Musics.cs" />
     <Compile Include="NetHttpExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringExtensions.cs" />
@@ -63,6 +65,7 @@
     <Folder Include="Code" />
     <Folder Include="Book" />
     <Folder Include="Library" />
+    <Folder Include="Music" />
     <Folder Include="WinForm" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

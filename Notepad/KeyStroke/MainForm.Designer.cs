@@ -91,6 +91,10 @@ namespace KeyStroke
 		private System.Windows.Forms.ToolStripMenuItem staticInt字段ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 排序ToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem staticString字段ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 方法LogToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem publicLgToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 从Android文档生成可重载方法ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -166,8 +170,12 @@ namespace KeyStroke
 			this.javaButton1 = new System.Windows.Forms.ToolStripSplitButton();
 			this.生成ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.logToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.方法LogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.publicLgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.从Android文档生成可重载方法ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.格式化ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.staticInt字段ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.staticString字段ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.kotlinButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.清理JavaKt文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.生成IDXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -190,7 +198,7 @@ namespace KeyStroke
 			this.多媒体ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sVGToDrawableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.globalEventProvider1 = new Gma.UserActivityMonitor.GlobalEventProvider();
-			this.staticString字段ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -556,6 +564,7 @@ namespace KeyStroke
 			this.csharpButton.Name = "csharpButton";
 			this.csharpButton.Size = new System.Drawing.Size(32, 22);
 			this.csharpButton.Text = "toolStripSplitButton1";
+			this.csharpButton.ButtonClick += new System.EventHandler(this.CsharpButtonButtonClick);
 			// 
 			// 格式化C代码ToolStripMenuItem1
 			// 
@@ -580,7 +589,7 @@ namespace KeyStroke
 			// 清除空行ToolStripMenuItem
 			// 
 			this.清除空行ToolStripMenuItem.Name = "清除空行ToolStripMenuItem";
-			this.清除空行ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.清除空行ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
 			this.清除空行ToolStripMenuItem.Text = "清除空行";
 			this.清除空行ToolStripMenuItem.Click += new System.EventHandler(this.清除空行ToolStripMenuItemClick);
 			// 
@@ -589,7 +598,7 @@ namespace KeyStroke
 			this.分隔符排序ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.toolStripMenuItem3});
 			this.分隔符排序ToolStripMenuItem.Name = "分隔符排序ToolStripMenuItem";
-			this.分隔符排序ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.分隔符排序ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
 			this.分隔符排序ToolStripMenuItem.Text = "分隔符排序";
 			// 
 			// toolStripMenuItem3
@@ -602,7 +611,7 @@ namespace KeyStroke
 			// 排序ToolStripMenuItem1
 			// 
 			this.排序ToolStripMenuItem1.Name = "排序ToolStripMenuItem1";
-			this.排序ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+			this.排序ToolStripMenuItem1.Size = new System.Drawing.Size(136, 22);
 			this.排序ToolStripMenuItem1.Text = "排序";
 			this.排序ToolStripMenuItem1.Click += new System.EventHandler(this.排序ToolStripMenuItem1Click);
 			// 
@@ -617,12 +626,15 @@ namespace KeyStroke
 			this.javaButton1.Name = "javaButton1";
 			this.javaButton1.Size = new System.Drawing.Size(49, 22);
 			this.javaButton1.Text = "Java";
-			this.javaButton1.ButtonClick += new System.EventHandler(this.LogToolStripMenuItemClick);
 			// 
 			// 生成ToolStripMenuItem1
 			// 
 			this.生成ToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.logToolStripMenuItem});
+			this.logToolStripMenuItem,
+			this.方法LogToolStripMenuItem,
+			this.publicLgToolStripMenuItem,
+			this.toolStripSeparator7,
+			this.从Android文档生成可重载方法ToolStripMenuItem});
 			this.生成ToolStripMenuItem1.Name = "生成ToolStripMenuItem1";
 			this.生成ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
 			this.生成ToolStripMenuItem1.Text = "生成";
@@ -630,9 +642,30 @@ namespace KeyStroke
 			// logToolStripMenuItem
 			// 
 			this.logToolStripMenuItem.Name = "logToolStripMenuItem";
-			this.logToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+			this.logToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
 			this.logToolStripMenuItem.Text = "Log";
 			this.logToolStripMenuItem.Click += new System.EventHandler(this.LogToolStripMenuItemClick);
+			// 
+			// 方法LogToolStripMenuItem
+			// 
+			this.方法LogToolStripMenuItem.Name = "方法LogToolStripMenuItem";
+			this.方法LogToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
+			this.方法LogToolStripMenuItem.Text = "方法 Log";
+			this.方法LogToolStripMenuItem.Click += new System.EventHandler(this.方法LogToolStripMenuItemClick);
+			// 
+			// publicLgToolStripMenuItem
+			// 
+			this.publicLgToolStripMenuItem.Name = "publicLgToolStripMenuItem";
+			this.publicLgToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
+			this.publicLgToolStripMenuItem.Text = "Log (从源代码提取pulic方法)";
+			this.publicLgToolStripMenuItem.Click += new System.EventHandler(this.PublicLgToolStripMenuItemClick);
+			// 
+			// 从Android文档生成可重载方法ToolStripMenuItem
+			// 
+			this.从Android文档生成可重载方法ToolStripMenuItem.Name = "从Android文档生成可重载方法ToolStripMenuItem";
+			this.从Android文档生成可重载方法ToolStripMenuItem.Size = new System.Drawing.Size(243, 22);
+			this.从Android文档生成可重载方法ToolStripMenuItem.Text = "从Android文档生成可重载方法";
+			this.从Android文档生成可重载方法ToolStripMenuItem.Click += new System.EventHandler(this.从Android文档生成可重载方法ToolStripMenuItemClick);
 			// 
 			// 格式化ToolStripMenuItem1
 			// 
@@ -649,6 +682,13 @@ namespace KeyStroke
 			this.staticInt字段ToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
 			this.staticInt字段ToolStripMenuItem.Text = "static int 字段";
 			this.staticInt字段ToolStripMenuItem.Click += new System.EventHandler(this.StaticInt字段ToolStripMenuItemClick);
+			// 
+			// staticString字段ToolStripMenuItem
+			// 
+			this.staticString字段ToolStripMenuItem.Name = "staticString字段ToolStripMenuItem";
+			this.staticString字段ToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+			this.staticString字段ToolStripMenuItem.Text = "static string 字段";
+			this.staticString字段ToolStripMenuItem.Click += new System.EventHandler(this.StaticString字段ToolStripMenuItemClick);
 			// 
 			// kotlinButton
 			// 
@@ -817,12 +857,10 @@ namespace KeyStroke
 			this.sVGToDrawableToolStripMenuItem.Text = "SVG To Drawable";
 			this.sVGToDrawableToolStripMenuItem.Click += new System.EventHandler(this.SVGToDrawableToolStripMenuItemClick);
 			// 
-			// staticString字段ToolStripMenuItem
+			// toolStripSeparator7
 			// 
-			this.staticString字段ToolStripMenuItem.Name = "staticString字段ToolStripMenuItem";
-			this.staticString字段ToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-			this.staticString字段ToolStripMenuItem.Text = "static string 字段";
-			this.staticString字段ToolStripMenuItem.Click += new System.EventHandler(this.StaticString字段ToolStripMenuItemClick);
+			this.toolStripSeparator7.Name = "toolStripSeparator7";
+			this.toolStripSeparator7.Size = new System.Drawing.Size(240, 6);
 			// 
 			// MainForm
 			// 

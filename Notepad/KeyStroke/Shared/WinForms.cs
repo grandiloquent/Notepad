@@ -139,16 +139,16 @@ namespace Shared
 		}
 		public static void OnClipboardString(Func<String,String> func)
 		{
-			try {
+//			try {
 				var str = Clipboard.GetText().Trim();
 				if (str.IsVacuum())
 					return;
 				str = func(str);
 				if (str.IsReadable())
 					Clipboard.SetText(str);
-			} catch(Exception ingored) {
-				
-			}
+//			} catch(Exception ingored) {
+//				
+//			}
 		}
 		
 	
