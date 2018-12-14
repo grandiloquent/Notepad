@@ -110,10 +110,10 @@ namespace Strings
 			this.fileNameBox1 = new System.Windows.Forms.ToolStripComboBox();
 			this.fileNameBox2 = new System.Windows.Forms.ToolStripComboBox();
 			this.compareFileButton = new System.Windows.Forms.ToolStripSplitButton();
+			this.比较字符串ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.textBox2 = new System.Windows.Forms.TextBox();
-			this.比较字符串ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.contextMenuStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
@@ -418,6 +418,13 @@ namespace Strings
 			this.compareFileButton.Text = "比较文本文件";
 			this.compareFileButton.ButtonClick += new System.EventHandler(this.CompareFileButtonButtonClick);
 			// 
+			// 比较字符串ToolStripMenuItem
+			// 
+			this.比较字符串ToolStripMenuItem.Name = "比较字符串ToolStripMenuItem";
+			this.比较字符串ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+			this.比较字符串ToolStripMenuItem.Text = "比较字符串";
+			this.比较字符串ToolStripMenuItem.Click += new System.EventHandler(this.比较字符串ToolStripMenuItemClick);
+			// 
 			// splitContainer1
 			// 
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -457,13 +464,7 @@ namespace Strings
 			this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.textBox2.Size = new System.Drawing.Size(364, 351);
 			this.textBox2.TabIndex = 1;
-			// 
-			// 比较字符串ToolStripMenuItem
-			// 
-			this.比较字符串ToolStripMenuItem.Name = "比较字符串ToolStripMenuItem";
-			this.比较字符串ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.比较字符串ToolStripMenuItem.Text = "比较字符串";
-			this.比较字符串ToolStripMenuItem.Click += new System.EventHandler(this.比较字符串ToolStripMenuItemClick);
+			this.textBox2.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.TextBox2MouseDoubleClick);
 			// 
 			// MainForm
 			// 

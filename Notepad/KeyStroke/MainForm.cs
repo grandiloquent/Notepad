@@ -971,48 +971,37 @@ namespace KeyStroke
 		}
 		void LogToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			WinForms.OnClipboardString(JavaGenerateLog);
+			WinForms.OnClipboardString(Javas. GenerateVariableLog);
 		}
 	 
-		private string JavaGenerateLog(string value)
-		{
-			var matches = Regex.Matches(value, "(?<=[\\w] )[\\w\\d_]+(?= \\=)").Cast<Match>().Select(i => i);
-			var sb = new StringBuilder();
-			sb.Append("Log.e(TAG,");
-			foreach (var element in matches) {
-				sb.AppendFormat("\" {0} =>\" +{0}+", element);
-			}
-			sb.Remove(sb.Length - 1, 1);
-			sb.AppendLine(");");
-			return sb.ToString();
-		}
+	
 		void 生成Safari文件夹ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			 
-			var dir=Clipboard.GetText();
-				var files = Directory.GetFiles(dir, "*.html");
-				foreach (var element in files) {
-					var hd = new HtmlAgilityPack.HtmlDocument();
-					hd.LoadHtml(element.ReadAllText());
-					var title = Htmls.DeEntitize(hd.DocumentNode.SelectSingleNode("//title").InnerText.SubstringBefore('[').Trim().GetValidFileName());
+			var dir = Clipboard.GetText();
+			var files = Directory.GetFiles(dir, "*.html");
+			foreach (var element in files) {
+				var hd = new HtmlAgilityPack.HtmlDocument();
+				hd.LoadHtml(element.ReadAllText());
+				var title = Htmls.DeEntitize(hd.DocumentNode.SelectSingleNode("//title").InnerText.SubstringBefore('[').Trim().GetValidFileName());
 					
-					var targetDirectory = Path.Combine(dir, title);
-					if (!Directory.Exists(targetDirectory))
-						Directory.CreateDirectory(targetDirectory);
+				var targetDirectory = Path.Combine(dir, title);
+				if (!Directory.Exists(targetDirectory))
+					Directory.CreateDirectory(targetDirectory);
 					
-					var targetFile = Path.Combine(targetDirectory, "目录.html");
-					var node = hd.DocumentNode.SelectSingleNode("//*[@class='detail-toc']");
-					var sb = new List<string>();
-					var str = Regex.Replace(node.InnerHtml, "(?<=\\<a href\\=\")[#\\:\\w\\d\\-\\./]+", new MatchEvaluator((m) => {
-						sb.Add(m.Value.SubstringBeforeLast("#").TrimEnd('"'));
-						return m.Value.SubstringBeforeLast(".").SubstringAfterLast('/') + ".html";
-					}));
-					Path.Combine(targetDirectory, "links.txt").WriteAllText(string.Join(Environment.NewLine, sb.Distinct()));
-					targetFile.WriteAllText(
-						"<!DOCTYPE html> <html lang=en> <head> <meta charset=utf-8> <meta content=\"IE=edge http-equiv=X-UA-Compatible> <meta content=\"width=device-width,initial-scale=1\" name=viewport><link href=\"style.css\" rel=\"stylesheet\"></head><body><ol>" +
-						str +
-						"</ol></body>");
-				}
+				var targetFile = Path.Combine(targetDirectory, "目录.html");
+				var node = hd.DocumentNode.SelectSingleNode("//*[@class='detail-toc']");
+				var sb = new List<string>();
+				var str = Regex.Replace(node.InnerHtml, "(?<=\\<a href\\=\")[#\\:\\w\\d\\-\\./]+", new MatchEvaluator((m) => {
+					sb.Add(m.Value.SubstringBeforeLast("#").TrimEnd('"'));
+					return m.Value.SubstringBeforeLast(".").SubstringAfterLast('/') + ".html";
+				}));
+				Path.Combine(targetDirectory, "links.txt").WriteAllText(string.Join(Environment.NewLine, sb.Distinct()));
+				targetFile.WriteAllText(
+					"<!DOCTYPE html> <html lang=en> <head> <meta charset=utf-8> <meta content=\"IE=edge http-equiv=X-UA-Compatible> <meta content=\"width=device-width,initial-scale=1\" name=viewport><link href=\"style.css\" rel=\"stylesheet\"></head><body><ol>" +
+					str +
+					"</ol></body>");
+			}
 			 
 		}
 		void 下载Safari文件ToolStripMenuItemClick(object sender, EventArgs e)
@@ -1128,7 +1117,7 @@ namespace KeyStroke
 		}
 		void 排序ToolStripMenuItem1Click(object sender, EventArgs e)
 		{
-			WinForms.OnClipboardString(v=>v.SortLines());
+			WinForms.OnClipboardString(v => v.SortLines());
 	
 		}
 		void StaticString字段ToolStripMenuItemClick(object sender, EventArgs e)
@@ -1153,6 +1142,31 @@ namespace KeyStroke
 		void 从Android文档生成可重载方法ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			WinForms.OnClipboardString(Javas.GenerateMethods);
+	
+		}
+		void 格式化static字符串字段短ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardString(Javas.FormatStaticStringFieldShort);
+	
+		}
+		void PublicToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardString((v) => {
+			                           	var value = Javas.ExtractPublicMethodName(v).Where(i=>i.Contains(" get")).OrderBy(i => i).Distinct().ToArray();
+				var l1 = string.Join("\n", value.Select(i => "private " + i.ReplaceFirst("get", "m") + ";"));
+				var l2 = string.Join("\n", value.Select(i =>  i.ReplaceFirst("get", "m").SubstringAfterLast(' ') +" = "+" "+i.SubstringAfterLast(' ')+"();\n"));
+			                          
+				return l1 + "\n\n\n" + l2;
+			});
+		}
+		void BuilderToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardString((v) => Javas.GenerateBuilder(v, "FileItem"));
+		}
+		void View从layout资源文件生成view代码ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardString(Javas.GeneateViewFromXML);
+		
 	
 		}
 	

@@ -122,6 +122,8 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripMenuItem 复制当前数据库ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 排序分隔符ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 粘贴注释ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator17;
+		private System.Windows.Forms.ToolStripMenuItem 复制文件ToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -254,6 +256,8 @@ namespace Notepad
 			this.打开ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
 			this.粘贴注释ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
+			this.复制文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
 			this.toolStrip3.SuspendLayout();
@@ -565,7 +569,9 @@ namespace Notepad
 			"[a-zA-Z]+(?=,)",
 			"(?<=url\\()[^\\(]*?(?=\\))",
 			"(?<=#define )[a-zA-Z_]+",
-			"\\[[a-zA-Z]+\\]"});
+			"\\[[a-zA-Z]+\\]",
+			"(?<=\\\"@drawable/)[\\w\\d]*?(?=\\\")",
+			"if\\s*\\(DEBUG\\)\\s*Log\\.[de]\\(TAG,\\s*\\\"\\[[^\\]]*\\]\\\"\\);\\s*\\n"});
 			this.findBox.Name = "findBox";
 			this.findBox.Size = new System.Drawing.Size(300, 25);
 			// 
@@ -1134,9 +1140,11 @@ namespace Notepad
 			this.toolStripSeparator7,
 			this.打开ToolStripMenuItem,
 			this.toolStripSeparator14,
-			this.粘贴注释ToolStripMenuItem});
+			this.粘贴注释ToolStripMenuItem,
+			this.toolStripSeparator17,
+			this.复制文件ToolStripMenuItem});
 			this.contextMenuStrip1.Name = "contextMenuStrip1";
-			this.contextMenuStrip1.Size = new System.Drawing.Size(171, 204);
+			this.contextMenuStrip1.Size = new System.Drawing.Size(171, 232);
 			// 
 			// 复制ToolStripMenuItem
 			// 
@@ -1217,6 +1225,18 @@ namespace Notepad
 			this.粘贴注释ToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
 			this.粘贴注释ToolStripMenuItem.Text = "粘贴注释";
 			this.粘贴注释ToolStripMenuItem.Click += new System.EventHandler(this.粘贴注释ToolStripMenuItemClick);
+			// 
+			// toolStripSeparator17
+			// 
+			this.toolStripSeparator17.Name = "toolStripSeparator17";
+			this.toolStripSeparator17.Size = new System.Drawing.Size(167, 6);
+			// 
+			// 复制文件ToolStripMenuItem
+			// 
+			this.复制文件ToolStripMenuItem.Name = "复制文件ToolStripMenuItem";
+			this.复制文件ToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+			this.复制文件ToolStripMenuItem.Text = "复制文件";
+			this.复制文件ToolStripMenuItem.Click += new System.EventHandler(this.复制文件ToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 

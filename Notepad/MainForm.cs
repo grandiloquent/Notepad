@@ -464,8 +464,8 @@ namespace Notepad
 		void 粘贴代码ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			var value = Clipboard.GetText();
-			value=Regex.Replace(value,"([,\\(])\\s+","$1");
-			textBox.SelectedText="`"+value.Trim()+"`";
+			value = Regex.Replace(value, "([,\\(])\\s+", "$1");
+			textBox.SelectedText = "`" + value.Trim() + "`";
 //			if (value.Contains('\n')) {
 //				textBox.SelectedText = string.Format("```\r\n\r\n{0}\r\n\r\n```\r\n\r\n", Clipboard.GetText().Trim().Replace("`", "\u0060"));
 //
@@ -973,11 +973,26 @@ namespace Notepad
 		}
 		void 粘贴注释ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-		var value = Clipboard.GetText();
-		value=Regex.Replace(value,"\\s+\\*\\s+","");
-		value=Regex.Replace(value,"[\r\n]+","");
-		value=Regex.Replace(value,"\\s{2,}"," ");
-		textBox.SelectedText=value;
+			var value = Clipboard.GetText();
+			value = Regex.Replace(value, "\\s+\\*\\s+", "");
+			value = Regex.Replace(value, "[\r\n]+", "");
+			value = Regex.Replace(value, "\\s{2,}", " ");
+			textBox.SelectedText = value;
+		}
+		void 复制文件ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+	
+			var dir = Clipboard.GetText();
+			var lines = textBox.Text.ToLines().Select(i => i.SubstringBeforeLast("_").SubstringBeforeLast("_"));
+			var targetDirectory="assets".GetDesktopPath();
+			targetDirectory.CreateDirectoryIfNotExists();
+			if (Directory.Exists(dir)) {
+				var files = Directory.GetFiles(dir, "*", SearchOption.AllDirectories).Where(i => lines.Any(ix => i.GetFileName().StartsWith(ix)));
+				foreach (var element in files) {
+				
+					File.Copy(element,Path.Combine(targetDirectory,element.GetFileName()));
+				}
+			}
 		}
 		
 		

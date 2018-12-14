@@ -245,8 +245,8 @@ namespace Strings
 		void 比较字符串ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			var ls = new List<string>();
-			var ls1 = StripComments( textBox1.Text).Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Where(i => !string.IsNullOrWhiteSpace(i)).ToArray();
-			                        var ls2 = StripComments( textBox2.Text).Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Where(i => !string.IsNullOrWhiteSpace(i)).ToArray();
+			var ls1 = StripComments(textBox1.Text).Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Where(i => !string.IsNullOrWhiteSpace(i)).Select(i=>i.Trim()).ToArray();
+			var ls2 = StripComments(textBox2.Text).Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Where(i => !string.IsNullOrWhiteSpace(i)).Select(i=>i.Trim()).ToArray();
 			var count = 0;
 			foreach (var element in ls1) {
 				if (ls2.Count() > count) {
@@ -260,6 +260,11 @@ namespace Strings
 			}
 			textBox1.Text = string.Join(Environment.NewLine, ls);
 	
+		}
+		void TextBox2MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			textBox2.SelectAll();
+			textBox2.Paste();
 		}
 			 
 		 

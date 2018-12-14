@@ -174,6 +174,14 @@ namespace  Shared
 				match = match.NextMatch();
 			}
 		}
+			public static string SubstringAfter(this string value, char delimiter)
+		{
+			var index = value.IndexOf(delimiter);
+			if (index == -1)
+				return value;
+			else
+				return value.Substring(index + 1);
+		}
 		public static string SubstringAfter(this string value, string delimiter)
 		{
 			var index = value.IndexOf(delimiter);
