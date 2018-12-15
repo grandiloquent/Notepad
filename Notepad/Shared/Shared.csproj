@@ -50,7 +50,9 @@
   <ItemGroup>
     <Compile Include="Android.cs" />
     <Compile Include="Book\Safari.cs" />
+    <Compile Include="Code\C.cs" />
     <Compile Include="Code\CodeHelper.cs" />
+    <Compile Include="Code\CPP.cs" />
     <Compile Include="Code\Htmls.cs" />
     <Compile Include="Code\Javas.cs" />
     <Compile Include="FileExtensions.cs" />
