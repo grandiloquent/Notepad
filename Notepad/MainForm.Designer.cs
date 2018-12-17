@@ -89,6 +89,7 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripMenuItem 排序H3ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripButton h3Button;
 		private System.Windows.Forms.ToolStripMenuItem 排序H2ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 复制代码ToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -148,6 +149,7 @@ namespace Notepad
 			this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
 			this.formatButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.大写ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.排序H2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.排序H3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.titleButton = new System.Windows.Forms.ToolStripButton();
@@ -187,7 +189,7 @@ namespace Notepad
 			this.粘贴注释ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
 			this.复制文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.排序H2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.复制代码ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
 			this.toolStrip3.SuspendLayout();
@@ -519,14 +521,21 @@ namespace Notepad
 			// 
 			this.大写ToolStripMenuItem.Name = "大写ToolStripMenuItem";
 			this.大写ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
-			this.大写ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.大写ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
 			this.大写ToolStripMenuItem.Text = "大写";
 			this.大写ToolStripMenuItem.Click += new System.EventHandler(this.大写ToolStripMenuItemClick);
+			// 
+			// 排序H2ToolStripMenuItem
+			// 
+			this.排序H2ToolStripMenuItem.Name = "排序H2ToolStripMenuItem";
+			this.排序H2ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+			this.排序H2ToolStripMenuItem.Text = "排序(H2)";
+			this.排序H2ToolStripMenuItem.Click += new System.EventHandler(this.排序H2ToolStripMenuItemClick);
 			// 
 			// 排序H3ToolStripMenuItem
 			// 
 			this.排序H3ToolStripMenuItem.Name = "排序H3ToolStripMenuItem";
-			this.排序H3ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.排序H3ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
 			this.排序H3ToolStripMenuItem.Text = "排序(H3)";
 			this.排序H3ToolStripMenuItem.Click += new System.EventHandler(this.排序H3ToolStripMenuItemClick);
 			// 
@@ -763,6 +772,7 @@ namespace Notepad
 			this.全选ToolStripMenuItem,
 			this.排序ToolStripMenuItem,
 			this.toolStripSeparator6,
+			this.复制代码ToolStripMenuItem,
 			this.粘贴代码ToolStripMenuItem,
 			this.toolStripSeparator7,
 			this.打开ToolStripMenuItem,
@@ -771,7 +781,7 @@ namespace Notepad
 			this.toolStripSeparator17,
 			this.复制文件ToolStripMenuItem});
 			this.contextMenuStrip1.Name = "contextMenuStrip1";
-			this.contextMenuStrip1.Size = new System.Drawing.Size(171, 232);
+			this.contextMenuStrip1.Size = new System.Drawing.Size(171, 276);
 			// 
 			// 复制ToolStripMenuItem
 			// 
@@ -865,12 +875,12 @@ namespace Notepad
 			this.复制文件ToolStripMenuItem.Text = "复制文件";
 			this.复制文件ToolStripMenuItem.Click += new System.EventHandler(this.复制文件ToolStripMenuItemClick);
 			// 
-			// 排序H2ToolStripMenuItem
+			// 复制代码ToolStripMenuItem
 			// 
-			this.排序H2ToolStripMenuItem.Name = "排序H2ToolStripMenuItem";
-			this.排序H2ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.排序H2ToolStripMenuItem.Text = "排序(H2)";
-			this.排序H2ToolStripMenuItem.Click += new System.EventHandler(this.排序H2ToolStripMenuItemClick);
+			this.复制代码ToolStripMenuItem.Name = "复制代码ToolStripMenuItem";
+			this.复制代码ToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+			this.复制代码ToolStripMenuItem.Text = "复制代码";
+			this.复制代码ToolStripMenuItem.Click += new System.EventHandler(this.复制代码ToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 

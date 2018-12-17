@@ -805,9 +805,12 @@
 		}
 		void 粘贴代码ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			var value = Clipboard.GetText();
-			value = Regex.Replace(value, "([,\\(])\\s+", "$1");
-			textBox.SelectedText = "`" + value.Trim() + "`";
+			var match=	Regex.Match(textBox.Text,"(?<=```)[^`]*?(?=```)").Value;
+			
+			textBox.Text=Regex.Replace(textBox.Text,"(?<=```)[^`]*?(?=```)","\r\n"+Clipboard.GetText()+"\r\n");
+//			var value = Clipboard.GetText();
+//			value = Regex.Replace(value, "([,\\(])\\s+", "$1");
+//			textBox.SelectedText = "`" + value.Trim() + "`";
 //			if (value.Contains('\n')) {
 //				textBox.SelectedText = string.Format("```\r\n\r\n{0}\r\n\r\n```\r\n\r\n", Clipboard.GetText().Trim().Replace("`", "\u0060"));
 //
@@ -831,6 +834,11 @@
 			var start = textBox.SelectedText.SubstringBefore("## ");
 			var end = "## " + textBox.SelectedText.SubstringAfter("## ");
 			textBox.SelectedText =	start + Utils.OrderH2(end);
+		}
+		void 复制代码ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+		var match=	Regex.Match(textBox.Text,"(?<=```)[^`]*?(?=```)").Value;
+		Clipboard.SetText(match);
 		}
 	}
 }
