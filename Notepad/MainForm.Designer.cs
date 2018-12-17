@@ -88,6 +88,7 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripMenuItem 复制文件ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 排序H3ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripButton h3Button;
+		private System.Windows.Forms.ToolStripMenuItem 排序H2ToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -186,6 +187,7 @@ namespace Notepad
 			this.粘贴注释ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
 			this.复制文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.排序H2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
 			this.toolStrip3.SuspendLayout();
@@ -504,6 +506,7 @@ namespace Notepad
 			this.formatButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.formatButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.大写ToolStripMenuItem,
+			this.排序H2ToolStripMenuItem,
 			this.排序H3ToolStripMenuItem});
 			this.formatButton.Image = ((System.Drawing.Image)(resources.GetObject("formatButton.Image")));
 			this.formatButton.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -516,14 +519,14 @@ namespace Notepad
 			// 
 			this.大写ToolStripMenuItem.Name = "大写ToolStripMenuItem";
 			this.大写ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
-			this.大写ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+			this.大写ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.大写ToolStripMenuItem.Text = "大写";
 			this.大写ToolStripMenuItem.Click += new System.EventHandler(this.大写ToolStripMenuItemClick);
 			// 
 			// 排序H3ToolStripMenuItem
 			// 
 			this.排序H3ToolStripMenuItem.Name = "排序H3ToolStripMenuItem";
-			this.排序H3ToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+			this.排序H3ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.排序H3ToolStripMenuItem.Text = "排序(H3)";
 			this.排序H3ToolStripMenuItem.Click += new System.EventHandler(this.排序H3ToolStripMenuItemClick);
 			// 
@@ -861,6 +864,13 @@ namespace Notepad
 			this.复制文件ToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
 			this.复制文件ToolStripMenuItem.Text = "复制文件";
 			this.复制文件ToolStripMenuItem.Click += new System.EventHandler(this.复制文件ToolStripMenuItemClick);
+			// 
+			// 排序H2ToolStripMenuItem
+			// 
+			this.排序H2ToolStripMenuItem.Name = "排序H2ToolStripMenuItem";
+			this.排序H2ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.排序H2ToolStripMenuItem.Text = "排序(H2)";
+			this.排序H2ToolStripMenuItem.Click += new System.EventHandler(this.排序H2ToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 

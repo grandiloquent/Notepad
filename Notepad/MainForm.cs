@@ -1,6 +1,6 @@
 ﻿namespace Notepad
 {
-using Shared;
+	using Shared;
 
 	using System;
 	using System.Collections.Generic;
@@ -13,7 +13,7 @@ using Shared;
 
 	public partial  class MainForm: Form
 	{
-        private Article _article;
+		private Article _article;
 		private readonly string _dataPath;
 		private string _defaultDatabase;
 		// 1 -> go
@@ -679,7 +679,9 @@ using Shared;
 		void 排序H3ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			if (textBox.SelectedText.IsReadable()) {
-				textBox.SelectedText = Utils.OrderH3(textBox.SelectedText);
+				var start = textBox.SelectedText.SubstringBefore("### ");
+				var end = "### " + textBox.SelectedText.SubstringAfter("### ");
+				textBox.SelectedText =	start + Utils.OrderH3(end);
 			}
 		}
 		void 排序ToolStripMenuItemClick(object sender, EventArgs e)
@@ -823,24 +825,12 @@ using Shared;
 			textBox.SelectedText = value;
 		}
 		
-		 
-		void 字符串到数组ToolStripMenuItemClick(object sender, EventArgs e)
+	
+		void 排序H2ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			Helper.OnClipboardString((v) => {
-			                         	
-				var ls = new UTF8Encoding(false).GetBytes(v).Select(i => i.ToString());
-				return "int buf[" + ls.Count() + "]=" + "{" + string.Join(",", ls) + "};";
-			});
-		}
-		void 字符列到字符常量ToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			var str = Clipboard.GetText().Trim().Split(",".ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim());
-			var ls = new List<string>();
-			foreach (var element in str) {
-				ls.Add(string.Format("const val {0}=\"{1}\"", element.ToUpper(), element.ToLower()));
-			}
-			Clipboard.SetText(string.Join("\n", ls));
-			
+			var start = textBox.SelectedText.SubstringBefore("## ");
+			var end = "## " + textBox.SelectedText.SubstringAfter("## ");
+			textBox.SelectedText =	start + Utils.OrderH2(end);
 		}
 	}
 }

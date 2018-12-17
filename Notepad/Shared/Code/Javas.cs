@@ -19,6 +19,8 @@ namespace Shared
 			var list2 = new List<String>();
 			var list3 = new List<String>();
 			var list4 = new List<String>();
+			var list5 = new List<String>();
+			var list6 = new List<String>();
 			
 			var xd = XDocument.Parse(value);
 			var nodes = xd.Descendants().Where(i => i.Attributes().Any(ix => ix.Name.LocalName == "id"));
@@ -33,10 +35,12 @@ namespace Shared
 				list2.Add(string.Format("private {1} {0};", formatName, name));
 				list3.Add(string.Format("{1} {2}=({1})itemView.findViewById(R.id.{0});", id, name, formatName.TrimStart('m').DeCapitalize()));
 				list4.Add(string.Format("{1}=findViewById(R.id.{0});", id,  formatName));
+				list5.Add(string.Format("{0} {1};",  name, formatName.TrimStart('m').DeCapitalize()));
+				list6.Add(string.Format("{1}=itemView.findViewById(R.id.{0});", id,formatName.TrimStart('m').DeCapitalize()));
 			
 			}
 			
-			return  string.Join("\n", list1.Concat(list2).Concat(list3).Concat(list4));
+			return  string.Join("\n", list1.Concat(list2).Concat(list3).Concat(list4).Concat(list5).Concat(list6));
 		}
 		public static string GenerateBuilder(string value, string className)
 		{
