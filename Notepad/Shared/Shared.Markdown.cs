@@ -20,15 +20,15 @@ namespace Shared
 		{
 			var retVal = Markdown.ToHtml(value, GetMarkdownPipeline());
 			var index = 0;
-//			var isFirst = true;
-//			retVal = Regex.Replace(retVal, "<(h[123])[^>]*?>", new MatchEvaluator((m) => {
-//				if (isFirst) {
-//					isFirst = false;
-//					return  string.Format("<{0}>", m.Groups[1].Value);
-//				}
-//				return string.Format("<{0} id=\"section-{1}\">", m.Groups[1].Value, (++index));
-//
-//			}));
+			var isFirst = true;
+			retVal = Regex.Replace(retVal, "<(h[123])[^>]*?>", new MatchEvaluator((m) => {
+				if (isFirst) {
+					isFirst = false;
+					return  string.Format("<{0}>", m.Groups[1].Value);
+				}
+				return string.Format("<{0} id=\"section-{1}\">", m.Groups[1].Value, (++index));
+
+			}));
 			return retVal;
 		}
 		public static string FormatHeading(this string value)

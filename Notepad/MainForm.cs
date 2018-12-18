@@ -96,6 +96,8 @@
 			_defaultDatabase = _dataPath.Combine(comboBox.Text);
 			HelperSqlite.GetInstance(_defaultDatabase);
 			UpdateList();
+			_article = null;
+			
 		}
 		void EnglishButtonClick(object sender, EventArgs e)
 		{
@@ -150,26 +152,9 @@
 		}
 		void HtmlsButtonClick(object sender, EventArgs e)
 		{
-			StringBuilder sb = new StringBuilder();
-			sb.AppendLine("\u003C!doctype html\u003E");
-			sb.AppendLine("\u003Chtml class=\u0022no-js\u0022 lang=\u0022zh-hans\u0022 dir=\u0022ltr\u0022\u003E");
-			sb.AppendLine("");
-			sb.AppendLine("\u003Chead\u003E");
-			sb.AppendLine("    \u003Cmeta charset=\u0022utf-8\u0022\u003E");
-			sb.AppendLine("    \u003Cmeta http-equiv=\u0022x-ua-compatible\u0022 content=\u0022ie=edge\u0022\u003E");
-			sb.AppendLine("    \u003Ctitle\u003E");
-			sb.AppendLine(HtmlAgilityPack.HtmlEntity.Entitize(textBox.Text.GetFirstReadable().TrimStart("# ".ToCharArray())));
-			sb.AppendLine("    \u003C/title\u003E");
-			sb.AppendLine("    \u003Cmeta name=\u0022viewport\u0022 content=\u0022width=device-width, initial-scale=1\u0022\u003E");
-			sb.AppendLine("    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022../stylesheets/markdown.css\u0022\u003E");
-			sb.AppendLine("\u003C/head\u003E");
-			sb.AppendLine("\u003Cbody\u003E");
-			sb.AppendLine(textBox.Text.FormatMarkdown());
-
-			sb.AppendLine("\u003C/body\u003E");
-			sb.AppendLine("\u003C/html\u003E");
+			 
 			var fileName = @"assets\htmls".GetCommandPath().Combine(textBox.Text.GetFirstReadable().TrimStart('#').TrimStart().GetValidFileName('-') + ".htm");
-			fileName.WriteAllText(sb.ToString());
+			fileName.WriteAllText(Utils.ConvertToHtml(textBox));
 
 			System.Diagnostics.Process.Start("chrome.exe", string.Format("\"{0}\"", fileName));
 		}
@@ -622,7 +607,7 @@
 		}
 		void 复制ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			if (textBox.SelectedText.IsVacuum()) {
+			if (string.IsNullOrEmpty(textBox.SelectedText)) {
 				textBox.SelectLine(true);
 			}
 			textBox.Copy();
@@ -671,7 +656,7 @@
 		}
 		void 剪切ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			if (textBox.SelectedText.IsVacuum()) {
+			if (string.IsNullOrEmpty(textBox.SelectedText)) {
 				textBox.SelectLine(true);
 			}
 			textBox.Cut();
@@ -805,9 +790,9 @@
 		}
 		void 粘贴代码ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			var match=	Regex.Match(textBox.Text,"(?<=```)[^`]*?(?=```)").Value;
+			var match =	Regex.Match(textBox.Text, "(?<=```)[^`]*?(?=```)").Value;
 			
-			textBox.Text=Regex.Replace(textBox.Text,"(?<=```)[^`]*?(?=```)","\r\n"+Clipboard.GetText()+"\r\n");
+			textBox.Text = Regex.Replace(textBox.Text, "(?<=```)[^`]*?(?=```)", "\r\n" + Clipboard.GetText() + "\r\n");
 //			var value = Clipboard.GetText();
 //			value = Regex.Replace(value, "([,\\(])\\s+", "$1");
 //			textBox.SelectedText = "`" + value.Trim() + "`";
@@ -837,8 +822,39 @@
 		}
 		void 复制代码ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-		var match=	Regex.Match(textBox.Text,"(?<=```)[^`]*?(?=```)").Value;
-		Clipboard.SetText(match);
+			var match =	Regex.Match(textBox.Text, "(?<=```)[^`]*?(?=```)").Value;
+			Clipboard.SetText(match);
+		}
+		void 预览目录ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			var lines = textBox.Text.ToLines();
+			var index=0;
+			var prefix="#section-";
+			var sb=new StringBuilder();
+			foreach (var element in lines) {
+				if (element.StartsWith("## ")) {
+					sb.AppendFormat(string.Format("- [{0}]({1}{2})\r\n",element.SubstringAfter(" ").Trim(),prefix,++index));
+				}
+				else	if (element.StartsWith("### ")) {
+					sb.AppendFormat(string.Format(" - [{0}]({1}{2})\r\n",element.SubstringAfter(" ").Trim(),prefix,++index));
+				}
+			}
+			textBox.Text=sb.ToString()+"\r\n\r\n"+textBox.Text;
+		}
+		void 粘贴标题ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			textBox.SelectedText="## ";
+			textBox.Paste();
+		}
+		void ScrollHeadButtonClick(object sender, EventArgs e)
+		{
+			textBox.SelectionStart=0;
+			textBox.ScrollToCaret();
+		}
+		void ScrollDownButtonClick(object sender, EventArgs e)
+		{
+			textBox.SelectionStart=textBox.Text.Length-1;
+			textBox.ScrollToCaret();
 		}
 	}
 }

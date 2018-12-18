@@ -52,11 +52,15 @@ namespace Shared
 				array[1] = str[str.Length - 1];
 				return array;
 			});
-			var list = new List<String>();
+			var list1 = new List<String>();
+			var list2 = new List<String>();
+
 			foreach (var element in parameters) {
-				list.Add(string.Format("public {4} set{2}({0} {3}){{\nthis.{1}={3};\nreturn this;\n}}\n", element[0], element[1], element[1].TrimStart('m').Capitalize(), element[1].TrimStart('m').DeCapitalize(), className));
+				list2.Add(string.Format("public {0} get{2}(){{\nreturn {1};\n}}\n", element[0], element[1], element[1].TrimStart('m').Capitalize()));
+				
+				list1.Add(string.Format("public {4} set{2}({0} {3}){{\nthis.{1}={3};\nreturn this;\n}}\n", element[0], element[1], element[1].TrimStart('m').Capitalize(), element[1].TrimStart('m').DeCapitalize(), className));
 			}
-			return string.Join("\n", list);
+			return string.Join("\n", list1.Concat(list2));
 			
 		}
 		public static string  ParseJavaParameters(string value)
