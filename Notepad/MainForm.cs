@@ -270,6 +270,20 @@
 					comboBox.SelectedItem = value.Trim();
 				}
 			}
+			var directories = Directory.GetFiles(_dataPath, "*.dat");
+			
+			foreach (var ex in directories) {
+				
+				moveMenuItem.DropDownItems.Add(ex.GetFileName()).Click += (s, o) => {
+					var cpp = HelperSqlite.NewInstance(Path.Combine(_dataPath, ((ToolStripMenuItem)s).Text));
+					foreach (var element in listBox.SelectedItems) {
+						var article =	HelperSqlite.GetInstance().GetArticle(element.ToString());
+						cpp.Insert(article);
+						HelperSqlite.GetInstance().Delete(element.ToString());
+					}
+					UpdateList();
+				};
+			}
 		}
 		void NewButtonClick(object sender, EventArgs e)
 		{
@@ -537,13 +551,13 @@
 				var files = Directory.GetFiles(p, "*", SearchOption.AllDirectories).Where(i => Regex.IsMatch(i, "\\.(?:c|h|cpp|java|txt)$") || i.GetExtension().IsVacuum());
 				var j = "\u0060";
 				var sb = new StringBuilder();
-				sb.AppendLine("# " + p.GetFileName()).AppendLine();
+				sb.AppendLine("# " + p.GetFileNameWithoutExtension()).AppendLine();
 				foreach (var element in files) {
 					var str = element.ReadAllText().Trim();
 					while (str.StartsWith("/*")) {
 						str = str.SubstringAfter("*/").Trim();
 					}
-					sb.AppendLine("## " + element.GetFileName())
+					sb.AppendLine("## " + element.GetFileNameWithoutExtension())
 			                     			.AppendLine()
 			                     			.AppendLine()
 			                     			.AppendLine("```")
@@ -828,33 +842,54 @@
 		void 预览目录ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			var lines = textBox.Text.ToLines();
-			var index=0;
-			var prefix="#section-";
-			var sb=new StringBuilder();
+			var index = 0;
+			var prefix = "#section-";
+			var sb = new StringBuilder();
 			foreach (var element in lines) {
 				if (element.StartsWith("## ")) {
-					sb.AppendFormat(string.Format("- [{0}]({1}{2})\r\n",element.SubstringAfter(" ").Trim(),prefix,++index));
-				}
-				else	if (element.StartsWith("### ")) {
-					sb.AppendFormat(string.Format(" - [{0}]({1}{2})\r\n",element.SubstringAfter(" ").Trim(),prefix,++index));
+					sb.AppendFormat(string.Format("- [{0}]({1}{2})\r\n", element.SubstringAfter(" ").Trim(), prefix, ++index));
+				} else if (element.StartsWith("### ")) {
+					sb.AppendFormat(string.Format(" - [{0}]({1}{2})\r\n", element.SubstringAfter(" ").Trim(), prefix, ++index));
 				}
 			}
-			textBox.Text=sb.ToString()+"\r\n\r\n"+textBox.Text;
+			textBox.Text = sb.ToString() + "\r\n\r\n" + textBox.Text;
 		}
 		void 粘贴标题ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			textBox.SelectedText="## ";
-			textBox.Paste();
+			var str = Clipboard.GetText().Trim();
+			var name = str.SubstringBefore('(').SubstringAfterLast(' ').SubstringAfterLast('\n');
+			var text = "## " + name + "\r\n\r\n";
+			text += "```\r\n\r\n" + str + "\r\n\r\n```\r\n\r\n";
+			textBox.SelectedText = text;
+//			textBox.SelectedText = "## ";
+//			textBox.Paste();
 		}
 		void ScrollHeadButtonClick(object sender, EventArgs e)
 		{
-			textBox.SelectionStart=0;
+			textBox.SelectionStart = 0;
 			textBox.ScrollToCaret();
 		}
 		void ScrollDownButtonClick(object sender, EventArgs e)
 		{
-			textBox.SelectionStart=textBox.Text.Length-1;
+			textBox.SelectionStart = textBox.Text.Length - 1;
 			textBox.ScrollToCaret();
+		}
+		void TextBoxKeyUp(object sender, KeyEventArgs e)
+		{
+			
+		}
+		void TextBoxKeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Tab) {
+				if (textBox.SelectedText.Length == 0)
+					return;
+				var lines = textBox.SelectedText.Split('\n');
+				textBox.SelectedText = string.Join(Environment.NewLine, lines.Select(i => "\t" + i.TrimEnd()));
+			}
+		}
+		void 移动到ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+		
 		}
 	}
 }

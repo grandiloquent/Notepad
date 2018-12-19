@@ -95,6 +95,7 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
 		private System.Windows.Forms.ToolStripButton scrollHeadButton;
 		private System.Windows.Forms.ToolStripButton scrollDownButton;
+		private System.Windows.Forms.ToolStripMenuItem moveMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -181,6 +182,7 @@ namespace Notepad
 			this.listBox = new System.Windows.Forms.ListBox();
 			this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.删除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.moveMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.comboBox = new System.Windows.Forms.ComboBox();
 			this.textBox = new System.Windows.Forms.TextBox();
 			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -773,16 +775,24 @@ namespace Notepad
 			// contextMenuStrip2
 			// 
 			this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.删除ToolStripMenuItem});
+			this.删除ToolStripMenuItem,
+			this.moveMenuItem});
 			this.contextMenuStrip2.Name = "contextMenuStrip2";
-			this.contextMenuStrip2.Size = new System.Drawing.Size(101, 26);
+			this.contextMenuStrip2.Size = new System.Drawing.Size(113, 48);
 			// 
 			// 删除ToolStripMenuItem
 			// 
 			this.删除ToolStripMenuItem.Name = "删除ToolStripMenuItem";
-			this.删除ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+			this.删除ToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
 			this.删除ToolStripMenuItem.Text = "删除";
 			this.删除ToolStripMenuItem.Click += new System.EventHandler(this.删除ToolStripMenuItemClick);
+			// 
+			// moveMenuItem
+			// 
+			this.moveMenuItem.Name = "moveMenuItem";
+			this.moveMenuItem.Size = new System.Drawing.Size(112, 22);
+			this.moveMenuItem.Text = "移动到";
+			this.moveMenuItem.Click += new System.EventHandler(this.移动到ToolStripMenuItemClick);
 			// 
 			// comboBox
 			// 
@@ -808,6 +818,7 @@ namespace Notepad
 			this.textBox.Size = new System.Drawing.Size(606, 335);
 			this.textBox.TabIndex = 0;
 			this.textBox.TextChanged += new System.EventHandler(this.TextBoxTextChanged);
+			this.textBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBoxKeyDown);
 			// 
 			// contextMenuStrip1
 			// 

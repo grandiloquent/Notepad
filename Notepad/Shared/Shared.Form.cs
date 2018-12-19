@@ -407,6 +407,8 @@ namespace Shared
     public class HelperSqlite
     {
         private static HelperSqlite sHelperSqlite;
+        public static HelperSqlite NewInstance(string path){ return new HelperSqlite(path);}
+        
         public static HelperSqlite GetInstance(string path){return  (sHelperSqlite = new HelperSqlite(path));}        public static HelperSqlite GetInstance(){return  sHelperSqlite;}
         private readonly SQLiteConnection connection;
         public HelperSqlite(string path)
