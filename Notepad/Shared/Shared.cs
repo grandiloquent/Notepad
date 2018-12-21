@@ -13,7 +13,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.CompilerServices;
-
+using Common;
 
 namespace Shared
 {
@@ -23,11 +23,7 @@ namespace Shared
      
 	public static class StringExtensions
 	{
-		public static string GetDesktopPath(this string f)
-		{
-			return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), f);
-		}
-	
+		
 		public static bool IsWhiteSpace(this String value)
 		{
 			if (value == null)
@@ -208,12 +204,8 @@ namespace Shared
 		public static StringBuilder AppendLine(this String value)
 		{
 			return  new StringBuilder().AppendLine(value);		}
-		public static bool IsVacuum(this string value)
-		{
-			return  string.IsNullOrWhiteSpace(value);		}
-		public static bool IsReadable(this string value)
-		{
-			return  !string.IsNullOrWhiteSpace(value);		}
+
+		
 		public static string GetFirstReadable(this string value)
 		{
 			return  value.TrimStart().Split(new char[] { '\n' }, 2).First().Trim();		}
@@ -276,22 +268,22 @@ namespace Shared
 			return Path.Combine(Path.GetDirectoryName(Environment.GetCommandLineArgs()[0]), v);
 		}
 
-		public static string GetUniqueFileName(this String v)
-		{
-			int i = 1;
-			Regex regex = new Regex(" \\- [0-9]+");
-			String t = Path.Combine(Path.GetDirectoryName(v),
-				           regex.Split(Path.GetFileNameWithoutExtension(v), 2).First() + " - " + i.ToString().PadLeft(3, '0') +
-				           Path.GetExtension(v));
-
-			while (File.Exists(t)) {
-				i++;
-				t = Path.Combine(Path.GetDirectoryName(v),
-					regex.Split(Path.GetFileNameWithoutExtension(v), 2).First() + " - " + i.ToString().PadLeft(3, '0') +
-					Path.GetExtension(v));
-			}
-			return t;
-		}
+//		public static string GetUniqueFileName(this String v)
+//		{
+//			int i = 1;
+//			Regex regex = new Regex(" \\- [0-9]+");
+//			String t = Path.Combine(Path.GetDirectoryName(v),
+//				           regex.Split(Path.GetFileNameWithoutExtension(v), 2).First() + " - " + i.ToString().PadLeft(3, '0') +
+//				           Path.GetExtension(v));
+//
+//			while (File.Exists(t)) {
+//				i++;
+//				t = Path.Combine(Path.GetDirectoryName(v),
+//					regex.Split(Path.GetFileNameWithoutExtension(v), 2).First() + " - " + i.ToString().PadLeft(3, '0') +
+//					Path.GetExtension(v));
+//			}
+//			return t;
+//		}
 
 		public static string GetValidFileName(this String v)
 		{
@@ -344,7 +336,46 @@ namespace Shared
 			return dir.Combine(fileName);
 		}
 		public static UTF8Encoding sUTF8Encoding = new UTF8Encoding(false);
-
+public static IEnumerable<T> Distinct<T, U>(
+			this IEnumerable<T> seq, Func<T, U> getKey)
+		{
+			return
+                from item in seq
+			             group item by getKey(item) into gp
+			             select gp.First();
+		}
+			public static string Joining(this IEnumerable<String> values, string separator = "\n", bool pretty = true)
+		{
+			if (separator == null)
+				separator = String.Empty;
+			if (pretty) {
+				values = values.Where(i => i.IsReadable()).Select(i => i).OrderBy(i => i).Distinct();
+			}
+			
+			using (IEnumerator<String> en = values.GetEnumerator()) {
+				if (!en.MoveNext())
+					return String.Empty;
+ 
+				StringBuilder result = new StringBuilder();
+				if (en.Current != null) {
+					result.Append(en.Current);
+				}
+ 
+				while (en.MoveNext()) {
+					result.Append(separator);
+					if (en.Current != null) {
+						result.Append(en.Current);
+					}
+				}            
+				return result.ToString();
+			}  
+		}
+		public static void AddIfNotExist<T>(this List<T> list, T t)
+		{
+			if (list.IndexOf(t) < 0) {
+				list.Add(t);
+			}
+		}
 		public static IEnumerable<string> GetFiles(this String path, string pattern = "*")
 		{
 			foreach (var item in Directory.GetFiles(path, pattern)) {
@@ -354,12 +385,7 @@ namespace Shared
 		public static DirectoryInfo GetParent(this String path)
 		{
 			return  Directory.GetParent(path);		}
-		public static void CreateDirectoryIfNotExists(this String path)
-		{
-			if (Directory.Exists(path))
-				return;
-			Directory.CreateDirectory(path);
-		}
+		
 		public static bool DirectoryExists(this String path)
 		{
 			return  Directory.Exists(path);		}
@@ -375,9 +401,7 @@ namespace Shared
 				Directory.Delete(path);
 			}
 		}
-		public static void WriteAllText(this String path, String contents)
-		{
-			File.WriteAllText(path, contents, sUTF8Encoding);		}
+		
 		public static void WriteAllBytes(this String path, byte[] bytes)
 		{
 			File.WriteAllBytes(path, bytes);		}
@@ -426,9 +450,7 @@ namespace Shared
 		public static FileStream OpenWrite(this String path)
 		{
 			return  File.OpenWrite(path);		}
-		public static String ReadAllText(this String path)
-		{
-			return  File.ReadAllText(path, new UTF8Encoding(false));		}
+		
 		public static IEnumerable<string> ReadLines(this String path)
 		{
 			return  File.ReadLines(path, new UTF8Encoding(false));
@@ -467,17 +489,7 @@ namespace Shared
 		public static bool FileExists(this String path)
 		{
 			return  File.Exists(path);		}
-		public static string GetValidFileName(this string value, char c)
-		{
-
-			var chars = Path.GetInvalidFileNameChars();
-
-			return new string(value.Select<char, char>((i) => {
-				if (chars.Contains(i))
-					return c;
-				return i;
-			}).Take(125).ToArray());
-		}
+		
 
 	}
 }

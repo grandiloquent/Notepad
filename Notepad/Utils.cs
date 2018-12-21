@@ -5,13 +5,34 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Text;
 using Shared;
+using System.Text.RegularExpressions;
 
 namespace Notepad
 {
 	
 	public static class Utils
 	{
-		public static string ConvertToHtml(TextBox textBox){
+		public static void AddCodeLanguage(TextBox textBox,string language){
+				var lines=textBox.Text.Split('\n').Select(i=>i.TrimEnd('\r'));
+			var sb=new StringBuilder();
+			var skip=false;
+			foreach (var element in lines) {
+				if(element.StartsWith("```")){
+					if(skip){
+					sb.AppendLine("```");
+						
+					}else if(element.Trim()=="```")
+					sb.AppendLine("```"+language);
+					skip=!skip;
+					
+				}else{
+					sb.AppendLine(element);
+				}
+			}
+			textBox.Text=sb.ToString();
+		}
+		public static string ConvertToHtml(TextBox textBox)
+		{
 			var sb = new StringBuilder();
 			sb.AppendLine("\u003C!doctype html\u003E");
 			sb.AppendLine("\u003Chtml class=\u0022no-js\u0022 lang=\u0022zh-hans\u0022 dir=\u0022ltr\u0022\u003E");
@@ -32,7 +53,8 @@ namespace Notepad
 			sb.AppendLine("\u003C/html\u003E");
 			return sb.ToString();
 		}
-		public static void FormatH2(TextBox textBox){
+		public static void FormatH2(TextBox textBox)
+		{
 			var start = textBox.SelectionStart;
 
 			while (start - 1 > -1 && textBox.Text[start - 1] != '\n') {
@@ -46,7 +68,8 @@ namespace Notepad
 			textBox.SelectionLength = end - start;
 			textBox.SelectedText = "## ";
 		}
-		public static void FormatH3(TextBox textBox){
+		public static void FormatH3(TextBox textBox)
+		{
 			var start = textBox.SelectionStart;
 
 			while (start - 1 > -1 && textBox.Text[start - 1] != '\n') {
@@ -60,11 +83,11 @@ namespace Notepad
 			textBox.SelectionLength = end - start;
 			textBox.SelectedText = "### ";
 		}
-				public static String OrderH2(String value)
+		public static String OrderH2(String value)
 		{
 			var list = value.Trim().Split('\n');
 			var dictionary = new Dictionary<String,List<string>>();
-			List<String> lines=null;
+			List<String> lines = null;
 			foreach (var element in list) {
 				if (element.StartsWith("## ")) {
 					lines = new List<string>();
@@ -81,11 +104,30 @@ namespace Notepad
 			}
 			return string.Join(Environment.NewLine, result);
 		}
+		public static string UrilizeAsGfm(string headingText)
+		{
+			// Following https://github.com/jch/html-pipeline/blob/master/lib/html/pipeline/toc_filter.rb
+			var headingBuffer = new StringBuilder();
+			for (int i = 0; i < headingText.Length; i++) {
+				var c = char.ToLowerInvariant(headingText[i]);
+				if (char.IsLetterOrDigit(c) || c == ' ' || c == '-' || c == '_') {
+					headingBuffer.Append(c == ' ' ? '-' : c);
+				}
+			}
+			var result = headingBuffer.ToString();
+			headingBuffer.Length = 0;
+			return result;
+		}
+		public static String GetId(string value)
+		{
+		return UrilizeAsGfm(value);
+		   	
+		}
 		public static String OrderH3(String value)
 		{
 			var list = value.Trim().Split('\n');
 			var dictionary = new Dictionary<String,List<string>>();
-			List<String> lines=null;
+			List<String> lines = null;
 			foreach (var element in list) {
 				if (element.StartsWith("### ")) {
 					lines = new List<string>();
@@ -96,7 +138,11 @@ namespace Notepad
 				}
 			}
 			var result = new List<string>();
-			var collection =	dictionary.OrderBy(i => i.Key);
+			var collection =	dictionary.OrderBy(i => Regex.Replace(i.Key, "[0-9]+(?=\\.)", new MatchEvaluator((v) => {
+				var vx = int.Parse(v.Value);
+			                                                                                                  	
+				return vx.ToString().PadLeft(5, '0');
+			})));
 			foreach (var element in collection) {
 				result = result.Concat(element.Value).ToList();
 			}

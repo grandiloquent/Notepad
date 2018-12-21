@@ -13,6 +13,7 @@ using System.IO;
 
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using Common;
 
 namespace Shared
 {
@@ -307,7 +308,7 @@ namespace Shared
                     sb.AppendLine(textBox.Lines[i]);
                 }
             }
-            textBox.Text = sb.ToString();
+            textBox.Text = sb.ToString().Trim();
 
         }
 

@@ -100,7 +100,7 @@ namespace Shared
 		
 		public static void OnClipboardDirectory(Action<String> action)
 		{
-			try {
+			//try {
 				var dir = Clipboard.GetText().Trim();
 				var found = false;
 				if (Directory.Exists(dir)) {
@@ -116,9 +116,9 @@ namespace Shared
 				if (found) {
 					action(dir);
 				}
-			} catch {
-				
-			}
+//			} catch {
+//				
+//			}
 		}
 		public static void ZipAndroidProject(string dir)
 		{

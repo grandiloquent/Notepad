@@ -1132,6 +1132,16 @@ namespace KeyStroke
 		
 	
 		}
+		void 合并HTMLSToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardDirectory((v)=>{
+			                              
+			                              	foreach (var element in Directory.GetDirectories(v)) {
+			                              		Safari.CombineBook(element);
+			                              	}
+			                              
+			                              });
+		}
 	
 	}
 }

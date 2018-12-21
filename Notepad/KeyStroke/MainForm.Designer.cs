@@ -101,6 +101,7 @@ namespace KeyStroke
 		private System.Windows.Forms.ToolStripMenuItem builderToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem xMLToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem view从layout资源文件生成view代码ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 合并HTMLSToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -187,6 +188,8 @@ namespace KeyStroke
 			this.staticInt字段ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.staticString字段ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.格式化static字符串字段短ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.xMLToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.view从layout资源文件生成view代码ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.kotlinButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.清理JavaKt文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.生成IDXMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -209,8 +212,7 @@ namespace KeyStroke
 			this.多媒体ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sVGToDrawableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.globalEventProvider1 = new Gma.UserActivityMonitor.GlobalEventProvider();
-			this.xMLToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			this.view从layout资源文件生成view代码ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.合并HTMLSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -480,7 +482,8 @@ namespace KeyStroke
 			this.生成Safari文件夹ToolStripMenuItem,
 			this.清除重复SafariToolStripMenuItem,
 			this.清理Safari文件ToolStripMenuItem,
-			this.xxxToolStripMenuItem});
+			this.xxxToolStripMenuItem,
+			this.合并HTMLSToolStripMenuItem});
 			this.ebookButton.Image = ((System.Drawing.Image)(resources.GetObject("ebookButton.Image")));
 			this.ebookButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.ebookButton.Name = "ebookButton";
@@ -652,7 +655,7 @@ namespace KeyStroke
 			this.publicToolStripMenuItem,
 			this.builderToolStripMenuItem});
 			this.生成ToolStripMenuItem1.Name = "生成ToolStripMenuItem1";
-			this.生成ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+			this.生成ToolStripMenuItem1.Size = new System.Drawing.Size(112, 22);
 			this.生成ToolStripMenuItem1.Text = "生成";
 			// 
 			// logToolStripMenuItem
@@ -714,7 +717,7 @@ namespace KeyStroke
 			this.staticString字段ToolStripMenuItem,
 			this.格式化static字符串字段短ToolStripMenuItem});
 			this.格式化ToolStripMenuItem1.Name = "格式化ToolStripMenuItem1";
-			this.格式化ToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+			this.格式化ToolStripMenuItem1.Size = new System.Drawing.Size(112, 22);
 			this.格式化ToolStripMenuItem1.Text = "格式化";
 			// 
 			// staticInt字段ToolStripMenuItem
@@ -737,6 +740,21 @@ namespace KeyStroke
 			this.格式化static字符串字段短ToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
 			this.格式化static字符串字段短ToolStripMenuItem.Text = "格式化static字符串字段（短）";
 			this.格式化static字符串字段短ToolStripMenuItem.Click += new System.EventHandler(this.格式化static字符串字段短ToolStripMenuItemClick);
+			// 
+			// xMLToolStripMenuItem1
+			// 
+			this.xMLToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.view从layout资源文件生成view代码ToolStripMenuItem});
+			this.xMLToolStripMenuItem1.Name = "xMLToolStripMenuItem1";
+			this.xMLToolStripMenuItem1.Size = new System.Drawing.Size(112, 22);
+			this.xMLToolStripMenuItem1.Text = "XML";
+			// 
+			// view从layout资源文件生成view代码ToolStripMenuItem
+			// 
+			this.view从layout资源文件生成view代码ToolStripMenuItem.Name = "view从layout资源文件生成view代码ToolStripMenuItem";
+			this.view从layout资源文件生成view代码ToolStripMenuItem.Size = new System.Drawing.Size(283, 22);
+			this.view从layout资源文件生成view代码ToolStripMenuItem.Text = "View (从layout资源文件生成view代码)";
+			this.view从layout资源文件生成view代码ToolStripMenuItem.Click += new System.EventHandler(this.View从layout资源文件生成view代码ToolStripMenuItemClick);
 			// 
 			// kotlinButton
 			// 
@@ -905,20 +923,12 @@ namespace KeyStroke
 			this.sVGToDrawableToolStripMenuItem.Text = "SVG To Drawable";
 			this.sVGToDrawableToolStripMenuItem.Click += new System.EventHandler(this.SVGToDrawableToolStripMenuItemClick);
 			// 
-			// xMLToolStripMenuItem1
+			// 合并HTMLSToolStripMenuItem
 			// 
-			this.xMLToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.view从layout资源文件生成view代码ToolStripMenuItem});
-			this.xMLToolStripMenuItem1.Name = "xMLToolStripMenuItem1";
-			this.xMLToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-			this.xMLToolStripMenuItem1.Text = "XML";
-			// 
-			// view从layout资源文件生成view代码ToolStripMenuItem
-			// 
-			this.view从layout资源文件生成view代码ToolStripMenuItem.Name = "view从layout资源文件生成view代码ToolStripMenuItem";
-			this.view从layout资源文件生成view代码ToolStripMenuItem.Size = new System.Drawing.Size(283, 22);
-			this.view从layout资源文件生成view代码ToolStripMenuItem.Text = "View (从layout资源文件生成view代码)";
-			this.view从layout资源文件生成view代码ToolStripMenuItem.Click += new System.EventHandler(this.View从layout资源文件生成view代码ToolStripMenuItemClick);
+			this.合并HTMLSToolStripMenuItem.Name = "合并HTMLSToolStripMenuItem";
+			this.合并HTMLSToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.合并HTMLSToolStripMenuItem.Text = "合并HTMLS";
+			this.合并HTMLSToolStripMenuItem.Click += new System.EventHandler(this.合并HTMLSToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 

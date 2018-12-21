@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Shared;
 using System.Diagnostics;
+using Common;
 
 namespace Notepad
 {

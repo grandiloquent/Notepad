@@ -3,7 +3,8 @@ using System;
 using HtmlAgilityPack;
 using System.Linq;
 using System.Collections.Generic;
-
+using System.IO;
+using System.Text;
 namespace Shared
 {
 
@@ -70,6 +71,31 @@ namespace Shared
 				.ToArray();
 			}
 			return null;
+		}
+		
+		public static void CombineBook(string dir){
+			var toc=Path.Combine(dir,"目录.html");
+			if(toc.FileExists()){
+				var hd=new HtmlAgilityPack.HtmlDocument();
+				hd.LoadHtml(toc.ReadAllText());
+				File.Delete(toc);
+				var sb=new StringBuilder();
+				sb.AppendLine("<!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"> <meta content=\"IE=edge\" http-equiv=\"X-UA-Compatible\"> <meta content=\"width=device-width,initial-scale=1\" name=\"viewport\"><link href=\"style.css\" rel=\"stylesheet\"></head><body>");
+				
+				sb.Append(hd.DocumentNode.SelectSingleNode("//ol").InnerHtml.Replace(".html\"","\"").Replace("href=\"","href=\"#"));
+				var links=hd.DocumentNode.SelectNodes("//a").Select(i=>i.GetAttributeValue("href","")).ToArray();
+				foreach (var element in links) {
+					var file=Path.Combine(dir,element);
+					hd.LoadHtml(file.ReadAllText());
+					File.Delete(file);
+					sb.AppendFormat("<div id=\"{0}\">",element.GetFileNameWithoutExtension());
+					sb.Append(hd.DocumentNode.SelectSingleNode("//body").InnerHtml);
+					sb.AppendLine("</div>");
+				}
+				sb.AppendLine("</body></html>");
+				Path.Combine(dir,dir.GetFileName()+".html").WriteAllText(sb.ToString());
+			}
+			
 		}
 	}
 }

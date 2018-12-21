@@ -9,6 +9,7 @@
 	using System.Text;
 	using System.Text.RegularExpressions;
 	using System.Windows.Forms;
+	using Common;
 	
 
 	public partial  class MainForm: Form
@@ -557,7 +558,7 @@
 					while (str.StartsWith("/*")) {
 						str = str.SubstringAfter("*/").Trim();
 					}
-					sb.AppendLine("## " + element.GetFileNameWithoutExtension())
+					sb.AppendLine("### " + element.GetFileNameWithoutExtension())
 			                     			.AppendLine()
 			                     			.AppendLine()
 			                     			.AppendLine("```")
@@ -847,9 +848,9 @@
 			var sb = new StringBuilder();
 			foreach (var element in lines) {
 				if (element.StartsWith("## ")) {
-					sb.AppendFormat(string.Format("- [{0}]({1}{2})\r\n", element.SubstringAfter(" ").Trim(), prefix, ++index));
+					sb.AppendFormat(string.Format("- [{0}](#{1})\r\n", element.SubstringAfter(" "), Utils.GetId(element.SubstringAfter(" ").Trim())));
 				} else if (element.StartsWith("### ")) {
-					sb.AppendFormat(string.Format(" - [{0}]({1}{2})\r\n", element.SubstringAfter(" ").Trim(), prefix, ++index));
+					sb.AppendFormat(string.Format("\t- [{0}](#{1})\r\n", element.SubstringAfter(" "), Utils.GetId(element.SubstringAfter(" ").Trim())));
 				}
 			}
 			textBox.Text = sb.ToString() + "\r\n\r\n" + textBox.Text;
@@ -890,6 +891,50 @@
 		void 移动到ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 		
+		}
+		void 生成ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			var hd = new HtmlAgilityPack.HtmlDocument();
+			hd.LoadHtml(Clipboard.GetText());
+			var nodes = hd.DocumentNode.SelectNodes("//tbody/tr/td/a")
+				.Select(i => string.Format("- [{0}](https://docs.microsoft.com/en-us/cpp/dotnet/{1})", i.InnerText, i.GetAttributeValue("href", "")));
+			
+		
+			Clipboard.SetText(string.Join(Environment.NewLine, nodes));
+				
+				
+			 
+				 
+			
+		}
+		void 导出mdToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			var dir = "C:/codes";
+			dir.CreateDirectoryIfNotExists();
+			dir = Path.Combine(dir, "Notes");
+			dir.CreateDirectoryIfNotExists();
+			var fileName = textBox.Text.Trim().SubstringBefore('\n').SubstringAfter(" ").Trim().GetValidFileName() + ".md";
+			Path.Combine(dir, fileName).WriteAllText(textBox.Text);
+		}
+		void 标记cToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			Utils.AddCodeLanguage(textBox, "c++");
+		}
+		void NotesButtonClick(object sender, EventArgs e)
+		{
+			var dir = "C:/codes";
+			dir = Path.Combine(dir, "Notes");
+			System.Diagnostics.Process.Start(dir);
+		}
+		void 标记csharpToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			Utils.AddCodeLanguage(textBox, "csharp");
+	
+		}
+		void 标记javaToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			Utils.AddCodeLanguage(textBox, "java");
+	
 		}
 	}
 }

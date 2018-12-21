@@ -94,6 +94,7 @@
     <Compile Include="Shared\Shared.Safari.cs" />
     <Compile Include="Shared\Shared.Translator.cs" />
     <Compile Include="Shared\Shared.Win32.cs" />
+    <Compile Include="Utilities.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>

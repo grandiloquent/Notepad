@@ -42,7 +42,7 @@ namespace Shared
 			}
 			// -finput-charset=UTF-8 -fexec-charset=GBK -lstdc++fs 
 			//var cmd = string.Format("/K gcc -Wall -g -finput-charset=GBK -fexec-charset=GBK \"{0}\" -o \"{1}\\{3}\" {2} && \"{1}\\{3}\" ", f, dir, arg, exe);
-			var cmd = string.Format("/K g++ -Wall -g -std=c++1y \"{0}\" -o \"{1}\\{3}\" {2} && \"{1}\\{3}\" ", f, dir, arg, exe);
+			var cmd = string.Format("/K g++ -Wall -g -std=c++17 \"{0}\" -o \"{1}\\{3}\" {2} && \"{1}\\{3}\" ", f, dir, arg, exe);
 		
 			Process.Start("cmd", cmd);
 				
