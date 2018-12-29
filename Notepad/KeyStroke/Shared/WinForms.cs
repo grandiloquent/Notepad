@@ -10,6 +10,8 @@ namespace Shared
 	using System.Text.RegularExpressions;
 	using System.Windows.Forms;
 	using System.Diagnostics;
+	using Common;
+	
 	public static class WinForms
 	{
 		public static void InvokeWkhtmltopdf(string f)

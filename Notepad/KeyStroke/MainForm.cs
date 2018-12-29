@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 using System.Text;
 using System.Collections.Generic;
 using System.Management;
- 
+using Common;
 
 namespace KeyStroke
 {
@@ -121,16 +121,6 @@ namespace KeyStroke
 				if (k == 0x75) {
 					var point = GetCursorPosition();
 					_recordMouse += string.Format("{{{0},{1}}},\n", point.X, point.Y);
-				} else if (k == 0x78) {
-					if (_runType == 1)
-					if (_cFile != null)
-						CPP.RunGenerateGPPCommand(_cFile);
-					else {
-						WinForms.OnClipboardFile((f) => {
-							_cFile = f;
-							CPP.RunGenerateGPPCommand(f);
-						});
-					}
 				} else if (k == 0x76) {
 					if (_recordMouse == null) {
 					
@@ -934,7 +924,7 @@ namespace KeyStroke
 		}
 		void LogToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			WinForms.OnClipboardString(Javas. GenerateVariableLog);
+			WinForms.OnClipboardString(Javas.GenerateVariableLog);
 		}
 	 
 	
@@ -1115,9 +1105,9 @@ namespace KeyStroke
 		void PublicToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			WinForms.OnClipboardString((v) => {
-			                           	var value = Javas.ExtractPublicMethodName(v).Where(i=>i.Contains(" get")).OrderBy(i => i).Distinct().ToArray();
+				var value = Javas.ExtractPublicMethodName(v).Where(i => i.Contains(" get")).OrderBy(i => i).Distinct().ToArray();
 				var l1 = string.Join("\n", value.Select(i => "private " + i.ReplaceFirst("get", "m") + ";"));
-				var l2 = string.Join("\n", value.Select(i =>  i.ReplaceFirst("get", "m").SubstringAfterLast(' ') +" = "+" "+i.SubstringAfterLast(' ')+"();\n"));
+				var l2 = string.Join("\n", value.Select(i => i.ReplaceFirst("get", "m").SubstringAfterLast(' ') + " = " + " " + i.SubstringAfterLast(' ') + "();\n"));
 			                          
 				return l1 + "\n\n\n" + l2;
 			});
@@ -1134,13 +1124,31 @@ namespace KeyStroke
 		}
 		void 合并HTMLSToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			WinForms.OnClipboardDirectory((v)=>{
+			WinForms.OnClipboardDirectory((v) => {
 			                              
-			                              	foreach (var element in Directory.GetDirectories(v)) {
-			                              		Safari.CombineBook(element);
-			                              	}
+				foreach (var element in Directory.GetDirectories(v)) {
+					Safari.CombineBook(element);
+				}
 			                              
-			                              });
+			});
+		}
+		void MobiToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardDirectory(Utilities.MobiUtilities.PrettyName);
+		}
+		void EpubToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinForms.OnClipboardDirectory(v => {
+				var files = Directory.GetFiles(v, "*.epub");
+				var targetDirectory=Path.Combine(v,".EPUB");
+				targetDirectory.CreateDirectoryIfNotExists();
+				foreach (var element in files) {
+					 
+					Utilities.EpubUtilities.PrettyName(element,targetDirectory);
+					 
+				}
+			});
+	
 		}
 	
 	}

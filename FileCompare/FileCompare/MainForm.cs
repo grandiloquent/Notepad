@@ -61,10 +61,10 @@
 		}
 		void CompareButtonButtonClick(object sender, EventArgs e)
 		{
-			var s1 ="";
+			var s1 =textBox1.Text;
 			var s2 = textBox2.Text;
 			
-			if( path1Box.Text.IsFile()){
+			if( s1.IsVacuum()&&path1Box.Text.IsFile()){
 				s1=path1Box.Text.ReadAllText();
 			}
 			if(s2.IsVacuum()&& path2Box.Text.IsFile()){

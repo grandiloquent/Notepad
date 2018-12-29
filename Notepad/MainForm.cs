@@ -1,6 +1,5 @@
 ﻿namespace Notepad
 {
-	using Shared;
 
 	using System;
 	using System.Collections.Generic;
@@ -9,16 +8,14 @@
 	using System.Text;
 	using System.Text.RegularExpressions;
 	using System.Windows.Forms;
-	using Common;
-	
+	using Utils;
 
 	public partial  class MainForm: Form
 	{
 		private Article _article;
 		private readonly string _dataPath;
 		private string _defaultDatabase;
-		// 1 -> go
-		int _runType = 1;
+	 
 		public MainForm()
 		{
 			InitializeComponent();
@@ -27,9 +24,9 @@
 			_defaultDatabase = _dataPath.Combine("db.dat");
 
 			if (!_defaultDatabase.FileExists())
-				HelperSqlite.GetInstance(_defaultDatabase);
+				DatabaseUtils.GetInstance(_defaultDatabase);
 
-			comboBox.Items.AddRange(_dataPath.GetFiles("*.dat").Select(i => i.GetFileName()).ToArray());
+			comboBox.Items.AddRange(_dataPath.GetFiles("dat").Select(i => i.GetFileName()).ToArray());
 		}
 		
 		void AaToolStripMenuItemClick(object sender, EventArgs e)
@@ -48,14 +45,14 @@
 		}
 		void BYTE数组到GBKToolStripMenuItemClick(object sender, EventArgs e)
 		{
+		
 			var buf = textBox.Text.Trim().Split(" ".ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => byte.Parse(i, System.Globalization.NumberStyles.HexNumber)).ToArray();
-			
 			textBox.Text = Encoding.GetEncoding("gbk").GetString(buf);
 		}
 	
 		void CheatEngineMemoryViewer数组到BYTE数组ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			Helper.OnClipboardString((v) => {
+			WinFormUtils.OnClipboardString((v) => {
 				var str = v.Split(" ".ToArray(), StringSplitOptions.RemoveEmptyEntries).Select((i) => {
 					var vh = int.Parse(i, System.Globalization.NumberStyles.HexNumber);
 					if (vh == 0) {
@@ -74,7 +71,7 @@
 			var val = textBox.SelectedText;
 			if (val.IsVacuum())
 				return;
-			var json = HelperTranslator.GetInstance().QueryChinese(val);
+			var json = TranslateUtils.GetInstance().QueryChinese(val);
 
 			var obj = Newtonsoft.Json.Linq.JObject.Parse(json);
 			Newtonsoft.Json.Linq.JToken jtoken;
@@ -90,12 +87,12 @@
 		}
 		void CodeButtonClick(object sender, EventArgs e)
 		{
-			textBox.SelectedText = HelperMarkdownFormat.FormatCode(textBox.SelectedText);
+			textBox.SelectedText = MarkdownUtils.FormatCode(textBox.SelectedText);
 		}
 		void ComboBox1SelectedIndexChanged(object sender, EventArgs e)
 		{
 			_defaultDatabase = _dataPath.Combine(comboBox.Text);
-			HelperSqlite.GetInstance(_defaultDatabase);
+			DatabaseUtils.GetInstance(_defaultDatabase);
 			UpdateList();
 			_article = null;
 			
@@ -108,7 +105,7 @@
 			var val = textBox.SelectedText;
 			if (val.IsVacuum())
 				return;
-			var json = HelperTranslator.GetInstance().QueryEnglish(val);
+			var json = TranslateUtils.GetInstance().QueryEnglish(val);
 
 			var obj = Newtonsoft.Json.Linq.JObject.Parse(json);
 			Newtonsoft.Json.Linq.JToken jtoken;
@@ -145,17 +142,17 @@
 		void H2ButtonClick(object sender, EventArgs e)
 		{
 			
-			Utils.FormatH2(textBox);
+			Logic.FormatH2(textBox);
 		}
 		void H3ButtonClick(object sender, EventArgs e)
 		{
-			Utils.FormatH3(textBox);
+			Logic.FormatH3(textBox);
 		}
 		void HtmlsButtonClick(object sender, EventArgs e)
 		{
 			 
 			var fileName = @"assets\htmls".GetCommandPath().Combine(textBox.Text.GetFirstReadable().TrimStart('#').TrimStart().GetValidFileName('-') + ".htm");
-			fileName.WriteAllText(Utils.ConvertToHtml(textBox));
+			fileName.WriteAllText(Logic.ConvertToHtml(textBox));
 
 			System.Diagnostics.Process.Start("chrome.exe", string.Format("\"{0}\"", fileName));
 		}
@@ -198,7 +195,7 @@
 				CreateAt = DateTime.UtcNow,
 				UpdateAt = DateTime.UtcNow,
 			};
-			HelperSqlite.GetInstance().Insert(article);
+			DatabaseUtils.GetInstance().Insert(article);
 			
 			
 			
@@ -237,7 +234,7 @@
 				CreateAt = DateTime.UtcNow,
 				UpdateAt = DateTime.UtcNow,
 			};
-			HelperSqlite.GetInstance().Insert(article);
+			DatabaseUtils.GetInstance().Insert(article);
 			
 			
 			
@@ -251,7 +248,7 @@
 			if (listBox.SelectedIndex == -1)
 				return;
 			var title = listBox.SelectedItem.ToString();
-			_article = HelperSqlite.GetInstance().GetArticle(title);
+			_article = DatabaseUtils.GetInstance().GetArticle(title);
 
 			this.Text = _article.Title;
 			textBox.Text = _article.Content;
@@ -263,7 +260,7 @@
 		}
 		void MainFormLoad(object sender, EventArgs e)
 		{
-			打开ToolStripMenuItem.Click += (s, o) => Helper.OpenLink(textBox);
+			 
 
 			if ("settings.txt".GetCommandPath().FileExists()) {
 				var value = "settings.txt".GetCommandPath().ReadAllText();
@@ -276,11 +273,11 @@
 			foreach (var ex in directories) {
 				
 				moveMenuItem.DropDownItems.Add(ex.GetFileName()).Click += (s, o) => {
-					var cpp = HelperSqlite.NewInstance(Path.Combine(_dataPath, ((ToolStripMenuItem)s).Text));
+					var cpp = DatabaseUtils.NewInstance(Path.Combine(_dataPath, ((ToolStripMenuItem)s).Text));
 					foreach (var element in listBox.SelectedItems) {
-						var article =	HelperSqlite.GetInstance().GetArticle(element.ToString());
+						var article =	DatabaseUtils.GetInstance().GetArticle(element.ToString());
 						cpp.Insert(article);
-						HelperSqlite.GetInstance().Delete(element.ToString());
+						DatabaseUtils.GetInstance().Delete(element.ToString());
 					}
 					UpdateList();
 				};
@@ -299,42 +296,8 @@
 			textBox.SelectedText = string.Format(" <p class=\"note\">{0}</p> ", textBox.SelectedText.Trim());
 			
 		}
-		public static void OnClipboardDirectory(Action<String> action)
-		{
-			try {
-				var dir = Clipboard.GetText().Trim();
-				var found = false;
-				if (Directory.Exists(dir)) {
-					found = true;
-				} else {
-					var ls = Clipboard.GetFileDropList();
-					if (ls.Count > 0) {
-						if (Directory.Exists(ls[0])) {
-							dir = ls[0];
-						}
-					}
-				}
-				if (found) {
-					action(dir);
-				}
-			} catch {
-				
-			}
-		}
 		
-		public static void OnClipboardString(Func<String,String> func)
-		{
-			try {
-				var str = Clipboard.GetText().Trim();
-				if (str.IsVacuum())
-					return;
-				str = func(str);
-				if (str.IsReadable())
-					Clipboard.SetText(str);
-			} catch {
-				
-			}
-		}
+		
 		
 		void PathButtonButtonClick(object sender, EventArgs e)
 		{
@@ -389,7 +352,7 @@
 		{
 
 			listBox.Items.Clear();
-			listBox.Items.AddRange(HelperSqlite.GetInstance().GetTitleList().ToArray());
+			listBox.Items.AddRange(DatabaseUtils.GetInstance().GetTitleList().ToArray());
 		}
 		  
 		void 保存ToolStripMenuItemClick(object sender, EventArgs e)
@@ -407,8 +370,8 @@
 					CreateAt = DateTime.UtcNow,
 					UpdateAt = DateTime.UtcNow,
 				};
-				HelperSqlite.GetInstance().Insert(_article);
-				_article = HelperSqlite.GetInstance().GetArticle(title);
+				DatabaseUtils.GetInstance().Insert(_article);
+				_article = DatabaseUtils.GetInstance().GetArticle(title);
 				UpdateList();
 				this.Text = title;
 			} else {
@@ -424,7 +387,7 @@
 				_article.Content = textBox.Text;
 				_article.UpdateAt = DateTime.UtcNow;
 
-				HelperSqlite.GetInstance().Update(_article);
+				DatabaseUtils.GetInstance().Update(_article);
 				if (updateList) {
 					UpdateList();
 
@@ -472,7 +435,7 @@
 			var targetDirectory = comboBox.Text.GetFileNameWithoutExtension().GetDesktopPath();
 			targetDirectory.CreateDirectoryIfNotExists();
 			File.Copy("assets".GetCommandPath().Combine("stylesheets").Combine("markdown.css"), targetDirectory.Combine("markdown.css"));
-			var sql =	HelperSqlite.GetInstance();
+			var sql =	DatabaseUtils.GetInstance();
 			var contentList =	sql.GetTitleContentList();
 			foreach (var c in contentList) {
 				var tf = targetDirectory.Combine(c.Title.GetValidFileName() + ".html");
@@ -506,7 +469,7 @@
 			var targetDirectory = "assets".GetCommandPath().Combine("exports");
 			targetDirectory.CreateDirectoryIfNotExists();
 			foreach (var element in directories) {
-				var sql =	HelperSqlite.GetInstance(element);
+				var sql =	DatabaseUtils.GetInstance(element);
 				var contentList =	sql.GetTitleContentList();
 				foreach (var c in contentList) {
 					var tf = targetDirectory.Combine(Path.GetFileNameWithoutExtension(element) + " - " + c.Title.GetValidFileName() + ".html");
@@ -537,7 +500,7 @@
 		}
 		void 导入Apress单文件ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			Helper.OnClipboardDirectory((dir) => {
+			WinFormUtils.OnClipboardDirectory((dir) => {
 			                            	
 				var files = Directory.GetFiles(dir, "*.html");
 				foreach (var element in files) {
@@ -548,24 +511,17 @@
 		}
 		void 导入ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			OnClipboardDirectory((p) => {
-				var files = Directory.GetFiles(p, "*", SearchOption.AllDirectories).Where(i => Regex.IsMatch(i, "\\.(?:c|h|cpp|java|txt)$") || i.GetExtension().IsVacuum());
+			WinFormUtils.OnClipboardDirectory((p) => {
+				var files = Directory.GetFiles(p, "*", SearchOption.AllDirectories).Where(i => Regex.IsMatch(i, "\\.(?:c|h|cpp|java|txt|fsx|fs)$") || i.GetExtension().IsVacuum());
 				var j = "\u0060";
 				var sb = new StringBuilder();
-				sb.AppendLine("# " + p.GetFileNameWithoutExtension()).AppendLine();
+				var extension=Path.GetExtension(p).ToLower();
+				if(extension==".fsx"){
+					extension="F# ";
+				}
+				sb.AppendLine("# " + extension+p.GetFileNameWithoutExtension()).AppendLine();
 				foreach (var element in files) {
-					var str = element.ReadAllText().Trim();
-					while (str.StartsWith("/*")) {
-						str = str.SubstringAfter("*/").Trim();
-					}
-					sb.AppendLine("### " + element.GetFileNameWithoutExtension())
-			                     			.AppendLine()
-			                     			.AppendLine()
-			                     			.AppendLine("```")
-			                     			.AppendLine()
-			                     			.AppendLine(Regex.Replace(str.Replace("`", j), "[\r\n]+", "\r\n"))
-			                     			.AppendLine("```")
-			                     			.AppendLine();
+					
 				}
 				textBox.Text = sb.ToString();
 			});
@@ -573,7 +529,7 @@
 		void 导入代码文件ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			
-			OnClipboardDirectory((v) => {
+			WinFormUtils.OnClipboardDirectory((v) => {
 				var str = "";
 				var files = Directory.GetFiles(v, "*").Where(i => Regex.IsMatch(i, "\\.(?:c|h|txt)$"));
 				foreach (var element in files) {
@@ -584,7 +540,7 @@
 		}
 		void 导入目录ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			OnClipboardDirectory((p) => {
+			WinFormUtils.OnClipboardDirectory((p) => {
 				var files = Directory.GetFiles(p, "*", SearchOption.AllDirectories).Where(i => Regex.IsMatch(i, "\\.(?:c|h|cpp|java|txt)$") || i.GetExtension().IsVacuum());
 				var j = "\u0060";
 			                     	
@@ -611,7 +567,7 @@
 						UpdateAt = DateTime.UtcNow,
 					};
 					try {
-						HelperSqlite.GetInstance().Insert(article);
+						DatabaseUtils.GetInstance().Insert(article);
 					} catch {
 			                     			
 					}
@@ -634,21 +590,21 @@
 			sc.Add(Path.Combine(_dataPath, comboBox.Text));
 			Clipboard.SetFileDropList(sc);
 		}
-		void 复制文件ToolStripMenuItemClick(object sender, EventArgs e)
-		{
-	
-			var dir = Clipboard.GetText();
-			var lines = textBox.Text.ToLines().Select(i => i.SubstringBeforeLast("_").SubstringBeforeLast("_"));
-			var targetDirectory = "assets".GetDesktopPath();
-			targetDirectory.CreateDirectoryIfNotExists();
-			if (Directory.Exists(dir)) {
-				var files = Directory.GetFiles(dir, "*", SearchOption.AllDirectories).Where(i => lines.Any(ix => i.GetFileName().StartsWith(ix)));
-				foreach (var element in files) {
-				
-					File.Copy(element, Path.Combine(targetDirectory, element.GetFileName()));
-				}
-			}
-		}
+		//		void 复制文件ToolStripMenuItemClick(object sender, EventArgs e)
+		//		{
+		//
+		//			var dir = Clipboard.GetText();
+		//			var lines = textBox.Text.ToLines().Select(i => i.SubstringBeforeLast("_").SubstringBeforeLast("_"));
+		//			var targetDirectory = "assets".GetDesktopPath();
+		//			targetDirectory.CreateDirectoryIfNotExists();
+		//			if (Directory.Exists(dir)) {
+		//				var files = Directory.GetFiles(dir, "*", SearchOption.AllDirectories).Where(i => lines.Any(ix => i.GetFileName().StartsWith(ix)));
+		//				foreach (var element in files) {
+		//
+		//					File.Copy(element, Path.Combine(targetDirectory, element.GetFileName()));
+		//				}
+		//			}
+		//		}
 		void 行ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			
@@ -681,7 +637,7 @@
 			if (textBox.SelectedText.IsReadable()) {
 				var start = textBox.SelectedText.SubstringBefore("### ");
 				var end = "### " + textBox.SelectedText.SubstringAfter("### ");
-				textBox.SelectedText =	start + Utils.OrderH3(end);
+				textBox.SelectedText =	start + Logic.OrderH3(end);
 			}
 		}
 		void 排序ToolStripMenuItemClick(object sender, EventArgs e)
@@ -747,7 +703,7 @@
 		{
 			if (listBox.SelectedItems.Count > 0) {
 				foreach (var element in listBox.SelectedItems) {
-					HelperSqlite.GetInstance().Delete(element.ToString());
+					DatabaseUtils.GetInstance().Delete(element.ToString());
 				}
 				UpdateList();
 				
@@ -765,7 +721,7 @@
 		 
 		void 替换ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			textBox.Text = textBox.Text.Replace(findBox.Text, replaceBox.Text);
+			textBox.Text = Regex.Replace(textBox.Text, findBox.Text, replaceBox.Text);
 		}
 		
 		
@@ -776,7 +732,7 @@
 		}
 		void 替换文件中ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			OnClipboardDirectory((v) => {
+			WinFormUtils.OnClipboardDirectory((v) => {
 			                     	
 				var files = Directory.GetFiles(v, "*", SearchOption.AllDirectories)
 			                     		.Where(i => Regex.IsMatch(i, "\\.(?:java|kt|xml|css|cs|js|htm|c|h)"));
@@ -833,7 +789,7 @@
 		{
 			var start = textBox.SelectedText.SubstringBefore("## ");
 			var end = "## " + textBox.SelectedText.SubstringAfter("## ");
-			textBox.SelectedText =	start + Utils.OrderH2(end);
+			textBox.SelectedText =	start + Logic.OrderH2(end);
 		}
 		void 复制代码ToolStripMenuItemClick(object sender, EventArgs e)
 		{
@@ -848,9 +804,9 @@
 			var sb = new StringBuilder();
 			foreach (var element in lines) {
 				if (element.StartsWith("## ")) {
-					sb.AppendFormat(string.Format("- [{0}](#{1})\r\n", element.SubstringAfter(" "), Utils.GetId(element.SubstringAfter(" ").Trim())));
+					sb.AppendFormat(string.Format("- [{0}](#{1})\r\n", element.SubstringAfter(" "), Logic.GetId(element.SubstringAfter(" ").Trim())));
 				} else if (element.StartsWith("### ")) {
-					sb.AppendFormat(string.Format("\t- [{0}](#{1})\r\n", element.SubstringAfter(" "), Utils.GetId(element.SubstringAfter(" ").Trim())));
+					sb.AppendFormat(string.Format("\t- [{0}](#{1})\r\n", element.SubstringAfter(" "), Logic.GetId(element.SubstringAfter(" ").Trim())));
 				}
 			}
 			textBox.Text = sb.ToString() + "\r\n\r\n" + textBox.Text;
@@ -890,20 +846,67 @@
 		}
 		void 移动到ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-		
+			var array=System.Buffers.ArrayPool<int>.Shared.Rent(213);
 		}
 		void 生成ToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			var hd = new HtmlAgilityPack.HtmlDocument();
-			hd.LoadHtml(Clipboard.GetText());
-			var nodes = hd.DocumentNode.SelectNodes("//tbody/tr/td/a")
-				.Select(i => string.Format("- [{0}](https://docs.microsoft.com/en-us/cpp/dotnet/{1})", i.InnerText, i.GetAttributeValue("href", "")));
 			
+		{
+			
+			WinFormUtils.OnClipboardString(v => {
+			                       	var nodes = v.GetHtmlNode().SelectNodes("//*[@class='item-name']").ToArray();
+				var sb = new StringBuilder();
+				foreach (var element in nodes) {
+				 
+		var str=element.InnerText.Trim().DeEntitize();
+//					str+=" "+element.SelectSingleNode(".//*[@class='by']").InnerText;
+//					str+=" "+element.SelectSingleNode(".//*[@itemprop='author']").InnerText.Trim().DeEntitize();
+						sb.AppendLine(string.Format("- {0}", str));
+					 
+				}
+				return sb.ToString();
+			});
+			
+//			this.OnClipboardString(v => {
+//				var nodes = v.GetHtmlNode().Descendants();
+//				var sb=new StringBuilder();
+//				foreach (var element in nodes) {
+//					var name=(element.Name ?? "");
+//					if (name == "h1" ) {
+//						sb.AppendLine(string.Format("## {0}\r\n",element.InnerText.Trim().DeEntitize()));
+//					}else if(name=="pre"){
+//						sb.AppendLine(string.Format("```\r\n{0}\r\n```\r\n",element.InnerHtml.Replace("<br>","\r\n").StripHtmlTag().DeEntitize()));
+//					}
+//				}
+//				return sb.ToString();
+//			});
+//			this.OnClipboardDirectory((v) => {
+//				var lines = textBox.Text.ToLines().ToArray();
+//				var index = 0;
+//				v.GetDirectories().ForEach((dir) => {
+//					var targetFileName = Path.Combine(v, lines[index] + ".cpp");
+//					File.Move(Path.Combine(dir, "main.cpp"), targetFileName);
+//					index++;
+//				});
+//			                         
+//			});
+//			this.OnClipboardDirectory(v=>{
+//			                          	var files=Directory.GetFiles(v,"*");
+//			                          	foreach (var element in files) {
+//			                          		File.Move(element,element.Replace("_",". "));
+//			                          	}
+//			                          });
 		
-			Clipboard.SetText(string.Join(Environment.NewLine, nodes));
+			
+//			var hd = new HtmlAgilityPack.HtmlDocument();
+//			hd.LoadHtml(Clipboard.GetText());
+//			var nodes = hd.DocumentNode.SelectNodes("//tbody/tr/td/a")
+//				.Select(i => string.Format("- [{0}](https://docs.microsoft.com/en-us/cpp/dotnet/{1})", i.InnerText, i.GetAttributeValue("href", "")));
+//			
+//		
+//			Clipboard.SetText(string.Join(Environment.NewLine, nodes));
+//				
 				
-				
-			 
+			
 				 
 			
 		}
@@ -918,7 +921,7 @@
 		}
 		void 标记cToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			Utils.AddCodeLanguage(textBox, "c++");
+			Logic.AddCodeLanguage(textBox, "c++");
 		}
 		void NotesButtonClick(object sender, EventArgs e)
 		{
@@ -928,13 +931,43 @@
 		}
 		void 标记csharpToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			Utils.AddCodeLanguage(textBox, "csharp");
+			Logic.AddCodeLanguage(textBox, "csharp");
 	
 		}
 		void 标记javaToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			Utils.AddCodeLanguage(textBox, "java");
+			Logic.AddCodeLanguage(textBox, "java");
 	
+		}
+		void 标记cToolStripMenuItem1Click(object sender, EventArgs e)
+		{
+			Logic.AddCodeLanguage(textBox, "c");
+	
+		}
+		void 打开ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			Logic.OpenLink(textBox);
+		}
+		void CmdButtonClick(object sender, EventArgs e)
+		{
+			var selected = textBox.SelectedText.Trim();
+			if (selected.IsVacuum()) {
+				textBox.SelectLine();
+			}
+			selected = textBox.SelectedText.Trim();
+			if (selected.IsVacuum())
+				return;
+			System.Diagnostics.Process.Start("cmd", string.Format("/K {0}", selected));
+		}
+		
+		void StringBuilder剪切板ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinFormUtils.OnClipboardString(v=>v.StringbuilderizeInCs());
+		}
+		void EscapeString剪切板ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+	
+			WinFormUtils.OnClipboardString(v=>v.LiterallyInCs());
 		}
 	}
 }

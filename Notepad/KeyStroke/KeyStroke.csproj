@@ -95,6 +95,8 @@
     <Compile Include="Shared\NativeMethods.cs" />
     <Compile Include="Shared\Win32.cs" />
     <Compile Include="Shared\WinForms.cs" />
+    <Compile Include="Utilities\EpubUtilities.cs" />
+    <Compile Include="Utilities\MobiUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -106,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Hooks" />
+    <Folder Include="Utilities" />
     <Folder Include="Shared" />
   </ItemGroup>
   <ItemGroup>

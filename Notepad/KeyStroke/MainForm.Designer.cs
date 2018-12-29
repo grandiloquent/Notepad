@@ -18,7 +18,6 @@ namespace KeyStroke
 		private System.Windows.Forms.ToolStripSplitButton kdButton;
 		private System.Windows.Forms.ToolStripMenuItem 获取当前坐标值热键FToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSplitButton cButton;
-		private System.Windows.Forms.ToolStripMenuItem 编译CToolStripMenuItem;
 		private System.Windows.Forms.ToolStripButton clearButton;
 		private System.Windows.Forms.ToolStripMenuItem 格式化C代码ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 取色器ToolStripMenuItem;
@@ -102,6 +101,9 @@ namespace KeyStroke
 		private System.Windows.Forms.ToolStripMenuItem xMLToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem view从layout资源文件生成view代码ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 合并HTMLSToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 整理ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem mobiToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem epubToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -134,7 +136,6 @@ namespace KeyStroke
 			this.按键F8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.监视按键ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.cButton = new System.Windows.Forms.ToolStripSplitButton();
-			this.编译CToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.格式化C代码ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.vSC代码段热键F8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.cLangFormatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -167,6 +168,9 @@ namespace KeyStroke
 			this.清除重复SafariToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.清理Safari文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.xxxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.合并HTMLSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.整理ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.mobiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.csharpButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.格式化C代码ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.stringSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
@@ -212,7 +216,7 @@ namespace KeyStroke
 			this.多媒体ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sVGToDrawableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.globalEventProvider1 = new Gma.UserActivityMonitor.GlobalEventProvider();
-			this.合并HTMLSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.epubToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -299,7 +303,6 @@ namespace KeyStroke
 			// 
 			this.cButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.cButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.编译CToolStripMenuItem,
 			this.格式化C代码ToolStripMenuItem,
 			this.vSC代码段热键F8ToolStripMenuItem,
 			this.cLangFormatToolStripMenuItem,
@@ -311,13 +314,6 @@ namespace KeyStroke
 			this.cButton.Name = "cButton";
 			this.cButton.Size = new System.Drawing.Size(63, 22);
 			this.cButton.Text = "C/C++";
-			// 
-			// 编译CToolStripMenuItem
-			// 
-			this.编译CToolStripMenuItem.Name = "编译CToolStripMenuItem";
-			this.编译CToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
-			this.编译CToolStripMenuItem.Text = "编译C(热键F9)";
-			this.编译CToolStripMenuItem.Click += new System.EventHandler(this.编译CToolStripMenuItemClick);
 			// 
 			// 格式化C代码ToolStripMenuItem
 			// 
@@ -483,7 +479,8 @@ namespace KeyStroke
 			this.清除重复SafariToolStripMenuItem,
 			this.清理Safari文件ToolStripMenuItem,
 			this.xxxToolStripMenuItem,
-			this.合并HTMLSToolStripMenuItem});
+			this.合并HTMLSToolStripMenuItem,
+			this.整理ToolStripMenuItem});
 			this.ebookButton.Image = ((System.Drawing.Image)(resources.GetObject("ebookButton.Image")));
 			this.ebookButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.ebookButton.Name = "ebookButton";
@@ -568,6 +565,29 @@ namespace KeyStroke
 			this.xxxToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
 			this.xxxToolStripMenuItem.Text = "xxx";
 			this.xxxToolStripMenuItem.Click += new System.EventHandler(this.XxxToolStripMenuItemClick);
+			// 
+			// 合并HTMLSToolStripMenuItem
+			// 
+			this.合并HTMLSToolStripMenuItem.Name = "合并HTMLSToolStripMenuItem";
+			this.合并HTMLSToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.合并HTMLSToolStripMenuItem.Text = "合并HTMLS";
+			this.合并HTMLSToolStripMenuItem.Click += new System.EventHandler(this.合并HTMLSToolStripMenuItemClick);
+			// 
+			// 整理ToolStripMenuItem
+			// 
+			this.整理ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.mobiToolStripMenuItem,
+			this.epubToolStripMenuItem});
+			this.整理ToolStripMenuItem.Name = "整理ToolStripMenuItem";
+			this.整理ToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+			this.整理ToolStripMenuItem.Text = "整理";
+			// 
+			// mobiToolStripMenuItem
+			// 
+			this.mobiToolStripMenuItem.Name = "mobiToolStripMenuItem";
+			this.mobiToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.mobiToolStripMenuItem.Text = "Mobi";
+			this.mobiToolStripMenuItem.Click += new System.EventHandler(this.MobiToolStripMenuItemClick);
 			// 
 			// csharpButton
 			// 
@@ -923,12 +943,12 @@ namespace KeyStroke
 			this.sVGToDrawableToolStripMenuItem.Text = "SVG To Drawable";
 			this.sVGToDrawableToolStripMenuItem.Click += new System.EventHandler(this.SVGToDrawableToolStripMenuItemClick);
 			// 
-			// 合并HTMLSToolStripMenuItem
+			// epubToolStripMenuItem
 			// 
-			this.合并HTMLSToolStripMenuItem.Name = "合并HTMLSToolStripMenuItem";
-			this.合并HTMLSToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-			this.合并HTMLSToolStripMenuItem.Text = "合并HTMLS";
-			this.合并HTMLSToolStripMenuItem.Click += new System.EventHandler(this.合并HTMLSToolStripMenuItemClick);
+			this.epubToolStripMenuItem.Name = "epubToolStripMenuItem";
+			this.epubToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.epubToolStripMenuItem.Text = "Epub";
+			this.epubToolStripMenuItem.Click += new System.EventHandler(this.EpubToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 

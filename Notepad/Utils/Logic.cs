@@ -1,35 +1,33 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using System.Text;
-using Shared;
 using System.Text.RegularExpressions;
+using System.IO;
+using System.Diagnostics;
 
-namespace Notepad
+namespace Utils
 {
-	
-	public static class Utils
+	 
+	public static class Logic
 	{
-		public static void AddCodeLanguage(TextBox textBox,string language){
-				var lines=textBox.Text.Split('\n').Select(i=>i.TrimEnd('\r'));
-			var sb=new StringBuilder();
-			var skip=false;
-			foreach (var element in lines) {
-				if(element.StartsWith("```")){
-					if(skip){
-					sb.AppendLine("```");
-						
-					}else if(element.Trim()=="```")
-					sb.AppendLine("```"+language);
-					skip=!skip;
-					
-				}else{
-					sb.AppendLine(element);
-				}
+		public static void OpenLink(TextBox textBox)
+		{
+			var selected =	textBox.SelectedText.Trim();
+			if (selected.IsVacuum()) {
+				textBox.SelectLine();
+				selected =	textBox.SelectedText.Trim();
 			}
-			textBox.Text=sb.ToString();
+			if (selected.IsVacuum())
+				return;
+			selected = selected.TrimNonLetterOrDigitStart();
+			selected = Regex.Replace(selected, "[^a-zA-Z]$", "");
+			if (Directory.Exists(selected) || File.Exists(selected)) {
+				Process.Start(selected);
+			} else {
+				Process.Start("chrome.exe", selected);
+			}
 		}
 		public static string ConvertToHtml(TextBox textBox)
 		{
@@ -98,7 +96,11 @@ namespace Notepad
 				}
 			}
 			var result = new List<string>();
-			var collection =	dictionary.OrderBy(i => i.Key);
+			var collection =	dictionary.OrderBy(i => Regex.Replace(i.Key, "[0-9]+(?=\\.)", new MatchEvaluator((v) => {
+				var vx = int.Parse(v.Value);
+			                                                                                                  	
+				return vx.ToString().PadLeft(5, '0');
+			})));
 			foreach (var element in collection) {
 				result = result.Concat(element.Value).ToList();
 			}
@@ -120,7 +122,7 @@ namespace Notepad
 		}
 		public static String GetId(string value)
 		{
-		return UrilizeAsGfm(value);
+			return UrilizeAsGfm(value);
 		   	
 		}
 		public static String OrderH3(String value)
@@ -147,6 +149,28 @@ namespace Notepad
 				result = result.Concat(element.Value).ToList();
 			}
 			return string.Join(Environment.NewLine, result);
+		}
+		public static void AddCodeLanguage(TextBox textBox, string language)
+		{
+			var lines = textBox.Text.Split('\n').Select(i => i.TrimEnd('\r'));
+			var sb = new StringBuilder();
+			var skip = false;
+			foreach (var element in lines) {
+				if (element.StartsWith("```")) {
+					if (skip) {
+						sb.AppendLine("```");
+						
+					} else if (element.Trim() == "```")
+						sb.AppendLine("```" + language);
+					else
+						sb.AppendLine(element);
+					skip = !skip;
+					
+				} else {
+					sb.AppendLine(element);
+				}
+			}
+			textBox.Text = sb.ToString();
 		}
 	}
 }

@@ -11,13 +11,14 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text.RegularExpressions;
 
-namespace Shared
+namespace  Utils
 {
-    public class HelperTranslator
-    {
-        private readonly HttpClient _client;
+	
+	public class TranslateUtils
+	{
+		 private readonly HttpClient _client;
 
-        public HelperTranslator()
+        public TranslateUtils()
         {
             _client = new HttpClient(new HttpClientHandler
             {
@@ -47,21 +48,12 @@ namespace Shared
 
             return res.Content.ReadAsStringAsync().GetAwaiter().GetResult();
         }
-        public static HelperTranslator s;
+        public static TranslateUtils s;
 
-        public static HelperTranslator GetInstance() {
+        public static TranslateUtils GetInstance() {
         	if(s==null)
-        		s= new HelperTranslator();
+        		s= new TranslateUtils();
         	return s;
         }
-    }
-    public class dic
-    {
-        [Indexed(Name = "idx_key", Unique = true)]
-        public string key { get; set; }
-        public string word { get; set; }
-
-    }
-
-  
+	}
 }
