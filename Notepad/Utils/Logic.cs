@@ -1,33 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.IO;
-using System.Diagnostics;
-
-namespace Utils
+﻿namespace Utils
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Diagnostics;
+	using System.IO;
+	using System.Linq;
+	using System.Text;
+	using System.Text.RegularExpressions;
+	using System.Windows.Forms;
 	 
-	public static class Logic
+	public static  class Logic
 	{
-		public static void OpenLink(TextBox textBox)
+		
+		
+		public static void AddCodeLanguage(TextBox textBox, string language)
 		{
-			var selected =	textBox.SelectedText.Trim();
-			if (selected.IsVacuum()) {
-				textBox.SelectLine();
-				selected =	textBox.SelectedText.Trim();
+			var lines = textBox.Text.Split('\n').Select(i => i.TrimEnd('\r'));
+			var sb = new StringBuilder();
+			var skip = false;
+			foreach (var element in lines) {
+				if (element.StartsWith("```")) {
+					if (skip) {
+						sb.AppendLine("```");
+						
+					} else if (element.Trim() == "```")
+						sb.AppendLine("```" + language);
+					else
+						sb.AppendLine(element);
+					skip = !skip;
+					
+				} else {
+					sb.AppendLine(element);
+				}
 			}
-			if (selected.IsVacuum())
-				return;
-			selected = selected.TrimNonLetterOrDigitStart();
-			selected = Regex.Replace(selected, "[^a-zA-Z]$", "");
-			if (Directory.Exists(selected) || File.Exists(selected)) {
-				Process.Start(selected);
-			} else {
-				Process.Start("chrome.exe", selected);
-			}
+			textBox.Text = sb.ToString();
 		}
 		public static string ConvertToHtml(TextBox textBox)
 		{
@@ -81,6 +87,28 @@ namespace Utils
 			textBox.SelectionLength = end - start;
 			textBox.SelectedText = "### ";
 		}
+		public static String GetId(string value)
+		{
+			return UrilizeAsGfm(value);
+		   	
+		}
+		public static void OpenLink(TextBox textBox)
+		{
+			var selected =	textBox.SelectedText.Trim();
+			if (selected.IsVacuum()) {
+				textBox.SelectLine();
+				selected =	textBox.SelectedText.Trim();
+			}
+			if (selected.IsVacuum())
+				return;
+			selected = selected.TrimNonLetterOrDigitStart();
+			selected = Regex.Replace(selected, "[^a-zA-Z]$", "");
+			if (Directory.Exists(selected) || File.Exists(selected)) {
+				Process.Start(selected);
+			} else {
+				Process.Start("chrome.exe", selected);
+			}
+		}
 		public static String OrderH2(String value)
 		{
 			var list = value.Trim().Split('\n');
@@ -88,6 +116,31 @@ namespace Utils
 			List<String> lines = null;
 			foreach (var element in list) {
 				if (element.StartsWith("## ")) {
+					lines = new List<string>();
+					dictionary.Add(element.TrimEnd(), lines);
+				}
+				if (lines != null) {
+					lines.Add(element.TrimEnd());
+				}
+			}
+			var result = new List<string>();
+			var collection =	dictionary.OrderBy(i => Regex.Replace(i.Key, "[0-9]+(?=\\.)", new MatchEvaluator((v) => {
+				var vx = int.Parse(v.Value);
+			                                                                                                  	
+				return vx.ToString().PadLeft(5, '0');
+			})));
+			foreach (var element in collection) {
+				result = result.Concat(element.Value).ToList();
+			}
+			return string.Join(Environment.NewLine, result);
+		}
+		public static String OrderH3(String value)
+		{
+			var list = value.Trim().Split('\n');
+			var dictionary = new Dictionary<String,List<string>>();
+			List<String> lines = null;
+			foreach (var element in list) {
+				if (element.StartsWith("### ")) {
 					lines = new List<string>();
 					dictionary.Add(element.TrimEnd(), lines);
 				}
@@ -120,57 +173,32 @@ namespace Utils
 			headingBuffer.Length = 0;
 			return result;
 		}
-		public static String GetId(string value)
+		
+		public static void ImportSingleFile(TextBox textBox)
 		{
-			return UrilizeAsGfm(value);
-		   	
-		}
-		public static String OrderH3(String value)
-		{
-			var list = value.Trim().Split('\n');
-			var dictionary = new Dictionary<String,List<string>>();
-			List<String> lines = null;
-			foreach (var element in list) {
-				if (element.StartsWith("### ")) {
-					lines = new List<string>();
-					dictionary.Add(element.TrimEnd(), lines);
+			WinFormUtils.OnClipboardFile(file => {
+				var extension = file.GetExtension();
+				switch (extension) {
+					case ".fsx":
+						extension = "F#: ";
+						break;
 				}
-				if (lines != null) {
-					lines.Add(element.TrimEnd());
-				}
-			}
-			var result = new List<string>();
-			var collection =	dictionary.OrderBy(i => Regex.Replace(i.Key, "[0-9]+(?=\\.)", new MatchEvaluator((v) => {
-				var vx = int.Parse(v.Value);
-			                                                                                                  	
-				return vx.ToString().PadLeft(5, '0');
-			})));
-			foreach (var element in collection) {
-				result = result.Concat(element.Value).ToList();
-			}
-			return string.Join(Environment.NewLine, result);
-		}
-		public static void AddCodeLanguage(TextBox textBox, string language)
-		{
-			var lines = textBox.Text.Split('\n').Select(i => i.TrimEnd('\r'));
-			var sb = new StringBuilder();
-			var skip = false;
-			foreach (var element in lines) {
-				if (element.StartsWith("```")) {
-					if (skip) {
-						sb.AppendLine("```");
-						
-					} else if (element.Trim() == "```")
-						sb.AppendLine("```" + language);
-					else
-						sb.AppendLine(element);
-					skip = !skip;
-					
-				} else {
-					sb.AppendLine(element);
-				}
-			}
-			textBox.Text = sb.ToString();
+				var sb = new StringBuilder();
+				var title = file.GetFileNameWithoutExtension();
+				sb.AppendLine("# " + extension + title).AppendLine();
+				var str = file.ReadAllText().Trim();
+				while (str.StartsWith("/*")) {
+					str = str.SubstringAfter("*/").Trim();
+				}    
+				sb
+			                     			.AppendLine()
+			                     			.AppendLine("```")
+			                     			.AppendLine()
+			                     			.AppendLine(Regex.Replace(str.Replace("`", "\u0060"), "[\r\n]+", "\r\n"))
+			                     			.AppendLine("```")
+			                     			.AppendLine();	
+				textBox.Text = sb.ToString();
+			});
 		}
 	}
 }

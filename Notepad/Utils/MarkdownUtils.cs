@@ -17,7 +17,7 @@ namespace Utils
 
 		public static MarkdownPipeline GetMarkdownPipeline()
 		{
-			return  _sMarkdownPipeline ?? (_sMarkdownPipeline = new MarkdownPipelineBuilder().UsePipeTables().UseCustomContainers().UseEmphasisExtras().UseAutoLinks().UseGenericAttributes().Build());		}
+			return  _sMarkdownPipeline ?? (_sMarkdownPipeline = new MarkdownPipelineBuilder().UsePipeTables().UseCustomContainers().UseEmphasisExtras().UseAutoIdentifiers().UseAutoLinks().UseGenericAttributes().Build());		}
 		public static string FormatMarkdown(this string value)
 		{
 			var retVal = Markdown.ToHtml(value, GetMarkdownPipeline());

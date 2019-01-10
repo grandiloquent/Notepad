@@ -152,6 +152,7 @@
 		{
 			 
 			var fileName = @"assets\htmls".GetCommandPath().Combine(textBox.Text.GetFirstReadable().TrimStart('#').TrimStart().GetValidFileName('-') + ".htm");
+			if(!File.Exists(fileName))
 			fileName.WriteAllText(Logic.ConvertToHtml(textBox));
 
 			System.Diagnostics.Process.Start("chrome.exe", string.Format("\"{0}\"", fileName));
@@ -287,7 +288,7 @@
 		{
 			_article = null;
 			
-			textBox.Text = string.Empty;
+			textBox.Text = textBox.Text.GetFirstReadable()+Environment.NewLine+Environment.NewLine;
 
 			this.Text = string.Empty;
 		}
@@ -511,20 +512,7 @@
 		}
 		void 导入ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			WinFormUtils.OnClipboardDirectory((p) => {
-				var files = Directory.GetFiles(p, "*", SearchOption.AllDirectories).Where(i => Regex.IsMatch(i, "\\.(?:c|h|cpp|java|txt|fsx|fs)$") || i.GetExtension().IsVacuum());
-				var j = "\u0060";
-				var sb = new StringBuilder();
-				var extension=Path.GetExtension(p).ToLower();
-				if(extension==".fsx"){
-					extension="F# ";
-				}
-				sb.AppendLine("# " + extension+p.GetFileNameWithoutExtension()).AppendLine();
-				foreach (var element in files) {
-					
-				}
-				textBox.Text = sb.ToString();
-			});
+			Logic.ImportSingleFile(textBox);
 		}
 		void 导入代码文件ToolStripMenuItemClick(object sender, EventArgs e)
 		{
@@ -541,17 +529,23 @@
 		void 导入目录ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			WinFormUtils.OnClipboardDirectory((p) => {
-				var files = Directory.GetFiles(p, "*", SearchOption.AllDirectories).Where(i => Regex.IsMatch(i, "\\.(?:c|h|cpp|java|txt)$") || i.GetExtension().IsVacuum());
+				var files = Directory.GetFiles(p, "*", SearchOption.AllDirectories).Where(i => Regex.IsMatch(i, "\\.(?:c|h|cpp|cs|java|xml)$")
+			                                  	                                                                          || i.GetExtension().IsVacuum()).ToArray();
 				var j = "\u0060";
+				
+				var title = p.GetFileName() + ": " +p.GetFileName();
+				var sb = new StringBuilder();
+				
+				sb.AppendLine(title+Environment.NewLine);
 			                     	
 				foreach (var element in files) {
-					var title = p.GetFileName() + ": " + element.GetFileName();
-					var sb = new StringBuilder();
-					sb.AppendLine("# " + title).AppendLine();
+					
+					sb.AppendLine("## " + Path.GetFileNameWithoutExtension(element)).AppendLine();
 					var str = element.ReadAllText().Trim();
 					while (str.StartsWith("/*")) {
 						str = str.SubstringAfter("*/").Trim();
 					}
+					//var str = element.ReadAllText().SubstringAfter('{').SubstringBeforeLast('}');
 					sb
 			                     			.AppendLine()
 			                     			.AppendLine("```")
@@ -560,17 +554,18 @@
 			                     			.AppendLine("```")
 			                     			.AppendLine();
 			                     		
-					var article = new Article {
-						Title = title,
-						Content = sb.ToString(),
-						CreateAt = DateTime.UtcNow,
-						UpdateAt = DateTime.UtcNow,
-					};
-					try {
-						DatabaseUtils.GetInstance().Insert(article);
-					} catch {
+					
+				}
+				var article = new Article {
+					Title = title,
+					Content = sb.ToString(),
+					CreateAt = DateTime.UtcNow,
+					UpdateAt = DateTime.UtcNow,
+				};
+				try {
+					DatabaseUtils.GetInstance().Insert(article);
+				} catch {
 			                     			
-					}
 				}
 				UpdateList();
 			                     	
@@ -846,21 +841,20 @@
 		}
 		void 移动到ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			var array=System.Buffers.ArrayPool<int>.Shared.Rent(213);
+			var array = System.Buffers.ArrayPool<int>.Shared.Rent(213);
 		}
 		void 生成ToolStripMenuItemClick(object sender, EventArgs e)
-			
 		{
 			
 			WinFormUtils.OnClipboardString(v => {
-			                       	var nodes = v.GetHtmlNode().SelectNodes("//*[@class='item-name']").ToArray();
+				var nodes = v.GetHtmlNode().SelectNodes("//*[@class='item-name']").ToArray();
 				var sb = new StringBuilder();
 				foreach (var element in nodes) {
 				 
-		var str=element.InnerText.Trim().DeEntitize();
+					var str = element.InnerText.Trim().DeEntitize();
 //					str+=" "+element.SelectSingleNode(".//*[@class='by']").InnerText;
 //					str+=" "+element.SelectSingleNode(".//*[@itemprop='author']").InnerText.Trim().DeEntitize();
-						sb.AppendLine(string.Format("- {0}", str));
+					sb.AppendLine(string.Format("- {0}", str));
 					 
 				}
 				return sb.ToString();
@@ -962,12 +956,59 @@
 		
 		void StringBuilder剪切板ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			WinFormUtils.OnClipboardString(v=>v.StringbuilderizeInCs());
+			WinFormUtils.OnClipboardString(v => v.StringbuilderizeInCs());
 		}
 		void EscapeString剪切板ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 	
-			WinFormUtils.OnClipboardString(v=>v.LiterallyInCs());
+			WinFormUtils.OnClipboardString(v => v.LiterallyInCs());
+		}
+		void 导出ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+	
+			var targetDirectory = "c:\\Codes\\Notes";
+			targetDirectory.CreateDirectoryIfNotExists();
+			
+			var sql =	DatabaseUtils.GetInstance();
+			var contentList =	sql.GetTitleContentList();
+			foreach (var c in contentList) {
+				var tp = "";
+				 
+				
+				if (c.Title.StartsWith("F#"))
+					tp = "fsharp";
+				else if (c.Title.StartsWith("C#"))
+					tp = "csharp";
+				else if (c.Title.StartsWith("Java"))
+					tp = "java";
+				targetDirectory.Combine(tp).CreateDirectoryIfNotExists();
+				
+				var tf = targetDirectory.Combine(tp).Combine(c.Title.SubstringAfter(':').Trim().GetValidFileName() + ".md");
+				var lines = c.Content.Split('\n').Select(i => i.TrimEnd()).ToArray();
+				var skip = true;
+				for (int i = 0; i < lines.Length; i++) {
+					
+					if (lines[i].StartsWith("```")) {
+						
+						if (skip)
+							lines[i] = "```" + tp;
+						
+						skip = !skip;
+						
+					}
+					
+				}
+				
+				tf.WriteAllLines(lines);
+			}
+		}
+		void 预览重新生成ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+	var fileName = @"assets\htmls".GetCommandPath().Combine(textBox.Text.GetFirstReadable().TrimStart('#').TrimStart().GetValidFileName('-') + ".htm");
+			
+			fileName.WriteAllText(Logic.ConvertToHtml(textBox));
+
+			System.Diagnostics.Process.Start("chrome.exe", string.Format("\"{0}\"", fileName));
 		}
 	}
 }
