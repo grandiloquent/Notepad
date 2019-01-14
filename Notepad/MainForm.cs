@@ -152,8 +152,8 @@
 		{
 			 
 			var fileName = @"assets\htmls".GetCommandPath().Combine(textBox.Text.GetFirstReadable().TrimStart('#').TrimStart().GetValidFileName('-') + ".htm");
-			if(!File.Exists(fileName))
-			fileName.WriteAllText(Logic.ConvertToHtml(textBox));
+			if (!File.Exists(fileName))
+				fileName.WriteAllText(Logic.ConvertToHtml(textBox));
 
 			System.Diagnostics.Process.Start("chrome.exe", string.Format("\"{0}\"", fileName));
 		}
@@ -286,9 +286,12 @@
 		}
 		void NewButtonClick(object sender, EventArgs e)
 		{
+			var a=false;
+			var b=false;
+			a|=b;
 			_article = null;
 			
-			textBox.Text = textBox.Text.GetFirstReadable()+Environment.NewLine+Environment.NewLine;
+			textBox.Text = textBox.Text.GetFirstReadable() + Environment.NewLine + Environment.NewLine;
 
 			this.Text = string.Empty;
 		}
@@ -529,14 +532,14 @@
 		void 导入目录ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			WinFormUtils.OnClipboardDirectory((p) => {
-				var files = Directory.GetFiles(p, "*", SearchOption.AllDirectories).Where(i => Regex.IsMatch(i, "\\.(?:c|h|cpp|cs|java|xml)$")
-			                                  	                                                                          || i.GetExtension().IsVacuum()).ToArray();
+				var files = Directory.GetFiles(p, "*", SearchOption.AllDirectories).Where(i => Regex.IsMatch(i, "\\.(?:c|h|cpp|cs|java|xml|gradle)$")
+				            || i.GetExtension().IsVacuum()).ToArray();
 				var j = "\u0060";
 				
-				var title = p.GetFileName() + ": " +p.GetFileName();
+				var title = p.GetFileName() + ": " + p.GetFileName();
 				var sb = new StringBuilder();
 				
-				sb.AppendLine(title+Environment.NewLine);
+				sb.AppendLine(title + Environment.NewLine);
 			                     	
 				foreach (var element in files) {
 					
@@ -573,6 +576,8 @@
 		}
 		void 复制ToolStripMenuItemClick(object sender, EventArgs e)
 		{
+			 
+
 			if (string.IsNullOrEmpty(textBox.SelectedText)) {
 				textBox.SelectLine(true);
 			}
@@ -1002,13 +1007,48 @@
 				tf.WriteAllLines(lines);
 			}
 		}
+		void ActionGenerateStringFromArray(object sender, EventArgs e)
+		{
+	
+			var array = Regex.Split(textBox.Text.Trim(), "\n---");
+			if (array.Length < 1) {
+				return;
+			}
+			var data = array[0].Split(new char[]{ ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
+			var pattern = array[1].Trim();
+			var sb = new StringBuilder();
+			foreach (var element in data) {
+				var s =	string.Format(pattern, element.Trim(),element.Replace("Manager","").UpperCase());
+				sb.AppendLine(s);
+			}
+			textBox.Text = sb.ToString();
+		}
 		void 预览重新生成ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-	var fileName = @"assets\htmls".GetCommandPath().Combine(textBox.Text.GetFirstReadable().TrimStart('#').TrimStart().GetValidFileName('-') + ".htm");
+			var fileName = @"assets\htmls".GetCommandPath().Combine(textBox.Text.GetFirstReadable().TrimStart('#').TrimStart().GetValidFileName('-') + ".htm");
 			
 			fileName.WriteAllText(Logic.ConvertToHtml(textBox));
 
 			System.Diagnostics.Process.Start("chrome.exe", string.Format("\"{0}\"", fileName));
 		}
+		void 计算ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+		textBox.SelectedText=	textBox.SelectedText+" = "+Z.Expressions.Eval.Execute(textBox.SelectedText.Trim());
+			
+		
+			
+		}
+		void 逃逸ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+		 StringTemplate.EscapePattern(textBox);
+		}
+		void 收集文件名ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			WinFormUtils.OnClipboardDirectory(v=>{
+			                                  var fileNames=	Directory.GetFiles(v).Select(i=>i.GetFileNameWithoutExtension());
+			                                  textBox.Text=string.Join(" ",fileNames);
+			                                  });
+		}
+		
 	}
 }

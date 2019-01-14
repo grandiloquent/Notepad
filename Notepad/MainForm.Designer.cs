@@ -114,6 +114,11 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
 		private System.Windows.Forms.ToolStripMenuItem 导出ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 预览重新生成ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSplitButton templateButton1;
+		private System.Windows.Forms.ToolStripMenuItem 生成数组ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 计算ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 逃逸ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 收集文件名ToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -137,7 +142,6 @@ namespace Notepad
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.appButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.保存ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -181,6 +185,9 @@ namespace Notepad
 			this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
 			this.stringBuilder剪切板ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.escapeString剪切板ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.templateButton1 = new System.Windows.Forms.ToolStripSplitButton();
+			this.生成数组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.逃逸ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.titleButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.生成ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -238,6 +245,8 @@ namespace Notepad
 			this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
 			this.复制文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.删除ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.计算ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.收集文件名ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
 			this.toolStrip3.SuspendLayout();
@@ -273,7 +282,6 @@ namespace Notepad
 			this.复制当前数据库ToolStripMenuItem,
 			this.toolStripSeparator10,
 			this.导出mdToolStripMenuItem});
-			this.appButton.Image = ((System.Drawing.Image)(resources.GetObject("appButton.Image")));
 			this.appButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.appButton.Name = "appButton";
 			this.appButton.Size = new System.Drawing.Size(48, 22);
@@ -325,7 +333,6 @@ namespace Notepad
 			// 导出mdToolStripMenuItem
 			// 
 			this.导出mdToolStripMenuItem.Name = "导出mdToolStripMenuItem";
-
 			this.导出mdToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
 			this.导出mdToolStripMenuItem.Text = "导出(md)";
 			this.导出mdToolStripMenuItem.Click += new System.EventHandler(this.导出mdToolStripMenuItemClick);
@@ -333,7 +340,6 @@ namespace Notepad
 			// newButton
 			// 
 			this.newButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.newButton.Image = ((System.Drawing.Image)(resources.GetObject("newButton.Image")));
 			this.newButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.newButton.Name = "newButton";
 			this.newButton.Size = new System.Drawing.Size(36, 22);
@@ -348,7 +354,6 @@ namespace Notepad
 			// notesButton
 			// 
 			this.notesButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.notesButton.Image = ((System.Drawing.Image)(resources.GetObject("notesButton.Image")));
 			this.notesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.notesButton.Name = "notesButton";
 			this.notesButton.Size = new System.Drawing.Size(23, 22);
@@ -404,7 +409,6 @@ namespace Notepad
 			this.替换文件中ToolStripMenuItem,
 			this.toolStripSeparator15,
 			this.排序分隔符ToolStripMenuItem});
-			this.findButton.Image = ((System.Drawing.Image)(resources.GetObject("findButton.Image")));
 			this.findButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.findButton.Name = "findButton";
 			this.findButton.Size = new System.Drawing.Size(48, 22);
@@ -475,7 +479,6 @@ namespace Notepad
 			this.templateButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.templateButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.行ToolStripMenuItem});
-			this.templateButton.Image = ((System.Drawing.Image)(resources.GetObject("templateButton.Image")));
 			this.templateButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.templateButton.Name = "templateButton";
 			this.templateButton.Size = new System.Drawing.Size(48, 22);
@@ -499,6 +502,7 @@ namespace Notepad
 			this.htmlsButton,
 			this.toolStripSeparator4,
 			this.formatButton,
+			this.templateButton1,
 			this.toolStripSeparator2,
 			this.titleButton,
 			this.h2Button,
@@ -524,7 +528,6 @@ namespace Notepad
 			this.pathButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.pathButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.逃逸路径ToolStripMenuItem});
-			this.pathButton.Image = ((System.Drawing.Image)(resources.GetObject("pathButton.Image")));
 			this.pathButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.pathButton.Name = "pathButton";
 			this.pathButton.Size = new System.Drawing.Size(48, 22);
@@ -546,7 +549,6 @@ namespace Notepad
 			// englishButton
 			// 
 			this.englishButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.englishButton.Image = ((System.Drawing.Image)(resources.GetObject("englishButton.Image")));
 			this.englishButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.englishButton.Name = "englishButton";
 			this.englishButton.Size = new System.Drawing.Size(36, 22);
@@ -556,7 +558,6 @@ namespace Notepad
 			// chineseButton
 			// 
 			this.chineseButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.chineseButton.Image = ((System.Drawing.Image)(resources.GetObject("chineseButton.Image")));
 			this.chineseButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.chineseButton.Name = "chineseButton";
 			this.chineseButton.Size = new System.Drawing.Size(36, 22);
@@ -574,7 +575,6 @@ namespace Notepad
 			this.htmlsButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.预览目录ToolStripMenuItem,
 			this.预览重新生成ToolStripMenuItem});
-			this.htmlsButton.Image = ((System.Drawing.Image)(resources.GetObject("htmlsButton.Image")));
 			this.htmlsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.htmlsButton.Name = "htmlsButton";
 			this.htmlsButton.Size = new System.Drawing.Size(48, 22);
@@ -609,7 +609,6 @@ namespace Notepad
 			this.toolStripSeparator11,
 			this.stringBuilder剪切板ToolStripMenuItem,
 			this.escapeString剪切板ToolStripMenuItem});
-			this.formatButton.Image = ((System.Drawing.Image)(resources.GetObject("formatButton.Image")));
 			this.formatButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.formatButton.Name = "formatButton";
 			this.formatButton.Size = new System.Drawing.Size(60, 22);
@@ -643,6 +642,32 @@ namespace Notepad
 			this.escapeString剪切板ToolStripMenuItem.Text = "Escape String(剪切板)";
 			this.escapeString剪切板ToolStripMenuItem.Click += new System.EventHandler(this.EscapeString剪切板ToolStripMenuItemClick);
 			// 
+			// templateButton1
+			// 
+			this.templateButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.templateButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.生成数组ToolStripMenuItem,
+			this.逃逸ToolStripMenuItem,
+			this.收集文件名ToolStripMenuItem});
+			this.templateButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.templateButton1.Name = "templateButton1";
+			this.templateButton1.Size = new System.Drawing.Size(48, 22);
+			this.templateButton1.Text = "模板";
+			// 
+			// 生成数组ToolStripMenuItem
+			// 
+			this.生成数组ToolStripMenuItem.Name = "生成数组ToolStripMenuItem";
+			this.生成数组ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.生成数组ToolStripMenuItem.Text = "生成(数组)";
+			this.生成数组ToolStripMenuItem.Click += new System.EventHandler(this.ActionGenerateStringFromArray);
+			// 
+			// 逃逸ToolStripMenuItem
+			// 
+			this.逃逸ToolStripMenuItem.Name = "逃逸ToolStripMenuItem";
+			this.逃逸ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.逃逸ToolStripMenuItem.Text = "逃逸";
+			this.逃逸ToolStripMenuItem.Click += new System.EventHandler(this.逃逸ToolStripMenuItemClick);
+			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
@@ -657,7 +682,6 @@ namespace Notepad
 			this.h2ToolStripMenuItem,
 			this.排序H3ToolStripMenuItem,
 			this.排序H2ToolStripMenuItem});
-			this.titleButton.Image = ((System.Drawing.Image)(resources.GetObject("titleButton.Image")));
 			this.titleButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.titleButton.Name = "titleButton";
 			this.titleButton.Size = new System.Drawing.Size(48, 22);
@@ -704,7 +728,6 @@ namespace Notepad
 			// h2Button
 			// 
 			this.h2Button.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.h2Button.Image = ((System.Drawing.Image)(resources.GetObject("h2Button.Image")));
 			this.h2Button.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.h2Button.Name = "h2Button";
 			this.h2Button.Size = new System.Drawing.Size(28, 22);
@@ -714,7 +737,6 @@ namespace Notepad
 			// h3Button
 			// 
 			this.h3Button.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.h3Button.Image = ((System.Drawing.Image)(resources.GetObject("h3Button.Image")));
 			this.h3Button.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.h3Button.Name = "h3Button";
 			this.h3Button.Size = new System.Drawing.Size(28, 22);
@@ -724,7 +746,6 @@ namespace Notepad
 			// iButton
 			// 
 			this.iButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.iButton.Image = ((System.Drawing.Image)(resources.GetObject("iButton.Image")));
 			this.iButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.iButton.Name = "iButton";
 			this.iButton.Size = new System.Drawing.Size(23, 22);
@@ -746,7 +767,6 @@ namespace Notepad
 			this.toolStripSeparator13,
 			this.导入目录ToolStripMenuItem,
 			this.导出ToolStripMenuItem});
-			this.codeButton.Image = ((System.Drawing.Image)(resources.GetObject("codeButton.Image")));
 			this.codeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.codeButton.Name = "codeButton";
 			this.codeButton.Size = new System.Drawing.Size(58, 22);
@@ -833,7 +853,6 @@ namespace Notepad
 			this.linkButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.aaToolStripMenuItem,
 			this.下载ToolStripMenuItem});
-			this.linkButton.Image = ((System.Drawing.Image)(resources.GetObject("linkButton.Image")));
 			this.linkButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.linkButton.Name = "linkButton";
 			this.linkButton.Size = new System.Drawing.Size(52, 22);
@@ -857,7 +876,6 @@ namespace Notepad
 			// ulButton
 			// 
 			this.ulButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.ulButton.Image = ((System.Drawing.Image)(resources.GetObject("ulButton.Image")));
 			this.ulButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.ulButton.Name = "ulButton";
 			this.ulButton.Size = new System.Drawing.Size(39, 22);
@@ -867,7 +885,6 @@ namespace Notepad
 			// noteButton
 			// 
 			this.noteButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.noteButton.Image = ((System.Drawing.Image)(resources.GetObject("noteButton.Image")));
 			this.noteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.noteButton.Name = "noteButton";
 			this.noteButton.Size = new System.Drawing.Size(58, 22);
@@ -877,7 +894,6 @@ namespace Notepad
 			// boldButton
 			// 
 			this.boldButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.boldButton.Image = ((System.Drawing.Image)(resources.GetObject("boldButton.Image")));
 			this.boldButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.boldButton.Name = "boldButton";
 			this.boldButton.Size = new System.Drawing.Size(57, 22);
@@ -892,7 +908,6 @@ namespace Notepad
 			// scrollHeadButton
 			// 
 			this.scrollHeadButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.scrollHeadButton.Image = ((System.Drawing.Image)(resources.GetObject("scrollHeadButton.Image")));
 			this.scrollHeadButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.scrollHeadButton.Name = "scrollHeadButton";
 			this.scrollHeadButton.Size = new System.Drawing.Size(36, 22);
@@ -902,7 +917,6 @@ namespace Notepad
 			// scrollDownButton
 			// 
 			this.scrollDownButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.scrollDownButton.Image = ((System.Drawing.Image)(resources.GetObject("scrollDownButton.Image")));
 			this.scrollDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.scrollDownButton.Name = "scrollDownButton";
 			this.scrollDownButton.Size = new System.Drawing.Size(36, 22);
@@ -912,7 +926,6 @@ namespace Notepad
 			// cmdButton
 			// 
 			this.cmdButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.cmdButton.Image = ((System.Drawing.Image)(resources.GetObject("cmdButton.Image")));
 			this.cmdButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.cmdButton.Name = "cmdButton";
 			this.cmdButton.Size = new System.Drawing.Size(23, 22);
@@ -1018,9 +1031,10 @@ namespace Notepad
 			this.粘贴注释ToolStripMenuItem,
 			this.toolStripSeparator17,
 			this.复制文件ToolStripMenuItem,
-			this.删除ToolStripMenuItem1});
+			this.删除ToolStripMenuItem1,
+			this.计算ToolStripMenuItem});
 			this.contextMenuStrip1.Name = "contextMenuStrip1";
-			this.contextMenuStrip1.Size = new System.Drawing.Size(183, 298);
+			this.contextMenuStrip1.Size = new System.Drawing.Size(183, 320);
 			// 
 			// 复制ToolStripMenuItem
 			// 
@@ -1133,6 +1147,20 @@ namespace Notepad
 			this.删除ToolStripMenuItem1.Name = "删除ToolStripMenuItem1";
 			this.删除ToolStripMenuItem1.Size = new System.Drawing.Size(182, 22);
 			this.删除ToolStripMenuItem1.Text = "删除";
+			// 
+			// 计算ToolStripMenuItem
+			// 
+			this.计算ToolStripMenuItem.Name = "计算ToolStripMenuItem";
+			this.计算ToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+			this.计算ToolStripMenuItem.Text = "计算";
+			this.计算ToolStripMenuItem.Click += new System.EventHandler(this.计算ToolStripMenuItemClick);
+			// 
+			// 收集文件名ToolStripMenuItem
+			// 
+			this.收集文件名ToolStripMenuItem.Name = "收集文件名ToolStripMenuItem";
+			this.收集文件名ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.收集文件名ToolStripMenuItem.Text = "收集文件名";
+			this.收集文件名ToolStripMenuItem.Click += new System.EventHandler(this.收集文件名ToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 
