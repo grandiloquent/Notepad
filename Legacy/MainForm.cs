@@ -15,7 +15,8 @@
 		private Article _article;
 		private readonly string _dataPath;
 		private string _defaultDatabase;
-	 
+		// 1 -> go
+		int _runType = 1;
 		public MainForm()
 		{
 			InitializeComponent();
@@ -26,7 +27,7 @@
 			if (!_defaultDatabase.FileExists())
 				DatabaseUtils.GetInstance(_defaultDatabase);
 
-			comboBox.Items.AddRange(_dataPath.GetFiles("dat").Select(i => i.GetFileName()).ToArray());
+			comboBox.Items.AddRange(_dataPath.GetFiles("*.dat").Select(i => i.GetFileName()).ToArray());
 		}
 		
 		void AaToolStripMenuItemClick(object sender, EventArgs e)
@@ -52,7 +53,7 @@
 	
 		void CheatEngineMemoryViewer数组到BYTE数组ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			WinFormUtils.OnClipboardString((v) => {
+			Helper.OnClipboardString((v) => {
 				var str = v.Split(" ".ToArray(), StringSplitOptions.RemoveEmptyEntries).Select((i) => {
 					var vh = int.Parse(i, System.Globalization.NumberStyles.HexNumber);
 					if (vh == 0) {
@@ -71,7 +72,7 @@
 			var val = textBox.SelectedText;
 			if (val.IsVacuum())
 				return;
-			var json = TranslateUtils.GetInstance().QueryChinese(val);
+			var json = TranslateLogic.GetInstance().QueryChinese(val);
 
 			var obj = Newtonsoft.Json.Linq.JObject.Parse(json);
 			Newtonsoft.Json.Linq.JToken jtoken;
@@ -87,7 +88,7 @@
 		}
 		void CodeButtonClick(object sender, EventArgs e)
 		{
-			textBox.SelectedText = MarkdownUtils.FormatCode(textBox.SelectedText);
+			textBox.SelectedText = MarkdownLogic.FormatCode(textBox.SelectedText);
 		}
 		void ComboBox1SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -105,7 +106,7 @@
 			var val = textBox.SelectedText;
 			if (val.IsVacuum())
 				return;
-			var json = TranslateUtils.GetInstance().QueryEnglish(val);
+			var json = TranslateLogic.GetInstance().QueryEnglish(val);
 
 			var obj = Newtonsoft.Json.Linq.JObject.Parse(json);
 			Newtonsoft.Json.Linq.JToken jtoken;
@@ -152,8 +153,7 @@
 		{
 			 
 			var fileName = @"assets\htmls".GetCommandPath().Combine(textBox.Text.GetFirstReadable().TrimStart('#').TrimStart().GetValidFileName('-') + ".htm");
-			if (!File.Exists(fileName))
-				fileName.WriteAllText(Logic.ConvertToHtml(textBox));
+			fileName.WriteAllText(Logic.ConvertToHtml(textBox));
 
 			System.Diagnostics.Process.Start("chrome.exe", string.Format("\"{0}\"", fileName));
 		}
@@ -286,12 +286,9 @@
 		}
 		void NewButtonClick(object sender, EventArgs e)
 		{
-			var a = false;
-			var b = false;
-			a |= b;
 			_article = null;
 			
-			textBox.Text = textBox.Text.GetFirstReadable() + Environment.NewLine + Environment.NewLine;
+			textBox.Text = string.Empty;
 
 			this.Text = string.Empty;
 		}
@@ -350,7 +347,7 @@
 		}
 		void UlButtonButtonClick(object sender, EventArgs e)
 		{
-			textBox.SelectedText = string.Join(Environment.NewLine, textBox.SelectedText.Trim().Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => "* " + i));
+			textBox.SelectedText = string.Join(Environment.NewLine, textBox.SelectedText.Trim().Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => "- " + i));
 		}
 		private void UpdateList()
 		{
@@ -400,7 +397,14 @@
 			}
 		}
 		
-	 
+		void 保留正则表达式ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			var ls = Regex.Matches(textBox.Text, findBox.Text).Cast<Match>().Select(i => i.Value).Distinct();
+			var j = replaceBox.Text.Trim();
+			if (j.IsVacuum())
+				j = "\r\n";
+			textBox.Text = string.Join(j, ls);
+		}
 		void 查找ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			var search = textBox.SelectedText;
@@ -497,7 +501,7 @@
 		}
 		void 导入Apress单文件ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			WinFormUtils.OnClipboardDirectory((dir) => {
+			Helper.OnClipboardDirectory((dir) => {
 			                            	
 				var files = Directory.GetFiles(dir, "*.html");
 				foreach (var element in files) {
@@ -508,12 +512,25 @@
 		}
 		void 导入ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			Logic.ImportSingleFile(textBox);
+			this.OnClipboardDirectory((p) => {
+				var files = Directory.GetFiles(p, "*", SearchOption.AllDirectories).Where(i => Regex.IsMatch(i, "\\.(?:c|h|cpp|java|txt|fsx|fs)$") || i.GetExtension().IsVacuum());
+				var j = "\u0060";
+				var sb = new StringBuilder();
+				var extension=Path.GetExtension(p).ToLower();
+				if(extension==".fsx"){
+					extension="F# ";
+				}
+				sb.AppendLine("# " + extension+p.GetFileNameWithoutExtension()).AppendLine();
+				foreach (var element in files) {
+					
+				}
+				textBox.Text = sb.ToString();
+			});
 		}
 		void 导入代码文件ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			
-			WinFormUtils.OnClipboardDirectory((v) => {
+			this.OnClipboardDirectory((v) => {
 				var str = "";
 				var files = Directory.GetFiles(v, "*").Where(i => Regex.IsMatch(i, "\\.(?:c|h|txt)$"));
 				foreach (var element in files) {
@@ -524,24 +541,18 @@
 		}
 		void 导入目录ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			WinFormUtils.OnClipboardDirectory((p) => {
-				var files = Directory.GetFiles(p, "*", SearchOption.AllDirectories).Where(i => Regex.IsMatch(i, "\\.(?:c|h|cpp|cs|java|xml|gradle)$")
-				            || i.GetExtension().IsVacuum()).ToArray();
+			this.OnClipboardDirectory((p) => {
+				var files = Directory.GetFiles(p, "*", SearchOption.AllDirectories).Where(i => Regex.IsMatch(i, "\\.(?:c|h|cpp|java|txt)$") || i.GetExtension().IsVacuum());
 				var j = "\u0060";
-				
-				var title = p.GetFileName() + ": " + p.GetFileName();
-				var sb = new StringBuilder();
-				
-				sb.AppendLine(title + Environment.NewLine);
 			                     	
 				foreach (var element in files) {
-					
-					sb.AppendLine("## " + Path.GetFileNameWithoutExtension(element)).AppendLine();
+					var title = p.GetFileName() + ": " + element.GetFileName();
+					var sb = new StringBuilder();
+					sb.AppendLine("# " + title).AppendLine();
 					var str = element.ReadAllText().Trim();
 					while (str.StartsWith("/*")) {
 						str = str.SubstringAfter("*/").Trim();
 					}
-					//var str = element.ReadAllText().SubstringAfter('{').SubstringBeforeLast('}');
 					sb
 			                     			.AppendLine()
 			                     			.AppendLine("```")
@@ -550,18 +561,17 @@
 			                     			.AppendLine("```")
 			                     			.AppendLine();
 			                     		
-					
-				}
-				var article = new Article {
-					Title = title,
-					Content = sb.ToString(),
-					CreateAt = DateTime.UtcNow,
-					UpdateAt = DateTime.UtcNow,
-				};
-				try {
-					DatabaseUtils.GetInstance().Insert(article);
-				} catch {
+					var article = new Article {
+						Title = title,
+						Content = sb.ToString(),
+						CreateAt = DateTime.UtcNow,
+						UpdateAt = DateTime.UtcNow,
+					};
+					try {
+						DatabaseUtils.GetInstance().Insert(article);
+					} catch {
 			                     			
+					}
 				}
 				UpdateList();
 			                     	
@@ -569,8 +579,6 @@
 		}
 		void 复制ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			 
-
 			if (string.IsNullOrEmpty(textBox.SelectedText)) {
 				textBox.SelectLine(true);
 			}
@@ -635,14 +643,7 @@
 		}
 		void 排序ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			textBox.Text = string.Join(Environment.NewLine + "|", textBox.Text.Trim()
-			                         .Split(Environment.NewLine.ToArray(),
-				StringSplitOptions.RemoveEmptyEntries)
-			                         .OrderBy(i => i.SubstringBefore('|').Length)
-			                                  .ThenBy(i => i.SubstringBefore('|'))
-			                                  .Select(i => i + "|")
-			);
-			//textBox.SelectedText = string.Join(Environment.NewLine, textBox.SelectedText.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).Distinct().OrderBy(i => i));
+			textBox.SelectedText = string.Join(Environment.NewLine, textBox.SelectedText.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).Distinct().OrderBy(i => i));
 		}
 		void 排序分隔符ToolStripMenuItemClick(object sender, EventArgs e)
 		{
@@ -732,7 +733,7 @@
 		}
 		void 替换文件中ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			WinFormUtils.OnClipboardDirectory((v) => {
+			this.OnClipboardDirectory((v) => {
 			                     	
 				var files = Directory.GetFiles(v, "*", SearchOption.AllDirectories)
 			                     		.Where(i => Regex.IsMatch(i, "\\.(?:java|kt|xml|css|cs|js|htm|c|h)"));
@@ -798,8 +799,18 @@
 		}
 		void 预览目录ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			
-			textBox.SelectedText =TOCHelper.GenerateTOC(textBox.Text) + "\r\n\r\n" ;
+			var lines = textBox.Text.ToLines();
+			var index = 0;
+			var prefix = "#section-";
+			var sb = new StringBuilder();
+			foreach (var element in lines) {
+				if (element.StartsWith("## ")) {
+					sb.AppendFormat(string.Format("- [{0}](#{1})\r\n", element.SubstringAfter(" "), Logic.GetId(element.SubstringAfter(" ").Trim())));
+				} else if (element.StartsWith("### ")) {
+					sb.AppendFormat(string.Format("\t- [{0}](#{1})\r\n", element.SubstringAfter(" "), Logic.GetId(element.SubstringAfter(" ").Trim())));
+				}
+			}
+			textBox.Text = sb.ToString() + "\r\n\r\n" + textBox.Text;
 		}
 		void 粘贴标题ToolStripMenuItemClick(object sender, EventArgs e)
 		{
@@ -836,20 +847,21 @@
 		}
 		void 移动到ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			var array = System.Buffers.ArrayPool<int>.Shared.Rent(213);
+			var array=System.Buffers.ArrayPool<int>.Shared.Rent(213);
 		}
 		void 生成ToolStripMenuItemClick(object sender, EventArgs e)
+			
 		{
 			
-			WinFormUtils.OnClipboardString(v => {
-				var nodes = v.GetHtmlNode().SelectNodes("//*[@class='item-name']").ToArray();
+			this.OnClipboardString(v => {
+			                       	var nodes = v.GetHtmlNode().SelectNodes("//*[@class='item-name']").ToArray();
 				var sb = new StringBuilder();
 				foreach (var element in nodes) {
 				 
-					var str = element.InnerText.Trim().DeEntitize();
+		var str=element.InnerText.Trim().DeEntitize();
 //					str+=" "+element.SelectSingleNode(".//*[@class='by']").InnerText;
 //					str+=" "+element.SelectSingleNode(".//*[@itemprop='author']").InnerText.Trim().DeEntitize();
-					sb.AppendLine(string.Format("- {0}", str));
+						sb.AppendLine(string.Format("- {0}", str));
 					 
 				}
 				return sb.ToString();
@@ -935,7 +947,7 @@
 		}
 		void 打开ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			Logic.OpenLink(textBox);
+			Helper.OpenLink(textBox);
 		}
 		void CmdButtonClick(object sender, EventArgs e)
 		{
@@ -948,126 +960,19 @@
 				return;
 			System.Diagnostics.Process.Start("cmd", string.Format("/K {0}", selected));
 		}
-		
+		void 删除ToolStripMenuItem1Click(object sender, EventArgs e)
+		{
+			textBox.DeleteString();
+	
+		}
 		void StringBuilder剪切板ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			WinFormUtils.OnClipboardString(v => v.StringbuilderizeInCs());
+			this.OnClipboardString(v=>v.StringbuilderizeInCs());
 		}
 		void EscapeString剪切板ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 	
-			WinFormUtils.OnClipboardString(v => v.LiterallyInCs());
+			this.OnClipboardString(v=>v.LiterallyInCs());
 		}
-		void 导出ToolStripMenuItemClick(object sender, EventArgs e)
-		{
-	
-			var targetDirectory = "c:\\Codes\\Notes";
-			targetDirectory.CreateDirectoryIfNotExists();
-			
-			var sql =	DatabaseUtils.GetInstance();
-			var contentList =	sql.GetTitleContentList();
-			foreach (var c in contentList) {
-				var tp = "";
-				 
-				
-				if (c.Title.StartsWith("F#"))
-					tp = "fsharp";
-				else if (c.Title.StartsWith("C#"))
-					tp = "csharp";
-				else if (c.Title.StartsWith("Java"))
-					tp = "java";
-				targetDirectory.Combine(tp).CreateDirectoryIfNotExists();
-				
-				var tf = targetDirectory.Combine(tp).Combine(c.Title.SubstringAfter(':').Trim().GetValidFileName() + ".md");
-				var lines = c.Content.Split('\n').Select(i => i.TrimEnd()).ToArray();
-				var skip = true;
-				for (int i = 0; i < lines.Length; i++) {
-					
-					if (lines[i].StartsWith("```")) {
-						
-						if (skip)
-							lines[i] = "```" + tp;
-						
-						skip = !skip;
-						
-					}
-					
-				}
-				
-				tf.WriteAllLines(lines);
-			}
-		}
-		void ActionGenerateStringFromArray(object sender, EventArgs e)
-		{
-	
-			var array = Regex.Split(textBox.Text.Trim(), "\n---");
-			if (array.Length < 1) {
-				return;
-			}
-			var data = array[0].Split(new char[]{ ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
-			var pattern = array[1].Trim();
-			var sb = new StringBuilder();
-			foreach (var element in data) {
-				var s =	string.Format(pattern, element.Trim(), element.Replace("Manager", "").UpperCase());
-				sb.AppendLine(s);
-			}
-			textBox.Text = sb.ToString();
-		}
-		void 预览重新生成ToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			var fileName = @"assets\htmls".GetCommandPath().Combine(textBox.Text.GetFirstReadable().TrimStart('#').TrimStart().GetValidFileName('-') + ".htm");
-			
-			fileName.WriteAllText(Logic.ConvertToHtml(textBox));
-
-			System.Diagnostics.Process.Start("chrome.exe", string.Format("\"{0}\"", fileName));
-		}
-		void 计算ToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			textBox.SelectedText =	textBox.SelectedText + " = " + Z.Expressions.Eval.Execute(textBox.SelectedText.Trim());
-			
-		
-			
-		}
-		void 逃逸ToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			StringTemplate.EscapePattern(textBox);
-		}
-		void 收集文件名ToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			WinFormUtils.OnClipboardDirectory(v => {
-				var fileNames =	Directory.GetFiles(v).Select(i => i.GetFileNameWithoutExtension());
-				textBox.Text = string.Join(" ", fileNames);
-			});
-		}
-		void 导入ScreenShots图片ToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			WinFormUtils.OnClipboardDirectory((dir) => {
-				var files = Directory.GetFiles(dir, "*");
-				var list = new List<string>();
-				
-				foreach (var element in files) {
-					list.Add(string.Format("<img width=\"360\" src=\"screenshots\\{0}\">", Path.GetFileName(element)));
-				}
-				textBox.SelectedText = string.Join(Environment.NewLine, list);
-				                               
-			  
-			});
-		
-		}
-		void 数组正则表达式ToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			 
-			textBox.Text = StringUtils.KeepMatchesIntoArray(textBox.Text,findBox.Text);
-		}
-		void SwitchCase正则表达式ToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			textBox.Text = StringUtils.KeepMatchesIntoSwitch(textBox.Text,findBox.Text);
-	
-		}
-		void 导入文件ToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			WinFormUtils.OnClipboardFile(file=>textBox.SelectedText=CodeHelper.ExportFile(file));
-		}
-		
 	}
 }

@@ -50,38 +50,7 @@ namespace Utils
 			//and return
 			return sb.ToString();
 		}
-		public static string SubstringBefore(this string value, char delimiter)
-		{
-			var index = value.IndexOf(delimiter);
-			if (index == -1)
-				return value;
-			else
-				return value.Substring(0, index);
-		}
-		public static string SubstringBefore(this string value, string delimiter)
-		{
-			var index = value.IndexOf(delimiter);
-			if (index == -1)
-				return value;
-			else
-				return value.Substring(0, index);
-		}
-		public static string SubstringBeforeLast(this string value, char delimiter)
-		{
-			var index = value.LastIndexOf(delimiter);
-			if (index == -1)
-				return value;
-			else
-				return value.Substring(0, index);
-		}
-		public static string SubstringBeforeLast(this string value, string delimiter)
-		{
-			var index = value.LastIndexOf(delimiter);
-			if (index == -1)
-				return value;
-			else
-				return value.Substring(0, index);
-		}
+		
 
 		public static IEnumerable<string> ToBlocks(this string value)
 		{
@@ -109,10 +78,7 @@ namespace Utils
 		{
 			return string.Join(separator, value);
 		}
-		public static string[] ToLines(this string value)
-		{
-			return value.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-		}
+	
 		public		  static char ToLowerAsciiInvariant(this char c)
 		{
 			if ('A' <= c && c <= 'Z') {
@@ -205,28 +171,6 @@ namespace Utils
 			return value;
 		}
 		
-		public static string SubstringAfter(this string value, char delimiter)
-		{
-			var index = value.IndexOf(delimiter);
-			if (index == -1)
-				return value;
-			else
-				return value.Substring(index + 1);
-		}
-		public static string SubstringAfter(this string value, string delimiter)
-		{
-			var index = value.IndexOf(delimiter);
-			return index == -1 ? value : value.Substring(index + delimiter.Length);
-		}
-		public static string SubstringAfterLast(this string value, char delimiter)
-		{
-			var index = value.LastIndexOf(delimiter);
-			return index == -1 ? value : value.Substring(index + 1);
-		}
-		public static string SubstringAfterLast(this string value, string delimiter)
-		{
-			var index = value.LastIndexOf(delimiter);
-			return index == -1 ? value : value.Substring(index + 1);
-		}
+	
 	}
 }

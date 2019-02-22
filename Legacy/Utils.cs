@@ -1,41 +1,18 @@
-﻿namespace Utils
+﻿
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
+using System.Text;
+using System.Text.RegularExpressions;
+using Utils;
+
+namespace Notepad
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Diagnostics;
-	using System.IO;
-	using System.Linq;
-	using System.Text;
-	using System.Text.RegularExpressions;
-	using System.Windows.Forms;
-	using Notepad;
-	 
-	public static  class Logic
+	
+	public static class Utilsx
 	{
 		
-		
-		public static void AddCodeLanguage(TextBox textBox, string language)
-		{
-			var lines = textBox.Text.Split('\n').Select(i => i.TrimEnd('\r'));
-			var sb = new StringBuilder();
-			var skip = false;
-			foreach (var element in lines) {
-				if (element.StartsWith("```")) {
-					if (skip) {
-						sb.AppendLine("```");
-						
-					} else if (element.Trim() == "```")
-						sb.AppendLine("```" + language);
-					else
-						sb.AppendLine(element);
-					skip = !skip;
-					
-				} else {
-					sb.AppendLine(element);
-				}
-			}
-			textBox.Text = sb.ToString();
-		}
 		public static string ConvertToHtml(TextBox textBox)
 		{
 			var sb = new StringBuilder();
@@ -88,24 +65,6 @@
 			textBox.SelectionLength = end - start;
 			textBox.SelectedText = "### ";
 		}
-		
-		public static void OpenLink(TextBox textBox)
-		{
-			var selected =	textBox.SelectedText.Trim();
-			if (selected.IsVacuum()) {
-				textBox.SelectLine();
-				selected =	textBox.SelectedText.Trim();
-			}
-			if (selected.IsVacuum())
-				return;
-			selected = selected.TrimNonLetterOrDigitStart();
-			selected = Regex.Replace(selected, "[^a-zA-Z]$", "");
-			if (Directory.Exists(selected) || File.Exists(selected)) {
-				Process.Start(selected);
-			} else {
-				Process.Start("chrome.exe", selected);
-			}
-		}
 		public static String OrderH2(String value)
 		{
 			var list = value.Trim().Split('\n');
@@ -131,6 +90,25 @@
 			}
 			return string.Join(Environment.NewLine, result);
 		}
+		public static string UrilizeAsGfm(string headingText)
+		{
+			// Following https://github.com/jch/html-pipeline/blob/master/lib/html/pipeline/toc_filter.rb
+			var headingBuffer = new StringBuilder();
+			for (int i = 0; i < headingText.Length; i++) {
+				var c = char.ToLowerInvariant(headingText[i]);
+				if (char.IsLetterOrDigit(c) || c == ' ' || c == '-' || c == '_') {
+					headingBuffer.Append(c == ' ' ? '-' : c);
+				}
+			}
+			var result = headingBuffer.ToString();
+			headingBuffer.Length = 0;
+			return result;
+		}
+		public static String GetId(string value)
+		{
+			return UrilizeAsGfm(value);
+		   	
+		}
 		public static String OrderH3(String value)
 		{
 			var list = value.Trim().Split('\n');
@@ -155,34 +133,6 @@
 				result = result.Concat(element.Value).ToList();
 			}
 			return string.Join(Environment.NewLine, result);
-		}
-		
-		
-		public static void ImportSingleFile(TextBox textBox)
-		{
-			WinFormUtils.OnClipboardFile(file => {
-				var extension = file.GetExtension();
-				switch (extension) {
-					case ".fsx":
-						extension = "F#: ";
-						break;
-				}
-				var sb = new StringBuilder();
-				var title = file.GetFileNameWithoutExtension();
-				sb.AppendLine("# " + extension + title).AppendLine();
-				var str = file.ReadAllText().Trim();
-				while (str.StartsWith("/*")) {
-					str = str.SubstringAfter("*/").Trim();
-				}    
-				sb
-			                     			.AppendLine()
-			                     			.AppendLine("```")
-			                     			.AppendLine()
-			                     			.AppendLine(Regex.Replace(str.Replace("`", "\u0060"), "[\r\n]+", "\r\n"))
-			                     			.AppendLine("```")
-			                     			.AppendLine();	
-				textBox.Text = sb.ToString();
-			});
 		}
 	}
 }

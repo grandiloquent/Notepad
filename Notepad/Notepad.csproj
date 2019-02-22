@@ -93,6 +93,9 @@
     <Compile Include="Actions\StringTemplate.cs" />
     <Compile Include="Extensions\GenericExtensions.cs" />
     <Compile Include="Extensions\HtmlAgilityPackExtensions.cs" />
+    <Compile Include="Helper\CodeHelper.cs" />
+    <Compile Include="Helper\Extensions.cs" />
+    <Compile Include="Helper\TOCHelper.cs" />
     <Compile Include="MainForm.cs" />
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -100,6 +103,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Simple.cs" />
+    <Compile Include="StringUtils.cs" />
     <Compile Include="Utils\DatabaseUtils.cs" />
     <Compile Include="Extensions\FileExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
@@ -120,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Actions" />
+    <Folder Include="Helper" />
     <Folder Include="Utils" />
     <Folder Include="Extensions" />
   </ItemGroup>

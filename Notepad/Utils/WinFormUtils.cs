@@ -44,6 +44,7 @@ namespace Utils
 					if (ls.Count > 0) {
 						if (File.Exists(ls[0])) {
 							dir = ls[0];
+							found=true;
 						}
 					}
 				}

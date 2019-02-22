@@ -119,6 +119,12 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripMenuItem 计算ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 逃逸ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 收集文件名ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
+		private System.Windows.Forms.ToolStripMenuItem 导入ScreenShots图片ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 数组正则表达式ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem switchCase正则表达式ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
+		private System.Windows.Forms.ToolStripMenuItem 导入文件ToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -142,6 +148,7 @@ namespace Notepad
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.appButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.保存ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -160,6 +167,8 @@ namespace Notepad
 			this.findButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.查找ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.保留正则表达式ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.数组正则表达式ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.switchCase正则表达式ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.计算匹配数量正则表达式ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.替换成换行符ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.替换ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -188,6 +197,7 @@ namespace Notepad
 			this.templateButton1 = new System.Windows.Forms.ToolStripSplitButton();
 			this.生成数组ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.逃逸ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.收集文件名ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.titleButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.生成ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -220,6 +230,8 @@ namespace Notepad
 			this.scrollHeadButton = new System.Windows.Forms.ToolStripButton();
 			this.scrollDownButton = new System.Windows.Forms.ToolStripButton();
 			this.cmdButton = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
+			this.导入ScreenShots图片ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.listBox = new System.Windows.Forms.ListBox();
 			this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -246,7 +258,8 @@ namespace Notepad
 			this.复制文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.删除ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.计算ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.收集文件名ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
+			this.导入文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
 			this.toolStrip3.SuspendLayout();
@@ -267,7 +280,7 @@ namespace Notepad
 			this.notesButton});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(838, 25);
+			this.toolStrip1.Size = new System.Drawing.Size(938, 25);
 			this.toolStrip1.TabIndex = 0;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
@@ -369,7 +382,7 @@ namespace Notepad
 			this.templateButton});
 			this.toolStrip2.Location = new System.Drawing.Point(0, 25);
 			this.toolStrip2.Name = "toolStrip2";
-			this.toolStrip2.Size = new System.Drawing.Size(838, 25);
+			this.toolStrip2.Size = new System.Drawing.Size(938, 25);
 			this.toolStrip2.TabIndex = 1;
 			this.toolStrip2.Text = "toolStrip2";
 			// 
@@ -424,10 +437,26 @@ namespace Notepad
 			// 
 			// 保留正则表达式ToolStripMenuItem
 			// 
+			this.保留正则表达式ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.数组正则表达式ToolStripMenuItem,
+			this.switchCase正则表达式ToolStripMenuItem});
 			this.保留正则表达式ToolStripMenuItem.Name = "保留正则表达式ToolStripMenuItem";
 			this.保留正则表达式ToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
-			this.保留正则表达式ToolStripMenuItem.Text = "保留(正则表达式)";
-			this.保留正则表达式ToolStripMenuItem.Click += new System.EventHandler(this.保留正则表达式ToolStripMenuItemClick);
+			this.保留正则表达式ToolStripMenuItem.Text = "保留";
+			// 
+			// 数组正则表达式ToolStripMenuItem
+			// 
+			this.数组正则表达式ToolStripMenuItem.Name = "数组正则表达式ToolStripMenuItem";
+			this.数组正则表达式ToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+			this.数组正则表达式ToolStripMenuItem.Text = "数组 (正则表达式)";
+			this.数组正则表达式ToolStripMenuItem.Click += new System.EventHandler(this.数组正则表达式ToolStripMenuItemClick);
+			// 
+			// switchCase正则表达式ToolStripMenuItem
+			// 
+			this.switchCase正则表达式ToolStripMenuItem.Name = "switchCase正则表达式ToolStripMenuItem";
+			this.switchCase正则表达式ToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+			this.switchCase正则表达式ToolStripMenuItem.Text = "switch case (正则表达式)";
+			this.switchCase正则表达式ToolStripMenuItem.Click += new System.EventHandler(this.SwitchCase正则表达式ToolStripMenuItemClick);
 			// 
 			// 计算匹配数量正则表达式ToolStripMenuItem
 			// 
@@ -516,10 +545,11 @@ namespace Notepad
 			this.toolStripSeparator8,
 			this.scrollHeadButton,
 			this.scrollDownButton,
-			this.cmdButton});
+			this.cmdButton,
+			this.toolStripSplitButton1});
 			this.toolStrip3.Location = new System.Drawing.Point(0, 50);
 			this.toolStrip3.Name = "toolStrip3";
-			this.toolStrip3.Size = new System.Drawing.Size(838, 25);
+			this.toolStrip3.Size = new System.Drawing.Size(938, 25);
 			this.toolStrip3.TabIndex = 2;
 			this.toolStrip3.Text = "toolStrip3";
 			// 
@@ -657,16 +687,23 @@ namespace Notepad
 			// 生成数组ToolStripMenuItem
 			// 
 			this.生成数组ToolStripMenuItem.Name = "生成数组ToolStripMenuItem";
-			this.生成数组ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.生成数组ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
 			this.生成数组ToolStripMenuItem.Text = "生成(数组)";
 			this.生成数组ToolStripMenuItem.Click += new System.EventHandler(this.ActionGenerateStringFromArray);
 			// 
 			// 逃逸ToolStripMenuItem
 			// 
 			this.逃逸ToolStripMenuItem.Name = "逃逸ToolStripMenuItem";
-			this.逃逸ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.逃逸ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
 			this.逃逸ToolStripMenuItem.Text = "逃逸";
 			this.逃逸ToolStripMenuItem.Click += new System.EventHandler(this.逃逸ToolStripMenuItemClick);
+			// 
+			// 收集文件名ToolStripMenuItem
+			// 
+			this.收集文件名ToolStripMenuItem.Name = "收集文件名ToolStripMenuItem";
+			this.收集文件名ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+			this.收集文件名ToolStripMenuItem.Text = "收集文件名";
+			this.收集文件名ToolStripMenuItem.Click += new System.EventHandler(this.收集文件名ToolStripMenuItemClick);
 			// 
 			// toolStripSeparator2
 			// 
@@ -766,7 +803,9 @@ namespace Notepad
 			this.标记cToolStripMenuItem1,
 			this.toolStripSeparator13,
 			this.导入目录ToolStripMenuItem,
-			this.导出ToolStripMenuItem});
+			this.导出ToolStripMenuItem,
+			this.toolStripSeparator18,
+			this.导入文件ToolStripMenuItem});
 			this.codeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.codeButton.Name = "codeButton";
 			this.codeButton.Size = new System.Drawing.Size(58, 22);
@@ -932,6 +971,24 @@ namespace Notepad
 			this.cmdButton.Text = "toolStripButton1";
 			this.cmdButton.Click += new System.EventHandler(this.CmdButtonClick);
 			// 
+			// toolStripSplitButton1
+			// 
+			this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.导入ScreenShots图片ToolStripMenuItem});
+			this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
+			this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripSplitButton1.Name = "toolStripSplitButton1";
+			this.toolStripSplitButton1.Size = new System.Drawing.Size(32, 22);
+			this.toolStripSplitButton1.Text = "toolStripSplitButton1";
+			// 
+			// 导入ScreenShots图片ToolStripMenuItem
+			// 
+			this.导入ScreenShots图片ToolStripMenuItem.Name = "导入ScreenShots图片ToolStripMenuItem";
+			this.导入ScreenShots图片ToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+			this.导入ScreenShots图片ToolStripMenuItem.Text = "导入 ScreenShots 图片";
+			this.导入ScreenShots图片ToolStripMenuItem.Click += new System.EventHandler(this.导入ScreenShots图片ToolStripMenuItemClick);
+			// 
 			// splitContainer1
 			// 
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -946,8 +1003,8 @@ namespace Notepad
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.textBox);
-			this.splitContainer1.Size = new System.Drawing.Size(838, 470);
-			this.splitContainer1.SplitterDistance = 228;
+			this.splitContainer1.Size = new System.Drawing.Size(938, 470);
+			this.splitContainer1.SplitterDistance = 255;
 			this.splitContainer1.TabIndex = 3;
 			// 
 			// listBox
@@ -960,7 +1017,7 @@ namespace Notepad
 			this.listBox.Location = new System.Drawing.Point(0, 20);
 			this.listBox.Name = "listBox";
 			this.listBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-			this.listBox.Size = new System.Drawing.Size(228, 450);
+			this.listBox.Size = new System.Drawing.Size(255, 450);
 			this.listBox.TabIndex = 1;
 			this.listBox.DoubleClick += new System.EventHandler(this.ListBoxDoubleClick);
 			// 
@@ -992,7 +1049,7 @@ namespace Notepad
 			this.comboBox.FormattingEnabled = true;
 			this.comboBox.Location = new System.Drawing.Point(0, 0);
 			this.comboBox.Name = "comboBox";
-			this.comboBox.Size = new System.Drawing.Size(228, 20);
+			this.comboBox.Size = new System.Drawing.Size(255, 20);
 			this.comboBox.TabIndex = 0;
 			this.comboBox.SelectedIndexChanged += new System.EventHandler(this.ComboBox1SelectedIndexChanged);
 			// 
@@ -1007,7 +1064,7 @@ namespace Notepad
 			this.textBox.Multiline = true;
 			this.textBox.Name = "textBox";
 			this.textBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textBox.Size = new System.Drawing.Size(606, 470);
+			this.textBox.Size = new System.Drawing.Size(679, 470);
 			this.textBox.TabIndex = 0;
 			this.textBox.TextChanged += new System.EventHandler(this.TextBoxTextChanged);
 			this.textBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBoxKeyDown);
@@ -1155,18 +1212,24 @@ namespace Notepad
 			this.计算ToolStripMenuItem.Text = "计算";
 			this.计算ToolStripMenuItem.Click += new System.EventHandler(this.计算ToolStripMenuItemClick);
 			// 
-			// 收集文件名ToolStripMenuItem
+			// toolStripSeparator18
 			// 
-			this.收集文件名ToolStripMenuItem.Name = "收集文件名ToolStripMenuItem";
-			this.收集文件名ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-			this.收集文件名ToolStripMenuItem.Text = "收集文件名";
-			this.收集文件名ToolStripMenuItem.Click += new System.EventHandler(this.收集文件名ToolStripMenuItemClick);
+			this.toolStripSeparator18.Name = "toolStripSeparator18";
+			this.toolStripSeparator18.Size = new System.Drawing.Size(181, 6);
+			// 
+			// 导入文件ToolStripMenuItem
+			// 
+			this.导入文件ToolStripMenuItem.Name = "导入文件ToolStripMenuItem";
+			this.导入文件ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
+			this.导入文件ToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+			this.导入文件ToolStripMenuItem.Text = "导入 (文件)";
+			this.导入文件ToolStripMenuItem.Click += new System.EventHandler(this.导入文件ToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(838, 545);
+			this.ClientSize = new System.Drawing.Size(938, 545);
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.toolStrip3);
 			this.Controls.Add(this.toolStrip2);

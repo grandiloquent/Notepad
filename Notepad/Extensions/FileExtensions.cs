@@ -141,10 +141,6 @@ namespace Utils
 	}
 	public static class FileExtensions
 	{
-		public static readonly char AltDirectorySeparatorChar = '/';
-		public static readonly char VolumeSeparatorChar = ':';
-		public static readonly char DirectorySeparatorChar = '\\';
-     
 		internal static readonly char[] InvalidPathChars = {
 			'\"', '<', '>', '|', '\0',
 			(char)1, (char)2, (char)3, (char)4, (char)5, (char)6, (char)7, (char)8, (char)9, (char)10,
@@ -168,25 +164,7 @@ namespace Utils
 				return;
 			Directory.CreateDirectory(path);
 		}
-		public static String GetExtension(this String path) {
-            if (path==null)
-                return null;
- 
-            int length = path.Length;
-            for (int i = length; --i >= 0;) {
-                char ch = path[i];
-                if (ch == '.')
-                {
-                    if (i != length - 1)
-                        return path.Substring(i, length - i);
-                    else
-                        return String.Empty;
-                }
-                if (ch == DirectorySeparatorChar || ch == AltDirectorySeparatorChar || ch == VolumeSeparatorChar)
-                    break;
-            }
-            return String.Empty;
-        }
+	
 		public static string GetValidFileName(this string value, char c=' ')
 		{
 
@@ -198,20 +176,7 @@ namespace Utils
 				return i;
 			}).Take(125).ToArray());
 		}
-		public static String GetFileName(this String path)
-		{
-			if (path != null) {
-    
-				int length = path.Length;
-				for (int i = length; --i >= 0;) {
-					char ch = path[i];
-					if (ch == DirectorySeparatorChar || ch == AltDirectorySeparatorChar || ch == VolumeSeparatorChar)
-						return path.Substring(i + 1, length - i - 1);
- 
-				}
-			}
-			return path;
-		}
+		
 		public static IEnumerable<string> GetFiles(this string dir, string pattern, bool bExclude = false)
 		{
 			if (bExclude)
@@ -225,29 +190,13 @@ namespace Utils
 		{
 			return  File.Exists(path);
 		}
-		public static String ReadAllText(this String path)
-		{
-			using (StreamReader sr = new StreamReader(path, new UTF8Encoding(false), true, 1024))
-				return sr.ReadToEnd();
-		}
+		
 		public static String GetCommandPath(this string fileName)
 		{
 			var dir = System.Reflection.Assembly.GetEntryAssembly().Location.GetDirectoryName();
 			return dir.Combine(fileName);
 		}
-		public static String GetFileNameWithoutExtension(this String path)
-		{
-			path = GetFileName(path);
-			if (path != null) {
-				int i;
-				if ((i = path.LastIndexOf('.')) == -1)
-					return path; // No path extension found
-                else
-					return path.Substring(0, i);
-			}
-			return null;
-		}
- 
+		
 		public static bool AnyPathHasIllegalCharacters(this string path, bool checkAdditional = false)
 		{
 			return path.IndexOfAny(InvalidPathChars) >= 0 || (checkAdditional && AnyPathHasWildCardCharacters(path));

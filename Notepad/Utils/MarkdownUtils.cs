@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Markdig;
 using HtmlAgilityPack;
 using System.Text.RegularExpressions;
+using Notepad;
 
 namespace Utils
 {
