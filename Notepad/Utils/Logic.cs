@@ -9,6 +9,7 @@
 	using System.Text.RegularExpressions;
 	using System.Windows.Forms;
 	using Notepad;
+	using Common;
 	 
 	public static  class Logic
 	{
@@ -106,31 +107,7 @@
 				Process.Start("chrome.exe", selected);
 			}
 		}
-		public static String OrderH2(String value)
-		{
-			var list = value.Trim().Split('\n');
-			var dictionary = new Dictionary<String,List<string>>();
-			List<String> lines = null;
-			foreach (var element in list) {
-				if (element.StartsWith("## ")) {
-					lines = new List<string>();
-					dictionary.Add(element.TrimEnd(), lines);
-				}
-				if (lines != null) {
-					lines.Add(element.TrimEnd());
-				}
-			}
-			var result = new List<string>();
-			var collection =	dictionary.OrderBy(i => Regex.Replace(i.Key, "[0-9]+(?=\\.)", new MatchEvaluator((v) => {
-				var vx = int.Parse(v.Value);
-			                                                                                                  	
-				return vx.ToString().PadLeft(5, '0');
-			})));
-			foreach (var element in collection) {
-				result = result.Concat(element.Value).ToList();
-			}
-			return string.Join(Environment.NewLine, result);
-		}
+		
 		public static String OrderH3(String value)
 		{
 			var list = value.Trim().Split('\n');

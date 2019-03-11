@@ -7,6 +7,7 @@ using Markdig;
 using HtmlAgilityPack;
 using System.Text.RegularExpressions;
 using Notepad;
+using Common;
 
 namespace Utils
 {

@@ -227,19 +227,11 @@ namespace Utils
 			return ReadLinesIterator.CreateIterator(path, Encoding.UTF8);
 		}
  
-		public static void WriteAllText(this String path, String contents)
-		{
-			using (var sw = new StreamWriter(path, false, new UTF8Encoding(false)))
-				sw.Write(contents);
-		}
 		public static string GetApplicationPath(this string path)
 		{
 			return Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location), path);
 		}
-		public static string GetDesktopPath(this string f)
-		{
-			return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), f);
-		}
+		
 		public static string GetFileSha1(this string path)
 		{
 			using (var fs = new FileStream(path, FileMode.Open))
