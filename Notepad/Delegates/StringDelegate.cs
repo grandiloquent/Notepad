@@ -11,7 +11,22 @@
 	
 	public static class StringDelegate
 	{
-		
+		[BindMenuItem(Name = "转换为Base64 (文本)",SplitButton="stringButton", Toolbar = "toolStrip", AddSeparatorBefore = true)]
+		public static void ToBase64()
+		{
+			Forms.OnClipboardString(str=>{
+			                        
+			                        	return  Convert.ToBase64String(Encoding.UTF8.GetBytes(str));
+			                        });
+		}
+		[BindMenuItem(Name = "转换为数组 (文本)",SplitButton="stringButton", Toolbar = "toolStrip", AddSeparatorBefore = true)]
+		public static void ToByteArray()
+		{
+			Forms.OnClipboardString(str=>{
+			                        
+			                        	return string.Join(	",",Encoding.UTF8.GetBytes(str));
+			                        });
+		}
 			
 		[BindMenuItem(Name = "逃逸代码 (文本)",SplitButton="stringButton", Toolbar = "toolStrip", AddSeparatorBefore = true)]
 		public static void EscapeCode()

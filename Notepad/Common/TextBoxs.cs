@@ -1,13 +1,8 @@
-﻿using System;
-using System.Windows.Forms;
+namespace Common{using System;
 using System.Text;
-
-namespace  Common
-{
+using System.Windows.Forms;
 	
-	public static class TextBoxs
-	{
-		    public static void Format(this TextBox textBox)
+	public static  class TextBoxs{		    public static void Format(this TextBox textBox)
         {
             var sb = new StringBuilder();
             for (int i = 0; i < textBox.Lines.Length; i++)
@@ -68,5 +63,4 @@ namespace  Common
 
 
         }
-	}
-}
+}}

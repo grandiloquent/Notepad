@@ -1,27 +1,12 @@
-
-
-namespace Common
-{
-	using System;
+namespace Common{	using System;
 	using System.Collections.Generic;
+	using System.IO;
 	using System.Linq;
 	using System.Net;
 	using System.Net.Http;
 	using System.Text;
 	using System.Threading.Tasks;
-	using System.IO;
-	public static class HttpClients
-	{
-		public static HttpClient GetHttpClient()
-		{
-			return new HttpClient(new HttpClientHandler() {
-				AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
-				UseProxy = false,
-				UseDefaultCredentials = true,
-				UseCookies = false,
-			});
-		}
-		
+	public static  class HttpClients{		
 		public async static Task<string> Authenticate(this HttpClient httpClient,
 			string url, 
 			string userName,
@@ -44,6 +29,48 @@ namespace Common
 			var res = await client.SendAsync(msg);
 	
 			return  await res.Content.ReadAsStringAsync();
+		}
+
+		public async static Task<string> GetHtmlAsync(this  HttpClient client, string url)
+		{
+			var response = await client.GetStringAsync(url).ConfigureAwait(false);
+			return response;
+
+		}
+		public static HttpClient GetHttpClient()
+		{
+			return new HttpClient(new HttpClientHandler() {
+				AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+				UseProxy = false,
+				UseDefaultCredentials = true,
+				UseCookies = false,
+			});
+		}
+		private static HttpRequestMessage GetHttpRequestMessage(HttpMethod method, string url)
+		{
+			var ip = "220.181.100." + new Random().Next(1, 255);
+			var httpMessage = new HttpRequestMessage(method, url);
+			httpMessage.Headers.Add("Accept", "image/webp,image/apng,image/*,*/*;q=0.8");
+			httpMessage.Headers.Add("Accept-Encoding", "gzip, deflate, br");
+			httpMessage.Headers.Add("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8");
+			httpMessage.Headers.Add("Connection", "keep-alive");
+			httpMessage.Headers.Add("User-Agent",
+				"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.92 Safari/537.36");
+			httpMessage.Headers.Add("Client-IP", ip);
+			httpMessage.Headers.Add("X-Forwarded-For", ip);
+			return httpMessage;
+		}
+
+		public async static Task<string> GetJsonAsync(this HttpClient client, string url, string referrer = null)
+		{
+			var msg = new HttpRequestMessage(HttpMethod.Get, url);
+			if (referrer != null) {
+				msg.Headers.Add("Referer", referrer);
+			}
+			var response = await client.SendAsync(msg).ConfigureAwait(false);
+			var buffer = await response.Content.ReadAsByteArrayAsync();
+			return Encoding.UTF8.GetString(buffer);
+
 		}
 		public async static Task<string> Post(this HttpClient httpClient, string url, string accessToken = null)
 		{
@@ -88,38 +115,16 @@ namespace Common
 //			}
 //			return message;
 		}
-		private static HttpRequestMessage GetHttpRequestMessage(HttpMethod method, string url)
+		
+		public static async Task<string> PostWithParameters(this HttpClient httpClient, string url, Dictionary<string,string> parameters)
 		{
-			var ip = "220.181.100." + new Random().Next(1, 255);
-			var httpMessage = new HttpRequestMessage(method, url);
-			httpMessage.Headers.Add("Accept", "image/webp,image/apng,image/*,*/*;q=0.8");
-			httpMessage.Headers.Add("Accept-Encoding", "gzip, deflate, br");
-			httpMessage.Headers.Add("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8");
-			httpMessage.Headers.Add("Connection", "keep-alive");
-			httpMessage.Headers.Add("User-Agent",
-				"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.92 Safari/537.36");
-			httpMessage.Headers.Add("Client-IP", ip);
-			httpMessage.Headers.Add("X-Forwarded-For", ip);
-			return httpMessage;
-		}
-
-		public async static Task<string> GetJsonAsync(this HttpClient client, string url, string referrer = null)
-		{
-			var msg = new HttpRequestMessage(HttpMethod.Get, url);
-			if (referrer != null) {
-				msg.Headers.Add("Referer", referrer);
+			
+			using(	var content = new FormUrlEncodedContent(parameters)){
+			
+			var response = await httpClient.PostAsync(url, content);
+			return response.IsSuccessStatusCode ? await response.Content.ReadAsStringAsync() : response.StatusCode.ToString();
 			}
-			var response = await client.SendAsync(msg).ConfigureAwait(false);
-			var buffer = await response.Content.ReadAsByteArrayAsync();
-			return Encoding.UTF8.GetString(buffer);
-
-		}
-
-		public async static Task<string> GetHtmlAsync(this  HttpClient client, string url)
-		{
-			var response = await client.GetStringAsync(url).ConfigureAwait(false);
-			return response;
-
+			
 		}
 		public static async Task<string[]> ReadStringAndCookie(this HttpClient httpClient, string url,
 			string referrer = null)
@@ -144,17 +149,6 @@ namespace Common
 				Encoding.UTF8.GetString(bytes)
 			};
 		}
-		
-		public static async Task<string> PostWithParameters(this HttpClient httpClient, string url, Dictionary<string,string> parameters)
-		{
-			
-			using(	var content = new FormUrlEncodedContent(parameters)){
-			
-			var response = await httpClient.PostAsync(url, content);
-			return response.IsSuccessStatusCode ? await response.Content.ReadAsStringAsync() : response.StatusCode.ToString();
-			}
-			
-		}
 
 		public static async Task<string> ReadStringWithCookie(this HttpClient httpClient, string url,
 			string referrer = null, string cookie = null)
@@ -172,6 +166,4 @@ namespace Common
 
 			return Encoding.UTF8.GetString(bytes);
 		}
-	}
-
-}
+}}

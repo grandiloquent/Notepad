@@ -1,10 +1,6 @@
-﻿using System.Security.Cryptography;
+namespace Common{using System.Security.Cryptography;
 using System.Text;
-namespace Common
-{
-	public static class Securitykeys
-	{
-		public static byte[] GenerateSalt()
+	public static  class Securitykeys{		public static byte[] GenerateSalt()
 		{
 			using (var randomNumberGenerator = new RNGCryptoServiceProvider()) {
 				var randomNumber = new byte[32];
@@ -26,6 +22,4 @@ namespace Common
 			}
 			return sb.ToString();
 		}
-
-	}
-}
+}}

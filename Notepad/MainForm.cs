@@ -20,7 +20,7 @@
 		public MainForm()
 		{
 			InitializeComponent();
-			_dataPath = "datas".GetCommandPath();
+			_dataPath = "datas".GetExecutingPath();
 			_dataPath.CreateDirectoryIfNotExists();
 			_defaultDatabase = _dataPath.Combine("db.dat");
 
@@ -37,7 +37,7 @@
 		}
 		void AppButtonButtonClick(object sender, EventArgs e)
 		{
-			System.Diagnostics.Process.Start("".GetCommandPath());
+			System.Diagnostics.Process.Start("".GetExecutingPath());
 		}
 		void BoldButtonButtonClick(object sender, EventArgs e)
 		{
@@ -125,7 +125,8 @@
 			textBox.Format();
 		}
 		
-		public string GetText(){
+		public string GetText()
+		{
 			return textBox.Text;
 		}
 		 
@@ -156,7 +157,7 @@
 		void HtmlsButtonClick(object sender, EventArgs e)
 		{
 			 
-			var fileName = @"assets\htmls".GetCommandPath().Combine(textBox.Text.GetFirstReadable().TrimStart('#').TrimStart().GetValidFileName('-') + ".htm");
+			var fileName = @"assets\htmls".GetExecutingPath().Combine(textBox.Text.GetFirstReadable().TrimStart('#').TrimStart().GetValidFileName('-') + ".htm");
 			if (!File.Exists(fileName))
 				fileName.WriteAllText(Logic.ConvertToHtml(textBox));
 
@@ -259,20 +260,77 @@
 			this.Text = _article.Title;
 			textBox.Text = _article.Content;
 		}
+		
+		private int _hotKeyF6 = -1;
+		
+		private int _hotKeyF7 = -1;
+		private void DispatchF6()
+		{
+			CSSDelegate.CombineCssFiles();
+		}
 		void MainFormFormClosing(object sender, FormClosingEventArgs e)
 		{
-		
-			"settings.txt".GetCommandPath().WriteAllText(comboBox.Text);
+			var handle = NativeMethods.HWND.Cast(this.Handle);
+			if (_hotKeyF7 != -1) {
+				Forms.UnregisterHotKey(handle, _hotKeyF7);
+			}
+			if (_hotKeyF6 != -1) {
+				Forms.UnregisterHotKey(handle, _hotKeyF6);
+			}
+			"settings.txt".GetExecutingPath().WriteAllText(comboBox.Text);
+		}
+		protected override void WndProc(ref Message m)
+		{
+			if (m.Msg == 0x0312) {
+				var k = ((int)m.LParam >> 16) & 0xFFFF;
+				if (k == 67) {
+				} else if (k == 0x75) {
+
+				
+					DispatchF6();
+				} else if (k == 0x76) {
+
+					DispatchF7();
+				} else if (k == 0x77) {
+
+					
+				}
+				//                else if (k == 0x78)
+				//                {
+				//                    DispatchF9();
+//
+				//                }
+				//                else if (k == 0x57)
+				//                {
+				//                    DispatchCtrlW();
+				//                }
+			}
+			base.WndProc(ref m);
+		}
+		private void DispatchF7()
+		{
+			//JavaScriptDelegate.CompileTypeScript(@"C:\NetCore\wwwroot\typescripts");
+			//WinFormHelper.OnClipboardDirectory(JavaScriptDelegate.CompileTypeScript);
+			JavaScriptDelegate.CombineJavaScriptFiles(@"C:\NetCore\wwwroot\javascripts");
+			
 		}
 		void MainFormLoad(object sender, EventArgs e)
 		{
+			var handle = NativeMethods.HWND.Cast(this.Handle);
+			_hotKeyF7 = 7;
+			Forms.RegisterHotKey(handle, _hotKeyF7, 0, (int)Keys.F7);
+			Forms.RegisterHotKey(handle, _hotKeyF6, 0, (int)Keys.F6);
+			
 			Inject(typeof(CodeDelegate));
 			Inject(typeof(StringDelegate));
 			Inject(typeof(VideoDelegate));
 			Inject(typeof(TranslatorDelegate));
+			Inject(typeof(FindDelegate));
+			Inject(typeof(JavaScriptDelegate));
+			Inject(typeof(SafariDelegate));
 			
-			if ("settings.txt".GetCommandPath().FileExists()) {
-				var value = "settings.txt".GetCommandPath().ReadAllText();
+			if ("settings.txt".GetExecutingPath().FileExists()) {
+				var value = "settings.txt".GetExecutingPath().ReadAllText();
 				if (value.IsReadable()) {
 					comboBox.SelectedItem = value.Trim();
 				}
@@ -432,7 +490,7 @@
 			
 			var targetDirectory = comboBox.Text.GetFileNameWithoutExtension().GetDesktopPath();
 			targetDirectory.CreateDirectoryIfNotExists();
-			File.Copy("assets".GetCommandPath().Combine("stylesheets").Combine("markdown.css"), targetDirectory.Combine("markdown.css"));
+			File.Copy("assets".GetExecutingPath().Combine("stylesheets").Combine("markdown.css"), targetDirectory.Combine("markdown.css"));
 			var sql =	DatabaseUtils.GetInstance();
 			var contentList =	sql.GetTitleContentList();
 			foreach (var c in contentList) {
@@ -464,7 +522,7 @@
 		void 导出全部ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			var directories = Directory.GetFiles(_dataPath, "*.dat");
-			var targetDirectory = "assets".GetCommandPath().Combine("exports");
+			var targetDirectory = "assets".GetExecutingPath().Combine("exports");
 			targetDirectory.CreateDirectoryIfNotExists();
 			foreach (var element in directories) {
 				var sql =	DatabaseUtils.GetInstance(element);
@@ -934,7 +992,7 @@
 		}
 		void 预览重新生成ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			var fileName = @"assets\htmls".GetCommandPath().Combine(textBox.Text.GetFirstReadable().TrimStart('#').TrimStart().GetValidFileName('-') + ".htm");
+			var fileName = @"assets\htmls".GetExecutingPath().Combine(textBox.Text.GetFirstReadable().TrimStart('#').TrimStart().GetValidFileName('-') + ".htm");
 			
 			fileName.WriteAllText(Logic.ConvertToHtml(textBox));
 
@@ -998,7 +1056,7 @@
 				
 				var toolStrip = (ToolStrip)this.Controls[attribute.Toolbar];
 				
-				var splitButton=(ToolStripSplitButton)toolStrip.Items[attribute.SplitButton];
+				var splitButton = (ToolStripSplitButton)toolStrip.Items[attribute.SplitButton];
 				
 				if (attribute.AddSeparatorBefore) {
 					splitButton.DropDownItems.Add(new ToolStripSeparator());
@@ -1010,17 +1068,18 @@
 					item.Click += (a, b) => method.Invoke(null, new Object[]{ a, this });
 				else
 					item.Click += (a, b) => method.Invoke(null, null);
-				if(attribute.ShortcutKeys!=null){
-					item.ShortcutKeys=attribute.ShortcutKeys;
+				if (attribute.ShortcutKeys != null) {
+					item.ShortcutKeys = attribute.ShortcutKeys;
 				}
-				 splitButton.DropDownItems.Add(item);
+				splitButton.DropDownItems.Add(item);
 				
 				
 			}
 		}
 		
-		public void SelectedText(string str){
-			textBox.SelectedText=str;
+		public void SelectedText(string str)
+		{
+			textBox.SelectedText = str;
 		}
 		
 		void 生成目录和排序ToolStripMenuItemClick(object sender, EventArgs e)

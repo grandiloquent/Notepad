@@ -141,41 +141,9 @@ namespace Utils
 	}
 	public static class FileExtensions
 	{
-		internal static readonly char[] InvalidPathChars = {
-			'\"', '<', '>', '|', '\0',
-			(char)1, (char)2, (char)3, (char)4, (char)5, (char)6, (char)7, (char)8, (char)9, (char)10,
-			(char)11, (char)12, (char)13, (char)14, (char)15, (char)16, (char)17, (char)18, (char)19, (char)20,
-			(char)21, (char)22, (char)23, (char)24, (char)25, (char)26, (char)27, (char)28, (char)29, (char)30,
-			(char)31
-		};
-		internal static bool AnyPathHasWildCardCharacters(string path, int startIndex = 0)
-		{
-			char currentChar;
-			for (int i = startIndex; i < path.Length; i++) {
-				currentChar = path[i];
-				if (currentChar == '*' || currentChar == '?')
-					return true;
-			}
-			return false;
-		}
-		public static void CreateDirectoryIfNotExists(this String path)
-		{
-			if (Directory.Exists(path))
-				return;
-			Directory.CreateDirectory(path);
-		}
 	
-		public static string GetValidFileName(this string value, char c=' ')
-		{
-
-			var chars = Path.GetInvalidFileNameChars();
-
-			return new string(value.Select<char, char>((i) => {
-				if (chars.Contains(i))
-					return c;
-				return i;
-			}).Take(125).ToArray());
-		}
+		
+		
 		
 		public static IEnumerable<string> GetFiles(this string dir, string pattern, bool bExclude = false)
 		{
@@ -186,40 +154,11 @@ namespace Utils
 			
 		}
 
-		public static bool FileExists(this String path)
-		{
-			return  File.Exists(path);
-		}
+	
 		
-		public static String GetCommandPath(this string fileName)
-		{
-			var dir = System.Reflection.Assembly.GetEntryAssembly().Location.GetDirectoryName();
-			return dir.Combine(fileName);
-		}
 		
-		public static bool AnyPathHasIllegalCharacters(this string path, bool checkAdditional = false)
-		{
-			return path.IndexOfAny(InvalidPathChars) >= 0 || (checkAdditional && AnyPathHasWildCardCharacters(path));
-		}
-		public static String Combine(this String path1, String path2)
-		{
-			return Path.Combine(path1, path2);
-		}
-		public static void WriteAllLines(this string path, IEnumerable<string> contents)
-		{
-
-
-			using (var writer = new StreamWriter(path, false, new UTF8Encoding(false))) {
-				foreach (var line in contents) {
-					writer.WriteLine(line);
-				}
-			}
-		}
-		public static string GetDirectoryName(this string path)
-		{
-			return Path.GetDirectoryName(path);
-		}
- 
+		
+	
 		public static IEnumerable<String> ReadLines(this String path)
 		{
              

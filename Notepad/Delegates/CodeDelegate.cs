@@ -55,7 +55,7 @@
 			var groups = new List<List<string>>();
 			
 			var dir=str.SubstringBefore("## ").SubstringAfter(":").Trim().GetDesktopPath();
-			dir.CreateIfNotExists();
+			dir.CreateDirectoryIfNotExists();
 			
 			var lines = ("## " + str.SubstringAfter("## ")).ToLines();
 			var isEntered = true;

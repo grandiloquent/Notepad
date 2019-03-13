@@ -118,6 +118,8 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripMenuItem 列表ToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 		private System.Windows.Forms.ToolStripSplitButton videoButton;
+		private System.Windows.Forms.ToolStripSplitButton javaScriptButton;
+		private System.Windows.Forms.ToolStripSplitButton safariSplitButton;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -154,6 +156,7 @@ namespace Notepad
 			this.newButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
 			this.notesButton = new System.Windows.Forms.ToolStripButton();
+			this.javaScriptButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
 			this.findBox = new System.Windows.Forms.ToolStripComboBox();
 			this.replaceBox = new System.Windows.Forms.ToolStripComboBox();
@@ -246,6 +249,7 @@ namespace Notepad
 			this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
 			this.全选ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.排序ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.safariSplitButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
 			this.toolStrip.SuspendLayout();
@@ -263,7 +267,9 @@ namespace Notepad
 			this.appButton,
 			this.newButton,
 			this.toolStripSeparator12,
-			this.notesButton});
+			this.notesButton,
+			this.javaScriptButton,
+			this.safariSplitButton});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Size = new System.Drawing.Size(938, 25);
@@ -358,6 +364,15 @@ namespace Notepad
 			this.notesButton.Size = new System.Drawing.Size(23, 22);
 			this.notesButton.Text = "toolStripButton1";
 			this.notesButton.Click += new System.EventHandler(this.NotesButtonClick);
+			// 
+			// javaScriptButton
+			// 
+			this.javaScriptButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.javaScriptButton.Image = ((System.Drawing.Image)(resources.GetObject("javaScriptButton.Image")));
+			this.javaScriptButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.javaScriptButton.Name = "javaScriptButton";
+			this.javaScriptButton.Size = new System.Drawing.Size(82, 22);
+			this.javaScriptButton.Text = "JavaScript";
 			// 
 			// toolStrip2
 			// 
@@ -1154,6 +1169,15 @@ namespace Notepad
 			this.排序ToolStripMenuItem1.Size = new System.Drawing.Size(145, 22);
 			this.排序ToolStripMenuItem1.Text = "排序";
 			this.排序ToolStripMenuItem1.Click += new System.EventHandler(this.排序ToolStripMenuItemClick);
+			// 
+			// safariSplitButton
+			// 
+			this.safariSplitButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.safariSplitButton.Image = ((System.Drawing.Image)(resources.GetObject("safariSplitButton.Image")));
+			this.safariSplitButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.safariSplitButton.Name = "safariSplitButton";
+			this.safariSplitButton.Size = new System.Drawing.Size(57, 22);
+			this.safariSplitButton.Text = "Safari";
 			// 
 			// MainForm
 			// 
