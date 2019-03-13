@@ -1,20 +1,25 @@
-namespace Common{	using System;
+namespace Common
+{
+	using System;
 	using System.Collections.Generic;
 	using System.Globalization;
 	using System.IO;
 	using System.Text;
 	using System.Text.RegularExpressions;
-	
-	public static  class Strings{private static readonly CompareInfo compareInfo = CultureInfo.InvariantCulture.CompareInfo;
-private const string Quote = "\"";
-public static string Decapitalize(this string value)
+	using System.Linq;
+	public static  class Strings
+	{
+		private static readonly CompareInfo compareInfo = CultureInfo.InvariantCulture.CompareInfo;
+		private const string Quote = "\"";
+		public static string Decapitalize(this string value)
 		{
 			//  && char.IsLower(value[0])
 			if (!string.IsNullOrEmpty(value)) {
 				return value.Substring(0, 1).ToLower() + value.Substring(1);
 			}
 			return value;
-		}			public static string LiterallyInCs(this string txt)
+		}
+		public static string LiterallyInCs(this string txt)
 		{
 			//escape appropriately
 			//escape the quotes with ""
@@ -64,7 +69,8 @@ public static string Decapitalize(this string value)
 
 			//and return
 			return sb.ToString();
-		}public static string SubstringAfter(this string value, char delimiter)
+		}
+		public static string SubstringAfter(this string value, char delimiter)
 		{
 			var index = value.IndexOf(delimiter);
 			if (index == -1)
@@ -130,6 +136,11 @@ public static string Decapitalize(this string value)
 			else
 				return value.Substring(0, index);
 		}
+		public static string RemoveWhiteSpaceLines(this string str)
+		{
+			
+			return string.Join(Environment.NewLine, str.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Where(i=>!string.IsNullOrWhiteSpace(i)));
+		}
 		public static IEnumerable<string> ToBlocks(this string value)
 		{
 			var count = 0;
@@ -170,11 +181,11 @@ public static string Decapitalize(this string value)
 			const string re = @"(@(?:""[^""]*"")+|""(?:[^""\n\\]+|\\.)*""|'(?:[^'\n\\]+|\\.)*')|//.*|/\*(?s:.*?)\*/";
 			return Regex.Replace(code, re, "$1");
 		}
-public static string UpperCase(this string value)
+		public static string UpperCase(this string value)
 		{
 			var sb = new StringBuilder();
 			for (int i = 0; i < value.Length; i++) {
-				if (i!=0&&char.IsUpper(value[i])) {
+				if (i != 0 && char.IsUpper(value[i])) {
 					sb.Append('_').Append(char.ToUpper(value[i]));
 					
 				} else {
@@ -184,4 +195,5 @@ public static string UpperCase(this string value)
 			}
 			return sb.ToString();
 		}
-}}
+	}
+}

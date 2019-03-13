@@ -98,28 +98,7 @@
 			_article = null;
 			
 		}
-		void EnglishButtonClick(object sender, EventArgs e)
-		{
-			
-			textBox.SelectLine(true);
-
-			var val = textBox.SelectedText;
-			if (val.IsVacuum())
-				return;
-			var json = TranslateUtils.GetInstance().QueryEnglish(val);
-
-			var obj = Newtonsoft.Json.Linq.JObject.Parse(json);
-			Newtonsoft.Json.Linq.JToken jtoken;
-
-			if (!obj.TryGetValue("sentences", out jtoken))
-				return;
-
-			var sb = new StringBuilder();
-			foreach (var item in jtoken) {
-				sb.AppendLine(item["trans"].ToString()).AppendLine(item["orig"].ToString());
-			}
-			textBox.SelectedText = sb.ToString();
-		}
+	 
 		void FormatButtonClick(object sender, EventArgs e)
 		{
 			textBox.Format();
@@ -328,6 +307,7 @@
 			Inject(typeof(FindDelegate));
 			Inject(typeof(JavaScriptDelegate));
 			Inject(typeof(SafariDelegate));
+			Inject(typeof(CSharpDelegate));
 			
 			if ("settings.txt".GetExecutingPath().FileExists()) {
 				var value = "settings.txt".GetExecutingPath().ReadAllText();
@@ -521,35 +501,42 @@
 		}
 		void 导出全部ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			var directories = Directory.GetFiles(_dataPath, "*.dat");
-			var targetDirectory = "assets".GetExecutingPath().Combine("exports");
-			targetDirectory.CreateDirectoryIfNotExists();
+			var directories = Directory.GetFiles(_dataPath, "*").Where(i=>i.GetExtension()==".dat");
+			//var baseDirectory = "assets".GetExecutingPath().Combine("exports");
+			var baseDirectory = "md".GetExecutingPath();
+		
+			baseDirectory.CreateDirectoryIfNotExists();
 			foreach (var element in directories) {
 				var sql =	DatabaseUtils.GetInstance(element);
 				var contentList =	sql.GetTitleContentList();
+				var targetDirectory=Path.Combine(baseDirectory,element.GetFileNameWithoutExtension());
+				targetDirectory.CreateDirectoryIfNotExists();
 				foreach (var c in contentList) {
-					var tf = targetDirectory.Combine(Path.GetFileNameWithoutExtension(element) + " - " + c.Title.GetValidFileName() + ".html");
-					tf =	tf.GetUniqueFileName();
+					// Path.GetFileNameWithoutExtension(element) + " - " +
 					
-					StringBuilder sb = new StringBuilder();
-					sb.AppendLine("\u003C!doctype html\u003E");
-					sb.AppendLine("\u003Chtml class=\u0022no-js\u0022 lang=\u0022zh-hans\u0022 dir=\u0022ltr\u0022\u003E");
-					sb.AppendLine("");
-					sb.AppendLine("\u003Chead\u003E");
-					sb.AppendLine("    \u003Cmeta charset=\u0022utf-8\u0022\u003E");
-					sb.AppendLine("    \u003Cmeta http-equiv=\u0022x-ua-compatible\u0022 content=\u0022ie=edge\u0022\u003E");
-					sb.AppendLine("    \u003Ctitle\u003E");
-					sb.AppendLine(HtmlAgilityPack.HtmlEntity.Entitize(c.Title));
-					sb.AppendLine("    \u003C/title\u003E");
-					sb.AppendLine("    \u003Cmeta name=\u0022viewport\u0022 content=\u0022width=device-width, initial-scale=1\u0022\u003E");
-					sb.AppendLine("    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022../stylesheets/markdown.css\u0022\u003E");
-					sb.AppendLine("\u003C/head\u003E");
-					sb.AppendLine("\u003Cbody\u003E");
-					sb.AppendLine(c.Content.FormatMarkdown());
-
-					sb.AppendLine("\u003C/body\u003E");
-					sb.AppendLine("\u003C/html\u003E");
-					tf.WriteAllText(sb.ToString());
+					var tf = targetDirectory.Combine( c.Title.GetValidFileName() + ".md");
+					//tf =	tf.GetUniqueFileName();
+					
+//					StringBuilder sb = new StringBuilder();
+//					sb.AppendLine("\u003C!doctype html\u003E");
+//					sb.AppendLine("\u003Chtml class=\u0022no-js\u0022 lang=\u0022zh-hans\u0022 dir=\u0022ltr\u0022\u003E");
+//					sb.AppendLine("");
+//					sb.AppendLine("\u003Chead\u003E");
+//					sb.AppendLine("    \u003Cmeta charset=\u0022utf-8\u0022\u003E");
+//					sb.AppendLine("    \u003Cmeta http-equiv=\u0022x-ua-compatible\u0022 content=\u0022ie=edge\u0022\u003E");
+//					sb.AppendLine("    \u003Ctitle\u003E");
+//					sb.AppendLine(HtmlAgilityPack.HtmlEntity.Entitize(c.Title));
+//					sb.AppendLine("    \u003C/title\u003E");
+//					sb.AppendLine("    \u003Cmeta name=\u0022viewport\u0022 content=\u0022width=device-width, initial-scale=1\u0022\u003E");
+//					sb.AppendLine("    \u003Clink rel=\u0022stylesheet\u0022 href=\u0022../stylesheets/markdown.css\u0022\u003E");
+//					sb.AppendLine("\u003C/head\u003E");
+//					sb.AppendLine("\u003Cbody\u003E");
+//					sb.AppendLine(c.Content.FormatMarkdown());
+//
+//					sb.AppendLine("\u003C/body\u003E");
+//					sb.AppendLine("\u003C/html\u003E");
+//					tf.WriteAllText(sb.ToString());
+					tf.WriteAllText(c.Content);
 				}
 			}
 			

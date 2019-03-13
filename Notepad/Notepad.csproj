@@ -60,6 +60,12 @@
     <Reference Include="Markdig">
       <HintPath>..\..\..\..\Desktop\DLL\Markdig.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CodeAnalysis">
+      <HintPath>..\..\..\..\..\..\bin\Packages\Microsoft.CodeAnalysis.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp">
+      <HintPath>..\..\..\..\..\..\bin\Packages\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -90,6 +96,8 @@
     </Reference>
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime" />
+    <Reference Include="System.Text.Encoding" />
+    <Reference Include="System.Threading.Tasks" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
@@ -108,6 +116,7 @@
     <Compile Include="Common\TextBoxs.cs" />
     <Compile Include="Common\UnsafeNativeMethods.cs" />
     <Compile Include="Delegates\CodeDelegate.cs" />
+    <Compile Include="Delegates\CSharpDelegate.cs" />
     <Compile Include="Delegates\CSSDelegate.cs" />
     <Compile Include="Delegates\FindDelegate.cs" />
     <Compile Include="Delegates\Helper.cs" />
