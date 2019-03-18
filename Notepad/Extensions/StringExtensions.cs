@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Net.Http;
 
 namespace Utils
 {
 	
 	public static class StringExtensions
-		
-	{	
+	{
 		
 		
 

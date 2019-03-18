@@ -4,6 +4,7 @@ namespace Common
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Linq;
+	using System.Security.Cryptography;
 	using System.Text;
 	using System.Threading;
 	
@@ -38,6 +39,16 @@ namespace Common
 					return path.Substring(0, i);
 			}
 			return null;
+		}public static bool IsDirectoryEmpty(this DirectoryInfo possiblyEmptyDirectory)
+		{
+			using (var enumerator = Directory.EnumerateFileSystemEntries(possiblyEmptyDirectory.FullName).GetEnumerator()) {
+				return !enumerator.MoveNext();
+			}
+		}
+		public static String ChangeFileNameWithoutExtension(this String path,string fileName)
+		{
+			 
+			return Path.Combine(Path.GetDirectoryName(fileName),fileName+Path.GetExtension(fileName));
 		}
 		internal static bool AnyPathHasWildCardCharacters(string path, int startIndex = 0)
 		{
@@ -49,11 +60,85 @@ namespace Common
 			}
 			return false;
 		}
+		public static SHA256 CreateSHA256()
+		{
+			try {
+				return SHA256.Create();
+			}
+            // SHA256.Create is documented to throw this exception on FIPS compliant machines.
+            // See: https://msdn.microsoft.com/en-us/library/z08hz7ad%28v=vs.110%29.aspx?f=255&MSPPError=-2147217396
+            catch (System.Reflection.TargetInvocationException) {
+				// Fallback to a FIPS compliant SHA256 algorithm.
+				return new SHA256CryptoServiceProvider();
+			}
+		}
+		public static string Base64UrlEncode(byte[] input)
+		{
+			
+			return Base64UrlEncode(input, offset: 0, count: input.Length);
+		}
+
+		public static string GetHashForFile(this string fileInfo)
+		{
+			using (var sha256 = CreateSHA256()) {
+				using (var readStream = new FileStream(fileInfo, FileMode.Open)) {
+					var hash = sha256.ComputeHash(readStream);
+					return Base64UrlEncode(hash);
+				}
+			}
+		}
+		public static int GetArraySizeRequiredToEncode(int count)
+		{
+			var numWholeOrPartialInputBlocks = checked(count + 2) / 3;
+			return checked(numWholeOrPartialInputBlocks * 4);
+		}
+		public static string Base64UrlEncode(byte[] input, int offset, int count)
+		{
+           
+			var buffer = new char[GetArraySizeRequiredToEncode(count)];
+			var numBase64Chars = Base64UrlEncode(input, offset, buffer, outputOffset: 0, count: count);
+
+			return new String(buffer, startIndex: 0, length: numBase64Chars);
+		}
+		public static int Base64UrlEncode(byte[] input, int offset, char[] output, int outputOffset, int count)
+		{
+            
+			var arraySizeRequired = GetArraySizeRequiredToEncode(count);
+			if (output.Length - outputOffset < arraySizeRequired) {
+				throw new ArgumentException();
+			}
+
+			// Special-case empty input.
+			if (count == 0) {
+				return 0;
+			}
+
+			// Use base64url encoding with no padding characters. See RFC 4648, Sec. 5.
+
+			// Start with default Base64 encoding.
+			var numBase64Chars = Convert.ToBase64CharArray(input, offset, count, output, outputOffset);
+
+			// Fix up '+' -> '-' and '/' -> '_'. Drop padding characters.
+			for (var i = outputOffset; i - outputOffset < numBase64Chars; i++) {
+				var ch = output[i];
+				if (ch == '+') {
+					output[i] = '-';
+				} else if (ch == '/') {
+					output[i] = '_';
+				} else if (ch == '=') {
+					// We've reached a padding character; truncate the remainder.
+					return i - outputOffset;
+				}
+			}
+
+			return numBase64Chars;
+		}
+  
 		public static bool FileExists(this string path)
 		{
 			return File.Exists(path);
 		}
-public static string Combine(this string dir, string name)
+		public static string Combine(this string dir, string name)
 		{
 			return Path.Combine(dir, name);
 		}

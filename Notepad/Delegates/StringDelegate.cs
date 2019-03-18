@@ -8,6 +8,7 @@
 	using System.Text;
 	using System.Linq;
 	using Common;
+	using System.Collections.Generic;
 	
 	public static class StringDelegate
 	{
@@ -23,8 +24,14 @@
 		public static void ToByteArray()
 		{
 			Forms.OnClipboardString(str=>{
-			                        
-			                        	return string.Join(	",",Encoding.UTF8.GetBytes(str));
+			                        	var pieces=Regex.Split(str, "{{[^}]*?}}");
+			                        	var list1=new List<string>();
+			                        	var index=1;
+			                        	foreach (var element in pieces) {
+			                        		list1.Add(string.Format("q{0}:=[]byte{{{1}}}",index,string.Join(",",Encoding.UTF8.GetBytes(element.Trim()))));
+			                        		index++;
+			                        	}
+			                        	return list1.ConcatenateLines();
 			                        });
 		}
 			
@@ -37,6 +44,15 @@
 		public static void EscapeToStringBuilder()
 		{
 			Forms.OnClipboardString(str=>str.StringbuilderizeInCs());
+		}
+		[BindMenuItem(Name = "排序 分隔符, (文本)",SplitButton="stringButton", Toolbar = "toolStrip")]
+		public static void SortBy()
+		{
+			Forms.OnClipboardString(str=>{
+			                        
+			                        	var pieces=str.Split(',').Where(i=>!string.IsNullOrWhiteSpace(i)).Select(i=>i.Trim()).OrderBy(i=>i);
+			                        	return string.Join(",",pieces);
+			                        });
 		}
 	}
 }

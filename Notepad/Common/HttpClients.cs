@@ -1,4 +1,6 @@
-namespace Common{	using System;
+namespace Common
+{
+	using System;
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Linq;
@@ -6,7 +8,9 @@ namespace Common{	using System;
 	using System.Net.Http;
 	using System.Text;
 	using System.Threading.Tasks;
-	public static  class HttpClients{		
+	public static  class HttpClients
+	{
+		
 		public async static Task<string> Authenticate(this HttpClient httpClient,
 			string url, 
 			string userName,
@@ -46,9 +50,21 @@ namespace Common{	using System;
 				UseCookies = false,
 			});
 		}
+		public static HttpClient GetHttpClientWithProxy(string proxy = "127.0.0.1:1080")
+		{
+			return new HttpClient(new HttpClientHandler() {
+				AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+				Proxy = new WebProxy(proxy, false),
+				UseProxy = true,
+//				UseDefaultCredentials = true,
+				UseCookies = false,
+			});
+		}
+	 
 		private static HttpRequestMessage GetHttpRequestMessage(HttpMethod method, string url)
 		{
-			var ip = "220.181.100." + new Random().Next(1, 255);
+			//var ip = "220.181.100." + new Random().Next(1, 255);
+			var ip = "149.129.88.215";
 			var httpMessage = new HttpRequestMessage(method, url);
 			httpMessage.Headers.Add("Accept", "image/webp,image/apng,image/*,*/*;q=0.8");
 			httpMessage.Headers.Add("Accept-Encoding", "gzip, deflate, br");
@@ -119,10 +135,10 @@ namespace Common{	using System;
 		public static async Task<string> PostWithParameters(this HttpClient httpClient, string url, Dictionary<string,string> parameters)
 		{
 			
-			using(	var content = new FormUrlEncodedContent(parameters)){
+			using (var content = new FormUrlEncodedContent(parameters)) {
 			
-			var response = await httpClient.PostAsync(url, content);
-			return response.IsSuccessStatusCode ? await response.Content.ReadAsStringAsync() : response.StatusCode.ToString();
+				var response = await httpClient.PostAsync(url, content);
+				return response.IsSuccessStatusCode ? await response.Content.ReadAsStringAsync() : response.StatusCode.ToString();
 			}
 			
 		}
@@ -150,13 +166,25 @@ namespace Common{	using System;
 			};
 		}
 
+		public static async Task<Stream> Stream(this string url)
+		{
+		
+			var ip = "149.129.88.215";
+			
+			var req = WebRequest.Create(url);
+			//req.Proxy=new WebProxy("127.0.0.1",1080);
+			req.Headers.Set("Client-IP", ip);
+			req.Headers.Set("X-Forwarded-For", ip);
+			var res = await req.GetResponseAsync();
+			return res.GetResponseStream();
+		}
 		public static async Task<string> ReadStringWithCookie(this HttpClient httpClient, string url,
 			string referrer = null, string cookie = null)
 		{
 			var httpMessage = GetHttpRequestMessage(HttpMethod.Get, url);
 
 
-			if (referrer != null)
+			if (!string.IsNullOrWhiteSpace(referrer))
 				httpMessage.Headers.Add("Referer", referrer);
 
 			httpMessage.Headers.Add("Cookie", cookie);
@@ -166,4 +194,5 @@ namespace Common{	using System;
 
 			return Encoding.UTF8.GetString(bytes);
 		}
-}}
+	}
+}

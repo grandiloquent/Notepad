@@ -57,7 +57,9 @@
 		public static void CombineJavaScriptFiles(String dir)
 		{
 		
-			var files = Directory.GetFiles(dir, "*.js").OrderBy(i => i.GetFileName()).ToArray();
+			var files = Directory.GetFiles(dir, "*.js")
+				.Where(i=>!i.GetFileName().StartsWith("."))
+				.OrderBy(i => i.GetFileName()).ToArray();
 			var sb = new StringBuilder();
 			foreach (var element in files) {
 				sb.AppendLine(element.ReadAllText());
@@ -69,14 +71,15 @@
 			
 			Path.Combine(Path.GetDirectoryName(dir), "app.min.js").WriteAllText(str);
 		}
-		public static void GenerateScriptsInternal(string dir){
-			var files=Directory.GetFiles(dir,"*.js").OrderBy(i=>i.GetFileNameWithoutExtension());
-			var list=new List<string>();
-			var pattern="<script src=\"~/{0}/{1}\" asp-append-version=\"true\"></script>";
+		public static void GenerateScriptsInternal(string dir)
+		{
+			var files = Directory.GetFiles(dir, "*.js").OrderBy(i => i.GetFileNameWithoutExtension());
+			var list = new List<string>();
+			var pattern = "<script src=\"~/{0}/{1}\" asp-append-version=\"true\"></script>";
 			foreach (var element in files) {
-				list.Add(string.Format(pattern,element.GetDirectoryName().GetFileName(),element.GetFileName()));
+				list.Add(string.Format(pattern, element.GetDirectoryName().GetFileName(), element.GetFileName()));
 			}
-			Clipboard.SetText(string.Join("\n",list));
+			Clipboard.SetText(string.Join("\n", list));
 		}
 		[BindMenuItem(Name = "生成脚本引用代码 (目录)", SplitButton = "javaScriptButton", Toolbar = "toolStrip1", AddSeparatorBefore = true)]
 		public static void GenerateScripts()
@@ -100,5 +103,27 @@
 			Forms.OnClipboardString(CollectFunctionNamesInternal);
 		}
 		
+		[BindMenuItem(Name = "收集属性名 (文本)", SplitButton = "javaScriptButton", Toolbar = "toolStrip1", AddSeparatorBefore = true, NeedBinding = true)]
+		public static void CollectPropertiesNames(ToolStripMenuItem menuItem, MainForm mainForm)
+		{
+			Forms.OnClipboardString(str => {
+				var matches = Regex.Matches(str, "(?<=\")[^\"]+(?=\":)").Cast<Match>().Select(i => "\"" + i.Value + "\"").OrderBy(i => i);
+			                        	
+				return string.Join(",", matches);
+			                        
+			});
+		}
+		[BindMenuItem(Name = "收集文件名 (文本)", SplitButton = "javaScriptButton", Toolbar = "toolStrip1", AddSeparatorBefore = true, NeedBinding = true)]
+		public static void CollectFileNames(ToolStripMenuItem menuItem, MainForm mainForm)
+		{
+			Forms.OnClipboardDirectory(dir => {
+			                           	var files=Directory.GetFiles(dir,"*.js").OrderBy(i=>i);
+			                           	var list1=new List<string>();
+			                           	foreach (var element in files) {
+			                           		list1.Add(string.Format("<script src=\"{0}\"></script>",element.Replace('\\','/')));
+			                           	}
+			                           	Clipboard.SetText(list1.ConcatenateLines());
+			});
+		}
 	}
 }

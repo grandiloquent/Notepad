@@ -80,6 +80,11 @@
 		{
 			return JsonConvert.DeserializeObject<T>(str);
 		}
+		public static string ToJsonString(this object obj)
+		{
+			
+			return JsonConvert.SerializeObject(obj);
+		}
 		public static JArray ToJArray(this string str)
 		{
 			

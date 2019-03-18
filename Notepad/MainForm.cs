@@ -258,11 +258,20 @@
 			}
 			"settings.txt".GetExecutingPath().WriteAllText(comboBox.Text);
 		}
+		void DispatchCtrlF()
+		{
+			if (!Regex.IsMatch(Clipboard.GetText(), "\\<\\w+"))
+				StringDelegate.ToByteArray();
+			else
+				GoDelegate.GenerateHTMLArrayTemplate();
+			
+		}
 		protected override void WndProc(ref Message m)
 		{
 			if (m.Msg == 0x0312) {
 				var k = ((int)m.LParam >> 16) & 0xFFFF;
 				if (k == 67) {
+					DispatchCtrlF();
 				} else if (k == 0x75) {
 
 				
@@ -295,11 +304,14 @@
 		}
 		void MainFormLoad(object sender, EventArgs e)
 		{
+			 
 			var handle = NativeMethods.HWND.Cast(this.Handle);
 			_hotKeyF7 = 7;
+			_hotKeyALTC = 11;
 			Forms.RegisterHotKey(handle, _hotKeyF7, 0, (int)Keys.F7);
 			Forms.RegisterHotKey(handle, _hotKeyF6, 0, (int)Keys.F6);
-			
+			Forms.RegisterHotKey(handle, _hotKeyALTC, 0x0001, (int)Keys.C);
+		
 			Inject(typeof(CodeDelegate));
 			Inject(typeof(StringDelegate));
 			Inject(typeof(VideoDelegate));
@@ -308,6 +320,8 @@
 			Inject(typeof(JavaScriptDelegate));
 			Inject(typeof(SafariDelegate));
 			Inject(typeof(CSharpDelegate));
+			Inject(typeof(GoDelegate));
+			Inject(typeof(FileDelegate));
 			
 			if ("settings.txt".GetExecutingPath().FileExists()) {
 				var value = "settings.txt".GetExecutingPath().ReadAllText();
@@ -315,7 +329,7 @@
 					comboBox.SelectedItem = value.Trim();
 				}
 			}
-			var directories = Directory.GetFiles(_dataPath, "*.dat");
+			var directories = Directory.GetFiles(_dataPath, "*.dat").Where(i => i.EndsWith(".dat"));
 			
 			foreach (var ex in directories) {
 				
@@ -501,7 +515,7 @@
 		}
 		void 导出全部ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			var directories = Directory.GetFiles(_dataPath, "*").Where(i=>i.GetExtension()==".dat");
+			var directories = Directory.GetFiles(_dataPath, "*").Where(i => i.GetExtension() == ".dat");
 			//var baseDirectory = "assets".GetExecutingPath().Combine("exports");
 			var baseDirectory = "md".GetExecutingPath();
 		
@@ -509,12 +523,12 @@
 			foreach (var element in directories) {
 				var sql =	DatabaseUtils.GetInstance(element);
 				var contentList =	sql.GetTitleContentList();
-				var targetDirectory=Path.Combine(baseDirectory,element.GetFileNameWithoutExtension());
+				var targetDirectory = Path.Combine(baseDirectory, element.GetFileNameWithoutExtension());
 				targetDirectory.CreateDirectoryIfNotExists();
 				foreach (var c in contentList) {
 					// Path.GetFileNameWithoutExtension(element) + " - " +
 					
-					var tf = targetDirectory.Combine( c.Title.GetValidFileName() + ".md");
+					var tf = targetDirectory.Combine(c.Title.GetValidFileName() + ".md");
 					//tf =	tf.GetUniqueFileName();
 					
 //					StringBuilder sb = new StringBuilder();
@@ -699,7 +713,24 @@
 		void 删除ToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			if (listBox.SelectedItems.Count > 0) {
+				var directories = Directory.GetFiles(_dataPath, "*").Where(i => i.GetExtension() == ".dat");
+				//var baseDirectory = "assets".GetExecutingPath().Combine("exports");
+				var baseDirectory = "md".GetExecutingPath();
+		
+				baseDirectory.CreateDirectoryIfNotExists();
+			 
+			
+				var targetDirectory = Path.Combine(baseDirectory, comboBox.Text.GetFileNameWithoutExtension());
+				targetDirectory.CreateDirectoryIfNotExists();
+				 
+		 
+			
 				foreach (var element in listBox.SelectedItems) {
+					var c = DatabaseUtils.GetInstance().GetArticle(element.ToString());
+					
+					var tf = targetDirectory.Combine(c.Title.GetValidFileName() + ".md");
+					
+					tf.WriteAllText(c.Content);
 					DatabaseUtils.GetInstance().Delete(element.ToString());
 				}
 				UpdateList();
@@ -1099,6 +1130,86 @@
 			textBox.SelectionLength = end - start;
 			
 			textBox.SelectedText = ListHelper.ToList(textBox.SelectedText);
+		}
+		private int _hotKeyALTC = -1;
+		void ToolStripButton1Click(object sender, EventArgs e)
+		{
+			var filename = Clipboard.GetFileDropList()[0];
+			var collection = filename.ReadAllText().ToObject<List<Dictionary<string,dynamic>>>();
+			var obj = new List<Dictionary<string,dynamic>>();
+			
+			foreach (var element in collection) {
+				var keys = element.Keys.ToList();
+				foreach (var key in keys) {
+					if (element[key] == null) {
+						element.Remove(key);
+					} else if (key == "Id") {
+						var v = element[key];
+						element.Remove(key);
+						 
+						element.Add(key.Decapitalize(), v);
+						
+					} else if (key == "CreatedAt" || key == "UpdatedAt") {
+						var dt = (DateTime)element[key];
+						if (dt.Year == 1)
+							continue;
+						var timestamp = (dt).ToUnixTimestamp();
+						element.Remove(key);
+						 
+						element.Add(key, timestamp);
+						
+					} else if (key == "Tags") {
+						var xxx = element[key];
+						var a = element[key] as Newtonsoft.Json.Linq.JArray;
+						var c = new List<string>();
+						
+						foreach (var b in a) {
+							c.Add(b.ToObject<Newtonsoft.Json.Linq.JObject>()["Name"].ToString());
+						}
+						
+						element["Tags"] = c;
+						
+					} else if (key == "Album") {
+						var o1 = element[key] as Newtonsoft.Json.Linq.JObject;
+
+						foreach (var o2 in o1.Values<Newtonsoft.Json.Linq.JProperty>()) {
+						
+							if (o2.Name.StartsWith("Base")) {
+								element.Add(o2.Name, o2.Value);
+							} else if (o2.Name == "CreatedAt") {
+//								var dt = (DateTime)o2.Value;
+//								if (dt.Year == 1)
+//									continue;
+//								var timestamp = dt.ToUnixTimestamp();
+//						
+//						 
+//								element.Add("BaseCreatedAt", timestamp);
+						
+							} else if (o2.Name != "Id" && o2.Name != "ProfileIcon") {
+								
+								element.Add("Base" + o2.Name, o2.Value);
+							} 
+						}
+						element.Remove(key);
+					}
+				}
+				obj.Add(element);
+				//break;
+			}
+			(filename + ".json").WriteAllText(obj.ToJsonString());
+			
+		}
+		void ToolStripButton2Click(object sender, EventArgs e)
+		{
+	
+		}
+		void 生成序列化行ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+			var list1 = new List<string>();
+			for (int i = 0; i < 100; i++) {
+				list1.Add(Regex.Replace(textBox.Text, "(?<=\\[)[0-9]+(?=\\])", i.ToString()));
+			}
+			textBox.Text = list1.ConcatenateLines();
 		}
 	
 		

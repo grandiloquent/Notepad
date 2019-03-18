@@ -90,7 +90,7 @@
 		private static string ImportDirectoryInternal(string dir)
 		{
 			var files = Directory.GetFiles(dir)
-				.Where(i => Regex.IsMatch(i.GetFileName(), "\\.(?:cs|css|java|cshtml)$"));
+				.Where(i => Regex.IsMatch(i.GetFileName(), "\\.(?:cs|css|java|cshtml|go)$"));
 			var sb = new StringBuilder();
 			foreach (var element in files) {
 				sb.AppendLine(ImportFile(element));

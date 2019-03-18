@@ -1,5 +1,6 @@
-﻿namespace Notepad
+namespace Notepad
 {
+	using Common;
 	using Microsoft.CodeAnalysis;
 	using Microsoft.CodeAnalysis.CSharp;
 	using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -7,16 +8,86 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text;
-	using Common;
-	public static class CSharpDelegate
+	using System.IO;
+	public static  class CSharpDelegate
 	{
+		[BindMenuItem(Name = "格式化 C# (文件)", SplitButton = "csharpButton", Toolbar = "toolStrip1", AddSeparatorBefore = true)]
+		public static void CollectFunctionNames()
+		{
+			Forms.OnClipboardFile(f => f.WriteAllText(FormatCode(f.ReadAllText()).RemoveWhiteSpaceLines()));
+		}
+		[BindMenuItem(Name = "格式化 C# (目录)", SplitButton = "csharpButton", Toolbar = "toolStrip1", AddSeparatorBefore = true)]
+		public static void FormatCsharpCodeInDirectory()
+		{
+			Forms.OnClipboardDirectory(dir =>{
+			                      
+			                      	var files=Directory.GetFiles(dir,"*.cs");
+			                      	foreach (var f in files) {
+			                      		f.WriteAllText(FormatCode(f.ReadAllText()).RemoveWhiteSpaceLines());
+			                      	}
+			                      } );
+		}
 		
+		[BindMenuItem(Name = "分隔源代码", Toolbar = "toolStrip1", SplitButton = "csharpButton")]
+		public static void SplitSourceCodeFile()
+		{
+			Forms.OnClipboardFile(SplitSourceCodeFileInternal);
+			
+		}
+		private static void SplitSourceCodeFileInternal(string fileName)
+		{
+			var strNameSpace = string.Empty;
+			
+			var rootNode = CSharpSyntaxTree.ParseText(fileName.ReadAllText()).GetRoot();
+			var namespace_ = rootNode.DescendantNodes().OfType<NamespaceDeclarationSyntax>();
+			if (namespace_.Any()) {
+				var s = new StringBuilder();
+				s.Append(namespace_.First().NamespaceKeyword.Text).Append(' ').Append(namespace_.First().Name).Append('{');
+				strNameSpace = s.ToString();
+			}
+			var using_ = rootNode.DescendantNodes().OfType<UsingDirectiveSyntax>();
+			var strUsing = string.Empty;
 		
+			if (using_.Any()) {
+				var s = new StringBuilder();
+				using_ = using_.OrderBy(i => i.Name.ToString());//.Distinct(i => i.Name.GetText());
+				foreach (var item in using_) {
+					s.Append(item.ToFullString());
+				}
+				strUsing = s.ToString();
+			}
+			var class_ = rootNode.DescendantNodes().OfType<ClassDeclarationSyntax>();
+			if (class_.Any()) {
+				class_ = class_.OrderBy(i => i.Identifier.ValueText);
+				foreach (var item in class_) {
+					var s = new StringBuilder();
+					s.AppendLine(strNameSpace).AppendLine(strUsing)
+						.AppendLine(item.ToFullString())
+						.AppendLine("}");
+					(item.Identifier.ValueText + ".cs").GetDesktopPath().WriteAllText(s.ToString());
+				}
+				
+			}
+			
+				var interfaces = rootNode.DescendantNodes().OfType<InterfaceDeclarationSyntax>();
+			if (interfaces.Any()) {
+				interfaces = interfaces.OrderBy(i => i.Identifier.ValueText);
+				foreach (var item in interfaces) {
+					var s = new StringBuilder();
+					s.AppendLine(strNameSpace).AppendLine(strUsing)
+						.AppendLine(item.ToFullString())
+						.AppendLine("}");
+					(item.Identifier.ValueText + ".cs").GetDesktopPath().WriteAllText(s.ToString());
+				}
+				
+			}
+				
+		}
 		private static string FormatCode(string value)
 		{
 			var s = new StringBuilder();
 			var rootNode = CSharpSyntaxTree.ParseText(value).GetRoot();
-			var namespace_ = rootNode.DescendantNodes().OfType<NamespaceDeclarationSyntax>().OrderBy(i=>i.Usings.ToFullString());
+			var namespace_ = rootNode.DescendantNodes().OfType<NamespaceDeclarationSyntax>().OrderBy(i => i.Usings.ToFullString());
 			if (namespace_.Any()) {
 				s.Append(namespace_.First().NamespaceKeyword.Text).Append(' ').Append(namespace_.First().Name).Append('{');
 			}
@@ -31,7 +102,6 @@
 			if (class_.Any()) {
 				class_ = class_.OrderBy(i => i.Identifier.ValueText);
 				foreach (var item in class_) {
-				 
 					s.Append(item.AttributeLists.ToFullString());
 					s.Append(item.Modifiers.ToFullString()).Append(" class ").Append(item.Identifier.ValueText);
 					if (item.BaseList != null)
@@ -52,7 +122,6 @@
 							s.Append(itemProperty.ToFullString().Trim() + '\n');
 						}
 					}
-					
 					var enum_ = item.ChildNodes().OfType<EnumDeclarationSyntax>();
 					if (enum_.Any()) {
 						enum_ = enum_.OrderBy(i => i.Identifier.ToFullString());
@@ -78,7 +147,6 @@
 					if (constructor_.Any()) {
 						constructor_ = constructor_.OrderBy(i => i.Identifier.ValueText);//.OrderBy(i => i.Identifier.ValueText).ThenBy(i=>i.Modifiers.ToFullString());
 						foreach (var itemMethod in constructor_) {
-							 
 							s.Append(itemMethod.ToFullString());
 						}
 					}
@@ -99,13 +167,11 @@
 					s.Append('}');
 				}
 			}
-			
 			var interfaces = rootNode.DescendantNodes().OfType<InterfaceDeclarationSyntax>();
 			if (interfaces.Any()) {
 				interfaces = interfaces.OrderBy(i => i.Identifier.ToFullString());
 				foreach (var element in interfaces) {
 					s.Append(element.Modifiers.ToFullString()).Append(" interface ").Append(element.Identifier.ValueText).Append('{');
-					
 					var method_ = element.ChildNodes().OfType<MethodDeclarationSyntax>();
 					if (method_.Any()) {
 						method_ = method_.OrderByDescending(i => i.Modifiers.ToFullString().Contains("extern")).ThenBy(i => i.Identifier.ValueText.Trim());//.OrderBy(i => i.Identifier.ValueText).ThenBy(i=>i.Modifiers.ToFullString());
@@ -115,18 +181,10 @@
 						}
 					}
 					s.Append('}');
-					
 				}
 			}
-			
 			s.Append('}');
 			return s.ToString();
 		}
-		[BindMenuItem(Name = "格式化 C# (文件)", SplitButton = "csharpButton", Toolbar = "toolStrip1", AddSeparatorBefore = true, NeedBinding = true)]
-		public static void CollectFunctionNames()
-		{
-			Forms.OnClipboardFile(f=>f.WriteAllText(FormatCode(f.ReadAllText()).RemoveWhiteSpaceLines()));
-		}
-		
 	}
 }

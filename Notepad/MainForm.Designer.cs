@@ -121,6 +121,13 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripSplitButton javaScriptButton;
 		private System.Windows.Forms.ToolStripSplitButton safariSplitButton;
 		private System.Windows.Forms.ToolStripSplitButton csharpButton;
+		private System.Windows.Forms.ToolStripSplitButton goButton;
+		private System.Windows.Forms.ToolStripButton toolStripButton1;
+		private System.Windows.Forms.ToolStripSplitButton fileButton;
+		private System.Windows.Forms.ToolStripButton toolStripButton2;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+		private System.Windows.Forms.ToolStripMenuItem 序列化ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 生成序列化行ToolStripMenuItem;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -157,8 +164,13 @@ namespace Notepad
 			this.newButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
 			this.notesButton = new System.Windows.Forms.ToolStripButton();
+			this.csharpButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.javaScriptButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.safariSplitButton = new System.Windows.Forms.ToolStripSplitButton();
+			this.goButton = new System.Windows.Forms.ToolStripSplitButton();
+			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+			this.fileButton = new System.Windows.Forms.ToolStripSplitButton();
+			this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
 			this.findBox = new System.Windows.Forms.ToolStripComboBox();
 			this.replaceBox = new System.Windows.Forms.ToolStripComboBox();
@@ -251,7 +263,9 @@ namespace Notepad
 			this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
 			this.全选ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.排序ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			this.csharpButton = new System.Windows.Forms.ToolStripSplitButton();
+			this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+			this.序列化ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.生成序列化行ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
 			this.toolStrip.SuspendLayout();
@@ -272,7 +286,11 @@ namespace Notepad
 			this.notesButton,
 			this.csharpButton,
 			this.javaScriptButton,
-			this.safariSplitButton});
+			this.safariSplitButton,
+			this.goButton,
+			this.toolStripButton1,
+			this.fileButton,
+			this.toolStripButton2});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Size = new System.Drawing.Size(938, 25);
@@ -368,6 +386,15 @@ namespace Notepad
 			this.notesButton.Text = "toolStripButton1";
 			this.notesButton.Click += new System.EventHandler(this.NotesButtonClick);
 			// 
+			// csharpButton
+			// 
+			this.csharpButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.csharpButton.Image = ((System.Drawing.Image)(resources.GetObject("csharpButton.Image")));
+			this.csharpButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.csharpButton.Name = "csharpButton";
+			this.csharpButton.Size = new System.Drawing.Size(40, 22);
+			this.csharpButton.Text = "C#";
+			// 
 			// javaScriptButton
 			// 
 			this.javaScriptButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -385,6 +412,44 @@ namespace Notepad
 			this.safariSplitButton.Name = "safariSplitButton";
 			this.safariSplitButton.Size = new System.Drawing.Size(57, 22);
 			this.safariSplitButton.Text = "Safari";
+			// 
+			// goButton
+			// 
+			this.goButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.goButton.Image = ((System.Drawing.Image)(resources.GetObject("goButton.Image")));
+			this.goButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.goButton.Name = "goButton";
+			this.goButton.Size = new System.Drawing.Size(41, 22);
+			this.goButton.Text = "Go";
+			// 
+			// toolStripButton1
+			// 
+			this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+			this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButton1.Name = "toolStripButton1";
+			this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+			this.toolStripButton1.Text = "toolStripButton1";
+			this.toolStripButton1.Click += new System.EventHandler(this.ToolStripButton1Click);
+			// 
+			// fileButton
+			// 
+			this.fileButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.fileButton.Image = ((System.Drawing.Image)(resources.GetObject("fileButton.Image")));
+			this.fileButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.fileButton.Name = "fileButton";
+			this.fileButton.Size = new System.Drawing.Size(48, 22);
+			this.fileButton.Text = "文件";
+			// 
+			// toolStripButton2
+			// 
+			this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+			this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButton2.Name = "toolStripButton2";
+			this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
+			this.toolStripButton2.Text = "toolStripButton2";
+			this.toolStripButton2.Click += new System.EventHandler(this.ToolStripButton2Click);
 			// 
 			// toolStrip2
 			// 
@@ -435,7 +500,9 @@ namespace Notepad
 			this.toolStripSeparator9,
 			this.替换文件中ToolStripMenuItem,
 			this.toolStripSeparator15,
-			this.排序分隔符ToolStripMenuItem});
+			this.排序分隔符ToolStripMenuItem,
+			this.toolStripSeparator6,
+			this.序列化ToolStripMenuItem});
 			this.findButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.findButton.Name = "findButton";
 			this.findButton.Size = new System.Drawing.Size(48, 22);
@@ -723,7 +790,7 @@ namespace Notepad
 			// 生成ToolStripMenuItem
 			// 
 			this.生成ToolStripMenuItem.Name = "生成ToolStripMenuItem";
-			this.生成ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+			this.生成ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.生成ToolStripMenuItem.Text = "生成";
 			this.生成ToolStripMenuItem.Click += new System.EventHandler(this.生成ToolStripMenuItemClick);
 			// 
@@ -731,14 +798,14 @@ namespace Notepad
 			// 
 			this.h2ToolStripMenuItem.Name = "h2ToolStripMenuItem";
 			this.h2ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F4;
-			this.h2ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+			this.h2ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.h2ToolStripMenuItem.Text = "H2";
 			this.h2ToolStripMenuItem.Click += new System.EventHandler(this.H2ButtonClick);
 			// 
 			// 排序H3ToolStripMenuItem
 			// 
 			this.排序H3ToolStripMenuItem.Name = "排序H3ToolStripMenuItem";
-			this.排序H3ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+			this.排序H3ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.排序H3ToolStripMenuItem.Text = "排序(H3)";
 			this.排序H3ToolStripMenuItem.Click += new System.EventHandler(this.排序H3ToolStripMenuItemClick);
 			// 
@@ -1181,14 +1248,25 @@ namespace Notepad
 			this.排序ToolStripMenuItem1.Text = "排序";
 			this.排序ToolStripMenuItem1.Click += new System.EventHandler(this.排序ToolStripMenuItemClick);
 			// 
-			// csharpButton
+			// toolStripSeparator6
 			// 
-			this.csharpButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.csharpButton.Image = ((System.Drawing.Image)(resources.GetObject("csharpButton.Image")));
-			this.csharpButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.csharpButton.Name = "csharpButton";
-			this.csharpButton.Size = new System.Drawing.Size(40, 22);
-			this.csharpButton.Text = "C#";
+			this.toolStripSeparator6.Name = "toolStripSeparator6";
+			this.toolStripSeparator6.Size = new System.Drawing.Size(213, 6);
+			// 
+			// 序列化ToolStripMenuItem
+			// 
+			this.序列化ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.生成序列化行ToolStripMenuItem});
+			this.序列化ToolStripMenuItem.Name = "序列化ToolStripMenuItem";
+			this.序列化ToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+			this.序列化ToolStripMenuItem.Text = "序列化";
+			// 
+			// 生成序列化行ToolStripMenuItem
+			// 
+			this.生成序列化行ToolStripMenuItem.Name = "生成序列化行ToolStripMenuItem";
+			this.生成序列化行ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.生成序列化行ToolStripMenuItem.Text = "生成序列化行";
+			this.生成序列化行ToolStripMenuItem.Click += new System.EventHandler(this.生成序列化行ToolStripMenuItemClick);
 			// 
 			// MainForm
 			// 

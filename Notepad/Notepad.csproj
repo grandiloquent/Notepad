@@ -80,6 +80,9 @@
       <HintPath>..\..\..\..\..\..\Codes\Packages\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Collections" />
+    <Reference Include="System.Collections.Immutable">
+      <HintPath>..\..\..\..\..\..\bin\Packages\System.Collections.Immutable.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -103,9 +106,13 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="WebMarkupMin.Core">
+      <HintPath>..\..\..\..\..\..\bin\Packages\WebMarkupMin.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\StringTemplate.cs" />
+    <Compile Include="Common\DateTimes.cs" />
     <Compile Include="Common\Files.cs" />
     <Compile Include="Common\Forms.cs" />
     <Compile Include="Common\HtmlAgilityPacks.cs" />
@@ -115,10 +122,13 @@
     <Compile Include="Common\Strings.cs" />
     <Compile Include="Common\TextBoxs.cs" />
     <Compile Include="Common\UnsafeNativeMethods.cs" />
+    <Compile Include="Common\Zips.cs" />
     <Compile Include="Delegates\CodeDelegate.cs" />
     <Compile Include="Delegates\CSharpDelegate.cs" />
     <Compile Include="Delegates\CSSDelegate.cs" />
+    <Compile Include="Delegates\FileDelegate.cs" />
     <Compile Include="Delegates\FindDelegate.cs" />
+    <Compile Include="Delegates\GoDelegate.cs" />
     <Compile Include="Delegates\Helper.cs" />
     <Compile Include="Delegates\JavaScriptDelegate.cs" />
     <Compile Include="Delegates\SafariDelegate.cs" />

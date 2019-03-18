@@ -140,6 +140,18 @@ namespace Common
 		{
 			
 			return string.Join(Environment.NewLine, str.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Where(i=>!string.IsNullOrWhiteSpace(i)));
+		}public static string Concatenate(this IEnumerable<string> strings)
+		{
+			return strings.Concatenate((builder, nextValue) => builder.Append(nextValue));
+		}
+		private static string Concatenate(this IEnumerable<string> strings,
+			Func<StringBuilder, string, StringBuilder> builderFunc)
+		{
+			return strings.Aggregate(new StringBuilder(), builderFunc).ToString();
+		}
+		public static string ConcatenateLines(this IEnumerable<string> strings)
+		{
+			return strings.Concatenate((builder, nextValue) => builder.AppendLine(nextValue));
 		}
 		public static IEnumerable<string> ToBlocks(this string value)
 		{
