@@ -9,32 +9,38 @@
 	using System.Text.RegularExpressions;
 	using System.Text;
 	using System.Linq;
-	using Common;
 	using System.Collections.Generic;
 	using System.Threading.Tasks;
+	using Common;
 	public static class TranslatorDelegate
 	{
+		private static string[][] _fomratMap=new string[][]{
+			new string[]{"您","你"},
+			new string[]{"类型","文字"},
+			new string[]{"过滤器","滤镜"},
+			new string[]{"遮罩","蒙版"},
+			new string[]{"部电影","个视频"},
+			new string[]{"刷子","画笔"},
+			
+			new string[]{"Control","Ctrl"},
+			new string[]{"选择","选区"},
+			new string[]{"乘法","正片叠底"},
+			new string[]{"Multiply","正片叠底"},
+			
+			new string[]{"级别调整","色阶调整层"},
+			// 飞溅 喷溅 置换贴图 置换图
+			
+		};
+		
+		private static string FormatResult(string s){
+			foreach (var element in _fomratMap) {
+				s=s.Replace(element[0],element[1]);
+			}
+			return s;
+		}
 		private static HttpClient _client;
 
-			
-		[BindMenuItem(Name = "百度 (英文到中文)", SplitButton = "englishButton", Toolbar = "toolStrip", AddSeparatorBefore = true, NeedBinding = true, ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q))))]
-		public async static void Baidu(ToolStripMenuItem menuItem, MainForm mainForm)
-		{
-			var textBox = mainForm.textBox;
-			
-			textBox.SelectLine(true);
-
-			var val = textBox.SelectedText;
-			if (string.IsNullOrWhiteSpace(val))
-				return;
-			var result =await	QueryFromBaidu(val, "en", "zh");
-			
-			textBox.SelectedText=result+textBox.SelectedText;
-
-		 
-			
-			Google(menuItem,mainForm);
-		}
+			// ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)))
 		
 			
 		[BindMenuItem(Name = "谷歌 (英文到中文)", SplitButton = "englishButton", Toolbar = "toolStrip", AddSeparatorBefore = true, NeedBinding = true, ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W))))]
@@ -61,7 +67,7 @@
 				//.AppendLine(item["orig"].ToString()
 				sb.AppendLine(item["trans"].ToString());
 			}
-			textBox.SelectedText=Environment.NewLine+sb.ToString()+Environment.NewLine+textBox.SelectedText;
+			textBox.SelectedText=Environment.NewLine+FormatResult(sb.ToString())+Environment.NewLine+textBox.SelectedText;
 
 		}
 		 private async static Task<string> QueryEnglish(string q)
@@ -93,7 +99,7 @@
 				.Append(securityKey);
 			parameters.Add("sign", sb.ToString().Md5());
 			if(_client==null){
-				_client=HttpClients.GetHttpClient();
+				_client=Common.Https.GetHttpClient();
 			}
 			var json = await _client.PostWithParameters(url, parameters);
 			var array = json.ToJObject().GetArray<Newtonsoft.Json.Linq.JObject>("trans_result");

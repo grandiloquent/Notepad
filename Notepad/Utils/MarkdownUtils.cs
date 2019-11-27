@@ -7,34 +7,21 @@ using Markdig;
 using HtmlAgilityPack;
 using System.Text.RegularExpressions;
 using Notepad;
-using Common;
+using Helpers;
 
 namespace Utils
 {
 	
 	public static class MarkdownUtils
 	{
-		
-		private static MarkdownPipeline _sMarkdownPipeline;
-
-		public static MarkdownPipeline GetMarkdownPipeline()
+		public static bool IsVacuum(this string value)
 		{
-			return  _sMarkdownPipeline ?? (_sMarkdownPipeline = new MarkdownPipelineBuilder().UsePipeTables().UseCustomContainers().UseEmphasisExtras().UseAutoIdentifiers().UseAutoLinks().UseGenericAttributes().Build());		}
-		public static string FormatMarkdown(this string value)
-		{
-			var retVal = Markdown.ToHtml(value, GetMarkdownPipeline());
-			var index = 0;
-//			var isFirst = true;
-//			retVal = Regex.Replace(retVal, "<(h[123])[^>]*?>", new MatchEvaluator((m) => {
-//				if (isFirst) {
-//					isFirst = false;
-//					return  string.Format("<{0}>", m.Groups[1].Value);
-//				}
-//				return string.Format("<{0} id=\"section-{1}\">", m.Groups[1].Value, (++index));
-//
-//			}));
-			return retVal;
+			return string.IsNullOrWhiteSpace(value);
 		}
+		
+
+	
+	
 		public static string FormatHeading(this string value)
 		{
 			if (value.TrimStart().StartsWith("#")) {

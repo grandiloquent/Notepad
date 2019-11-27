@@ -15,8 +15,8 @@ namespace Utils
 
 		public string Content { get; set; }
 
-		public DateTime CreateAt { get; set; }
-		public DateTime UpdateAt { get; set; }
+		public Int64 CreateAt { get; set; }
+		public Int64 UpdateAt { get; set; }
 	}
 	public class DatabaseUtils
 	{
@@ -25,7 +25,10 @@ namespace Utils
 		{
 			return  (sHelperSqlite = new DatabaseUtils(path));
 		}
-		public static DatabaseUtils NewInstance(string path){ return new DatabaseUtils(path);}
+		public static DatabaseUtils NewInstance(string path)
+		{
+			return new DatabaseUtils(path);
+		}
         
 		public static DatabaseUtils GetInstance()
 		{
@@ -35,13 +38,19 @@ namespace Utils
         
 		public DatabaseUtils(string path)
 		{
+			var b = System.IO.File.Exists(path);
 			connection = new SQLiteConnection(path);
 			connection.CreateTable<Article>();
 		}
-		public IEnumerable<string> GetTitleList()
+		public IEnumerable<string> GetTitleList(string fitler)
 		{
-
-			return connection.Query<Article>("select Title from Article").Select(i => i.Title);
+			if (!string.IsNullOrWhiteSpace(fitler))
+				return connection.Query<Article>("select Title from Article")
+				.Select(i => i.Title).Where(i => i.IndexOf(fitler) != -1);
+			else
+				return connection.Query<Article>("select Title from Article")
+						.Select(i => i.Title);
+					
 		}
 		public IEnumerable<Article> GetTitleContentList()
 		{

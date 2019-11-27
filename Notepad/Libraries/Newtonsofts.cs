@@ -1,4 +1,4 @@
-﻿namespace Common
+﻿namespace Notepad
 {
 	using System;
 	using System.Linq;

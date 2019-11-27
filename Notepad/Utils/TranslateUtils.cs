@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text.RegularExpressions;
 
-namespace  Utils
+namespace  Notepad
 {
 	
 	public class TranslateUtils
