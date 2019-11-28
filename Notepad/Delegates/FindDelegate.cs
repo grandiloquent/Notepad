@@ -3,6 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Windows.Forms;
+	using System.Windows.Forms;
 
 	using System.IO;
 	using System.Text.RegularExpressions;
@@ -169,7 +170,7 @@
 				//elements[elements.Length - 1] = (index++).ToString();
 				ls.Add(string.Format(pattern.Replace("\\n", "\n"), elements));
 			}
-			var result = ls.ConcatenateLines();
+			var result = ls.Concatenates();
 				
 			return result;
 		}
@@ -195,6 +196,21 @@
 				textBox.SelectionLength = m.Value.Length;
 				textBox.ScrollToCaret();
 			}
+		}
+		
+	
+		[BindMenuItem(Control = "格式化模板", Toolbar = "stringToolbar", NeedBinding = true)]
+	
+		public static void FormatPattern(ToolStripItem menuItem, MainForm mainForm)
+		{
+				var s = Clipboard.GetText().Trim();
+			if (!string.IsNullOrWhiteSpace(s)) {
+				s = Regex.Replace(s, "[\t\n\r]+", "");
+				s = Regex.Replace(s, "\\s{2,}", " ");
+				Clipboard.SetText(s.Replace("{", "{{").Replace("}", "}}"));
+			}
+		
+			
 		}
 		[BindMenuItem(Control = "大写化", Toolbar = "stringToolbar", NeedBinding = true)]
 	
@@ -277,7 +293,7 @@
 			
 		}
 		
-		[BindMenuItem(Name = "模板", Control = "stringpatternButton", Toolbar = "toolStrip2", NeedBinding = true)]
+		[BindMenuItem( Control = "模板",Toolbar = "stringToolbar",NeedBinding=true)]
 	
 		public static void Replace(ToolStripItem menuItem, MainForm mainForm)
 		{

@@ -377,15 +377,7 @@ namespace Notepad
 			Clipboard.SetText(match);
 		}
 		
-		void 格式化ToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			var s = Clipboard.GetText().Trim();
-			if (!string.IsNullOrWhiteSpace(s)) {
-				s = Regex.Replace(s, "[\t\n\r]+", "");
-				s = Regex.Replace(s, "\\s{2,}", " ");
-				Clipboard.SetText(s.Replace("{", "{{").Replace("}", "}}"));
-			}
-		}
+		 
 		void 行SQLToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			var pieces = Regex.Split(textBox.Text, "\\-{3}");

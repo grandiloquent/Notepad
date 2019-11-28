@@ -65,7 +65,6 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripMenuItem 其他ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 导出代码ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSplitButton stringpatternButton;
-		private System.Windows.Forms.ToolStripMenuItem 格式化ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 第一个小写后面大写ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 测试ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripButton testStripButton;
@@ -169,7 +168,6 @@ namespace Notepad
 			this.replaceBox = new System.Windows.Forms.ToolStripComboBox();
 			this.findStripSplitButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.stringpatternButton = new System.Windows.Forms.ToolStripSplitButton();
-			this.格式化ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.第一个小写后面大写ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.大写序列ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.androidToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -419,7 +417,6 @@ namespace Notepad
 			// 
 			this.stringpatternButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.stringpatternButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.格式化ToolStripMenuItem,
 			this.第一个小写后面大写ToolStripMenuItem,
 			this.大写序列ToolStripMenuItem,
 			this.androidToolStripMenuItem,
@@ -431,13 +428,6 @@ namespace Notepad
 			this.stringpatternButton.Name = "stringpatternButton";
 			this.stringpatternButton.Size = new System.Drawing.Size(48, 22);
 			this.stringpatternButton.Text = "模板";
-			// 
-			// 格式化ToolStripMenuItem
-			// 
-			this.格式化ToolStripMenuItem.Name = "格式化ToolStripMenuItem";
-			this.格式化ToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
-			this.格式化ToolStripMenuItem.Text = "格式化";
-			this.格式化ToolStripMenuItem.Click += new System.EventHandler(this.格式化ToolStripMenuItemClick);
 			// 
 			// 第一个小写后面大写ToolStripMenuItem
 			// 
