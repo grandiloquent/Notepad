@@ -126,7 +126,6 @@
     <Compile Include="Delegates\FormatDelegate.cs" />
     <Compile Include="Delegates\JavaScriptDelegate.cs" />
     <Compile Include="Delegates\TranslatorDelegate.cs" />
-    <Compile Include="Delegates\WebServerDelegate.cs" />
     <Compile Include="Extensions\GenericExtensions.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Helpers\Crc32Helper.cs" />

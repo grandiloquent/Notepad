@@ -15,7 +15,7 @@
 		public static string FormatCodeInternal(this string value)
 		{
 			if (string.IsNullOrWhiteSpace(value) || value.Contains('\n')) {
-				return string.Format("\r\n```\r\n{0}\r\n```\r\n", HtmlAgilityPack.HtmlEntity.DeEntitize(value.Trim()));
+				return string.Format("\r\n```javascript\r\n{0}\r\n```\r\n", HtmlAgilityPack.HtmlEntity.DeEntitize(value.Trim()));
 			}
 			return string.Format("`{0}`", HtmlAgilityPack.HtmlEntity.DeEntitize(value.Trim()));
 		}
@@ -79,7 +79,7 @@
 				result = result.Concat(element.Value).ToList();
 				result.Add(Environment.NewLine);
 			}
-			return string.Join(Environment.NewLine  , result);
+			return string.Join(Environment.NewLine, result);
 		}
 		public static String OrderH2(String value)
 		{
@@ -107,6 +107,13 @@
 			}
 			return string.Join(Environment.NewLine, result);
 		}
+		[BindMenuItem(Control = "格式化", Toolbar = "toolStrip3", NeedBinding = true)]
+		public static void Foramt(ToolStripItem menuItem, MainForm mainForm)
+		{
+			var textBox = mainForm.textBox;
+			textBox.Format();
+		}
+		
 		[BindMenuItem(Control = "排序H2块", Toolbar = "toolStrip3", NeedBinding = true)]
 		public static void OrderH2s(ToolStripItem menuItem, MainForm mainForm)
 		{
@@ -121,13 +128,13 @@
 		[BindMenuItem(Control = "排序H3块", Toolbar = "toolStrip3", NeedBinding = true)]
 		public static void OrderH3s(ToolStripItem menuItem, MainForm mainForm)
 		{
-			var str =	mainForm.textBox.Text.Trim();
+//			var str =	mainForm.textBox.Text.Trim();
+//
+//			var sb = new StringBuilder();
+//		
+//			sb.AppendLine(str.SubstringBefore('\n').Trim()).AppendLine().AppendLine(OrderH3(str.SubstringAfter('\n')));
 
-			var sb = new StringBuilder();
-		
-			sb.AppendLine(str.SubstringBefore('\n').Trim()).AppendLine().AppendLine(OrderH3(str.SubstringAfter('\n')));
-
-			mainForm.textBox.Text = sb.ToString();
+			mainForm.textBox.SelectedText = OrderH3(mainForm.textBox.SelectedText);
 		}
 		
 		[BindMenuItem(Control = "链接", Toolbar = "toolStrip3", NeedBinding = true)]
@@ -136,13 +143,7 @@
 			var textBox = mainForm.textBox;
 			textBox.SelectedText = string.Format("[{0}]({1})", textBox.SelectedText.Trim(), Clipboard.GetText().Trim());
 		}
-		[BindMenuItem(Control = "formatStripButton", Toolbar = "toolStrip3", NeedBinding = true)]
-		public static void Foramt(ToolStripItem menuItem, MainForm mainForm)
-		{
-			var textBox = mainForm.textBox;
-			textBox.Format();
-		}
-		
+	
 		[BindMenuItem(Control = "代码", Toolbar = "toolStrip3", NeedBinding = true)]
 		public static void ForamtCode(ToolStripItem menuItem, MainForm mainForm)
 		{
@@ -181,7 +182,7 @@
 			textBox.SelectedText = ToNumberList(textBox.SelectedText);
 			
 		}
-		[BindMenuItem(Control = "ulButton", Toolbar = "toolStrip3", NeedBinding = true)]
+		[BindMenuItem(Control = "列表", Toolbar = "toolStrip3", NeedBinding = true)]
 		public static void ForamtList(ToolStripItem menuItem, MainForm mainForm)
 		{
 			var textBox = mainForm.textBox;
@@ -220,6 +221,65 @@
 			                          	
 			});
 			
+		}
+		[BindMenuItem(Control = "标题", Toolbar = "toolStrip3", NeedBinding = true)]
+		public static void InsertTitles(ToolStripItem menuItem, MainForm mainForm)
+		{
+			var textBox = mainForm.textBox;
+			//Wins.OnClipboardText(s => textBox.SelectedText = s.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(i => "### " + i.SubstringAfterLast(".")).ConcatenateLines());
+//
+//			Wins.OnClipboardText(s => {
+//			                     
+//				var hd = new HtmlAgilityPack.HtmlDocument();
+//				hd.LoadHtml(s);
+//				var ls=new List<string>();
+//			                     	
+//				hd.DocumentNode.SelectNodes("//ul[@class='_entry-list']//a").ForEach((e,i) => {
+//				                                                                     	ls.Add(string.Format("- [{0}](https://devdocs.io{1})",e.InnerText,e.GetAttributeValue("href","")));
+//				});
+//				
+//				textBox.SelectedText=ls.OrderBy(i=>i).ConcatenateLines();
+//			                  
+//			});
+			
+			
+			Wins.OnClipboardText(s => {
+			                     
+				var hd = new HtmlAgilityPack.HtmlDocument();
+				hd.LoadHtml(s);
+				var ls = new List<string>();
+			                     	
+				hd.DocumentNode.SelectNodes("//li[contains(@class,'toc-level-1')]").ForEach((e, i) => {
+				                                                                            	
+					var h1 = e.SelectSingleNode("./a");
+					ls.Add(string.Empty);
+					ls.Add(string.Format("- {0}", h1.InnerText));
+					ls.Add(string.Empty);
+					
+					
+					var nodes = e.SelectNodes(".//li[contains(@class,'toc-level-2')]/a");
+					if (nodes != null && nodes.Any())
+						nodes.ForEach((x, j) => {
+					                               
+							ls.Add(string.Format("  - {0}", System.Web.HttpUtility.HtmlDecode(x.InnerText)));
+						});
+					 
+					
+				});
+				
+				textBox.SelectedText = ls.ConcatenateLines();
+			                  
+			});
+		}
+		[BindMenuItem(Control = "排序", Toolbar = "toolStrip3", NeedBinding = true)]
+		public static void OrderSelected(ToolStripItem menuItem, MainForm mainForm)
+		{
+			var textBox = mainForm.textBox;
+			textBox.SelectedText = textBox.SelectedText.Split(Environment.NewLine.ToArray(), StringSplitOptions.RemoveEmptyEntries)
+				.Select(i => i.Trim())
+				.Distinct()
+				.OrderBy(i => i)
+				.ConcatenateLines();
 		}
 		[BindMenuItem(Control = "其他", Toolbar = "toolStrip3", NeedBinding = true)]
 		public static void OtherOperation(ToolStripItem menuItem, MainForm mainForm)

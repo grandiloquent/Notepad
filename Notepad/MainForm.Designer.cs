@@ -29,7 +29,6 @@ namespace Notepad
 		public System.Windows.Forms.ToolStripComboBox findBox;
 		public System.Windows.Forms.ToolStripComboBox replaceBox;
 		private System.Windows.Forms.ToolStripSplitButton findButton;
-		private System.Windows.Forms.ToolStripButton newSplitButton;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
 		private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
 		private System.Windows.Forms.ToolStripMenuItem 删除ToolStripMenuItem;
@@ -81,7 +80,6 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripMenuItem 移除空格ToolStripMenuItem;
 		private System.Windows.Forms.ToolStrip toolStrip3;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator20;
-		private System.Windows.Forms.ToolStripButton ulButton;
 		private System.Windows.Forms.ToolStripButton subButton;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator21;
 		private System.Windows.Forms.ToolStripButton h2SplitButton;
@@ -90,9 +88,6 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripButton supStripButton;
 		private System.Windows.Forms.ToolStripButton numberListStripButton;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator23;
-		private System.Windows.Forms.ToolStripButton formatStripButton;
-		private System.Windows.Forms.ToolStrip toolStrip1;
-		private System.Windows.Forms.ToolStripButton createSplitButton;
 		private System.Windows.Forms.ToolStripButton pageStartStripButton;
 		private System.Windows.Forms.ToolStripButton pageEndStripButton;
 		private System.Windows.Forms.ToolStripButton chineseStripButton;
@@ -103,22 +98,7 @@ namespace Notepad
 		private System.Windows.Forms.ToolStripButton generateHtmlStripButton;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator25;
 		private System.Windows.Forms.ToolStripSplitButton saveStripSplitButton;
-		private System.Windows.Forms.ToolStripButton updateSplitButton;
 		private System.Windows.Forms.ToolStripSplitButton findStripSplitButton;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
-		private System.Windows.Forms.ToolStripButton uploadStaticFTPStripButton;
-		private System.Windows.Forms.ToolStripButton downlaodFTPStripButton;
-		private System.Windows.Forms.ToolStripButton templateFTPStripButton;
-		private System.Windows.Forms.ToolStripButton directoryFTPStripButton;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
-		private System.Windows.Forms.ToolStripButton nginxFTPStripButton;
-		private System.Windows.Forms.ToolStripButton uploadFTPStripButton;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
-		private System.Windows.Forms.ToolStripButton uploadCSSFTPStripButton;
-		private System.Windows.Forms.ToolStripButton backupSQLFTPStripButton;
-		private System.Windows.Forms.ToolStripButton uploadJavaScriptFTPStripButton;
-		private System.Windows.Forms.ToolStripButton backupStaticFTPStripButton;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
 		private System.Windows.Forms.ToolStripMenuItem 导入ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem 导入文件夹ToolStripMenuItem;
@@ -127,6 +107,8 @@ namespace Notepad
 		private System.Windows.Forms.ToolStrip stringToolbar;
 		private System.Windows.Forms.ComboBox comboBox1;
 		private System.Windows.Forms.ToolStripMenuItem 代码ToolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem 标题ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 列表ToolStripMenuItem1;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -152,7 +134,6 @@ namespace Notepad
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.toolStrip5 = new System.Windows.Forms.ToolStrip();
-			this.newSplitButton = new System.Windows.Forms.ToolStripButton();
 			this.saveStripSplitButton = new System.Windows.Forms.ToolStripSplitButton();
 			this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
 			this.englishStripButton = new System.Windows.Forms.ToolStripButton();
@@ -234,9 +215,10 @@ namespace Notepad
 			this.大小写切换ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.移除空格ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.代码ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.标题ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.列表ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip3 = new System.Windows.Forms.ToolStrip();
 			this.toolStripSeparator20 = new System.Windows.Forms.ToolStripSeparator();
-			this.ulButton = new System.Windows.Forms.ToolStripButton();
 			this.numberListStripButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator22 = new System.Windows.Forms.ToolStripSeparator();
 			this.supStripButton = new System.Windows.Forms.ToolStripButton();
@@ -245,24 +227,6 @@ namespace Notepad
 			this.h2SplitButton = new System.Windows.Forms.ToolStripButton();
 			this.h3SplitButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator23 = new System.Windows.Forms.ToolStripSeparator();
-			this.formatStripButton = new System.Windows.Forms.ToolStripButton();
-			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-			this.createSplitButton = new System.Windows.Forms.ToolStripButton();
-			this.updateSplitButton = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
-			this.uploadFTPStripButton = new System.Windows.Forms.ToolStripButton();
-			this.downlaodFTPStripButton = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
-			this.directoryFTPStripButton = new System.Windows.Forms.ToolStripButton();
-			this.templateFTPStripButton = new System.Windows.Forms.ToolStripButton();
-			this.uploadStaticFTPStripButton = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
-			this.nginxFTPStripButton = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
-			this.uploadCSSFTPStripButton = new System.Windows.Forms.ToolStripButton();
-			this.backupSQLFTPStripButton = new System.Windows.Forms.ToolStripButton();
-			this.uploadJavaScriptFTPStripButton = new System.Windows.Forms.ToolStripButton();
-			this.backupStaticFTPStripButton = new System.Windows.Forms.ToolStripButton();
 			this.stringToolbar = new System.Windows.Forms.ToolStrip();
 			this.toolStrip5.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
@@ -274,13 +238,11 @@ namespace Notepad
 			this.contextMenuStrip2.SuspendLayout();
 			this.contextMenuStrip1.SuspendLayout();
 			this.toolStrip3.SuspendLayout();
-			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// toolStrip5
 			// 
 			this.toolStrip5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.newSplitButton,
 			this.saveStripSplitButton,
 			this.toolStripSeparator11,
 			this.englishStripButton,
@@ -296,14 +258,6 @@ namespace Notepad
 			this.toolStrip5.Size = new System.Drawing.Size(938, 25);
 			this.toolStrip5.TabIndex = 0;
 			this.toolStrip5.Text = "toolStrip1";
-			// 
-			// newSplitButton
-			// 
-			this.newSplitButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.newSplitButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.newSplitButton.Name = "newSplitButton";
-			this.newSplitButton.Size = new System.Drawing.Size(36, 22);
-			this.newSplitButton.Text = "新建";
 			// 
 			// saveStripSplitButton
 			// 
@@ -384,7 +338,7 @@ namespace Notepad
 			this.filterStripButton,
 			this.findButton,
 			this.templateButton});
-			this.toolStrip2.Location = new System.Drawing.Point(0, 75);
+			this.toolStrip2.Location = new System.Drawing.Point(0, 50);
 			this.toolStrip2.Name = "toolStrip2";
 			this.toolStrip2.Size = new System.Drawing.Size(938, 25);
 			this.toolStrip2.TabIndex = 1;
@@ -398,9 +352,7 @@ namespace Notepad
 			// replaceBox
 			// 
 			this.replaceBox.Items.AddRange(new object[] {
-			"\'\\n{0} -> \',event.{0}, ",
-			"implementation \'{0}\'",
-			"$1"});
+			"`$0`"});
 			this.replaceBox.Name = "replaceBox";
 			this.replaceBox.Size = new System.Drawing.Size(300, 25);
 			// 
@@ -504,7 +456,6 @@ namespace Notepad
 			// 查找ToolStripMenuItem
 			// 
 			this.查找ToolStripMenuItem.Name = "查找ToolStripMenuItem";
-			this.查找ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F4;
 			this.查找ToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
 			this.查找ToolStripMenuItem.Text = "查找";
 			this.查找ToolStripMenuItem.Click += new System.EventHandler(this.查找ToolStripMenuItemClick);
@@ -516,6 +467,7 @@ namespace Notepad
 			this.保留正则表达式ToolStripMenuItem.Name = "保留正则表达式ToolStripMenuItem";
 			this.保留正则表达式ToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
 			this.保留正则表达式ToolStripMenuItem.Text = "保留";
+			this.保留正则表达式ToolStripMenuItem.Click += new System.EventHandler(this.保留正则表达式ToolStripMenuItemClick);
 			// 
 			// switchCase正则表达式ToolStripMenuItem
 			// 
@@ -627,7 +579,7 @@ namespace Notepad
 			this.toolStripSeparator2,
 			this.testStripButton,
 			this.toolStripButton1});
-			this.toolStrip.Location = new System.Drawing.Point(0, 100);
+			this.toolStrip.Location = new System.Drawing.Point(0, 75);
 			this.toolStrip.Name = "toolStrip";
 			this.toolStrip.Size = new System.Drawing.Size(938, 25);
 			this.toolStrip.TabIndex = 2;
@@ -670,7 +622,7 @@ namespace Notepad
 			// splitContainer1
 			// 
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.splitContainer1.Location = new System.Drawing.Point(0, 150);
+			this.splitContainer1.Location = new System.Drawing.Point(0, 125);
 			this.splitContainer1.Name = "splitContainer1";
 			// 
 			// splitContainer1.Panel1
@@ -682,7 +634,7 @@ namespace Notepad
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.textBox);
-			this.splitContainer1.Size = new System.Drawing.Size(938, 395);
+			this.splitContainer1.Size = new System.Drawing.Size(938, 420);
 			this.splitContainer1.SplitterDistance = 255;
 			this.splitContainer1.TabIndex = 3;
 			// 
@@ -696,7 +648,7 @@ namespace Notepad
 			this.listBox.Location = new System.Drawing.Point(0, 40);
 			this.listBox.Name = "listBox";
 			this.listBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-			this.listBox.Size = new System.Drawing.Size(255, 355);
+			this.listBox.Size = new System.Drawing.Size(255, 380);
 			this.listBox.TabIndex = 1;
 			this.listBox.DoubleClick += new System.EventHandler(this.ListBoxDoubleClick);
 			// 
@@ -783,7 +735,7 @@ namespace Notepad
 			this.textBox.Multiline = true;
 			this.textBox.Name = "textBox";
 			this.textBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textBox.Size = new System.Drawing.Size(679, 395);
+			this.textBox.Size = new System.Drawing.Size(679, 420);
 			this.textBox.TabIndex = 0;
 			this.textBox.TextChanged += new System.EventHandler(this.TextBoxTextChanged);
 			this.textBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBoxKeyDown);
@@ -804,9 +756,11 @@ namespace Notepad
 			this.toolStripSeparator1,
 			this.大小写切换ToolStripMenuItem,
 			this.移除空格ToolStripMenuItem,
-			this.代码ToolStripMenuItem1});
+			this.代码ToolStripMenuItem1,
+			this.标题ToolStripMenuItem,
+			this.列表ToolStripMenuItem1});
 			this.contextMenuStrip1.Name = "contextMenuStrip1";
-			this.contextMenuStrip1.Size = new System.Drawing.Size(169, 264);
+			this.contextMenuStrip1.Size = new System.Drawing.Size(169, 308);
 			// 
 			// 复制代码ToolStripMenuItem
 			// 
@@ -964,11 +918,26 @@ namespace Notepad
 			this.代码ToolStripMenuItem1.Text = "代码";
 			this.代码ToolStripMenuItem1.Click += new System.EventHandler(this.代码ToolStripMenuItem1Click);
 			// 
+			// 标题ToolStripMenuItem
+			// 
+			this.标题ToolStripMenuItem.Name = "标题ToolStripMenuItem";
+			this.标题ToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3;
+			this.标题ToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+			this.标题ToolStripMenuItem.Text = "标题";
+			this.标题ToolStripMenuItem.Click += new System.EventHandler(this.标题ToolStripMenuItemClick);
+			// 
+			// 列表ToolStripMenuItem1
+			// 
+			this.列表ToolStripMenuItem1.Name = "列表ToolStripMenuItem1";
+			this.列表ToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F4;
+			this.列表ToolStripMenuItem1.Size = new System.Drawing.Size(168, 22);
+			this.列表ToolStripMenuItem1.Text = "列表";
+			this.列表ToolStripMenuItem1.Click += new System.EventHandler(this.列表ToolStripMenuItem1Click);
+			// 
 			// toolStrip3
 			// 
 			this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.toolStripSeparator20,
-			this.ulButton,
 			this.numberListStripButton,
 			this.toolStripSeparator22,
 			this.supStripButton,
@@ -976,8 +945,7 @@ namespace Notepad
 			this.toolStripSeparator21,
 			this.h2SplitButton,
 			this.h3SplitButton,
-			this.toolStripSeparator23,
-			this.formatStripButton});
+			this.toolStripSeparator23});
 			this.toolStrip3.Location = new System.Drawing.Point(0, 25);
 			this.toolStrip3.Name = "toolStrip3";
 			this.toolStrip3.Size = new System.Drawing.Size(938, 25);
@@ -988,15 +956,6 @@ namespace Notepad
 			// 
 			this.toolStripSeparator20.Name = "toolStripSeparator20";
 			this.toolStripSeparator20.Size = new System.Drawing.Size(6, 25);
-			// 
-			// ulButton
-			// 
-			this.ulButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.ulButton.Image = ((System.Drawing.Image)(resources.GetObject("ulButton.Image")));
-			this.ulButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.ulButton.Name = "ulButton";
-			this.ulButton.Size = new System.Drawing.Size(36, 22);
-			this.ulButton.Text = "列表";
 			// 
 			// numberListStripButton
 			// 
@@ -1058,171 +1017,9 @@ namespace Notepad
 			this.toolStripSeparator23.Name = "toolStripSeparator23";
 			this.toolStripSeparator23.Size = new System.Drawing.Size(6, 25);
 			// 
-			// formatStripButton
-			// 
-			this.formatStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.formatStripButton.Image = ((System.Drawing.Image)(resources.GetObject("formatStripButton.Image")));
-			this.formatStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.formatStripButton.Name = "formatStripButton";
-			this.formatStripButton.Size = new System.Drawing.Size(48, 22);
-			this.formatStripButton.Text = "格式化";
-			// 
-			// toolStrip1
-			// 
-			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.createSplitButton,
-			this.updateSplitButton,
-			this.toolStripSeparator8,
-			this.uploadFTPStripButton,
-			this.downlaodFTPStripButton,
-			this.toolStripSeparator10,
-			this.directoryFTPStripButton,
-			this.templateFTPStripButton,
-			this.uploadStaticFTPStripButton,
-			this.toolStripSeparator12,
-			this.nginxFTPStripButton,
-			this.toolStripSeparator13,
-			this.uploadCSSFTPStripButton,
-			this.backupSQLFTPStripButton,
-			this.uploadJavaScriptFTPStripButton,
-			this.backupStaticFTPStripButton});
-			this.toolStrip1.Location = new System.Drawing.Point(0, 50);
-			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(938, 25);
-			this.toolStrip1.TabIndex = 5;
-			this.toolStrip1.Text = "toolStrip4";
-			// 
-			// createSplitButton
-			// 
-			this.createSplitButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.createSplitButton.Image = ((System.Drawing.Image)(resources.GetObject("createSplitButton.Image")));
-			this.createSplitButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.createSplitButton.Name = "createSplitButton";
-			this.createSplitButton.Size = new System.Drawing.Size(36, 22);
-			this.createSplitButton.Text = "创建";
-			// 
-			// updateSplitButton
-			// 
-			this.updateSplitButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.updateSplitButton.Image = ((System.Drawing.Image)(resources.GetObject("updateSplitButton.Image")));
-			this.updateSplitButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.updateSplitButton.Name = "updateSplitButton";
-			this.updateSplitButton.Size = new System.Drawing.Size(36, 22);
-			this.updateSplitButton.Text = "更新";
-			// 
-			// toolStripSeparator8
-			// 
-			this.toolStripSeparator8.Name = "toolStripSeparator8";
-			this.toolStripSeparator8.Size = new System.Drawing.Size(6, 25);
-			// 
-			// uploadFTPStripButton
-			// 
-			this.uploadFTPStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.uploadFTPStripButton.Image = ((System.Drawing.Image)(resources.GetObject("uploadFTPStripButton.Image")));
-			this.uploadFTPStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.uploadFTPStripButton.Name = "uploadFTPStripButton";
-			this.uploadFTPStripButton.Size = new System.Drawing.Size(36, 22);
-			this.uploadFTPStripButton.Text = "上传";
-			// 
-			// downlaodFTPStripButton
-			// 
-			this.downlaodFTPStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.downlaodFTPStripButton.Image = ((System.Drawing.Image)(resources.GetObject("downlaodFTPStripButton.Image")));
-			this.downlaodFTPStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.downlaodFTPStripButton.Name = "downlaodFTPStripButton";
-			this.downlaodFTPStripButton.Size = new System.Drawing.Size(36, 22);
-			this.downlaodFTPStripButton.Text = "下载";
-			// 
-			// toolStripSeparator10
-			// 
-			this.toolStripSeparator10.Name = "toolStripSeparator10";
-			this.toolStripSeparator10.Size = new System.Drawing.Size(6, 25);
-			// 
-			// directoryFTPStripButton
-			// 
-			this.directoryFTPStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.directoryFTPStripButton.Image = ((System.Drawing.Image)(resources.GetObject("directoryFTPStripButton.Image")));
-			this.directoryFTPStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.directoryFTPStripButton.Name = "directoryFTPStripButton";
-			this.directoryFTPStripButton.Size = new System.Drawing.Size(60, 22);
-			this.directoryFTPStripButton.Text = "上传目录";
-			// 
-			// templateFTPStripButton
-			// 
-			this.templateFTPStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.templateFTPStripButton.Image = ((System.Drawing.Image)(resources.GetObject("templateFTPStripButton.Image")));
-			this.templateFTPStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.templateFTPStripButton.Name = "templateFTPStripButton";
-			this.templateFTPStripButton.Size = new System.Drawing.Size(84, 22);
-			this.templateFTPStripButton.Text = "上传模板文件";
-			// 
-			// uploadStaticFTPStripButton
-			// 
-			this.uploadStaticFTPStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.uploadStaticFTPStripButton.Image = ((System.Drawing.Image)(resources.GetObject("uploadStaticFTPStripButton.Image")));
-			this.uploadStaticFTPStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.uploadStaticFTPStripButton.Name = "uploadStaticFTPStripButton";
-			this.uploadStaticFTPStripButton.Size = new System.Drawing.Size(84, 22);
-			this.uploadStaticFTPStripButton.Text = "上传静态文件";
-			// 
-			// toolStripSeparator12
-			// 
-			this.toolStripSeparator12.Name = "toolStripSeparator12";
-			this.toolStripSeparator12.Size = new System.Drawing.Size(6, 25);
-			// 
-			// nginxFTPStripButton
-			// 
-			this.nginxFTPStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.nginxFTPStripButton.Image = ((System.Drawing.Image)(resources.GetObject("nginxFTPStripButton.Image")));
-			this.nginxFTPStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.nginxFTPStripButton.Name = "nginxFTPStripButton";
-			this.nginxFTPStripButton.Size = new System.Drawing.Size(70, 22);
-			this.nginxFTPStripButton.Text = "上传Nginx";
-			// 
-			// toolStripSeparator13
-			// 
-			this.toolStripSeparator13.Name = "toolStripSeparator13";
-			this.toolStripSeparator13.Size = new System.Drawing.Size(6, 25);
-			// 
-			// uploadCSSFTPStripButton
-			// 
-			this.uploadCSSFTPStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.uploadCSSFTPStripButton.Image = ((System.Drawing.Image)(resources.GetObject("uploadCSSFTPStripButton.Image")));
-			this.uploadCSSFTPStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.uploadCSSFTPStripButton.Name = "uploadCSSFTPStripButton";
-			this.uploadCSSFTPStripButton.Size = new System.Drawing.Size(58, 22);
-			this.uploadCSSFTPStripButton.Text = "上传CSS";
-			// 
-			// backupSQLFTPStripButton
-			// 
-			this.backupSQLFTPStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.backupSQLFTPStripButton.Image = ((System.Drawing.Image)(resources.GetObject("backupSQLFTPStripButton.Image")));
-			this.backupSQLFTPStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.backupSQLFTPStripButton.Name = "backupSQLFTPStripButton";
-			this.backupSQLFTPStripButton.Size = new System.Drawing.Size(59, 22);
-			this.backupSQLFTPStripButton.Text = "备份SQL";
-			// 
-			// uploadJavaScriptFTPStripButton
-			// 
-			this.uploadJavaScriptFTPStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.uploadJavaScriptFTPStripButton.Image = ((System.Drawing.Image)(resources.GetObject("uploadJavaScriptFTPStripButton.Image")));
-			this.uploadJavaScriptFTPStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.uploadJavaScriptFTPStripButton.Name = "uploadJavaScriptFTPStripButton";
-			this.uploadJavaScriptFTPStripButton.Size = new System.Drawing.Size(23, 22);
-			this.uploadJavaScriptFTPStripButton.Text = " 上传JavaScript";
-			// 
-			// backupStaticFTPStripButton
-			// 
-			this.backupStaticFTPStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.backupStaticFTPStripButton.Image = ((System.Drawing.Image)(resources.GetObject("backupStaticFTPStripButton.Image")));
-			this.backupStaticFTPStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.backupStaticFTPStripButton.Name = "backupStaticFTPStripButton";
-			this.backupStaticFTPStripButton.Size = new System.Drawing.Size(67, 22);
-			this.backupStaticFTPStripButton.Text = "备份Static";
-			// 
 			// stringToolbar
 			// 
-			this.stringToolbar.Location = new System.Drawing.Point(0, 125);
+			this.stringToolbar.Location = new System.Drawing.Point(0, 100);
 			this.stringToolbar.Name = "stringToolbar";
 			this.stringToolbar.Size = new System.Drawing.Size(938, 25);
 			this.stringToolbar.TabIndex = 6;
@@ -1237,7 +1034,6 @@ namespace Notepad
 			this.Controls.Add(this.stringToolbar);
 			this.Controls.Add(this.toolStrip);
 			this.Controls.Add(this.toolStrip2);
-			this.Controls.Add(this.toolStrip1);
 			this.Controls.Add(this.toolStrip3);
 			this.Controls.Add(this.toolStrip5);
 			this.Name = "MainForm";
@@ -1259,8 +1055,6 @@ namespace Notepad
 			this.contextMenuStrip1.ResumeLayout(false);
 			this.toolStrip3.ResumeLayout(false);
 			this.toolStrip3.PerformLayout();
-			this.toolStrip1.ResumeLayout(false);
-			this.toolStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

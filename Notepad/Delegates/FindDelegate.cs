@@ -124,7 +124,9 @@
 			var max = Math.Max(i1, i2);
 			var ls = new List<string>();
 			var pad = Regex.Match(m1, "^0+").Value.Length + 1;
-			
+			if(m1.Length==1){
+				pad=1;
+			}
 			for (int i = min; i < max + 1; i++) {
 				if (pad != 1)
 					ls.Add(Regex.Replace(text, "\\{([0-9]+) ([0-9]+)}", i.ToString().PadLeft(pad, '0')));
@@ -267,8 +269,31 @@
 			Wins.OnClipboardString(StringTemplateSerial);
 			
 		}
-		//
 		
+		[BindMenuItem(Control = "重复", Toolbar = "stringToolbar", NeedBinding = true)]
+	
+		public static void Repeat(ToolStripItem menuItem, MainForm mainForm)
+		{
+			Wins.OnClipboardString(s=>{
+			                       
+			                       
+			var match = Regex.Match(s, "\\{([0-9]+) (.*?)}");
+			if (!match.Success) {
+				return null;
+			}
+			var ls=new List<string>();
+			var m1 = match.Groups[1].Value;
+			var m2 = match.Groups[2].Value;
+			
+			var i1 = int.Parse(m1);
+			
+			for (int i = 0; i <i1; i++) {
+				ls.Add(m2);
+			}
+			return ls.Concatenates();
+			                       });
+			
+		}
 		
 		[BindMenuItem(Control = "保留", Toolbar = "toolStrip", NeedBinding = true)]
 	
@@ -316,7 +341,10 @@
 			var matchPattern = mainForm.findBox.Text;
 			var pattern = mainForm.replaceBox.Text;
 			SaveReplaceSettings(matchPattern);
-			textBox.Text = textBox.Text.Replace(matchPattern, pattern);
+			textBox.Text = 
+
+				Regex.Replace(textBox.Text,matchPattern,pattern);
+				//textBox.Text.Replace(matchPattern, pattern);
 		}
 		//		[BindMenuItem(Name = "移除非中文行",SplitButton="findButton", Toolbar = "toolStrip2", AddSeparatorBefore = true,NeedBinding=true)]
 		//		public static void RemoveNoChineseLines(ToolStripMenuItem menuItem,MainForm mainForm)

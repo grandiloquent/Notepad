@@ -31,6 +31,10 @@ namespace Common
 					continue;
 				var attribute = (BindMenuItemAttribute)attributes.First();
 				var toolStrip = (ToolStrip)form.Controls[attribute.Toolbar];
+				if(toolStrip==null){
+					
+					return;
+				}
 				ToolStripItem control = toolStrip.Items[attribute.Control];
 				ToolStripItem item = null;
 				if (control is ToolStripButton) {

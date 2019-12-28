@@ -18,10 +18,10 @@ namespace Notepad
 				StringSplitOptions.RemoveEmptyEntries).
 			                   Select(i => {
 			                          
-				if (i.StartsWith("* ")) {
+				if (i.StartsWith("- ")) {
 					return i;
 				} else {
-					return	"* " + i.Trim();
+					return	"- " + i.Trim();
 				}
 			}));
 		}

@@ -220,15 +220,17 @@ namespace Notepad
 		
 		public static void Format(this TextBox textBox)
 		{
+			var lines=textBox.Text.Split('\n').Select(i=>i.TrimEnd()).ToArray();
 			var sb = new StringBuilder();
-			for (int i = 0; i < textBox.Lines.Length; i++) {
-				if (string.IsNullOrWhiteSpace(textBox.Lines[i])) {
-					while (i + 1 < textBox.Lines.Length && string.IsNullOrWhiteSpace(textBox.Lines[i + 1])) {
+			
+			for (int i = 0,j=lines.Length; i < j; i++) {
+				if (string.IsNullOrWhiteSpace(lines[i])) {
+					while (i + 1 < j && string.IsNullOrWhiteSpace(lines[i + 1])) {
 						i++;
 					}
 					sb.AppendLine();
 				} else {
-					sb.AppendLine(textBox.Lines[i]);
+					sb.AppendLine(lines[i]);
 				}
 			}
 			textBox.Text = sb.ToString();

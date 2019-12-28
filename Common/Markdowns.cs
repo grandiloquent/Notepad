@@ -15,6 +15,7 @@ namespace Common
 			
 			s = Regex.Replace(s, "<sup[^>]*?>", "●", RegexOptions.IgnoreCase);
 			s = Regex.Replace(s, "</sup>", "◎", RegexOptions.IgnoreCase);
+			
 			return s;
 		}
 			

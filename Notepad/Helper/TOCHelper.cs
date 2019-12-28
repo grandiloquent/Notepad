@@ -49,13 +49,13 @@ namespace Notepad
 			var prefix = "#section-";
 			var sb = new StringBuilder();
 			foreach (var element in lines) {
-				if (element.StartsWith("# ")) {
-					sb.AppendFormat(string.Format("- [{0}](#{1})\r\n", element.SubstringAfter(" "), GetId(element.SubstringAfter(" ").Trim())));
-				} else
+//				if (element.StartsWith("# ")) {
+//					sb.AppendFormat(string.Format("- [{0}](#{1})\r\n", element.SubstringAfter(" "), GetId(element.SubstringAfter(" ").Trim())));
+//				} else
 				if (element.StartsWith("## ")) {
-					sb.AppendFormat(string.Format("\t- [{0}](#{1})\r\n", element.SubstringAfter(" "), GetId(element.SubstringAfter(" ").Trim())));
+					sb.AppendFormat(string.Format("- [{0}](#{1})\r\n", element.SubstringAfter(" "),Markdig.Helpers.LinkHelper.UrilizeAsGfm(element.SubstringAfter(" ").Trim())));
 				} else if (element.StartsWith("### ")) {
-					sb.AppendFormat(string.Format("\t\t- [{0}](#{1})\r\n", element.SubstringAfter(" "), GetId(element.SubstringAfter(" ").Trim())));
+					sb.AppendFormat(string.Format("\t- [{0}](#{1})\r\n", element.SubstringAfter(" "), GetId(element.SubstringAfter(" ").Trim())));
 				}
 			}
 			return sb.ToString();

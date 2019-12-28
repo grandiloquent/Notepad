@@ -449,7 +449,8 @@ namespace Notepad
 			var search = findBox.Text;
 			if (search.IsVacuum())
 				return;
-			textBox.SelectedText = string.Join(search.Trim('\\'), Regex.Split(textBox.SelectedText.Trim(), search).OrderBy(i => i));
+			textBox.SelectedText = string.Join(search.Trim('\\'), Regex.Split(textBox.SelectedText.Trim(), search).Select(i => i.Trim())
+			                                   .Distinct().OrderBy(i => i));
 		}
 		void 其他ToolStripMenuItem1Click(object sender, EventArgs e)
 		{
@@ -585,7 +586,6 @@ namespace Notepad
 			BindEvents();
 			Delegates.Inject(typeof(OtherDelegate), this);
 			Delegates.Inject(typeof(FormatDelegate), this);
-			Delegates.Inject(typeof(WebServerDelegate), this);
 			
 			Delegates.Inject(typeof(FindDelegate), this);
 			;
@@ -670,14 +670,27 @@ namespace Notepad
 		}
 		void 导出ToolStripMenuItemClick(object sender, EventArgs e)
 		{
-			var dir = "Common".GetDesktopPath();
+			var dir = "Programming notes".GetDesktopPath();
 			dir.CreateDirectoryIfNotExists();
-			var articles =	DatabaseUtils.GetInstance().GetTitleContentList();
-			foreach (var  article in articles) {
-				if (Regex.IsMatch(article.Title, "s\\.\\w+")) {
-					Path.Combine(dir, article.Title).WriteAllText(Regex.Match(article.Content, "(?<=```)[^`]*?(?=```)").Value);
+//			var articles =	DatabaseUtils.GetInstance().GetTitleContentList();
+//			foreach (var  article in articles) {
+//				if (Regex.IsMatch(article.Title, "s\\.\\w+")) {
+//					Path.Combine(dir, article.Title).WriteAllText(Regex.Match(article.Content, "(?<=```)[^`]*?(?=```)").Value);
+//				}
+//			}
+			foreach (var element in listBox.SelectedItems) {
+				Article a =	DatabaseUtils.GetInstance().GetArticle(element.ToString());
+				if (a.Title.Contains(':')) {
+				
+					var t=Path.Combine(dir,a.Title.SubstringBefore(':').Trim().GetValidFileName());
+					t.CreateDirectoryIfNotExists();
+					Path.Combine(t, a.Title.SubstringAfter(':').GetValidFileName().Trim() + ".md").WriteAllText(a.Content);
+				} else {
+					Path.Combine(dir, a.Title.GetValidFileName().Trim() + ".md").WriteAllText(a.Content);
 				}
 			}
+		
+		
 		}
 		void ComboBox1KeyDown(object sender, KeyEventArgs e)
 		{
@@ -687,9 +700,94 @@ namespace Notepad
 		}
 		void 代码ToolStripMenuItem1Click(object sender, EventArgs e)
 		{
-			textBox.SelectedText =FormatDelegate. FormatCodeInternal(textBox.SelectedText);
+			
+			Wins.OnClipboardText(s => {
+				if (!string.IsNullOrWhiteSpace(textBox.SelectedText)) {
+					textBox.SelectedText = "`" + textBox.SelectedText.Trim() + "`";
+					return;
+				}
+				textBox.SelectedText = "\r\n\r\n```\r\n\r\n" + s.Trim() + "\r\n\r\n```\r\n\r\n";
+			});
+			//textBox.SelectedText =FormatDelegate. FormatCodeInternal(textBox.SelectedText);
 		}
+		void 标题ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+
+			Wins.OnClipboardText(s => textBox.SelectedText = "\r\n\r\n### " + s.Trim() + "\r\n\r\n");
+//			var start = textBox.SelectionStart;
+//
+//			while (start - 1 > -1 && textBox.Text[start - 1] != '\n') {
+//				start--;
+//			}
+//			var end = start;
+//			while (end + 1 < textBox.Text.Length && textBox.Text[end + 1] == '#') {
+//				end++;
+//			}
+//			textBox.SelectionStart = start;
+//			textBox.SelectionLength = end - start;
+//			textBox.SelectedText = "## ";
+		}
+		void 列表ToolStripMenuItem1Click(object sender, EventArgs e)
+		{
+			Wins.OnClipboardText(s => textBox.SelectedText = string.Join(Environment.NewLine, s.RemoveWhiteSpaceLines().Split(new char[]{ '.' }, StringSplitOptions.RemoveEmptyEntries).Select(i => "- " + i.Trim() + ".")));
+			
+			//Wins.OnClipboardText(s=>textBox.SelectedText=string.Join(Environment.NewLine,s.Split(Environment.NewLine.ToArray(),StringSplitOptions.RemoveEmptyEntries).Select(i=>"- "+i.Trim())));
+			textBox.SelectedText += Environment.NewLine;
+			
+//			Wins.OnClipboardDirectory(dir => {
+//				var sb = new StringBuilder();
+//				var files = Directory.GetFiles(dir, "*.cpp");
+//				sb.Append("# C++17 Standard Library ")
+//					.AppendLine(Path.GetFileName(dir))
+//					.AppendLine();
+//				foreach (var f in files) {
+//					sb.Append("## ").AppendLine(f.GetFileNameWithoutExtension()).AppendLine();
+//					
+//					sb.Append("```").AppendLine();
+//					sb.AppendLine(f.ReadAllText());
+//					sb.Append("```").AppendLine().AppendLine();
+//					
+//				}
+//				textBox.Text=sb.ToString();
+//			});
+		}
+		void 保留正则表达式ToolStripMenuItemClick(object sender, EventArgs e)
+		{
+
+			var sb = new StringBuilder();
+			
+			for (int i = 0; i < 20; i += 4) {
+				sb.Append(string.Join("", Enumerable.Range(0, 9).Select(x => x.ToString())))
+					.Append("\\n");
+				sb.Append(string.Join("", Enumerable.Range(0, 9).Reverse().Select(x => x.ToString())))
+					.Append("\\n");
+				
+				sb.Append(string.Join("", Enumerable.Range('A', 'Z' - 'A').Select(x => (char)x)))
+					.Append("\\n");
+				sb.Append(string.Join("", Enumerable.Range('a', 'z' - 'a').Select(x => (char)x)))
+					.Append("\\n");
+			}
+			textBox.Text = sb.ToString();
+		}
+		void BackupStaticFTPStripButtonClick(object sender, EventArgs e)
+		{
+			
+			var sb = new StringBuilder();
+			var titles =	DatabaseUtils.GetInstance().GetTitleList(string.Empty);
+			
+			foreach (var element in titles) {
+				if(element.Contains(':')){
+					sb.AppendFormat("- [{0}](/{1}/{2}.md){3}", element, System.Web.HttpUtility.UrlPathEncode(element.SubstringBefore(':').Trim()),
+					                System.Web.HttpUtility.UrlPathEncode(element.SubstringAfter(':').Trim()),
+					                Environment.NewLine);
+					
+				}else
+				sb.AppendFormat("- [{0}](/{1}.md){2}", element, System.Web.HttpUtility.UrlPathEncode(element), Environment.NewLine);
+			}
+			textBox.SelectedText = sb.ToString();
+		} 
 		
+	
 	
 	}
 }

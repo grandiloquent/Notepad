@@ -155,6 +155,23 @@
 			textBox.SelectedText = Environment.NewLine + sb.ToString() + Environment.NewLine + textBox.SelectedText;
 
 		}
+		
+		[BindMenuItem(Control = "新建", Toolbar = "toolStrip5", NeedBinding = true)]
+	
+		public static void New(ToolStripItem menuItem, MainForm mainForm)
+		{
+			mainForm._article = null;
+			var stringBuilder = new System.Text.StringBuilder(58);
+			stringBuilder.AppendLine(@"# ");
+			stringBuilder.AppendLine(@"");
+			stringBuilder.AppendLine(@"## 更多");
+
+			mainForm.textBox.Text = stringBuilder.ToString();
+		
+			//textBox.Text = textBox.Text.GetFirstReadable().SubstringBefore(':') + ": " + Environment.NewLine + Environment.NewLine + "```\r\n\r\n```\r\n";
+			mainForm.Text = string.Empty;
+		}
+		
 			
 		[BindMenuItem(Control = "程序", Toolbar = "toolStrip5")]
 		public static void Run()
@@ -171,16 +188,20 @@
 			System.Diagnostics.Process.Start("chrome.exe", string.Format("\"{0}\"", fileName));
 
 		}
-		[BindMenuItem(Control = "预览", Toolbar = "toolStrip5" ,NeedBinding = true)]
+		[BindMenuItem(Control = "目录", Toolbar = "toolStrip5" ,NeedBinding = true)]
 		public static void GenerateHtml(ToolStripItem menuItem, MainForm mainForm)
 		{
-			var textBox = mainForm.textBox;
-			if(string.IsNullOrWhiteSpace(textBox.Text))return;
 			
-			var fileName = @"assets\htmls".GetExecutingPath().Combine(textBox.Text.GetFirstReadable()
-			                                                          .TrimStart('#').TrimStart().GetValidFileName('-') + ".htm");
-			fileName.WriteAllText(ConvertToHtml(textBox));
-			System.Diagnostics.Process.Start("chrome.exe", string.Format("\"{0}\"", fileName));
+			var textBox = mainForm.textBox;
+			textBox.SelectedText= TOCHelper.GenerateTOC(textBox.Text);
+			
+//			var textBox = mainForm.textBox;
+//			if(string.IsNullOrWhiteSpace(textBox.Text))return;
+//			
+//			var fileName = @"assets\htmls".GetExecutingPath().Combine(textBox.Text.GetFirstReadable()
+//			                                                          .TrimStart('#').TrimStart().GetValidFileName('-') + ".htm");
+//			fileName.WriteAllText(ConvertToHtml(textBox));
+//			System.Diagnostics.Process.Start("chrome.exe", string.Format("\"{0}\"", fileName));
 
 		}
 		[BindMenuItem(Control = "chineseStripButton", Toolbar = "toolStrip5", NeedBinding = true)]
@@ -216,25 +237,6 @@
 		{
 			mainForm.textBox.SelectionStart = 0;
 			mainForm.textBox.ScrollToCaret();
-		}
-		[BindMenuItem(Control = "newSplitButton", Toolbar = "toolStrip5", NeedBinding = true)]
-	
-		public static void New(ToolStripItem menuItem, MainForm mainForm)
-		{
-			mainForm._article = null;
-			var stringBuilder = new System.Text.StringBuilder(58);
-			stringBuilder.AppendLine(@"# ");
-			stringBuilder.AppendLine(@"");
-			stringBuilder.AppendLine(@"## Properties");
-			stringBuilder.AppendLine(@"");
-			stringBuilder.AppendLine(@"## Methods");
-			stringBuilder.AppendLine(@"");
-			stringBuilder.AppendLine(@"## Events");
-
-			mainForm.textBox.Text = stringBuilder.ToString();
-		
-			//textBox.Text = textBox.Text.GetFirstReadable().SubstringBefore(':') + ": " + Environment.NewLine + Environment.NewLine + "```\r\n\r\n```\r\n";
-			mainForm.Text = string.Empty;
 		}
 		
 		
